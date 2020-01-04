@@ -1,0 +1,46 @@
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 769px) {
+
+  .name{
+    font-size:26px;
+  text-align: center;
+      text-align: center;
+      margin-top: 2rem;
+  }
+
+  .header{
+    padding-top: 1rem;
+  }
+
+  .about-me{
+    font-size:1.1rem;
+    text-align: center;
+  }
+
+  .fron-end-logos-imgs{
+         text-align: center;
+      }
+
+      .front-end-logos{
+       width:80%;
+   }
+
+   .front_end_skills{
+      margin: 0 auto;
+      }
+
+      .skills_illustration{
+       display: none;
+    }
+
+  .skills_illustration{
+    max-width: 80%;
+    text-align: center;
+  }
+  
+   .socialmediao{
+     text-align: center;
+   }
+
+}

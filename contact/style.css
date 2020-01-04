@@ -1,0 +1,84 @@
+
+.CONTACT_heading{
+    text-align:center;
+    margin: 0 auto;
+    max-width:40%;
+}
+
+.CONTACT{
+    font-size:21px;
+    font-weight: 600;
+font-family: 'Poppins', sans-serif;
+padding-top:10px;
+background: white;
+color:black;
+padding-bottom:10px;
+
+}
+
+.hello{
+    margin: 0 auto;
+    text-align: center;
+}
+
+button[type="button"]{
+    color:white;
+    max-width:100%;
+    font-size: 1rem;
+    margin:0 auto;
+    text-align: center;
+    background: transparent;
+    border:2px solid white;
+    }
+
+    button[type="button"]:hover{
+    color:black;
+    background:  white;}
+
+.contact_illustration img{
+    max-width:50%;
+}
+
+.contact_illustration{
+    text-align: center;
+    padding-top:1rem;
+    padding-bottom: 1rem;
+}
+
+@media(max-width:769px){
+
+
+     .CONTACT_heading{
+      background: #000;
+      COLOR:WHITE;
+      text-align:center;
+      margin: 0 auto;
+      max-width:90%;
+  }
+
+     .CONTACT{
+      font-size:1rem;
+  }
+
+  .hello{
+      padding-top:1rem;
+      padding-bottom:1rem;
+  }
+
+  button[type="button"]{
+      font-size: 1.1rem;
+     padding-left: 1.3rem;
+     padding-right: 1.3rem;
+     padding-top: .6rem;
+     padding-bottom: .6rem;
+      }
+
+      .contact_illustration img{
+          max-width:100%;
+      }
+
+      .contact_illustration{
+          margin: 1rem;
+          padding-top: 0;
+      }
+}

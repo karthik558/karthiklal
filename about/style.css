@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+
+.body{
+  margin-bottom: 2rem;
+}
+
+.front-end-logos{
+    padding-bottom: 1rem;
+    padding-top:1rem;
+    width:80%;
+}
+
+.front_end_skills{
+ width:300px;
+ font-family: 'Poppins', sans-serif;
+ -webkit-transition: all 0.4s ease 0s;
+ -moz-transition: all 0.4s ease 0s;
+ -o-transition: all 0.4s ease 0s;
+ transition: all 0.4s ease 0s;
+
+}
+
+.front_end_skills:hover{
+    box-shadow: 0px 15px 30px rgba(77, 87, 222, 0.3);
+}
+
+.front_skills{
+    padding-top:30px;
+    padding-bottom:30px;
+    padding-left: 21px;
+    font-family: 'Open Sans', sans-serif;
+    padding-right: 21px;
+}
+
+.skills-heading{
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration-color: #fff;
+    padding-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.skills_illustration{
+    max-width: 130%;
+}
+
+.downarrow{
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.about-me-para{
+    font-size: 1.2rem;
+    margin-top:1.5rem;
+    padding:1.5rem;
+    line-height: 2.2rem;
+    -webkit-transition: all 0.4s ease 0s;
+ -moz-transition: all 0.4s ease 0s;
+ -o-transition: all 0.4s ease 0s;
+ transition: all 0.4s ease 0s;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.about-me-para:hover{
+    box-shadow: 0px 15px 30px rgba(77, 87, 222, 0.3);
+    -webkit-transition: all 0.4s ease 0s;
+ -moz-transition: all 0.4s ease 0s;
+ -o-transition: all 0.4s ease 0s;
+ transition: all 0.4s ease 0s;
+
+}
