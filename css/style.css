@@ -4,7 +4,10 @@
  body
  {
    margin: 0;
+   height: 100%;
+	 width: 100%;
    padding: 0;
+   cursor: pointer;
    margin-bottom: 1rem;
    background: #000;
    font-family: 'Open Sans', sans-serif;
@@ -31,7 +34,7 @@
 
  #menuToggle a:hover
  {
-   color: blueviolet;
+   color: rgb(255, 0, 0);
  }
 
  #menuToggle input
@@ -121,11 +124,11 @@
  }
 
  .name{
-     font-size: 4rem;
+     font-size: 3rem;
      margin-top: 1rem;
      font-family: 'Open Sans', sans-serif;
      font-weight: 700;
-     background: -webkit-linear-gradient(rgb(0, 60, 255), rgb(162, 0, 255));
+     background: -webkit-linear-gradient(rgb(207, 107, 40), rgb(204, 187, 38));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-transition: all 0.4s ease 0s;
@@ -136,7 +139,7 @@
  }
 
  .name:hover{
-  background: -webkit-linear-gradient(rgb(140, 0, 255), rgb(0, 89, 255));
+  background: -webkit-linear-gradient(rgb(255, 89, 89), #32f1ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-font-smoothing: antialiased;
@@ -147,13 +150,14 @@
  }
 
  .about-me{
-    font-size: 2rem;
+    font-size: 1.5rem;
     letter-spacing: normal;
-    margin-bottom:20px;
+    margin-bottom:80px;
+    color: #ffffff;
  }
 
  .header{
-    padding-top:2rem;
+    padding: top 0;rem;
  }
 
  nav{
@@ -162,17 +166,17 @@
 
  .socialmedia{
    display: inline-block;
-   max-width: 10%;
+   max-width: 9%;
    margin-top:1rem;
    margin-right: 1rem;
  }
 
  .profile-pic{
-     max-width: 80%;
-     border-radius: 20rem;
-     text-align: center;
-     margin-left: 2rem;
- }
+  max-width: 75%;
+  border-radius: 3rem;
+  text-align: left;
+  margin-left: 4rem;
+}
 
  .header{
    margin-bottom:5rem;
