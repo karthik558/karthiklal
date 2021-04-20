@@ -1,263 +1,440 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <title>K A R T H I K</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-      <link rel="stylesheet" href="css/style.css">
-      <link rel="stylesheet" href="css/responsive.css">
+  <!-- Favicons -->
+  <link href="assets/img/ryzen.png" rel="icon">
+  <link href="assets/img/ryzen-icon.png" rel="ryzen-icon">
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <title>K A R T H I K </title>
-  </head>
- 
-  <style type="text/css">
-		html,
-	  body {
-	  height: 100%;
-	  width: 100%;
-	  margin: 0;
-	  padding: 0;
-	}
-	canvas {
-	  border: 1px soild black;
-	}
-	h1 {
-	  display: inline-block;
-	  padding: .3em;
-	  font-family: 'Megrim', cursive;
-	  position: absolute;
-	  top: 50%;
-	  left: 50%;
-	  user-select: none;
-	  transform: translate(-50%,-50%);
-	  color: rgba(255,255,255,.68);
-	  border: .075em solid rgba(255,255,255,.1);
-	}
-	</style>
-	<canvas id="canvas"></canvas>
-	<a href="https://t.me/Ryzen_Chat"><h1>Want to know about me ?</h1></a>
-  <script type="text/javascript">
-		
-    // Little Canvas things
-	var canvas = document.querySelector("#canvas"),
-	ctx = canvas.getContext("2d");
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-	// Set Canvas to be window size
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
 
-	// Configuration, Play with these
-	var config = {
-	  particleNumber: 100,
-	  maxParticleSize: 3,
-	  maxSpeed: 10,
-	  colorVariation: 340 };
+</head>
 
+<body>
 
-	// Colors
-	var colorPalette = {
-	  bg: { r: 12, g: 9, b: 29 },
-	  matter: [
-	  { r: 36, g: 18, b: 42 }, // darkPRPL
-	  { r: 78, g: 36, b: 42 }, // rockDust
-	  { r: 252, g: 178, b: 96 }, // solorFlare
-	  { r: 253, g: 238, b: 152 } // totesASun
-	  ] };
-
-
-	// Some Variables hanging out
-	var particles = [],
-	centerX = canvas.width / 2,
-	centerY = canvas.height / 2,
-	drawBg,
-  
-	// Draws the background for the canvas, because space
-	drawBg = function (ctx, color) {
-	  ctx.fillStyle = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-	  ctx.fillRect(0, 0, canvas.width, canvas.height);
-	};
-
-	// Particle Constructor
-	var Particle = function (x, y) {
-    
-	  // X Coordinate
-	  this.x = x || Math.round(Math.random() * canvas.width);
-
-	  // Y Coordinate
-	  this.y = y || Math.round(Math.random() * canvas.height);
-
-	  // Radius of the space dust
-	  this.r = Math.ceil(Math.random() * config.maxParticleSize);
-
-	  // Color of the rock, given some randomness
-	  this.c = colorVariation(
-	  colorPalette.matter[Math.floor(Math.random() * colorPalette.matter.length)],
-	  true);
-
-	  // Speed of which the rock travels
-	  this.s = Math.pow(Math.ceil(Math.random() * config.maxSpeed), 0.7);
-	  // Direction the Rock flies
-	  this.d = Math.round(Math.random() * 360);
-	};
-
-	// Provides some nice color variation
-	// Accepts an rgba object
-	// returns a modified rgba object or a rgba string if true is passed in for argument 2
-	var colorVariation = function (color, returnString) {
-	  var r, g, b, a, variation;
-	  r = Math.round(
-	  Math.random() * config.colorVariation - config.colorVariation / 2 + color.r);
-
-	  g = Math.round(
-	  Math.random() * config.colorVariation - config.colorVariation / 2 + color.g);
-
-	  b = Math.round(
-	  Math.random() * config.colorVariation - config.colorVariation / 2 + color.b);
-
-	  a = Math.random() + 0.5;
-	  if (returnString) {
-		return "rgba(" + r + "," + g + "," + b + "," + a + ")";
-	  } else {
-		return { r, g, b, a };
-	  }
-	};
-
-	// Used to find the rocks next point in space, accounting for speed and direction
-	var updateParticleModel = function (p) {
-	  var a = 180 - (p.d + 90); // find the 3rd angle
-	  p.d > 0 && p.d < 180 ?
-	  p.x += p.s * Math.sin(p.d) / Math.sin(p.s) :
-	  p.x -= p.s * Math.sin(p.d) / Math.sin(p.s);
-	  p.d > 90 && p.d < 270 ?
-	  p.y += p.s * Math.sin(a) / Math.sin(p.s) :
-	  p.y -= p.s * Math.sin(a) / Math.sin(p.s);
-	  return p;
-	};
-
-	// Just the function that physically draws the particles
-	// Physically? sure why not, physically.
-	var drawParticle = function (x, y, r, c) {
-	  ctx.beginPath();
-	  ctx.fillStyle = c;
-	  ctx.arc(x, y, r, 0, 2 * Math.PI, false);
-	  ctx.fill();
-	  ctx.closePath();
-	};
-
-	// Remove particles that aren't on the canvas
-	var cleanUpArray = function () {
-	  particles = particles.filter(p => {
-		return p.x > -100 && p.y > -100;
-	  });
-	};
-
-	var initParticles = function (numParticles, x, y) {
-	  for (let i = 0; i < numParticles; i++) {
-		particles.push(new Particle(x, y));
-	  }
-	  particles.forEach(p => {
-		drawParticle(p.x, p.y, p.r, p.c);
-	  });
-	};
-
-	// That thing
-	window.requestAnimFrame = function () {
-	  return (
-		window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame ||
-		function (callback) {
-		  window.setTimeout(callback, 1000 / 60);
-		});
-
-	}();
-
-	// Our Frame function
-	var frame = function () {
-
-	  // Draw background first
-	  drawBg(ctx, colorPalette.bg);
-
-	  // Update Particle models to new position
-	  particles.map(p => {
-		return updateParticleModel(p);
-	  });
-
-	  // Draw em'
-	  particles.forEach(p => {
-		drawParticle(p.x, p.y, p.r, p.c);
-	  });
-
-	  // Play the same song? Ok!
-	  window.requestAnimFrame(frame);
-	};
-
-	// Click listener
-	document.body.addEventListener("click", function (event) {
-	  var x = event.clientX,
-	  y = event.clientY;
-	  cleanUpArray();
-	  initParticles(config.particleNumber, x, y);
-	});
-
-	// First Frame
-	frame();
-
-	// First particle explosion
-	initParticles(config.particleNumber);
-	</script>
-
-  <body>
-
+  <!-- ======= Header ======= -->
+  <header id="header">
     <div class="container">
 
-    </div>
-<div class="header">
-  <div class="container">
-        <nav role="navigation">
-          <div id="menuToggle">
-            <input type="checkbox" />
-            <span></span>
-            <span></span>
-            <span></span>
+      <h1><a href="index.html">K A R T H I K</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
+		<h2>An Amateur <span> Linux Kernel Developer </span> and a <span> Graphics Designer </span> from India</h2>
 
-            <ul id="menu">
-              <a href="#"><li>Home</li></a>
-              <a href="about/index.html"><li>About</li></a>
-              <a href="https://t.me/karthik558/" target="_blank"><li>Telegram</li></a>
-              <a href="contact/index.html"><li>Contact</li></a>
-            </ul>
-		  </div>
-		</nav>
-	<div class="row align-items-centre">
-        <div class="col-12 col-md-6 order-md-1"> </div>
-      <div class="col-12 col-md-6 order-md-2"> <a href="https://github.com/karthik558" target="_self"><img src="img/karthik.jpg" alt="" class="profile-pic img-fluid"></a> </div>
-<div class="col-12 col-md-6 order-md-2"><div class="name">Hey, I'm K A R T H I K</div>
-        <div class="about-me"><strong>An Amateur</strong> <strong>Android Linux Kernel Developer</strong> <strong>and a</strong> <strong>Custom-Rom Develope</strong>r</div>     
-        <div class="socialmediao"> 
-			<a href="https://gitlab.com/karthik5581" target="_blank"><img src="img/social/gitlab.svg" alt="" class="socialmedia img-fluid img-thumbnail"></a> 
-			<a href="http://github.com/karthik558/" target="_blank"><img src="img/social/github.svg" alt="" class="socialmedia img-fluid">
-			</a> <a href="https://twitter.com/karthiksp206" target="_blank"><img src="img/social/twitter.svg" alt="" class="socialmedia img-fluid img-thumbnail"></a> 
-			<a href="https://www.instagram.com/karthiksmokiez" target="_blank"><img src="img/social/instagram.svg" alt="" class="socialmedia img-fluid"></a> 
-			<a href="facebook.com/karthik.sp.5817/" target="_blank"><img src="img/social/facebook.svg" alt="" class="socialmedia img-thumbnail"></a> 
-			<a href="https://t.me/karthik558/" target="_blank"><img src="img/social/telegram.svg" alt="" class="socialmedia img-fluid rounded">&nbsp;</a> <a href="https://discord.com/channels/@Karthik-SP" target="_blank"><img src="img/social/discord.svg" alt="" class="socialmedia img-thumbnail img-fluid"></a> <a href="https://mail.google.com/mail/u/0/#inbox.com/channels/karthik.lal558@gmail.com" target="_blank"><img src="img/social/gmail.svg" alt="" class="socialmedia img-fluid img-thumbnail"></a> </div>
-</div>
-      <div>&nbsp;</div>
-        <div>&nbsp;</div>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link active" href="#header">Home</a></li>
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#services">Works</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+
     </div>
-</div>
+  </header><!-- End Header -->
+
+  <!-- ======= About Section ======= -->
+  <section id="about" class="about">
+
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+
+      <div class="section-title">
+        <h2>About</h2>
+        <p>WANT TO KNOW MORE ABOUT ME</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4" data-aos="fade-right">
+          <img src="assets/img/me.jpg" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+          <h3>Kernel Developer , Android Developer &amp; Graphic Designer</h3>
+          <p class="fst-italic">
+            Diligo photos et edit website ut cum ego adepto .. otium et ad te amo mos opus in roms est, hehe.
+          </p>
+          <div class="row">
+            <div class="col-lg-6">
+              <ul>
+                <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>11 March 2000</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>https://karthik558.github.io</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>India , Kerala</span></li>
+              </ul>
+            </div>
+            <div class="col-lg-6">
+              <ul>
+                <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>21</span></li>
+				<li><i class="bi bi-chevron-right"></i> <strong>Marital Status:</strong> <span>Single</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Qualification:</strong> <span>Network Support Executive & Certified Ethical Hacker</span></li>
+				<li><i class="bi bi-chevron-right"></i> <strong>Current Status:</strong> <span>Working as NSE</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Gmail:</strong> <span>karthik.lal558@gmail.com</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- End About Me -->
+
+    <!-- ======= Counts ======= -->
+    <div class="counts container">
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+          <div class="count-box">
+            <i class="bi bi-emoji-smile"></i>
+            <span data-purecounter-start="0" data-purecounter-end="900" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Happy Users</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+          <div class="count-box">
+            <i class="bi bi-journal-richtext"></i>
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Works</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="bi bi-headset"></i>
+            <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Support Time</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i class="bi bi-award"></i>
+            <span data-purecounter-start="0" data-purecounter-end="4" data-purecounter-duration="1" class="purecounter"></span>
+            <p>Awards</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- End Counts -->
+
+    <!-- ======= Skills  ======= -->
+    <div class="skills container">
+
+      <div class="section-title">
+        <h2>Skills</h2>
+      </div>
+
+      <div class="row skills-content">
+
+        <div class="col-lg-6">
+
+          <div class="progress">
+            <span class="skill">HTML <i class="val">75%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">CSS <i class="val">80%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">JavaScript <i class="val">65%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+          <div class="progress">
+            <span class="skill">C<i class="val">90%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill"> Python<i class="val">40%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <span class="skill">Photoshop <i class="val">95%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div><!-- End Skills -->
+
+    <!-- ======= Interests ======= -->
+    <div class="interests container">
+
+      <div class="section-title">
+        <h2>Interests</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-4">
+          <div class="icon-box">
+            <i class="ri-store-line" style="color: #ffbb2c;"></i>
+            <h3>Lorem Ipsum</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
+            <h3>Dolor Sitema</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
+            <h3>Sed perspiciatis</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+          <div class="icon-box">
+            <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
+            <h3>Photoshop</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-database-2-line" style="color: #47aeff;"></i>
+            <h3>Nemo Enim</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
+            <h3>Eiusmod Tempor</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
+            <h3>Midela Teren</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
+            <h3>Travel</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-anchor-line" style="color: #b2904f;"></i>
+            <h3>Dirada Pack</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-disc-line" style="color: #b20969;"></i>
+            <h3>Music</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-base-station-line" style="color: #ff5828;"></i>
+            <h3>Verdo Park</h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
+            <h3>Flavor Nivelanda</h3>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- End Interests -->
+
+  </section><!-- End About Section -->
+
+  <!-- ======= Services Section ======= -->
+  <section id="services" class="services">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>My Works</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-tachometer"></i></div>
+            <h4><a href="">R Y Z E N Kernel</a></h4>
+            <p>A Balanced/Performance based kernel for Redmi Note 7 Pro</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-file"></i></div>
+            <h4><a href="">Splash Maker</a></h4>
+            <p>Make custom splash screen's for your device</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-slideshow"></i></div>
+            <h4><a href="">Cherish OS</a></h4>
+            <p>Custom-Rom with crazy customisation's and stability </p>
+          </div>
+        </div>
+		
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4><a href="">Octavi OS</a></h4>
+            <p>Custom-Rom with new user-interface and performace</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+          <div class="icon-box">
+            <div class="icon"><i class="bx bx-tachometer"></i></div>
+            <h4><a href="">SmoothAF Kernel</a></h4>
+            <p>Ah , another custom-kernel for violet </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Services Section -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>Contact Me</p>
+      </div>
+
+      <div class="row mt-2">
+
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-map"></i>
+            <h3>My Address</h3>
+            <p>India , Kerala , Alapuzha</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-share-alt"></i>
+            <h3>Social Profiles</h3>
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-envelope"></i>
+            <h3>Email Me</h3>
+            <p>karthik.lal558@gmail.com</p>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 d-flex align-items-stretch">
+          <div class="info-box">
+            <i class="bx bx-phone-call"></i>
+            <h3>Call Me</h3>
+            <p>I Will Add Later</p>
+          </div>
+        </div>
+      </div>
+
+      <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4">
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+          </div>
+          <div class="col-md-6 form-group mt-3 mt-md-0">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+          </div>
+        </div>
+        <div class="form-group mt-3">
+          <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+        </div>
+        <div class="form-group mt-3">
+          <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+        </div>
+        <div class="my-3">
+          <div class="loading">Loading</div>
+          <div class="error-message"></div>
+          <div class="sent-message">Your message has been sent. Thank you!</div>
+        </div>
+        <div class="text-center"><button type="submit">Connect With Me</button></div>
+      </form>
+
+    </div>
+  </section><!-- End Contact Section -->
+   
   </div>
-  </body>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
 </html>
