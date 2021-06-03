@@ -48,6 +48,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
 
+.img-fluid {
+  max-width: 75%;
+  height: auto;
+  border-radius: 50px;
+}
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -384,7 +390,7 @@ section .container {
 .about-me .content h3 {
   font-weight: 700;
   font-size: 26px;
-  color: #d4d4d4;
+  color: #be4444;
 }
 
 .about-me .content ul {
@@ -499,7 +505,7 @@ section .container {
   display: flex;
   align-items: center;
   padding: 20px;
-  background: rgba(214, 28, 28, 0.08);
+  background: #ffa73327;
   border-radius: 35px;
   transition: ease-in-out 0.3s;
 }
