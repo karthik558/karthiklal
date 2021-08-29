@@ -39,9 +39,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .img-fluid {
-  max-width: 75%;
+  max-width: 95%;
   height: auto;
-  border-radius: 50px;
+  border-radius: 30px;
 }
 
 /*--------------------------------------------------------------
@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 #header h1 a, #header h1 a:hover {
   color: rgb(255, 255, 255);
   line-height: 1;
-  font-size: 54px;
+  font-size: 38px;
   display: inline-block;
 }
 
@@ -310,6 +310,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px 0;
   overflow-y: auto;
   transition: 0.3s;
+  border-radius: 30px;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -350,6 +351,7 @@ section.section-show {
 section .container {
   background: rgba(0, 0, 0, 0.9);
   padding: 30px;
+  padding-top: 40px;
   border-radius: 35px;
 }
 
@@ -386,8 +388,9 @@ section .container {
 .section-title p {
   margin: 0;
   margin: -15px 0 15px 0;
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
+  padding-bottom: 30px;
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   color: #fff;
@@ -399,12 +402,17 @@ section .container {
 .about-me .content h3 {
   font-weight: 700;
   font-size: 26px;
+  padding-bottom: 15px;
   color: #be4444;
 }
 
 .about-me .content ul {
   list-style: none;
   padding: 0;
+}
+
+.about-me .content p {
+  padding-bottom: 40px;
 }
 
 .about-me .content ul li {
@@ -899,122 +907,6 @@ section .container {
   color: #ff5e00;
 }
 
-.contact .php-email-form {
-  padding: 30px;
-  border-radius: 50px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.contact .php-email-form .error-message {
-  display: none;
-  background: rgba(255, 255, 255, 0.08);
-  background: #0307ff;
-  text-align: left;
-  padding: 15px;
-  font-weight: 600;
-}
-
-.contact .php-email-form .error-message br + br {
-  margin-top: 25px;
-}
-
-.contact .php-email-form .sent-message {
-  display: none;
-  background: rgba(255, 255, 255, 0.08);
-  background: #ff3c00;
-  text-align: center;
-  padding: 15px;
-  font-weight: 600;
-}
-
-.contact .php-email-form .loading {
-  display: none;
-  background: rgba(255, 255, 255, 0.08);
-  text-align: center;
-  padding: 15px;
-}
-
-.contact .php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid #ff7300;
-  border-top-color: #eee;
-  -webkit-animation: animate-loading 1s linear infinite;
-  animation: animate-loading 1s linear infinite;
-}
-
-.contact .php-email-form input, .contact .php-email-form textarea {
-  border-radius: 0;
-  box-shadow: none;
-  font-size: 14px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 0;
-  transition: 0.3s;
-  color: #fff;
-}
-
-.contact .php-email-form input:focus, .contact .php-email-form textarea:focus {
-  background-color: rgba(255, 255, 255, 0.11);
-}
-
-.contact .php-email-form input::-webkit-input-placeholder, .contact .php-email-form textarea::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.3);
-  opacity: 1;
-}
-
-.contact .php-email-form input::-moz-placeholder, .contact .php-email-form textarea::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.3);
-  opacity: 1;
-}
-
-.contact .php-email-form input::placeholder, .contact .php-email-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-  opacity: 1;
-}
-
-.contact .php-email-form input {
-  padding: 10px 15px;
-}
-
-.contact .php-email-form textarea {
-  padding: 12px 15px;
-}
-
-.contact .php-email-form button[type="submit"] {
-  background: #fbff00b2;
-  border: 0;
-  padding: 10px 30px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 30px;
-}
-
-.contact .php-email-form button[type="submit"]:hover {
-  background: #ff9100;
-}
-
-@-webkit-keyframes animate-loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes animate-loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 /*--------------------------------------------------------------
 # Credits
 --------------------------------------------------------------*/
@@ -1045,4 +937,19 @@ section .container {
 
 .credits a:hover {
   color: #fff;
+}
+
+/* Custom-Scroll-Bar */
+::-webkit-scrollbar{
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 30px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffee00),to(#be4444));
+  box-shadow: inset 2px 2px 2px rgba(255,255,255,0.25), inset -2px -2px -2px rgba(0,0,0,0.25);
+}
+
+::-webkit-scrollbar-track{
+  background: linear-gradient(to right, #201c29, #201c29 0.8px, #100e17 1px ,#100e17);
 }
