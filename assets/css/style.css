@@ -10,6 +10,7 @@ body::before {
   content: "";
   position: fixed;
   background: #040404 url("../img/bg.jpg") top right no-repeat;
+  /*filter: blur(8px);*/
   background-size: cover;
   left: 0;
   right: 0;
@@ -114,7 +115,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(37, 37, 37, 0.336);
   color: #fff;
   line-height: 1;
   margin-right: 8px;
@@ -125,6 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header .social-links a:hover {
   background: #ff8800;
+  filter: hue-rotate(360);
 }
 
 @media (max-width: 992px) {
