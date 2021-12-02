@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K A R T H I K</title>
+
+    <!-- Favicons -->
+    <link href="images/favi-icon/karthik.png" rel="icon">
+    <link href="images/favi-icon/karthik-icon.png" rel="karthik-icon">
+
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- preloader-->
+  <div id="preloader"></div>
+
+</section>
+<!-- navbar section starts  -->
+
+<nav class="navbar">
+    <a href="home.html"> <i class="fas fa-home"></i> <span>home</span> </a>
+    <a href="about.html"> <i class="fas fa-user"></i> <span>about</span> </a>
+    <a href="works.html"> <i class="fas fa-briefcase"></i> <span>works</span> </a>
+    <a href="blogs.html"> <i class="fas fa-blog"></i> <span>blogs</span> </a>
+    <a href="contact.html"> <i class="fas fa-address-book"></i> <span>contact</span> </a>
+</nav>
+
+<!-- navbar section ends -->
+
+<!-- home section starts  -->
+
+<section class="home">
+
+    <div class="image">
+        <img src="images/user/user.png" alt="">
+    </div>
+
+    <div class="content">
+        <h3><span>hi,</span> i am KARTHIK LAL</h3>
+        <span>Cybersecurity Enthusiast & Web Developer</span>
+        <a href="./about.html" class="btn"> about me <i class="fas fa-user"></i> </a>
+    </div>
+
+</section>
+
+<script src="js/security.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  setTimeout(function(){
+    $('#preloader').fadeToggle();
+  },230);
+  </script>
+
+<script>
+    $(document).ready(function(){
+      // Add smooth scrolling to all links
+      $("a").on('click', function(event) {
+    
+        if (this.hash !== "") {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+    
+          var hash = this.hash;
+    
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 800, function(){
+    
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        }
+      });
+    });
+    </script>
+
+<!-- home section ends -->
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K A R T H I K</title>
+
+    <!-- Favicons -->
+    <link href="images/favi-icon/karthik.png" rel="icon">
+    <link href="images/favi-icon/karthik-icon.png" rel="karthik-icon">
+    
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    
+  <!-- preloader-->
+  <div id="preloader"></div>
+
+<!-- navbar section starts  -->
+
+<nav class="navbar">
+    <a href="home.html"> <i class="fas fa-home"></i> <span>home</span> </a>
+    <a href="about.html"> <i class="fas fa-user"></i> <span>about</span> </a>
+    <a href="works.html"> <i class="fas fa-briefcase"></i> <span>works</span> </a>
+    <a href="blogs.html"> <i class="fas fa-blog"></i> <span>blogs</span> </a>
+    <a href="contact.html"> <i class="fas fa-address-book"></i> <span>contact</span> </a>
+</nav>
+
+<!-- navbar section ends -->
+
+<!-- contact section starts  -->
+
+<section class="contact">
+
+<h1 class="heading"> contact <span>me</span> </h1>
+
+<div class="row">
+
+    <div class="info-container">
+
+        <h1>get in touch</h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <i class="fas fa-map"></i>
+                <div class="info">
+                    <h3>address :</h3>
+                    <p>India , Kerala , Alapuzha</p>
+                </div>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-envelope"></i>
+                <div class="info">
+                    <h3>email :</h3>
+                    <p>karthik.lal558@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-phone"></i>
+                <div class="info">
+                    <h3>call me :</h3>
+                    <p>Better Contact Me on Telegram</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="share">
+            <a href="https://github.com/karthik558" class="fab fa-github"></a>
+            <a href="https://mail.google.com/u/karthik.lal558@gmail.com" class="fab fa-google"></a>
+            <a href="https://instagram.com/_karthik558/" class="fab fa-instagram"></a>
+            <a href="https://twitter.com/Karthiksp206" class="fab fa-twitter"></a>
+            <a href="https://www.facebook.com/karthik.sp.5817/" class="fab fa-facebook"></a>
+            <a href="https://t.me/karthik558" class="fab fa-telegram"></a>
+            <a href="https://discord.com/K%20A%20R%20T%20H%20I%20K#2039" class="fab fa-discord"></a>
+        </div>
+
+    </div>
+
+    <form action="">
+
+        <div class="inputBox">
+            <input type="text" placeholder="your name">
+            <input type="number" placeholder="your number">
+        </div>
+
+        <div class="inputBox">
+            <input type="email" placeholder="your email">
+            <input type="text" placeholder="your subject">
+        </div>
+
+        <textarea name="" placeholder="your message" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="send message" class="btn">
+
+    </form>
+
+</div>
+
+</section>
+
+<script src="js/security.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  setTimeout(function(){
+    $('#preloader').fadeToggle();
+  },170);
+  </script>
+  
+<script>
+    $(document).ready(function(){
+      // Add smooth scrolling to all links
+      $("a").on('click', function(event) {
+    
+        if (this.hash !== "") {
+          // Prevent default anchor click behavior
+          event.preventDefault();
+    
+          var hash = this.hash;
+    
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top
+          }, 800, function(){
+    
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+          });
+        }
+      });
+    });
+    </script>
+    
+<!-- contact section ends -->
+
+</body>
+</html>
