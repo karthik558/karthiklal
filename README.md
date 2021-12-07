@@ -1,4 +1,13 @@
-# Portfolio 📸
+![HEADER](images/user/main.png)
 
-When it comes to investing, there is no such thing as a one-size-fits-all portfolio. 
-                                                                      Barry Ritholtz ♥
+## Features of this (portfolio)
+- `custom loading preloader animation for (index.html).`
+- `rounded loading preloader animtion for all rest (.html pages).`
+- `security.js for site-inspection blocking.`
+- `pace.js for loading-animation style (index.html) `
+- `working contact.html (mail sending-action) `
+
+## Special Thanks to :-
+- `Adobe Photoshop, XD, PF`
+- `Namecheap (Domain)`
+- `Vercel (Hosting)`
