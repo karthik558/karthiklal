@@ -9,16 +9,17 @@
   outline: none;
   border: none;
   text-transform: capitalize;
+  color: inherit;
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.4%;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 html::-webkit-scrollbar {
-  width: 1rem;
+  width: 0.7rem;
 }
 
 html::-webkit-scrollbar-track {
@@ -96,8 +97,8 @@ section {
 }
 
 .navbar a {
-  padding: 2rem;
-  font-size: 2rem;
+  padding: 1.8rem;
+  font-size: 1.8rem;
   background: #1a1a1a;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -115,7 +116,7 @@ section {
 
 .navbar a:hover {
   background: crimson;
-  padding-bottom: 6rem;
+  padding-bottom: 4rem;
 }
 
 .navbar a:hover i {
