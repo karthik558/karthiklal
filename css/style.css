@@ -78,8 +78,12 @@ section {
   transition: .2s linear;
 }
 
+.btn:hover {
+  background: rgb(145, 10, 37);
+  color: #fff;
+}
 .btn:hover i {
-  margin-left: 2rem;
+  margin-left: 2.1rem;
 }
 
 .navbar {
