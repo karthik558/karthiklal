@@ -839,3 +839,22 @@ Christmas Special Changes */
   -webkit-margin-top-collapse: 5.1rem;
   color: #cccccc;
 }
+
+/* SNOW-FLAKE */
+.fa-snowflake {
+	color: rgb(138, 24, 24);
+	position: absolute;
+	top: -40px;
+	animation: fall linear forwards;
+}
+
+.fa-snowflake:hover{
+  -webkit-filter: none;
+  filter: blur(2px);
+}
+
+@keyframes fall {
+	to {
+		transform: translateY(102vh);
+	}
+}
