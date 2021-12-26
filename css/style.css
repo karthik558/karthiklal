@@ -741,6 +741,7 @@ section {
 }
 
 /* Loading Preloader for (index.html) */
+
 .pace {
   pointer-events: none;
   user-select: none;
@@ -795,52 +796,9 @@ section {
     font-size: 4rem;
     font-weight: 540;
 }
-
-/* Start Music
-(snowflake and music) (snoflake WIP)
-Christmas Special Changes */
-
-.right-col {
-  float: right;
-  margin: 6%;
-  margin-top: 120px;
-  display: flex;
-  align-items: center;
-}
-
-.btn-m {
-  display: inline-block;
-  margin-top: 2rem;
-  margin-left: 0.3rem;
-  border-radius: 5rem;
-  background: rgb(180, 12, 45);
-  padding: .7rem;
-  font-size: 1.7rem;
-}
-
-.btn-m i {
-  height: 4rem;
-  width: 4rem;
-  line-height: 4rem;
-  font-size: 1.7rem;
-  text-align: center;
-  background: crimson;
-  color: #fff;
-  border-radius: 50%;
-  -webkit-transition: .3s linear;
-  transition: .2s linear;
-}
-
-.btn-m:hover {
-  background: rgb(194, 13, 49);
-  color: #fff;
-}
-.btn-m:hover i {
-  -webkit-margin-top-collapse: 5.1rem;
-  color: #cccccc;
-}
-
+/*Christmas special changes */
 /* SNOW-FLAKE */
+
 .fa-snowflake {
 	color: rgb(138, 24, 24);
 	position: absolute;
