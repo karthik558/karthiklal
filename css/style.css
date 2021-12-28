@@ -148,9 +148,9 @@ section {
 }
 
 .home .image img {
-  height: 50rem;
-  width: 50rem;
-  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  height: 52rem;
+  width: 52rem;
+  border-radius: 26% 66% 66% 26% / 26% 26% 66% 66%;
 }
 
 .home .content {
@@ -800,15 +800,15 @@ section {
 /* SNOW-FLAKE */
 
 .fa-snowflake {
-	color: rgb(138, 24, 24);
+	color: rgb(143, 6, 34);
 	position: absolute;
-	top: -40px;
+	top: -42px;
 	animation: fall linear forwards;
 }
 
 .fa-snowflake:hover{
   -webkit-filter: none;
-  filter: blur(2px);
+  filter: blur(1px);
 }
 
 @keyframes fall {
