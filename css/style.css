@@ -583,7 +583,7 @@ section {
 }
 
 .contact .row .info-container .share a {
-  font-size: 2rem;
+  font-size: 1.8rem;
   height: 4.5rem;
   width: 4.5rem;
   line-height: 4.5rem;
@@ -592,6 +592,7 @@ section {
   color: #fff;
   text-align: center;
   margin-right: .3rem;
+  margin-bottom: .5rem;
 }
 
 .contact .row .info-container .share a:hover {
