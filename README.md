@@ -6,8 +6,9 @@
 - `security.js for site-inspection blocking.`
 - `pace.js for loading-animation style (index.html) `
 - `working contact.html (mail sending-action) `
+- `snow for index.html page (christmas special change) `
 
 ## Special Thanks to :-
-- `Adobe Photoshop, XD, PF`
+- `Adobe Photoshop, Figma, PF (UI Designing)`
 - `Namecheap (Domain)`
-- `Vercel (Hosting)`
+- `Vercel & Github (Hosting)`
