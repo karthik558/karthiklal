@@ -56,6 +56,7 @@ section {
 .btn {
   display: inline-block;
   margin-top: 1rem;
+  margin-right: 0.5rem;
   border-radius: 5rem;
   background: crimson;
   padding: .7rem;
@@ -74,8 +75,8 @@ section {
   color: crimson;
   border-radius: 50%;
   margin-left: 1rem;
-  -webkit-transition: .2s linear;
-  transition: .2s linear;
+  -webkit-transition: .3s linear;
+  transition: .3s linear;
 }
 
 .btn:hover {
@@ -83,6 +84,40 @@ section {
   color: #fff;
 }
 .btn:hover i {
+  margin-left: 2.1rem;
+}
+
+.btn_2 {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  border-radius: 4rem;
+  background: crimson;
+  padding: .7rem;
+  font-size: 1.7rem;
+  color: #fff;
+  padding-left: 2rem;
+}
+
+.btn_2 i {
+  height: 4rem;
+  width: 4rem;
+  line-height: 4rem;
+  font-size: 1.7rem;
+  text-align: center;
+  background: #fff;
+  color: crimson;
+  border-radius: 50%;
+  margin-left: 1rem;
+  -webkit-transition: .2s linear;
+  transition: .3s linear;
+}
+
+.btn_2:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+.btn_2:hover i {
   margin-left: 2.1rem;
 }
 
