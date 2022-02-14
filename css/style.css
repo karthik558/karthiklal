@@ -27,7 +27,7 @@ html::-webkit-scrollbar-track {
 }
 
 html::-webkit-scrollbar-thumb {
-  background: crimson;
+  background: #bad168;
   border-radius: 5rem;
 }
 
@@ -50,7 +50,7 @@ section {
 
 .heading span {
   text-transform: uppercase;
-  color: crimson;
+  color: #bad168;
 }
 
 .btn {
@@ -58,7 +58,7 @@ section {
   margin-top: 1rem;
   margin-right: 0.5rem;
   border-radius: 5rem;
-  background: crimson;
+  background: #bad168;
   padding: .7rem;
   font-size: 1.7rem;
   color: #fff;
@@ -72,7 +72,7 @@ section {
   font-size: 1.7rem;
   text-align: center;
   background: #fff;
-  color: crimson;
+  color: #bad168;
   border-radius: 50%;
   margin-left: 1rem;
   -webkit-transition: .3s linear;
@@ -80,7 +80,7 @@ section {
 }
 
 .btn:hover {
-  background: rgb(145, 10, 37);
+  background: #a1b653;
   color: #fff;
 }
 .btn:hover i {
@@ -92,7 +92,7 @@ section {
   margin-top: 1rem;
   margin-left: 0.5rem;
   border-radius: 4rem;
-  background: crimson;
+  background: #bad168;
   padding: .7rem;
   font-size: 1.7rem;
   color: #fff;
@@ -106,7 +106,7 @@ section {
   font-size: 1.7rem;
   text-align: center;
   background: #fff;
-  color: crimson;
+  color: #bad168;
   border-radius: 50%;
   margin-left: 1rem;
   -webkit-transition: .2s linear;
@@ -149,12 +149,12 @@ section {
 }
 
 .navbar a i {
-  color: crimson;
+  color: #bad168;
   padding-right: .5rem;
 }
 
 .navbar a:hover {
-  background: crimson;
+  background: #bad168;
   padding-bottom: 4rem;
 }
 
@@ -202,7 +202,7 @@ section {
 
 .home .content span {
   font-size: 3rem;
-  color: crimson;
+  color: #bad168;
   padding: .5rem 0;
   display: block;
 }
@@ -296,12 +296,12 @@ section {
 }
 
 .about .row .count-container .box:hover h3 {
-  color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .about .row .count-container .box h3 {
   font-size: 5rem;
-  color: crimson;
+  color: #bad168;
 }
 
 .about .row .count-container .box p {
@@ -328,7 +328,7 @@ section {
 }
 
 .skills .box-container .box:hover {
-  background: #fff;
+  background: #bad168;
 }
 
 .skills .box-container .box:hover h3 {
@@ -374,7 +374,7 @@ section {
   line-height: 4.5rem;
   font-size: 1.7rem;
   border-radius: 50%;
-  background: crimson;
+  background: #bad168;
   color: #fff;
   text-align: center;
   position: absolute;
@@ -481,7 +481,7 @@ section {
 
 .portfolio .box-container .box .content a {
   font-size: 2rem;
-  color: crimson;
+  color: #bad168;
 }
 
 .portfolio .box-container .box .content a:hover {
@@ -544,12 +544,12 @@ section {
 }
 
 .blogs .box-container .box .content .icons a:hover {
-  color: crimson;
+  color: #bad168;
 }
 
 .blogs .box-container .box .content .icons a i {
   padding-right: .5rem;
-  color: crimson;
+  color: #bad168;
 }
 
 .blogs .box-container .box .content h3 {
@@ -609,7 +609,7 @@ section {
 
 .contact .row .info-container .box-container .box i {
   font-size: 3rem;
-  color: crimson;
+  color: #bad168;
 }
 
 .contact .row .info-container .box-container .box h3 {
@@ -631,7 +631,7 @@ section {
 }
 
 .contact .row .info-container .share a:hover {
-  background: crimson;
+  background: #bad168;
 }
 
 .contact .row form {
@@ -749,7 +749,7 @@ section {
   position: fixed;
   top: calc(50% - 30px);
   left: calc(50% - 30px);
-  border: 6px solid crimson;
+  border: 6px solid #bad168;
   border-top-color: #fff;
   border-radius: 50%;
   width: 60px;
@@ -807,7 +807,7 @@ section {
   right: 100%;
   height: 100%;
   width: 100%;
-  background: crimson;
+  background: #bad168;
 }
 
 .pace.pace-inactive {
@@ -832,11 +832,10 @@ section {
     font-size: 4rem;
     font-weight: 540;
 }
-/*Christmas special changes */
-/* SNOW-FLAKE */
 
+/* SNOW-FLAKE */
 .fa-snowflake {
-	color: rgb(143, 6, 34);
+	color: #f4ffcd;
 	position: absolute;
 	top: -42px;
 	animation: fall linear forwards;
