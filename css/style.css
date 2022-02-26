@@ -80,8 +80,9 @@ section {
 }
 
 .btn:hover {
-  background: #a1b653;
+  background: #252525;
   color: #fff;
+  transition: .5s;
 }
 .btn:hover i {
   margin-left: 2.1rem;
@@ -114,8 +115,9 @@ section {
 }
 
 .btn_2:hover {
-  background: #1a1a1a;
+  background: #252525;
   color: #fff;
+  transition: .5s;
 }
 .btn_2:hover i {
   margin-left: 2.1rem;
@@ -159,7 +161,11 @@ section {
 }
 
 .navbar a:hover i {
-  color: #fff;
+  color: #1a1a1a;
+}
+
+.navbar a:hover {
+  color:#1a1a1a;
 }
 
 .home {
@@ -293,6 +299,10 @@ section {
 
 .about .row .count-container .box:hover {
   background: rgb(44, 44, 44);
+  -webkit-transform: scale(1);
+  transform: scale(1.1);
+  -webkit-transition: .2s linear;
+  transition: .3s linear;
 }
 
 .about .row .count-container .box:hover h3 {
@@ -329,6 +339,10 @@ section {
 
 .skills .box-container .box:hover {
   background: #bad168;
+  -webkit-transform: scale(1);
+  transform: scale(1.1);
+  -webkit-transition: .2s linear;
+  transition: .3s linear;
 }
 
 .skills .box-container .box:hover h3 {
@@ -421,12 +435,13 @@ section {
   height: 30rem;
   overflow: hidden;
   position: relative;
-  border-radius: 18px;
+  border-radius: 12px;
 }
 
 .portfolio .box-container .box:hover .content {
   -webkit-transform: translateY(0%);
           transform: translateY(0%);
+          transition: .5s linear;
 }
 
 .portfolio .box-container .box img {
@@ -434,7 +449,7 @@ section {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-     border-radius: 18px;
+     border-radius: 12px;
 }
 
 .portfolio .box-container .box .content {
@@ -469,12 +484,13 @@ section {
   font-size: 2.5rem;
   color: #fff;
   text-transform: uppercase;
-  font-weight: normal;
+  font-weight: 900;
 }
 
 .portfolio .box-container .box .content p {
   padding: 1rem 0;
   font-size: 1.5rem;
+  font-weight: 500;
   line-height: 2;
   color: #aaa;
 }
@@ -503,12 +519,14 @@ section {
   background: #1a1a1a;
   -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.7);
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.7);
-          border-radius: 20px;          
+          border-radius: 12px;          
 }
 
 .blogs .box-container .box:hover .image img {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
+          transition: .9s;
+          border-radius: 12px; 
 }
 
 .blogs .box-container .box .image {
@@ -516,6 +534,7 @@ section {
   width: 100%;
   border-radius: .5rem;
   overflow: hidden;
+  border-radius: 12px; 
 }
 
 .blogs .box-container .box .image img {
@@ -525,7 +544,7 @@ section {
      object-fit: cover;
   -webkit-transition: .2s linear;
   transition: .2s linear;
-  border-radius: 20px;
+  border-radius: 12px;
 }
 
 .blogs .box-container .box .content .icons {
@@ -632,6 +651,7 @@ section {
 
 .contact .row .info-container .share a:hover {
   background: #bad168;
+  transition: .4s;
 }
 
 .contact .row form {
@@ -668,7 +688,7 @@ section {
 
 .contact .row form textarea {
   width: 100%;
-  border-radius: 1rem;
+  border-radius: 2rem;
   resize: none;
   height: 25rem;
 }
@@ -679,8 +699,8 @@ section {
 }
 
 .contact .row form .btn:hover {
-  background: #fff;
-  color: #0d0d0d;
+  background: #1a1a1a;
+  color: #fff;
 }
 
 @media (max-width: 1200px) {
