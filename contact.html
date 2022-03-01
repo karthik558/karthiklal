@@ -88,19 +88,19 @@
 
     </div>
 
-    <form action="./php/mail.php">
+    <form action="php/mail.php" method="post">
 
         <div class="inputBox">
-            <input type="text" placeholder="Your name">
-            <input type="number" placeholder="Your number">
+            <input type="text" name="fname" placeholder="Your name">
+            <input type="number" name="phone" placeholder="Your number">
         </div>
 
         <div class="inputBox">
-            <input type="email" placeholder="Your email">
-            <input type="text" placeholder="Your subject">
+            <input type="email" name="email" placeholder="Your email">
+            <input type="text" name="subject" placeholder="Your subject">
         </div>
 
-        <textarea name="" placeholder="Your message" id="" cols="30" rows="10"></textarea>
+        <textarea name="message" placeholder="Your message" id="" cols="30" rows="10"></textarea>
 
         <input type="submit" value="Send Message" class="btn">
 
