@@ -11,6 +11,14 @@
   color: inherit;
 }
 
+/* 
+ALT_COLOR_CODES
+background: #8C805A
+.btn_color: #8C805A
+.btn_hover_color: #514a30
+snowflake_background_color: #733119
+*/
+
 html {
   font-size: 62.4%;
   overflow-x: hidden;
@@ -26,7 +34,7 @@ html::-webkit-scrollbar-track {
 }
 
 html::-webkit-scrollbar-thumb {
-  background: #2bd3ed;
+  background: #8C805A;
   border-radius: 5rem;
 }
 
@@ -57,7 +65,7 @@ section {
   margin-top: 1rem;
   margin-right: 0.5rem;
   border-radius: 5rem;
-  background: #2bd3ed;
+  background: #8C805A;
   padding: .7rem;
   font-size: 1.7rem;
   color: #fff;
@@ -71,7 +79,7 @@ section {
   font-size: 1.7rem;
   text-align: center;
   background: #fff;
-  color: #2bd3ed;
+  color: #8C805A;
   border-radius: 50%;
   margin-left: 1rem;
   -webkit-transition: .3s linear;
@@ -79,7 +87,7 @@ section {
 }
 
 .btn:hover {
-  background: #ff0198;
+  background: #514a30;
   color: #fff;
   transition: .5s;
 }
@@ -92,7 +100,7 @@ section {
   margin-top: 1rem;
   margin-left: 0.5rem;
   border-radius: 4rem;
-  background: #2bd3ed;
+  background: #8C805A;
   padding: .7rem;
   font-size: 1.7rem;
   color: #fff;
@@ -106,7 +114,7 @@ section {
   font-size: 1.7rem;
   text-align: center;
   background: #fff;
-  color: #2bd3ed;
+  color: #8C805A;
   border-radius: 50%;
   margin-left: 1rem;
   -webkit-transition: .2s linear;
@@ -114,7 +122,7 @@ section {
 }
 
 .btn_2:hover {
-  background: #ff0198;
+  background: #514a30;
   color: #fff;
   transition: .5s;
 }
@@ -150,12 +158,12 @@ section {
 }
 
 .navbar a i {
-  color: #2bd3ed;
+  color: #8C805A;
   padding-right: .5rem;
 }
 
 .navbar a:hover {
-  background: #2bd3ed;
+  background: #8C805A;
   padding-bottom: 4rem;
 }
 
@@ -193,6 +201,10 @@ section {
   border-radius: 26% 66% 66% 26% / 26% 26% 66% 66%;
 }
 
+.home .image img:hover{
+  filter: drop-shadow(7px 7px 12px #514a30);
+}
+
 .home .content {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 42rem;
@@ -207,9 +219,10 @@ section {
 
 .home .content span {
   font-size: 3rem;
-  color: #2bd3ed;
+  color: #8C805A;
   padding: .5rem 0;
   display: block;
+  font-weight: 550;
 }
 
 .home .content p {
@@ -310,7 +323,7 @@ section {
 
 .about .row .count-container .box h3 {
   font-size: 5rem;
-  color: #2bd3ed;
+  color: #8C805A;
 }
 
 .about .row .count-container .box p {
@@ -337,7 +350,7 @@ section {
 }
 
 .skills .box-container .box:hover {
-  background: #2bd3ed;
+  background: #8C805A;
   -webkit-transform: scale(1);
   transform: scale(1.1);
   -webkit-transition: .2s linear;
@@ -387,7 +400,7 @@ section {
   line-height: 4.5rem;
   font-size: 1.7rem;
   border-radius: 50%;
-  background: #2bd3ed;
+  background: #8C805A;
   color: #fff;
   text-align: center;
   position: absolute;
@@ -496,7 +509,7 @@ section {
 
 .portfolio .box-container .box .content a {
   font-size: 2rem;
-  color: #2bd3ed;
+  color: #8C805A;
 }
 
 .portfolio .box-container .box .content a:hover {
@@ -562,12 +575,12 @@ section {
 }
 
 .blogs .box-container .box .content .icons a:hover {
-  color: #2bd3ed;
+  color: #8C805A;
 }
 
 .blogs .box-container .box .content .icons a i {
   padding-right: .5rem;
-  color: #2bd3ed;
+  color: #8C805A;
 }
 
 .blogs .box-container .box .content h3 {
@@ -627,7 +640,7 @@ section {
 
 .contact .row .info-container .box-container .box i {
   font-size: 3rem;
-  color: #2bd3ed;
+  color: #8C805A;
 }
 
 .contact .row .info-container .box-container .box h3 {
@@ -649,7 +662,7 @@ section {
 }
 
 .contact .row .info-container .share a:hover {
-  background: #2bd3ed;
+  background: #8C805A;
   transition: .4s;
 }
 
@@ -698,7 +711,7 @@ section {
 }
 
 .contact .row form .btn:hover {
-  background: #1a1a1a;
+  background: #514a30;
   color: #fff;
 }
 
@@ -768,7 +781,7 @@ section {
   position: fixed;
   top: calc(50% - 30px);
   left: calc(50% - 30px);
-  border: 6px solid #2bd3ed;
+  border: 6px solid #8C805A;
   border-top-color: #fff;
   border-radius: 50%;
   width: 60px;
@@ -844,7 +857,7 @@ section {
   right: 100%;
   height: 100%;
   width: 100%;
-  background: #2bd3ed;
+  background: #8C805A;
 }
 
 .pace.pace-inactive {
@@ -872,7 +885,7 @@ section {
 
 /* SNOW-FLAKE */
 .fa-snowflake {
-	color: #ff0198;
+	color: #733119;
 	position: absolute;
 	top: -42px;
 	animation: fall linear forwards;
