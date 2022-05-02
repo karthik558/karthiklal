@@ -90,7 +90,16 @@ section {
   background: #514a30;
   color: #fff;
   transition: .5s;
+  animation: hue-animation 5s alternate infinite;
 }
+
+@keyframes hue-animation {
+  100%{
+    filter: hue-rotate(360deg);
+  }
+}
+}
+
 .btn:hover i {
   margin-left: 2.1rem;
 }
@@ -125,7 +134,16 @@ section {
   background: #514a30;
   color: #fff;
   transition: .5s;
+  animation: hue-animation 5s alternate infinite;
 }
+
+@keyframes hue-animation {
+  100%{
+    filter: hue-rotate(360deg);
+  }
+}
+}
+
 .btn_2:hover i {
   margin-left: 2.1rem;
 }
