@@ -901,7 +901,7 @@ section {
     font-weight: 540;
 }
 
-/* SNOW-FLAKE */
+/* SNOW-FLAKE
 .fa-snowflake {
 	color: #733119;
 	position: absolute;
@@ -918,4 +918,4 @@ section {
 	to {
 		transform: translateY(102vh);
 	}
-}
+}*/
