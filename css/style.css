@@ -847,7 +847,7 @@ section {
 .pace {
   pointer-events: none;
   user-select: none;
-  z-index: 2000;
+  z-index: 9999;
   position: fixed;
   margin: auto;
   top: 0;
@@ -855,10 +855,10 @@ section {
   right: 0;
   bottom: 0;
   width: 420px;
-  border: 0px;
+  border: 20px;
   height: 3px;
   overflow: hidden;
-  background:white;
+  background: #1a1a1a;
 }
 
 .pace .pace-progress {
@@ -866,7 +866,7 @@ section {
   transform: translate3d(0, 0, 0);
   max-width: 400px;
   position: fixed;
-  z-index: 2000;
+  z-index: 9999;
   display: block;
   position: absolute;
   top: 0;
@@ -889,16 +889,31 @@ section {
   transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.px {
+.preloadertext {
     position: absolute;
-    top: 40%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 4rem;
-    font-weight: 540;
+    font-size: 4.5rem;
+    font-weight: 550;
 }
 
+@media screen and (max-width: 500px) {
+  .preloadertext {
+    position: absolute;
+    left: 40%;
+    font-size: 3.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .preloadertext {
+    position: absolute;
+    left: 45%;
+    font-size: 4.3rem;
+  }
+}
 /* SNOW-FLAKE
 .fa-snowflake {
 	color: #733119;

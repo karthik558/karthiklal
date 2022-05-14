@@ -27,7 +27,7 @@
 
 <!-- preloaderx-->
 <div id="preloaderx">
-  <div class="px">L O A D I N G</div>
+  <div class="preloadertext">“Good-bye and hello, as always.”</div>
 </div>
 
 <!-- navbar section starts  -->
@@ -80,13 +80,12 @@
   $('#preloaderx').delay(180).animate({top: '-100%'}, 2000, $.bez([0.19,1,0.22,1]));
 
   TweenMax.from(".title", 2, {
-       delay: 0.2,
+       delay: 0.5,
             y: 10,
             opacity: 0,
             ease: Expo.easeInOut
       })
  });
-
 </script>
 
 <script>

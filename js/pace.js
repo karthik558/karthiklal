@@ -8,9 +8,9 @@
   defaultOptions = {
     catchupTime: 100,
     initialRate: .03,
-    minTime: 250,
+    minTime: 260,
     ghostTime: 100,
-    maxProgressPerFrame: 20,
+    maxProgressPerFrame: 22,
     easeFactor: 1.25,
     startOnPageLoad: true,
     restartOnPushState: true,
@@ -21,9 +21,9 @@
       selectors: ['body']
     },
     eventLag: {
-      minSamples: 10,
-      sampleCount: 3,
-      lagThreshold: 3
+      minSamples: 13,
+      sampleCount: 5,
+      lagThreshold: 4
     },
     ajax: {
       trackMethods: ['GET'],
@@ -933,5 +933,3 @@
   }
 
 }).call(this);
-
-
