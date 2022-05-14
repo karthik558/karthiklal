@@ -98,7 +98,6 @@ section {
     filter: hue-rotate(360deg);
   }
 }
-}
 
 .btn:hover i {
   margin-left: 2.1rem;
@@ -141,7 +140,6 @@ section {
   100%{
     filter: hue-rotate(360deg);
   }
-}
 }
 
 .btn_2:hover i {
@@ -804,8 +802,8 @@ section {
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  -webkit-animation: animate-preloader .8s linear infinite;
-  animation: animate-preloader .8s linear infinite;
+  -webkit-animation: animate-preloader 1.2s linear infinite;
+  animation: animate-preloader 1.2s linear infinite;
 }
 
 @-webkit-keyframes animate-preloader {
