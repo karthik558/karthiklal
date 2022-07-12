@@ -13,3 +13,7 @@ RewriteCond %{REQUEST_FILENAME}\.html -f
 # Here we actually show the page that has the .html extension
 
 RewriteRule ^(.*)$ $1.html [NC,L]
+
+# 404 error if no .html extension
+
+ErrorDocument 404 /404.html
