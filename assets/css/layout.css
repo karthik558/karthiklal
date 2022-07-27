@@ -925,6 +925,9 @@
 	color: #9ead6d;
 }
 
+.info-list a {
+	text-decoration: none;
+}
 
 @media (max-width: 720px) {
 	.info-list ul li {
@@ -2580,6 +2583,9 @@
 	color: #FFF;
 }
 
+.contact-info a {
+	text-decoration: none;
+}
 
 @media (max-width: 720px) {
 	.contact-form {
