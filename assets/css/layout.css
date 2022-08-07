@@ -18,7 +18,7 @@
 	-o-transition: all 0.7s cubic-bezier(0.165, 0.85, 0.45, 1);
 }
 
-@media (min-width : 1080px) {
+@media (min-width : 1280px) {
 	.header {
 		backdrop-filter: blur(5px);
 	}
@@ -281,7 +281,7 @@
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 	height: 100%;
-	background: #1a1a1a;
+	background: #ffbe37;
 }
 
 .header.active .menu-btn:before {
