@@ -1,18 +1,23 @@
-![HEADER](assets/images/main.png)
+## <b> MAIN PAGE & 404 PAGE <i>(PREVIEW) </b></i>
+<!-- HEADER IMAGE SRC -->
+![HEADER](_asset-README/main.png)
+<!-- 404 IMAGE SRC -->
+![404](_asset-README/404.png)
 
 ## <b> PORTFOLIO FEATURES </b>
-* Image based portfolio (accent matching with the image)
-* Blocked incepting site (no incepting) (security.js)
-* Beautiful and responsive design (sass) (css) (html)
-* Responsive and mobile friendly
-* Using Swiper.js (slider) (slideshow) and Carousel.js (carousel)
-* Using jQuery.js (animation) (ajax) (json) (xml) (html)
+* <b>Image</b> based portfolio (accent matching with the image)
+* Blocked <b>incepting</b> site (no incepting) (security.js)
+* <b>Beautiful</b> and <b>responsive design</b> (javascript)(sass)(css)(html)
+* <b>Responsive</b> and <b>mobile friendly</b>
+* Using <b>Swiper.js</b> (slider) (slideshow) and <b>Carousel.js </b>(carousel)
+* Custom <b>404 Page</b> (Matching with the hex color of subject)
+* Using <b>jQuery.js</b> (animation) (ajax) (json) (xml) (html)
 
 ## <b> SPECIAL THANKS </b>
-* Adobe Photoshop, Figma, Envato, Freepik (UI Designing)
-* Namecheap (Domain)
-* Vercel & Github (Hosting)
-* Cloudflare (DDoS Protection)
+* <b>Adobe Photoshop, Figma, Envato, Freepik</b> (UI Designing)
+* <b>Namecheap</b> (Domain)
+* <b>Vercel & Github</b> (Hosting)
+* <b>Cloudflare</b> (DDoS Protection)
 
 ## <b> CONTRIBUTION AND LICENCE </b>
 
@@ -20,4 +25,4 @@
 * LICESNSE: GNU GENERAL PUBLIC LICENSE V3.0.
 * OPENSOURCE SOFTWARE LICENSE AGREEMENT FOR WINDOWS DISTRIBUTION SYSTEM (https://www.gnu.org/licenses/gpl-3.0.en.html).
 * Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.
-* Copyright (c) 2022, KARTHIK LAL. All rights reserved.
+* <b> Copyright (c) 2022, <i> KARTHIK LAL</i>. All rights reserved.

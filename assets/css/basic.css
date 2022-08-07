@@ -11,7 +11,7 @@ body {
 	font-size: 14px;
 	line-height: 26px;
 	color: #fff;
-	background: #1c1c1c;
+	background: #0c0c0c;
 	letter-spacing: 0;
 	font-weight: 400;
 	-webkit-font-smoothing: antialiased;
@@ -45,11 +45,11 @@ body {
 	top: 0;
 	width: 100%;
 	height: 100vh;
-	background: #9ead6d;
+	background: #ffbe37;
 }
 
 .preloader .box-2 {
-	background: #1c1c1c;
+	background: rgb(12, 12, 12);
 }
 
 .preloader .spinner {
@@ -84,7 +84,7 @@ body {
 
 .preloader .spinner .lines:after {
 	left: 15px;
-	background: #9ead6d;
+	background: #ffbe37;
 	animation: loading 2s cubic-bezier(0.165, 0.85, 0.45, 1) 0.5s infinite;
 }
 
@@ -112,7 +112,7 @@ body {
 	right: 92px;
 	top: 0;
 	height: 40px;
-	background: #1c1c1c;
+	background: #0c0c0c;
 	z-index: 13;
 }
 
@@ -302,7 +302,7 @@ a {
 
 a:hover {
 	text-decoration: none;
-	color: #9ead6d;
+	color: #ffbe37;
 }
 
 
@@ -319,7 +319,7 @@ a:hover {
 	position: relative;
 	overflow: hidden;
 	display: block;
-	text-shadow: 0 16px 0 #9ead6d;
+	text-shadow: 0 16px 0 #141414;
 }
 
 .animated-button span em {
@@ -400,8 +400,8 @@ button {
 	font-weight: 800;
 	text-decoration: none;
 	text-transform: uppercase;
-	background: transparent;
-	border: 1px solid #585d65;
+	background: #ffbe37;
+	border: 1.50px solid #ffffff;
 	cursor: pointer;
 	border-radius: 64px;
 	-moz-border-radius: 64px;
@@ -417,7 +417,7 @@ a.btn:hover,
 .btn:hover,
 .single-post-text input[type="submit"]:hover,
 button:hover {
-	border-color: #9ead6d;
+	border-color: #fff;
 }
 
 a.btn:hover .animated-button em,
@@ -431,13 +431,12 @@ a.btn:hover .icon,
 .btn:hover .icon,
 .single-post-text input[type="submit"]:hover .icon,
 button:hover .icon {
-	color: #9ead6d;
+	color: rgb(12, 12, 12);
 	transform: translateX(6px);
 	-webkit-transform: translateX(6px);
 	-moz-transform: translateX(6px);
 	-o-transform: translateX(6px);
 }
-
 
 a.btn .icon,
 .btn .icon,
