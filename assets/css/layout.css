@@ -599,6 +599,11 @@
 	-o-transition: all 0.3s ease 0s;
 }
 
+.section .titles .title::selection {
+	color: #0a0a0a;
+	background-color: #ffbe37;
+}
+
 .section .titles .subtitle {
 	font-size: 14px;
 	line-height: 1.2;
@@ -756,6 +761,11 @@
 	-khtml-border-radius: 264px;
 }
 
+.section.started .h-title::selection {
+	color: #0a0a0a;
+	background-color: #ffbe37;
+}
+
 .section.started .h-title strong {
 	color: #ffbe37;
 }
@@ -878,7 +888,6 @@
 		-webkit-border-radius: 360px 360px 0 0;
 		-khtml-border-radius: 360px 360px 0 0;
 	}
-
 
 	.section.started .started-content {
 		padding-left: 0;
@@ -2610,6 +2619,10 @@
 	font-family: "Mr Dafoe";
 	font-size: 32px;
 	color: #FFF;
+}
+
+.contact-info .author:hover{
+	color: #ffbe37;
 }
 
 .contact-info a {
