@@ -3,7 +3,7 @@
 ------------------------------------*/
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -23,8 +23,8 @@ body {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound {
@@ -45,13 +45,13 @@ body {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   font-size: 192px;
   font-weight: 600;
   margin: 0px;
   background: #ffbe37;
-  color:transparent;
+  color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
   text-transform: uppercase;
@@ -91,6 +91,7 @@ body {
 .notfound a:hover {
   color: #d0931a;
 }
+
 /* -----------------------------------
     Notfound-social
 ------------------------------------*/
@@ -108,6 +109,7 @@ body {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
 }
+
 .notfound-social>a:hover {
   color: #ffbe37;
   background-color: #ffffff;

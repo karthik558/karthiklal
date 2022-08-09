@@ -9,15 +9,15 @@ $lines_color: #585d65;
 $default_color: #fff;
 $extra_color: #999;
 $light_color: #eee;
-$white_color: #FFF;
+$white_color: #fff;
 $dark_color: #000;
 $active_color: #68e0cf;
 $active_profile_color: #68e0cf;
 $error_color: red;
 
 /* Fonts */
-$default_font: 'Poppins';
-$extra_font: 'Mr Dafoe';
+$default_font: "Poppins";
+$extra_font: "Mr Dafoe";
 
 /* Fonts Size */
 $logo_size: 18px;
@@ -39,29 +39,29 @@ $line_height: 26px;
 
 /*Mixins*/
 @mixin border-radius($radius) {
-	border-radius: $radius;
-	-moz-border-radius: $radius;
-	-webkit-border-radius: $radius;
-	-khtml-border-radius: $radius;
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -khtml-border-radius: $radius;
 }
 
 @mixin box-shadow($param) {
-	box-shadow: $param;
-	-moz-box-shadow: $param;
-	-webkit-box-shadow: $param;
-	-khtml-box-shadow: $param;
+  box-shadow: $param;
+  -moz-box-shadow: $param;
+  -webkit-box-shadow: $param;
+  -khtml-box-shadow: $param;
 }
 
 @mixin transition($param) {
-	transition: $param;
-	-moz-transition: $param;
-	-webkit-transition: $param;
-	-o-transition: $param;
+  transition: $param;
+  -moz-transition: $param;
+  -webkit-transition: $param;
+  -o-transition: $param;
 }
 
 @mixin transform($param) {
-	transform: $param;
-	-webkit-transform: $param;
-	-moz-transform: $param;
-	-o-transform: $param;
+  transform: $param;
+  -webkit-transform: $param;
+  -moz-transform: $param;
+  -o-transform: $param;
 }
