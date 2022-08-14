@@ -1,8 +1,8 @@
 ## <b> MAIN PAGE & 404 PAGE <i>(PREVIEW) </b></i>
 <!-- HEADER IMAGE SRC -->
-![HEADER](_asset-README/main.png)
+![HEADER](_assets-readme/main.png)
 <!-- 404 IMAGE SRC -->
-![404](_asset-README/404.png)
+![404](_assets-readme/404.png)
 
 ## <b> PORTFOLIO FEATURES </b>
 * <b>Image</b> based portfolio (accent matching with the image)

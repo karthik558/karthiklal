@@ -1,0 +1,8 @@
+# FILES FOR MACOSX
+__MACOSX
+# GPG
+.gnupg/gpg.conf
+.gnupg/gpg-agent.conf
+.gnupg/gpg-agent.log
+# DSSTORE FILES
+.DS_Store

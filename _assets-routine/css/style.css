@@ -1,0 +1,191 @@
+body {
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #0c0c0c;
+  font-weight: 300;
+}
+
+p {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+a {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+a,
+a:hover {
+  text-decoration: none !important;
+}
+
+.content {
+  padding: 7rem 0;
+}
+
+h2 {
+  font-family: "Dancing Script", cursive;
+  font-size: 55px;
+  color: #ffbe37;
+  font-weight: 800;
+}
+
+h2::selection {
+  background: #ffbe37;
+  color: #0a0a0a;
+}
+.custom-table {
+  min-width: 900px;
+}
+.custom-table thead tr,
+.custom-table thead th {
+  padding-bottom: 30px;
+  border-top: none;
+  border-bottom: none !important;
+  color: #fff;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+.custom-table tbody th,
+.custom-table tbody td {
+  color: #777;
+  font-weight: 400;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-weight: 300;
+  border: none;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+.custom-table tbody th small,
+.custom-table tbody td small {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 300;
+}
+.custom-table tbody th a,
+.custom-table tbody td a {
+  color: rgba(255, 255, 255, 0.3);
+}
+.custom-table tbody th .more,
+.custom-table tbody td .more {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+.custom-table tbody tr {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+.custom-table tbody tr:hover td,
+.custom-table tbody tr:focus td {
+  color: #fff;
+}
+.custom-table tbody tr:hover td a,
+.custom-table tbody tr:focus td a {
+  color: #ffbe37;
+}
+.custom-table tbody tr:hover td .more,
+.custom-table tbody tr:focus td .more {
+  color: #ffbe37;
+}
+.custom-table .td-box-wrap {
+  padding: 0;
+}
+.custom-table .box {
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.custom-table .box td,
+.custom-table .box th {
+  border: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 35px;
+  background: #ffbe37;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.25),
+    inset -2px -2px -2px rgba(0, 0, 0, 0.25);
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.loader_bg {
+  position: fixed;
+  z-index: 999999;
+  background: #0c0c0c;
+  width: 100%;
+  height: 100%;
+}
+.loader {
+  border: 0 soild transparent;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: calc(50vh - 75px);
+  left: calc(50vw - 75px);
+}
+.loader:before,
+.loader:after {
+  content: "";
+  border: 1em solid #ffbe37;
+  border-radius: 50%;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: loader 2s linear infinite;
+  opacity: 0;
+}
+.loader:before {
+  animation-delay: 0.5s;
+}
+@keyframes loader {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

@@ -68,7 +68,6 @@ body {
   font-weight: 400;
 }
 
-
 .notfound p {
   color: #fff;
   font-size: 16px;
@@ -77,7 +76,6 @@ body {
   font-weight: 250;
   margin-bottom: 25px;
 }
-
 
 .notfound a {
   color: #ffbe37;
@@ -96,7 +94,7 @@ body {
     Notfound-social
 ------------------------------------*/
 
-.notfound-social>a {
+.notfound-social > a {
   display: inline-block;
   height: 40px;
   line-height: 40px;
@@ -110,7 +108,7 @@ body {
   transition: 0.2s all;
 }
 
-.notfound-social>a:hover {
+.notfound-social > a:hover {
   color: #ffbe37;
   background-color: #ffffff;
 }
@@ -127,5 +125,51 @@ body {
 
   .notfound h2 {
     font-size: 22px;
+  }
+}
+
+.loader_bg {
+  position: fixed;
+  z-index: 999999;
+  background: #0c0c0c;
+  width: 100%;
+  height: 100%;
+}
+.loader {
+  border: 0 soild transparent;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: calc(50vh - 75px);
+  left: calc(50vw - 75px);
+}
+.loader:before,
+.loader:after {
+  content: "";
+  border: 1em solid #ffbe37;
+  border-radius: 50%;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: loader 2s linear infinite;
+  opacity: 0;
+}
+.loader:before {
+  animation-delay: 0.5s;
+}
+@keyframes loader {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
   }
 }
