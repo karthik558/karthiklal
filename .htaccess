@@ -1,6 +1,4 @@
-# mod_rewrite starts here
-<IfModule mod_rewrite.c>
-
+<IfModule mod_rewrite.c> # mod_rewrite starts here
 RewriteEngine on
 # does not apply to existing directories, meaning that if the folder exists on the server then don't change anything and don't run the Rule!
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -20,5 +18,4 @@ RewriteRule ^(.*)\.html$ $1 [L]
 RewriteRule ^$ /index.html [L]
 # If we type /routine on the URL, show the routine.html page
 RewriteRule ^routine$ /routine.html [L]
-</IfModule>
-# mod_rewrite ends here
+</IfModule> # mod_rewrite ends here

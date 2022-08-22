@@ -6,7 +6,10 @@ Disallow: /assets/js
 Disallow: /assets/mailer
 Disallow: /assets/style
 Disallow: /assets/webfonts
-Disallow: /assets-404
 Disallow: .htaccess
 Disallow: CNAME
 Allow: /assets/images/me.jpg
+Disallow: /_assets-routine/
+Disallow: /_assets-404/
+Disallow: /_assets-readme/
+Disallow: config.codekit
