@@ -1,0 +1,70 @@
+/*--------------------------------------------------------------
+18. Resume Section
+----------------------------------------------------------------*/
+.st-resume-heading {
+    display: flex;
+    align-items: center;
+}
+
+.st-resume-heading .st-resume-heading-title {
+    margin: 0;
+    margin-left: 30px;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.st-resume-timeline {
+    position: relative;
+    padding-top: 1px;
+
+    &::before {
+        position: absolute;
+        content: "";
+        border: 2px solid $base-color4;
+        border-radius: 50%;
+        background-color: $dark-color4;
+        width: 13px;
+        height: 13px;
+        top: 0px;
+        left: -47px;
+        transition: all 0.4s ease;
+    }
+
+    &:hover{
+        &::before {
+            background-color: $base-color1;
+        }
+    }
+
+    .st-resume-timeline-title {
+        font-size: 24px;
+        font-weight: 400;
+        color: $base-color1;
+        margin-top: -7px;
+        margin-bottom: 8px;
+    }
+
+    .st-resume-timeline-duration {
+        font-size: 18px;
+        margin-bottom: 21px;
+    }
+
+    .st-resume-timeline-subtitle {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 19px;
+    }
+
+    .st-resume-timeline-text p {
+        margin: 0;
+        margin-bottom: -7px;
+    }
+
+}
+
+.st-resume-timeline-wrap {
+    padding-left: 40px;
+    margin-left: 20px;
+    border-left: 1px solid $base-color4;
+}
+  

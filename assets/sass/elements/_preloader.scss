@@ -1,0 +1,52 @@
+/*--------------------------------------------------------------
+4. Preloader
+----------------------------------------------------------------*/
+.st-perloader {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .st-perloader-in {
+        position: relative;
+        svg {
+          width: 110px;
+          height: 110px;
+        }
+    }
+
+    .st-wave-first {
+        svg {
+          fill: $black4;
+        }
+    }
+
+    .st-wave-second {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        animation: spark 1.25s linear infinite;
+        svg {
+          fill: $blue;
+        }
+    }
+}
+
+
+@keyframes spark {
+    0% {
+        max-width: 0;
+    }
+
+    100% {
+        max-width: 100%;
+    }
+}

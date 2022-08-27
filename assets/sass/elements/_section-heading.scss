@@ -1,0 +1,64 @@
+/*--------------------------------------------------------------
+9. Section Heading
+----------------------------------------------------------------*/
+.st-section-heading.st-style1 {
+    text-align: center;
+    position: relative;
+    margin-top: -5px;
+    margin-bottom: 41px;
+
+    .st-section-heading-title {
+        font-size: 24px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: $base-color1;
+        position: relative;
+        z-index: 10;
+        letter-spacing: 1px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            background-color: $dark-color5;
+            width: 170px;
+            height: 2px;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            background-color: $base-color1;
+            width: 70px;
+            height: 2px;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    .st-section-heading-subtitle {
+        text-transform: uppercase;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 90px;
+        font-weight: 700;
+        color: rgba($dark-color1, 0.5);
+        margin: 0;
+        margin-top: -17px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 991px) {
+
+    .st-section-heading.st-style1 .st-section-heading-subtitle {
+        display: none;
+    }
+}
+
+/* End Section Heading */

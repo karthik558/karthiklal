@@ -1,0 +1,46 @@
+/*--------------------------------------------------------------
+17. Blog
+----------------------------------------------------------------*/
+
+.st-post-single.st-style1 {
+
+    .st-post-thumb {
+        display: block;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .st-post-date {
+        font-size: 14px;
+        margin-top: 22px;
+        margin-bottom: 9px;
+
+        .st-post-date-divider {
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        .st-post-author,
+        .st-post-publish-date {
+            color: $base-color1;
+        }
+
+        .st-post-author:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .st-post-title {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1.2em;
+        margin-bottom: 0;
+
+        &:hover {
+            color: $base-color1;
+        }
+    }
+}

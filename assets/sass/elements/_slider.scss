@@ -1,0 +1,147 @@
+/*--------------------------------------------------------------
+7. Slider
+----------------------------------------------------------------*/
+.st-slider.st-style1,
+.st-slider.st-style2 {
+	position: relative;
+}
+
+.swipe-arrow.st-hidden,
+.pagination.st-hidden {
+	display: none;
+}
+
+.pagination.st-style1,
+.pagination.st-style2 {
+	ul {
+		padding: 0;
+		margin: 0;
+		display: flex !important;
+		list-style: none;
+	}
+
+	li {
+		height: 12px;
+		width: 12px;
+		border-radius: 6px;
+		background-color: #000000;
+		margin-right: 8px;
+		cursor: pointer;
+		transition: all 0.4s ease;
+
+		&.slick-active {
+			background-color: $dark-color5;
+		}
+	}
+
+	button {
+		display: none;
+	}
+}
+.pagination.st-style2 {
+    position: absolute;
+    bottom: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.pagination.st-style1.container {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 60px;
+	padding-left: 15px;
+}
+
+.st-slider.st-style1,
+.st-slider.st-style2 {
+	position: relative;
+	.slick-slide {
+		padding-left: 15px;
+		padding-right: 15px;
+		>div {
+			display: flex;
+			>.slick-slide-in {
+				width: 100%;
+			}
+		}
+	}
+
+	.slick-list {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		margin-top: -20px;
+		margin-bottom: -20px;
+		margin-left: -15px;
+		margin-right: -15px;
+	}
+
+	.slick-arrow {
+		box-shadow: 0px 5px 10px 0px rgba(106, 106, 106, 0.15);
+		position: absolute;
+		height: 50px;
+		width: 50px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1;
+		background-color: $dark-color5;
+		opacity: 0;
+		visibility: hidden;
+		cursor: pointer;
+		transition: all 0.4s ease;
+		&:before {
+			content: '';
+			position: absolute;
+			height: 100%;
+			width: 30px;
+		}
+		&.slick-arrow-left {
+			left: 0px;
+			&:before {
+				right: -20px;
+			}
+		}
+		&.slick-arrow-right {
+			right: 0px;
+			&:before {
+				left: -20px;
+			}
+		}
+		&:hover {
+			color: #000000;
+		}
+	}
+	&:hover {
+		.slick-arrow {
+			opacity: 1;
+			visibility: visible;
+			&.slick-arrow-left {
+				left: -70px;
+			}
+			&.slick-arrow-right {
+				right: -70px;
+			}
+		}
+	}
+}
+@media screen and (max-width: 991px) {
+.st-slider .pagination.st-hidden {
+    display: block;
+    margin-top: 20px;
+}
+.st-slider .pagination.st-style1 ul, 
+.st-slider .pagination.st-style2 ul {
+    justify-content: center;
+}
+.swipe-arrow.st-style1 {
+	display: none;
+}
+.st-hidden.st-hidden-md,
+.swipe-arrow.st-style2 {
+	display: none !important;
+}
+}

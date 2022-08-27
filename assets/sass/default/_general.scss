@@ -1,0 +1,108 @@
+/*--------------------------------------------------------------
+3. General
+----------------------------------------------------------------*/
+.st-mp0 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.st-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.st-zoom {
+  position: relative;
+  overflow: hidden;
+
+  .st-zoom-in {
+    transition: all 0.4s ease-in-out;
+  }
+
+  &:hover {
+    .st-zoom-in {
+      transform: scale(1.07)
+    }
+  }
+}
+
+.st-vertical-middle {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .st-vertical-middle-in {
+    width: 100%;
+  }
+}
+
+.st-bg {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.st-content {
+  position: relative;
+  z-index: 10;
+  overflow-x: hidden;
+}
+
+.st-sticky-footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.st-dark-bg {
+  background-color: $dark-color2;
+}
+
+.st-gray-bg {
+  background-color: #b8b8b8;
+}
+
+.st-gray-overlay {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(#b8b8b8, 0.86);
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+hr {
+  margin: 0;
+  width: 100%;
+  border-color: #000000;
+}
+
+.st-fixed-bg {
+  background-attachment: fixed;
+}
+
+
+@media screen and (max-width: 991px) {
+  .st-content {
+    margin: 0 !important;
+  }
+
+  .st-vertical-middle {
+    display: block;
+  }
+
+}

@@ -1,0 +1,54 @@
+/*--------------------------------------------------------------
+18. Skill
+----------------------------------------------------------------*/
+.st-skill-title {
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.st-progressbar-wrap {
+    overflow: hidden;
+}
+
+.st-progressbar-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 2px;
+	font-family: 'Roboto', sans-serif;
+}
+
+.st-single-progressbar {
+    margin-top: -5px;
+}
+
+.st-progressbar-title {
+	font-size: 16px;
+	margin-bottom: 0;
+}
+
+.st-progressbar-percentage {
+	color: $base-color1;
+	font-weight: 400;
+}
+
+.st-progressbar {
+	width: 100%;
+	height: 2px;
+	background-color: $dark-color5;
+}
+
+.st-progressbar-in {
+	background-color: $base-color1;
+	height: 2px;
+}
+
+@media screen and (max-width: 991px) {
+	.st-skill-title {
+		font-size: 28px;
+	}
+}
+
+  

@@ -1,0 +1,88 @@
+/*--------------------------------------------------------------
+24. Testimonial
+----------------------------------------------------------------*/
+  
+.st-testimonial.st-style1 {
+
+    &:hover {
+        .st-testimonial-name {
+            color: $base-color1;
+        }
+        .st-testimonial-text {
+            border-color: $base-color1;
+            &::after {
+                border-color: $base-color1;
+            }
+        }
+    }
+  
+    .st-testimonial-text {
+        position: relative;
+        border-radius: 3px;
+        transition: all 0.4s ease;
+        background-color: $dark-color4;
+        padding: 30px 15px;
+        border: 1px solid $base-color4;
+        margin-bottom: 40px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            left: 50%;
+            bottom: -16px;
+            border: 1px solid $base-color4;
+            border-width: 0 1px 1px 0;
+            background: $dark-color4;
+            transform: translateX(-50%) rotate(45deg);
+            transition: all 0.4s ease;
+        }
+
+        p {
+            text-align: center;
+            margin-top: -6px;
+            margin-bottom: -6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .st-quote {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+        }
+    }
+
+    .st-testimonial-info {
+        align-items: center;
+        text-align: center;
+        margin-bottom: -4px;
+    }
+
+    .st-testimonial-img {
+        flex: none;
+        height: 90px;
+        width: 90px;
+        border-radius: 50%;
+        margin: auto;
+        margin-bottom: 20px;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .st-testimonial-name {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 4px;
+        transition: all 0.4s ease;
+    }
+
+    .st-testimonial-designation {
+        line-height: 1.3em;
+    }
+}

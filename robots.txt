@@ -1,15 +1,22 @@
 User-agent: *
 Disallow: /cgi-bin/
-Disallow: /assets/images
+Disallow: /assets/img
 Disallow: /assets/css
 Disallow: /assets/js
-Disallow: /assets/mailer
-Disallow: /assets/style
-Disallow: /assets/webfonts
+Disallow: /assets/php
+Disallow: /assets/fonts
+Disallow: /assets/sass
+Disallow: assets/img
+Disallow: assets/css
+Disallow: assets/js
+Disallow: assets/php
+Disallow: assets/fonts
+Disallow: assets/sass
 Disallow: .htaccess
 Disallow: CNAME
 Allow: /assets/images/me.jpg
 Disallow: /_assets-routine/
+Disallow: config.codekit
+
 Disallow: /_assets-404/
 Disallow: /_assets-readme/
-Disallow: config.codekit

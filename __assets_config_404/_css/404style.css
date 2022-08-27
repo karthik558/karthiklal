@@ -1,0 +1,131 @@
+/* -----------------------------------
+    1 - General Styles
+------------------------------------*/
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins";
+  padding: 0;
+  margin: 0;
+  background: #0c0c0c;
+}
+
+#notfound {
+  position: relative;
+  height: 100vh;
+}
+
+#notfound .notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.notfound {
+  max-width: 767px;
+  width: 100%;
+  line-height: 1.4;
+  text-align: center;
+  padding: 15px;
+}
+
+.notfound .notfound-404 {
+  position: relative;
+  height: 220px;
+}
+
+.notfound .notfound-404 h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 192px;
+  font-weight: 600;
+  margin: 0px;
+  background: #2596be;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-transform: uppercase;
+}
+
+.notfound h2 {
+  color: #fff;
+  font-size: 33px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 0px;
+  margin-bottom: 25px;
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+.notfound p {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 200;
+  margin-top: 0px;
+  font-weight: 250;
+  margin-bottom: 25px;
+}
+
+.notfound a {
+  color: #2596be;
+  font-weight: 400;
+  font-style: italic;
+  text-decoration: none;
+  border-bottom: 1.5px solid #2596be;
+  border-radius: 1px;
+}
+
+.notfound a:hover {
+  color: #fff;
+  border-bottom: 1.5px solid #fff;
+  transition-duration: 0.3s;
+}
+
+/* -----------------------------------
+    Notfound-social
+------------------------------------*/
+
+.notfound-social > a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  width: 40px;
+  font-size: 14px;
+  color: #ffffff;
+  border: 1.5px solid #2596be;
+  border-radius: 50%;
+  margin: 3px;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+
+.notfound-social > a:hover {
+  color: #2596be;
+  background-color: #ffffff;
+}
+
+@media only screen and (max-width: 480px) {
+  .notfound .notfound-404 {
+    position: relative;
+    height: 168px;
+  }
+
+  .notfound .notfound-404 h1 {
+    font-size: 142px;
+  }
+
+  .notfound h2 {
+    font-size: 22px;
+  }
+}

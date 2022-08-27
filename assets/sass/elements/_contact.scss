@@ -1,0 +1,182 @@
+/*--------------------------------------------------------------
+26. Contact Form
+----------------------------------------------------------------*/
+
+#st-alert {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.st-contact-title {
+    font-size: 30px;
+    font-weight: 400;
+    margin-top: -6px;
+    margin-bottom: 22px;
+}
+
+.st-form-field {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.st-form-field input,
+.st-form-field textarea {
+    display: block;
+    width: 100%;
+    color: $base-color2;
+    padding: 12px 20px;
+    border: 1px solid $base-color4;
+    background-color: $dark-color4;
+    height: 52px;
+    border-radius: 7px;
+    transition: all .4s ease;
+
+    &::placeholder {
+        color: $dark-color5;
+    }
+
+    &:focus {
+        border-color: $base-color1;
+        outline: 0;
+    }
+}
+
+.st-form-field textarea {
+    height: 150px;
+}
+
+// Contact Info Wrap
+
+.st-contact-text {
+    margin-top: -6px;
+    margin-bottom: 23px;
+}
+
+.st-single-contact-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+
+    &:hover {
+        i {
+            border-color: $base-color1;
+        }
+    }
+
+    i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid $dark-color5;
+        border-radius: 50%;
+        background-color: $dark-color2;
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+        transition: all 0.4s ease;
+    }
+}
+
+.st-single-info-details {
+    h4 {
+        font-size: 20px;
+        font-weight: 400;
+        margin-top: -4px;
+        margin-bottom: 6px;
+    }
+}
+
+.st-single-info-details {
+    a {
+        display: block;
+        margin-bottom: -2px;
+
+        &:hover {
+            color: $base-color1;
+        }
+
+        &:last-child {
+            margin-bottom: -6px;
+        }
+    }
+}
+
+.st-single-info-details {
+    span {
+        display: block;
+        margin-bottom: -2px;
+    }
+}
+
+.st-social-info {
+    .st-social-text {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 20px;
+        font-weight: 500;
+        padding-top: 5px;
+    }
+}
+
+.st-social-link {
+    display: flex;
+}
+
+.st-social-link {
+    .st-social-btn {
+        border-radius: 50px;
+        background-color: $dark-color2;
+        border: 0.5px solid $dark-color5;
+        transition: all 0.4s ease;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+            margin-right: 20px;
+        }
+
+        .st-social-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            transition: all 0.4s ease;
+
+            i {
+                font-size: 22px;
+            }
+
+        }
+
+        .st-icon-name {
+            font-weight: 600;
+            color: #fdfeff;
+            overflow: hidden;
+            max-width: 0;
+            transition: all 0.5s ease;
+        }
+
+        &:hover,
+        &.active {
+            padding-right: 15px;
+
+            .st-icon-name {
+                max-width: 140px;
+            }
+        }
+    }
+}
+
+
+// Footer - Copyright 
+
+.st-copyright-wrap {
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
