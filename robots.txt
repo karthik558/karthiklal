@@ -14,9 +14,7 @@ Disallow: assets/fonts
 Disallow: assets/sass
 Disallow: .htaccess
 Disallow: CNAME
-Allow: /assets/images/me.jpg
-Disallow: /_assets-routine/
+Disallow: /__assets_config_routine
+Disallow: /__assets_config_404
+Disallow: /__assets_config_readme
 Disallow: config.codekit
-
-Disallow: /_assets-404/
-Disallow: /_assets-readme/
