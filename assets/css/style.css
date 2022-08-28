@@ -3146,3 +3146,18 @@ canvas {
     opacity: 0;
   }
 }
+
+.st-site-branding img {
+  max-width: 150px;
+  max-height: 150px;
+  color: #03dcec;
+}
+
+@media screen and (max-width: 991px) {
+  .st-site-branding img {
+    max-width: 140px;
+    max-height: 140px;
+    margin: 0 auto;
+    position: relative;
+  }
+}
