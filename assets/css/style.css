@@ -3044,6 +3044,7 @@ canvas {
 .st-copyright-text a {
   text-transform: uppercase;
   font-size: 16px;
+  font-weight: 500;
   color: #fdfeff;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
