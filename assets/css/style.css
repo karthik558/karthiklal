@@ -37,12 +37,24 @@ h1::selection {
   color: #2596be;
 }
 
+h1 span {
+  color: #2596be;
+}
+
+h1 span::selection {
+  color: #2587be;
+}
+
 h2 {
   font-size: 34px;
 }
 
 h3 {
   font-size: 26px;
+}
+
+h3::selection {
+  color: #fff;
 }
 
 h4 {
