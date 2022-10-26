@@ -6,3 +6,5 @@ __MACOSX
 .gnupg/gpg-agent.log
 # DSSTORE FILES
 .DS_Store
+# VSCODE
+.vscode
