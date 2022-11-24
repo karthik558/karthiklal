@@ -3176,3 +3176,17 @@ canvas {
     position: relative;
   }
 }
+
+.st-text-block-title span {
+  font-size: 40px;
+  font-weight: 600;
+  color: #03dcec;
+}
+
+.st-text-block-text p {
+  font-size: 15.5px;
+}
+
+.st-text-block-text span {
+  color: #00eeff;
+}
