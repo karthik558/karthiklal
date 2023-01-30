@@ -44,6 +44,8 @@
     <link rel="stylesheet" href="assets/css/lightgallery.min.css" />
     <link rel="stylesheet" href="assets/css/animate.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
   </head>
 
   <body id="home">
@@ -51,6 +53,10 @@
     <div class="loader_bg">
       <div class="loader"></div>
     </div>
+
+    <!-- Back to top button -->
+    <button id="back-to-top-btn"> <i class="fas fa-arrow-up"></i> </button>
+
     <!-- Start Header Section -->
     <header class="st-site-header st-style1 st-sticky-header">
       <div class="st-main-header">
@@ -1341,6 +1347,7 @@
             <form
               action="#"
               method="POST"
+              action="./assets/php/sendmail.php"
               class="st-contact-form"
               id="contact-form"
             >

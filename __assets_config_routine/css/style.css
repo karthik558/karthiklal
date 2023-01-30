@@ -190,3 +190,26 @@ h2::selection {
     opacity: 0;
   }
 }
+
+#back-to-top-btn {
+  position: fixed;
+  background-color: #2587be;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+  font-size: 16px;
+  display: none;
+  border: none;
+  border-radius: 25px;
+  z-index: 999;
+  outline: none;
+}
+
+#back-to-top-btn:hover {
+  background-color: #0d162d;
+  outline: none;
+}
