@@ -543,3 +543,9 @@
     });
   }
 })(jQuery);
+
+/*-------------------------------------
+  16. Copy Right Year
+-------------------------------------*/
+const year = document.querySelector("#current-year")
+year.innerHTML = new Date().getFullYear()

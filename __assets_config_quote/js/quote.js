@@ -44,3 +44,6 @@ copyButton.addEventListener("click", () => {
         copyButton.innerHTML = "Copy";
     }, 2000);
 });
+
+const year = document.querySelector("#current-year")
+year.innerHTML = new Date().getFullYear()

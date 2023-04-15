@@ -3374,3 +3374,83 @@ canvas {
   background-color: #0d162d;
   outline: none;
 }
+
+/*--------------------------------------------------------------
+31. Certificate
+----------------------------------------------------------------*/
+.st-certificate {
+  display: block;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.st-certificate::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #3f4551;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.st-certificate::after {
+  content: "";
+  position: absolute;
+  border: 1px solid #fdfeff;
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.st-certificate:hover::before {
+  opacity: 0.8;
+}
+
+.st-certificate:hover::after {
+  opacity: 0.8;
+}
+
+.st-certificate:hover .st-certificate-item-hover {
+  opacity: 1;
+  visibility: visible;
+}
+
+.st-certificate .st-certificate-img img {
+  width: 100%;
+}
+
+.st-certificate-item-hover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  z-index: 5;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.st-certificate-item-hover h5 {
+  position: absolute;
+  width: 250px;
+  top: 87px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 16px;
+  color: #fdfeff;
+}
