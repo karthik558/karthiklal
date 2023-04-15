@@ -1199,7 +1199,7 @@ hr {
 }
 
 canvas {
-  display: block;
+  display: inline-block;
   vertical-align: bottom;
 }
 
