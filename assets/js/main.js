@@ -549,3 +549,20 @@
 -------------------------------------*/
 const year = document.querySelector("#current-year")
 year.innerHTML = new Date().getFullYear()
+
+/*-------------------------------------
+  17. Typed JS
+-------------------------------------*/
+const typed = new Typed('#typed', {
+  strings: ["Certified Ethical Hacker", "Security Researcher", "OSINT", "Cyber Security Enthusiast", "Graphics Designer", "Web Developer", "Linux Kernel Developer"],
+  stringsElement: null,
+  typeSpeed: 50,
+  startDelay: 50,
+  backSpeed: 50,
+  smartBackspace: true,
+  backDelay: 400,
+  loop: false,
+  loopCount: Infinity,
+  showCursor: false,  
+  contentType: 'html',
+});

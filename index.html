@@ -78,7 +78,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
       integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
       crossorigin="anonymous"
-    />
+    />    
   </head>
 
   <body id="home">
@@ -127,7 +127,7 @@
           <div class="st-hero-text">
             <h3>Hello, I’m</h3>
             <h1>Karthik <br /><span>Lal</span></h1>
-            <h2>Certified Ethical Hacker</h2>
+            <h2 id="typed"></h2>            
             <div class="st-hero-btn">
               <a
                 href="mailto:karthik.lal558@gmail.com"
@@ -241,10 +241,6 @@
                       >
                     </li>
                     <li>
-                      <span>From</span> :
-                      <span>India, Kerala, Alappuzha</span>
-                    </li>
-                    <li>
                       <span>Language</span> : <span>English, Malayalam</span>
                     </li>
                     <li><span>Maritial Status</span> : <span>Single</span></li>
@@ -253,7 +249,7 @@
                     <a
                       href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=share_link"
                       class="st-btn st-style1 st-color1"
-                      >Download CV</a
+                      >Get My CV</a
                     >
                   </div>
                 </div>
@@ -989,8 +985,7 @@
                 >
                   <div class="st-certificate-img st-zoom-in">
                     <img
-                      src="assets/img/certificate/cover-image/1.jpg"
-                      alt="certificate"
+                      src="assets/img/certificate/cover-image/1.jpg"                      
                     />
                   </div>
                   <div class="st-certificate-item-hover">
@@ -1011,8 +1006,7 @@
                 >
                   <div class="st-certificate-img st-zoom-in">
                     <img
-                      src="assets/img/certificate/cover-image/2.jpg"
-                      alt="certificate"
+                      src="assets/img/certificate/cover-image/2.jpg"                      
                     />
                   </div>
                   <div class="st-certificate-item-hover">
@@ -1033,8 +1027,7 @@
                 >
                   <div class="st-certificate-img st-zoom-in">
                     <img
-                      src="assets/img/certificate/cover-image/3.jpg"
-                      alt="certificate"
+                      src="assets/img/certificate/cover-image/3.jpg"                      
                     />
                   </div>
                   <div class="st-certificate-item-hover">
@@ -1055,8 +1048,7 @@
                 >
                   <div class="st-certificate-img st-zoom-in">
                     <img
-                      src="assets/img/certificate/cover-image/4.jpg"
-                      alt="certificate"
+                      src="assets/img/certificate/cover-image/4.jpg"                      
                     />
                   </div>
                   <div class="st-certificate-item-hover">
@@ -1077,8 +1069,7 @@
                 >
                   <div class="st-certificate-img st-zoom-in">
                     <img
-                      src="assets/img/certificate/cover-image/5.jpg"
-                      alt="certificate"
+                      src="assets/img/certificate/cover-image/5.jpg"                      
                     />
                   </div>
                   <div class="st-certificate-item-hover">
@@ -1116,8 +1107,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio1.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio1.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1138,8 +1128,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio2.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio2.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1160,8 +1149,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio3.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio3.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1182,8 +1170,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio4.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio4.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1204,8 +1191,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio5.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio5.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1226,8 +1212,7 @@
                 >
                   <div class="st-portfolio-img st-zoom-in">
                     <img
-                      src="assets/img/portfolio/portfolio6.jpg"
-                      alt="portfolio"
+                      src="assets/img/portfolio/portfolio6.jpg"                      
                     />
                   </div>
                   <div class="st-portfolio-item-hover">
@@ -1659,6 +1644,7 @@
     <!-- End Footer Seciton -->
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/typed.js@2.0.15/dist/typed.umd.js"></script>
     <script src="assets/js/jquery-1.12.4.min.js"></script>
     <script src="assets/js/jquery.slick.min.js"></script>
     <script src="assets/js/lightgallery.min.js"></script>
@@ -1666,9 +1652,7 @@
     <script src="assets/js/ripples.min.js"></script>
     <script src="assets/js/particles.min.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/typed.js"></script>
-    <script src="assets/js/security.js"></script>
-    <script src="__assets_config_routine/js/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="assets/js/securitys.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
   </body>
 </html>
