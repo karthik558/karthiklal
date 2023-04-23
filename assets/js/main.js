@@ -511,7 +511,7 @@
       document.getElementById("back-to-top-btn").style.display = "none";
     }
   });
-  
+
   /*--------------------------------------------------------------
     15. Parallax Effect
   --------------------------------------------------------------*/
@@ -563,6 +563,18 @@ const typed = new Typed('#typed', {
   backDelay: 400,
   loop: false,
   loopCount: Infinity,
-  showCursor: false,  
+  showCursor: false,
   contentType: 'html',
 });
+
+/*-------------------------------------
+  18. Progress Bar
+-------------------------------------*/
+const bodyEl = document.body;
+const barEl = document.querySelector('.bar');
+const updateBar = () => {
+  let scrollPos = (window.scrollY / (bodyEl.scrollHeight - window.innerHeight)) * 100;
+  barEl.style.width = `${scrollPos}%`;
+  requestAnimationFrame(updateBar);
+};
+updateBar();
