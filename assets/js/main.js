@@ -561,7 +561,7 @@ const typed = new Typed('#typed', {
   backSpeed: 50,
   smartBackspace: true,
   backDelay: 400,
-  loop: false,
+  loop: true,
   loopCount: Infinity,
   showCursor: false,
   contentType: 'html',
