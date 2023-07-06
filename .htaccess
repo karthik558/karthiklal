@@ -10,7 +10,7 @@ RewriteRule ^(.*)$ $1.html [NC,L]
 ErrorDocument 404 /404.html
 # Remove the .html extension from the URL and show the page
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /html/(.*).html\ HTTP/
-RewriteRule .* https://karthiklal.live/html/%1 [R=301,L]
+RewriteRule .* https://karthiklal.in/html/%1 [R=301,L]
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /html/(.*)\ HTTP/
 RewriteRule .* %1.html [L]
 RewriteRule ^(.*)\.html$ $1 [L]
