@@ -6058,6 +6058,13 @@ body:not(.tt-magic-cursor) .social-buttons > ul > li a:hover {
 	color: #999;
 }
 
+.tt-accordion-subtextDate {
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: normal;
+	color: #999;
+}
+
 /* Accordion heading caret */
 .tt-accordion-caret-wrap {
 	position: absolute;
