@@ -1688,18 +1688,20 @@ body:not(.tt-boxed) .page-header-inner,
 	.ph-image,
 	#page-header.ph-full:not(.ph-center):not(.ph-bg-image) .ph-image {
 		width: 25vw;
+		width: 35%;
 	}
 }
 @media (max-width: 1024px) {
 	.ph-image,
 	#page-header.ph-full:not(.ph-center):not(.ph-bg-image) .ph-image {
 		right: 10vw;
+		width: 40%;
 	}
 }
 @media (max-width: 540px) {
 	.ph-image,
 	#page-header.ph-full:not(.ph-center):not(.ph-bg-image) .ph-image {
-		width: 50%;
+		width: 65%;
 	}
 }
 
