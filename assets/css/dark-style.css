@@ -1701,7 +1701,8 @@ body:not(.tt-boxed) .page-header-inner,
 @media (max-width: 540px) {
 	.ph-image,
 	#page-header.ph-full:not(.ph-center):not(.ph-bg-image) .ph-image {
-		width: 65%;
+		left: 15vh;
+		width: 65%;		
 	}
 }
 
