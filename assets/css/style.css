@@ -1,6 +1,8 @@
 :root {
 	--tt-main-color: #890F0D;
+	cursor: url('../img/cursor/cursor.png'), auto;
 }
+
 /* clear */
 .clear { clear: both !important; display: block !important; }
 .clear::after {
