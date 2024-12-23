@@ -599,7 +599,7 @@
       newImage = document.createElement("img"),
       loadImage = () => {
         newImage.onload = () => {
-          newImage.onload = null; 
+          newImage.onload = null;
           newImage.src = image.src;
           image.src = newSRC;
           gsap.set(newImage, {
@@ -670,7 +670,7 @@
     $("body").toggleClass("tt-m-menu-open").addClass("tt-m-menu-active");
     if ($("body").hasClass("tt-m-menu-open")) {
       // Menu step in animations
-      $("body").addClass("tt-m-menu-toggle-no-click"); 
+      $("body").addClass("tt-m-menu-toggle-no-click");
       // Menu in animations
       var tl_MenuIn = gsap.timeline({
         onComplete: function () {
@@ -706,7 +706,7 @@
         });
     } else {
       // Menu step out animations
-      $("body").addClass("tt-m-menu-toggle-no-click"); 
+      $("body").addClass("tt-m-menu-toggle-no-click");
 
       // Menu out animations
       var tl_MenuOut = gsap.timeline({
@@ -922,8 +922,8 @@
           ttOlMenuSocialResize();
         });
       }
-    } else {      
-      $("body").addClass("olm-toggle-no-click"); 
+    } else {
+      $("body").addClass("olm-toggle-no-click");
 
       var tl_olMenuOut = gsap.timeline({
         onComplete: function () {
@@ -970,7 +970,7 @@
       tl_olMenuOut.set(
         ".tt-ol-menu-list > li, .tt-ol-menu-social > li, .tt-ol-menu-ghost",
         { clearProps: "all" }
-      ); 
+      );
 
       // Show sliding sidebar
       if ($(".tt-sliding-sidebar-wrap").length) {
@@ -1136,7 +1136,7 @@
           on: {
             init: function () {
               var $this = this;
-              var $slideActive = $($this.slides[$this.activeIndex]);              
+              var $slideActive = $($this.slides[$this.activeIndex]);
 
               // Portfolio slider caption on load
               if (
@@ -1407,7 +1407,7 @@
               var $slideActive = $($this.slides[$this.activeIndex]);
 
               // Active slide classes (custom).
-              $slideActive.addClass("tt-slide-active"); 
+              $slideActive.addClass("tt-slide-active");
               $slideActive.prev().addClass("tt-slide-active-start");
               $slideActive.next().addClass("tt-slide-active-start");
 
@@ -1653,7 +1653,7 @@
             loadOnTransitionStart: true,
           },
 
-          breakpoints: {            
+          breakpoints: {
             1025: {
               slidesPerView: 3,
               spaceBetween: 0,
@@ -1729,8 +1729,8 @@
           longSwipesRatio: 0.3,
           mousewheel: false,
           keyboard: false,
-          preloadImages: false, 
-          watchSlidesProgress: true, 
+          preloadImages: false,
+          watchSlidesProgress: true,
           preventInteractionOnTransition: false,
           simulateTouch: $dataSimulateTouch,
           grabCursor: $dataSimulateTouch,
@@ -1758,7 +1758,7 @@
 
           // Events
           on: {
-            lazyImageReady: (swiper) => {              
+            lazyImageReady: (swiper) => {
               $ttContentCarouselSwiper.update();
             },
 
@@ -1769,7 +1769,7 @@
                 .each(function () {
                   $(this).get(0).play();
                 });
-            },            
+            },
           },
         }
       );
@@ -2863,7 +2863,7 @@
       $(".pgi-title a").contents().unwrap();
     }
   }
-  
+
   // Portfolio grid categories filter
   $(".ttgr-cat-nav").appendTo("#body-inner");
 
@@ -3484,11 +3484,11 @@
           $biItem.find(".bi-item-title a").addClass("not-hide-cursor");
           $biItem.addClass("bi-item-image-on");
         }
-      });      
+      });
       // Hide on hover.
       $(
         "a, button, .tt-btn, .tt-form-control, .tt-form-radio, .tt-form-check, .hide-cursor"
-      ) 
+      )
         .not(".not-hide-cursor")
         .not(".cursor-alter")
         .not(".tt-main-menu-list > li > a")
@@ -3502,12 +3502,12 @@
 
       // Hide on click.
       $("a")
-        .not('[target="_blank"]') 
-        .not('[href^="#"]') 
-        .not('[href^="mailto"]') 
-        .not('[href^="tel"]') 
-        .not(".lg-trigger") 
-        .not(".tt-btn-disabled") 
+        .not('[target="_blank"]')
+        .not('[href^="#"]')
+        .not('[href^="mailto"]')
+        .not('[href^="tel"]')
+        .not(".lg-trigger")
+        .not(".tt-btn-disabled")
         .on("click", function () {
           gsap.to($ball, { duration: 0.3, scale: 1.3, autoAlpha: 0 });
         });
