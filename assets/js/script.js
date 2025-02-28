@@ -3611,3 +3611,14 @@
       $(this).trigger("hover");
     });
 })(jQuery);
+
+// Get the current year
+const currentYear = new Date().getFullYear();
+
+// Update the visible text
+document.getElementById('copyright-year').textContent = currentYear;
+
+// Update the hover text
+const copyrightDiv = document.getElementById('copyright-text');
+copyrightDiv.setAttribute('data-hover',
+  currentYear + '. Designed & Developed by KARTHIK LAL');
