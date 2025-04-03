@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Menu, X } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Sheet, SheetContent, SheetTrigger } from "./sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./sheet"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
 
@@ -93,10 +93,8 @@ function NavHeader() {
               side="right" 
               className="w-[min(300px,_85vw)] rounded-l-2xl border-l-0 pr-0"
             >
+              <SheetTitle className="px-6 py-4 border-b">Navigation Menu</SheetTitle>
               <nav className="flex h-full flex-col">
-                <div className="flex items-center justify-between px-6 py-4 border-b">
-                  <span className="text-lg font-medium">Menu</span>
-                </div>
                 <div className="flex-1 overflow-auto">
                   <div className="flex flex-col gap-1 p-6">
                     {currentPageItems.map((item) => (
