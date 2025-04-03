@@ -44,7 +44,7 @@ export default function ContactSection() {
                     </div>
                     <div>
                       <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">contact@karthiklal.com</p>
+                      <p className="text-sm text-muted-foreground">contact@KARTHIK LAL.com</p>
                     </div>
                   </div>
                   <div className="flex items-center">
@@ -119,7 +119,7 @@ export default function ContactSection() {
                     </div>
                     <div>
                       <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">contact@karthiklal.com</p>
+                      <p className="text-sm text-muted-foreground">contact@KARTHIK LAL.com</p>
                     </div>
                   </div>
                   <div className="flex items-center">

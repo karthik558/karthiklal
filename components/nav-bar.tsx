@@ -16,7 +16,8 @@ const navLinks = [
   { href: "#certifications", label: "Certifications" },
   { href: "#skills", label: "Skills" },
   { href: "#testimonials", label: "Testimonials" },
-  { href: "#contact", label: "Contact" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ]
 
 export default function NavBar() {

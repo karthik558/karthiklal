@@ -98,7 +98,7 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Email:</p>
-                <p className="font-medium">contact@karthiklal.com</p>
+                <p className="font-medium">contact@KARTHIK LAL.com</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location:</p>
