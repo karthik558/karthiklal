@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   // Check if we're in a browser environment
   const isBrowser = typeof window !== "undefined"
@@ -64,19 +65,41 @@ export default function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          transition={{ duration: 0.2 }}
+          exit={{ opacity: 0, scale: 0.6 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 300,
+            damping: 25
+          }}
           onClick={scrollToTop}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           className={cn(
-            "interactive fixed right-6 bottom-6 flex h-12 w-12 items-center justify-center rounded-full",
-            "bg-primary text-primary-foreground shadow-lg hover:bg-primary/90",
-            "transition-transform duration-300 hover:scale-110",
+            "interactive fixed right-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full",
+            "bg-primary/80 text-primary-foreground backdrop-blur-[2px]",
+            "shadow-sm hover:shadow-md",
+            "transition-all duration-200",
+            "hover:bg-primary",
+            "before:absolute before:inset-0 before:rounded-full",
+            "before:border before:border-primary/30 before:transition-all",
+            "hover:before:scale-105 before:opacity-0 hover:before:opacity-100",
           )}
           aria-label="Back to top"
         >
-          <ArrowUp className="h-5 w-5" />
+          <motion.div
+            animate={{
+              y: isHovered ? -2 : 0
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 400,
+              damping: 15
+            }}
+          >
+            <ArrowUp className="h-4 w-4" />
+          </motion.div>
         </motion.button>
       )}
     </AnimatePresence>

@@ -8,6 +8,7 @@ import { Analytics } from "@/components/analytics"
 import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
 import Preloader from "@/components/preloader"
+import BackToTop from "@/components/back-to-top"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
           <NavBar />
           <main>{children}</main>
           <Footer />
+          <BackToTop />
           <Analytics />
         </ThemeProvider>
       </body>
