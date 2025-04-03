@@ -78,6 +78,14 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Add padding for fixed header */
+}
+
+/* For Safari and iOS support */
+@media screen and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Prevent content layout shift on page load */

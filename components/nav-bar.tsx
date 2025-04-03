@@ -8,16 +8,34 @@ import { Menu, X } from "lucide-react"
 import { ThemeToggleSimple } from "./theme-toggle-simple"
 import Image from "next/image"
 import { useTheme } from "next-themes"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "#services", label: "Services" },
-  { href: "#experience", label: "Experience" },
-  { href: "#certifications", label: "Certifications" },
-  { href: "#skills", label: "Skills" },
-  { href: "#testimonials", label: "Testimonials" },
+  {
+    label: "About",
+    items: [
+      { href: "/#about", label: "Overview" },
+      { href: "/#experience", label: "Experience" },
+      { href: "/#certifications", label: "Certifications" },
+      { href: "/#skills", label: "Skills" },
+    ],
+  },
+  {
+    label: "Work",
+    items: [
+      { href: "/#portfolio", label: "Portfolio" },
+      { href: "/#services", label: "Services" },
+      { href: "/#testimonials", label: "Testimonials" },
+    ],
+  },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ]
@@ -47,13 +65,12 @@ export default function NavBar() {
         <div className="container flex items-center justify-between">
           <div className="h-12">
             <div className="block">
-              <div className="h-12 w-[180px]" /> {/* Placeholder with same dimensions */}
+              <div className="h-12 w-[180px]" />
             </div>
           </div>
-          {/* Rest of navbar structure without interactive elements */}
           <nav className="hidden md:flex items-center space-x-1">
             <div className="pl-2">
-              <div className="w-10 h-10" /> {/* Theme toggle placeholder */}
+              <div className="w-10 h-10" />
             </div>
           </nav>
         </div>
@@ -78,25 +95,53 @@ export default function NavBar() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
-          {navLinks.map((link) => (
-            <div key={link.href}>
-              <Link
-                href={link.href}
-                className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
-                  pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary hover:bg-primary/10",
-                )}
-                onClick={link.href.startsWith("#") ? closeMobileMenu : undefined}
-              >
-                {link.label}
-              </Link>
-            </div>
-          ))}
+        <div className="hidden md:flex items-center space-x-4">
+          <NavigationMenu>
+            <NavigationMenuList>
+              {navLinks.map((link) => (
+                <NavigationMenuItem key={link.label}>
+                  {link.items ? (
+                    <>
+                      <NavigationMenuTrigger>{link.label}</NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4">
+                          {link.items.map((item) => (
+                            <li key={item.href}>
+                              <Link
+                                href={item.href}
+                                className={cn(
+                                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                  pathname === item.href ? "text-primary" : "text-foreground/80"
+                                )}
+                                onClick={closeMobileMenu}
+                              >
+                                <div className="text-sm font-medium leading-none">{item.label}</div>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    </>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+                        pathname === link.href ? "text-primary" : "text-foreground/80 hover:text-primary hover:bg-primary/10"
+                      )}
+                      onClick={link.href.startsWith("#") ? closeMobileMenu : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
           <div className="pl-2">
             <ThemeToggleSimple />
           </div>
-        </nav>
+        </div>
 
         {/* Mobile Menu Button */}
         <div className="flex items-center md:hidden">
@@ -113,19 +158,42 @@ export default function NavBar() {
         <div className="md:hidden bg-background/95 backdrop-blur-md shadow-lg">
           <div className="container py-4 space-y-1">
             {navLinks.map((link) => (
-              <div key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200",
-                    pathname === link.href
-                      ? "text-primary"
-                      : "text-foreground/80 hover:text-primary hover:bg-primary/10",
-                  )}
-                  onClick={closeMobileMenu}
-                >
-                  {link.label}
-                </Link>
+              <div key={link.label}>
+                {link.items ? (
+                  <div className="space-y-2">
+                    <div className="px-3 py-2 text-sm font-semibold text-foreground">{link.label}</div>
+                    <div className="pl-4 space-y-1">
+                      {link.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={cn(
+                            "block px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+                            pathname === item.href
+                              ? "text-primary"
+                              : "text-foreground/80 hover:text-primary hover:bg-primary/10"
+                          )}
+                          onClick={closeMobileMenu}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200",
+                      pathname === link.href
+                        ? "text-primary"
+                        : "text-foreground/80 hover:text-primary hover:bg-primary/10"
+                    )}
+                    onClick={closeMobileMenu}
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
