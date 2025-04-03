@@ -20,7 +20,16 @@ export const metadata: Metadata = {
   keywords: ["portfolio", "developer", "designer", "3D", "web development", "UI/UX"],
   authors: [{ name: "Karthik Lal" }],
   creator: "Karthik Lal",
-    generator: 'v0.dev'
+  icons: {
+    icon: [
+      {
+        url: "/logo-dark.png",
+        sizes: "any"
+      }
+    ],
+    shortcut: "/logo-dark.png",
+    apple: "/logo-dark.png"
+  }
 }
 
 export default function RootLayout({

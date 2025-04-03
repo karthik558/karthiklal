@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { ThemeToggleSimple } from "./theme-toggle-simple"
+import Image from "next/image"
+import { useTheme } from "next-themes"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -22,7 +24,13 @@ const navLinks = [
 
 export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -32,12 +40,40 @@ export default function NavBar() {
     setIsMobileMenuOpen(false)
   }
 
+  // Prevent hydration mismatch by rendering a placeholder during SSR
+  if (!mounted) {
+    return (
+      <header className="fixed top-0 z-40 w-full bg-background/80 backdrop-blur-md shadow-lg py-2">
+        <div className="container flex items-center justify-between">
+          <div className="h-12">
+            <div className="block">
+              <div className="h-12 w-[180px]" /> {/* Placeholder with same dimensions */}
+            </div>
+          </div>
+          {/* Rest of navbar structure without interactive elements */}
+          <nav className="hidden md:flex items-center space-x-1">
+            <div className="pl-2">
+              <div className="w-10 h-10" /> {/* Theme toggle placeholder */}
+            </div>
+          </nav>
+        </div>
+      </header>
+    )
+  }
+
   return (
     <header className="fixed top-0 z-40 w-full bg-background/80 backdrop-blur-md shadow-lg py-2">
       <div className="container flex items-center justify-between">
-        <div className="text-2xl font-bold">
-          <Link href="/" className="text-primary">
-            Karthik<span className="text-foreground">Lal</span>
+        <div className="h-12">
+          <Link href="/" className="block">
+            <Image
+              src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
+              alt="Logo"
+              width={180}
+              height={48}
+              className="h-12 w-auto"
+              priority
+            />
           </Link>
         </div>
 
