@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@/components/analytics"
 import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
+import Preloader from "@/components/preloader"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
+          <Preloader />
           <NavBar />
           <main>{children}</main>
           <Footer />
