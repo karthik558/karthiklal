@@ -19,11 +19,8 @@ export function TestimonialCard({
   text,
   href
 }: TestimonialCardProps) {
-  const CardWrapper = href ? Link : 'div'
-  
   return (
-    <CardWrapper 
-      href={href || ''}
+    <div 
       className={cn(
         "group relative flex w-80 shrink-0 flex-col justify-between overflow-hidden rounded-xl border p-6",
         "bg-card text-card-foreground shadow-sm transition-all duration-300",
@@ -56,6 +53,6 @@ export function TestimonialCard({
           </div>
         </div>
       </div>
-    </CardWrapper>
+    </div>
   )
 }
