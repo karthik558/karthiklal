@@ -3,8 +3,9 @@
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Award, ExternalLink } from "lucide-react"
+import { Award, ExternalLink, CheckCircle, Clock } from "lucide-react"
 import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
 
 const certifications = [
   {
@@ -12,6 +13,10 @@ const certifications = [
     title: "Advanced Web Development",
     issuer: "Frontend Masters",
     date: "2023",
+    expiryDate: "2025",
+    credentialId: "FM-AWD-2023",
+    status: "active",
+    description: "Comprehensive program covering modern web development practices, performance optimization, and advanced JavaScript concepts.",
     link: "https://example.com",
   },
   {
@@ -19,6 +24,10 @@ const certifications = [
     title: "React Expert Certification",
     issuer: "React Training",
     date: "2022",
+    expiryDate: "2024",
+    credentialId: "RT-REACT-2022",
+    status: "active",
+    description: "Advanced React patterns, state management, and performance optimization techniques.",
     link: "https://example.com",
   },
   {
@@ -26,6 +35,10 @@ const certifications = [
     title: "UX Design Professional",
     issuer: "Google",
     date: "2022",
+    expiryDate: "2024",
+    credentialId: "GOOGLE-UX-2022",
+    status: "active",
+    description: "Professional certification in user experience design, covering the entire UX process from research to implementation.",
     link: "https://example.com",
   },
   {
@@ -33,6 +46,10 @@ const certifications = [
     title: "Advanced JavaScript",
     issuer: "Udemy",
     date: "2021",
+    expiryDate: "No Expiry",
+    credentialId: "UDEMY-JS-2021",
+    status: "active",
+    description: "Deep dive into advanced JavaScript concepts, patterns, and best practices.",
     link: "https://example.com",
   },
   {
@@ -40,6 +57,10 @@ const certifications = [
     title: "Three.js Journey",
     issuer: "Bruno Simon",
     date: "2021",
+    expiryDate: "No Expiry",
+    credentialId: "TJS-2021",
+    status: "active",
+    description: "Comprehensive course on 3D web development using Three.js and WebGL.",
     link: "https://example.com",
   },
   {
@@ -47,6 +68,10 @@ const certifications = [
     title: "Full-Stack Web Development",
     issuer: "Coursera",
     date: "2020",
+    expiryDate: "No Expiry",
+    credentialId: "COURSERA-FSWD-2020",
+    status: "active",
+    description: "Complete full-stack development bootcamp covering the MERN stack and cloud deployment.",
     link: "https://example.com",
   },
 ]
@@ -68,7 +93,7 @@ export default function CertificationsSection() {
           <span className="inline-block text-primary font-medium mb-2">Certifications</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Certifications</h2>
           <p className="text-muted-foreground">
-            Continuous learning is essential in tech. Here are some of my professional certifications and courses.
+            Continuous learning is essential in tech. Here are some of my professional certifications and achievements.
           </p>
         </motion.div>
 
@@ -80,28 +105,55 @@ export default function CertificationsSection() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.1 * index }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="group"
             >
               <Link
                 href={certification.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block h-full interactive"
+                className="block h-full"
               >
-                <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full">
-                  <CardHeader className="flex flex-row items-center space-x-4 pb-2">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Award className="h-6 w-6 text-primary" />
+                <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full hover:border-primary/50 transition-all duration-300">
+                  <CardHeader className="space-y-4 pb-4">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Award className="h-6 w-6 text-primary" />
+                      </div>
+                      {certification.status === 'active' ? (
+                        <Badge variant="default" className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          Active
+                        </Badge>
+                      ) : (
+                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500">
+                          <Clock className="w-3 h-3 mr-1" />
+                          Expiring
+                        </Badge>
+                      )}
                     </div>
                     <div>
-                      <CardTitle className="text-lg">{certification.title}</CardTitle>
-                      <div className="text-sm text-muted-foreground">{certification.issuer}</div>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                        {certification.title}
+                      </CardTitle>
+                      <div className="text-sm text-muted-foreground mt-1">{certification.issuer}</div>
                     </div>
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {certification.description}
+                    </p>
                   </CardHeader>
-                  <CardContent className="flex justify-between items-center pt-2">
-                    <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
-                      {certification.date}
-                    </span>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  <CardContent>
+                    <div className="flex justify-between items-center pt-2 border-t border-border/50">
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Credential ID</div>
+                        <div className="text-xs font-medium">{certification.credentialId}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
+                          {certification.date}
+                        </span>
+                        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
