@@ -79,7 +79,8 @@ const categories = ["All", "Web Development", "UI/UX Design", "3D Development", 
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All")
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, amount: 0.1 })
+  // Update useInView configuration
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
   const { theme } = useTheme()
 
   const filteredProjects =

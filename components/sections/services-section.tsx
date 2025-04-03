@@ -66,7 +66,7 @@ const services = [
 
 export default function ServicesSection() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, amount: 0.1 })
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
     <section id="services" className="py-20 md:py-32 bg-secondary/10">

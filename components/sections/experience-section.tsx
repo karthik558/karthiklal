@@ -64,7 +64,7 @@ const experiences = [
 
 export default function ExperienceSection() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, amount: 0.1 })
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   const workExperiences = experiences.filter((exp) => exp.type === "work")
   const educationExperiences = experiences.filter((exp) => exp.type === "education")

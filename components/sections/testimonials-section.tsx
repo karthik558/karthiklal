@@ -52,7 +52,8 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, amount: 0.1 })
+  // Update useInView configuration
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [activeIndex, setActiveIndex] = useState(0)
 
   const showPrevious = () => {

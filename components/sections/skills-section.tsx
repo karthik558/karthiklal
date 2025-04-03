@@ -56,7 +56,8 @@ const skillCategories = [
 
 export default function SkillsSection() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: false, amount: 0.2 })
+  // Update useInView configuration
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
     <section id="skills" className="py-20 md:py-32">
