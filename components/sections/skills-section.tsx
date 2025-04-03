@@ -1,95 +1,114 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { motion } from "framer-motion"
-import { 
-  Code2, 
-  Palette, 
-  BrainCircuit, 
-  FileCode2, 
-  Cpu, 
-  Cog, 
-  Box,
-  Figma as FigmaIcon,
-  ImageIcon,
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
   Binary,
-  Terminal,
   Blocks,
+  Box,
+  BrainCircuit,
+  Code2,
+  Cog,
+  Cpu,
+  Figma,
+  FileCode2,
+  ImageIcon,
   LayoutGrid,
-  FileJson
+  Palette,
+  PenTool,
+  Shield,
+  Terminal,
+  Wrench,
 } from "lucide-react"
 
-// Mapping of skills to their icons and categories
-const skillsData = {
-  "Programming Languages": {
+// Define skill categories with their respective skills
+const skillCategories = [
+  {
+    name: "Frontend Development",
     icon: Code2,
-    skills: [
-      { name: "JavaScript", icon: Binary },
-      { name: "Python", icon: Terminal },
-      { name: "C", icon: FileCode2 },
-      { name: "C++", icon: Cpu },
-      { name: "Rust", icon: Cog }
-    ]
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
+    skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"],
   },
-  "Web Technologies": {
-    icon: BrainCircuit,
-    skills: [
-      { name: "ReactJS", icon: Blocks },
-      { name: "NextJS", icon: LayoutGrid },
-      { name: "CSS", icon: Box }
-    ]
+  {
+    name: "Backend Development",
+    icon: Terminal,
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
+    skills: ["Node.js", "Python", "SQL", "MongoDB", "REST APIs"],
   },
-  "Design Tools": {
+  {
+    name: "Design & Creative",
     icon: Palette,
-    skills: [
-      { name: "Figma", icon: FigmaIcon },
-      { name: "Photoshop", icon: ImageIcon }
-    ]
-  }
-}
-
-const SkillCard = ({ skill }: { skill: { name: string; icon: any } }) => {
-  const Icon = skill.icon
-  return (
-    <motion.div
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Card className="p-4 text-center border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
-        <div className="flex flex-col items-center gap-2">
-          <Icon className="h-6 w-6 text-primary" />
-          <span className="font-medium">{skill.name}</span>
-        </div>
-      </Card>
-    </motion.div>
-  )
-}
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10",
+    skills: ["UI/UX Design", "Figma", "Adobe XD", "Responsive Design", "Web Animation"],
+  },
+  {
+    name: "Tools & Others",
+    icon: Wrench,
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10",
+    skills: ["Git", "DevOps", "Docker", "AWS", "Testing"],
+  },
+]
 
 export default function SkillsSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: false, amount: 0.2 })
+
   return (
     <section id="skills" className="py-20 md:py-32">
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-primary font-medium mb-2">Skills</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Expertise</h2>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <span className="inline-block text-primary font-medium mb-2">Skills & Expertise</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Proficiency</h2>
           <p className="text-muted-foreground">
-            My professional skill set and technical proficiencies across various domains.
+            A comprehensive overview of my technical skills and areas of expertise across various domains of software development.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="space-y-12">
-          {Object.entries(skillsData).map(([category, { icon: Icon, skills }]) => (
-            <div key={category} className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Icon className="h-6 w-6 text-primary" />
-                <h3 className="text-xl font-bold">{category}</h3>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {skills.map((skill) => (
-                  <SkillCard key={skill.name} skill={skill} />
-                ))}
-              </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {skillCategories.map((category, categoryIndex) => (
+            <motion.div
+              key={category.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+            >
+              <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full">
+                <CardHeader>
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className={`p-2 rounded-lg ${category.bgColor}`}>
+                      <category.icon className={`h-6 w-6 ${category.color}`} />
+                    </div>
+                    <CardTitle>{category.name}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-2">
+                    {category.skills.map((skill, skillIndex) => (
+                      <motion.div
+                        key={skill}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                        transition={{ duration: 0.5, delay: categoryIndex * 0.1 + skillIndex * 0.1 }}
+                        className={`px-3 py-2 rounded-lg ${category.bgColor} ${category.color} text-sm font-medium`}
+                      >
+                        {skill}
+                      </motion.div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
