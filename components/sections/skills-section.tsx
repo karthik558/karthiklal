@@ -1,53 +1,67 @@
-import { Card } from "@/components/ui/card"
-import Image from "next/image"
+"use client"
 
-// Skill categories with individual skills
+import { Card } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import { 
+  Code2, 
+  Palette, 
+  BrainCircuit, 
+  FileCode2, 
+  Cpu, 
+  Cog, 
+  Box,
+  Figma as FigmaIcon,
+  ImageIcon,
+  Binary,
+  Terminal,
+  Blocks,
+  LayoutGrid,
+  FileJson
+} from "lucide-react"
+
+// Mapping of skills to their icons and categories
 const skillsData = {
-  Frontend: [
-    { name: "React", level: 0.9 },
-    { name: "Next.js", level: 0.85 },
-    { name: "JavaScript", level: 0.95 },
-    { name: "TypeScript", level: 0.85 },
-    { name: "HTML/CSS", level: 0.9 },
-    { name: "Tailwind CSS", level: 0.85 },
-  ],
-  Backend: [
-    { name: "Node.js", level: 0.8 },
-    { name: "Express", level: 0.75 },
-    { name: "MongoDB", level: 0.7 },
-    { name: "SQL", level: 0.65 },
-    { name: "GraphQL", level: 0.7 },
-    { name: "REST API", level: 0.85 },
-  ],
-  "Tools & Others": [
-    { name: "Git", level: 0.9 },
-    { name: "Docker", level: 0.6 },
-    { name: "Jest", level: 0.7 },
-    { name: "Figma", level: 0.8 },
-    { name: "Webpack", level: 0.65 },
-    { name: "CI/CD", level: 0.6 },
-  ],
-  "3D & Animation": [
-    { name: "Three.js", level: 0.75 },
-    { name: "GSAP", level: 0.8 },
-    { name: "WebGL", level: 0.6 },
-    { name: "Framer Motion", level: 0.85 },
-    { name: "Blender", level: 0.5 },
-    { name: "Canvas API", level: 0.7 },
-  ],
+  "Programming Languages": {
+    icon: Code2,
+    skills: [
+      { name: "JavaScript", icon: Binary },
+      { name: "Python", icon: Terminal },
+      { name: "C", icon: FileCode2 },
+      { name: "C++", icon: Cpu },
+      { name: "Rust", icon: Cog }
+    ]
+  },
+  "Web Technologies": {
+    icon: BrainCircuit,
+    skills: [
+      { name: "ReactJS", icon: Blocks },
+      { name: "NextJS", icon: LayoutGrid },
+      { name: "CSS", icon: Box }
+    ]
+  },
+  "Design Tools": {
+    icon: Palette,
+    skills: [
+      { name: "Figma", icon: FigmaIcon },
+      { name: "Photoshop", icon: ImageIcon }
+    ]
+  }
 }
 
-function SkillBar({ skill, level }: { skill: string; level: number }) {
+const SkillCard = ({ skill }: { skill: { name: string; icon: any } }) => {
+  const Icon = skill.icon
   return (
-    <div className="mb-4">
-      <div className="flex justify-between mb-1">
-        <span className="text-sm font-medium">{skill}</span>
-        <span className="text-sm text-muted-foreground">{Math.round(level * 100)}%</span>
-      </div>
-      <div className="h-2 bg-secondary rounded-full overflow-hidden">
-        <div className="h-full bg-primary" style={{ width: `${level * 100}%` }} />
-      </div>
-    </div>
+    <motion.div
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Card className="p-4 text-center border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
+        <div className="flex flex-col items-center gap-2">
+          <Icon className="h-6 w-6 text-primary" />
+          <span className="font-medium">{skill.name}</span>
+        </div>
+      </Card>
+    </motion.div>
   )
 }
 
@@ -63,35 +77,20 @@ export default function SkillsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Static image instead of 3D */}
-          <div className="h-[500px] w-full">
-            <Card className="h-full w-full flex items-center justify-center overflow-hidden">
-              <Image
-                src="/placeholder.svg?height=500&width=500"
-                alt="Skills Visualization"
-                width={500}
-                height={500}
-                className="object-cover"
-              />
-            </Card>
-          </div>
-
-          {/* Skills Bars */}
-          <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {Object.entries(skillsData).map(([category, skills]) => (
-                <div key={category}>
-                  <h3 className="text-xl font-bold mb-4">{category}</h3>
-                  <div>
-                    {skills.map((skill) => (
-                      <SkillBar key={skill.name} skill={skill.name} level={skill.level} />
-                    ))}
-                  </div>
-                </div>
-              ))}
+        <div className="space-y-12">
+          {Object.entries(skillsData).map(([category, { icon: Icon, skills }]) => (
+            <div key={category} className="space-y-6">
+              <div className="flex items-center gap-3">
+                <Icon className="h-6 w-6 text-primary" />
+                <h3 className="text-xl font-bold">{category}</h3>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {skills.map((skill) => (
+                  <SkillCard key={skill.name} skill={skill} />
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
