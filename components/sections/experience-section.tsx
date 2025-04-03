@@ -70,7 +70,7 @@ export default function ExperienceSection() {
   const educationExperiences = experiences.filter((exp) => exp.type === "education")
 
   return (
-    <section id="experience" className="py-20 md:py-32">
+    <section id="experience" className="py-20 md:py-32 bg-secondary/5">
       <div className="container">
         <motion.div
           ref={ref}
@@ -84,7 +84,7 @@ export default function ExperienceSection() {
           <p className="text-muted-foreground">A timeline of my professional experience and educational background.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Work Experience */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -92,36 +92,34 @@ export default function ExperienceSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="flex items-center mb-8">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                <BriefcaseIcon className="h-5 w-5 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                <BriefcaseIcon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-2xl font-bold">Work Experience</h3>
             </div>
 
-            <div className="space-y-6 relative pl-6 border-l-2 border-dashed border-primary/30">
+            <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
               {workExperiences.map((experience, index) => (
                 <motion.div
                   key={experience.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  className="relative"
+                  className="relative pl-8"
                 >
-                  <div className="absolute -left-[25px] h-6 w-6 rounded-full bg-primary flex items-center justify-center">
-                    <div className="h-3 w-3 bg-background rounded-full"></div>
-                  </div>
-                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{experience.title}</CardTitle>
-                        <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-full">
+                  <div className="absolute left-0 top-3 h-5 w-5 rounded-full border-4 border-primary/30 bg-primary"></div>
+                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
+                    <CardHeader className="pb-3">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                        <CardTitle className="text-lg font-bold">{experience.title}</CardTitle>
+                        <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap">
                           {experience.duration}
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">{experience.company}</div>
+                      <div className="text-sm font-medium text-primary/80">{experience.company}</div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground">{experience.description}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{experience.description}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -136,36 +134,34 @@ export default function ExperienceSection() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <div className="flex items-center mb-8">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                <GraduationCap className="h-5 w-5 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                <GraduationCap className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-2xl font-bold">Education</h3>
             </div>
 
-            <div className="space-y-6 relative pl-6 border-l-2 border-dashed border-primary/30">
+            <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
               {educationExperiences.map((education, index) => (
                 <motion.div
                   key={education.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  className="relative"
+                  className="relative pl-8"
                 >
-                  <div className="absolute -left-[25px] h-6 w-6 rounded-full bg-primary flex items-center justify-center">
-                    <div className="h-3 w-3 bg-background rounded-full"></div>
-                  </div>
-                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{education.title}</CardTitle>
-                        <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-full">
+                  <div className="absolute left-0 top-3 h-5 w-5 rounded-full border-4 border-primary/30 bg-primary"></div>
+                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
+                    <CardHeader className="pb-3">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                        <CardTitle className="text-lg font-bold">{education.title}</CardTitle>
+                        <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap">
                           {education.duration}
                         </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">{education.company}</div>
+                      <div className="text-sm font-medium text-primary/80">{education.company}</div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground">{education.description}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{education.description}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
