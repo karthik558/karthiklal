@@ -80,6 +80,10 @@ const config = {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(calc(-50% - var(--gap)/2))' }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -87,6 +91,7 @@ const config = {
         float: "float 6s ease-in-out infinite",
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
         "rotate-slow": "rotate-slow 12s linear infinite",
+        "marquee": "marquee var(--duration) linear infinite"
       },
     },
   },
