@@ -9,6 +9,8 @@ import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
 import Preloader from "@/components/preloader"
 import BackToTop from "@/components/back-to-top"
+import { LoadingProvider } from "@/components/loading-context"
+import ContentWrapper from "@/components/content-wrapper"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -47,18 +49,18 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
-          <Preloader />
-          <NavBar />
-          <main>{children}</main>
-          <Footer />
-          <BackToTop />
-          <Analytics />
+          <LoadingProvider>
+            <Preloader />
+            <ContentWrapper>
+              <NavBar />
+              <main>{children}</main>
+              <Footer />
+              <BackToTop />
+            </ContentWrapper>
+            <Analytics />
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
-
-
-import './globals.css'

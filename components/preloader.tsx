@@ -1,20 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useLoading } from "./loading-context"
 
 export default function Preloader() {
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 2500)
-  }, [])
+  const { isLoading } = useLoading()
 
   return (
     <AnimatePresence>
-      {loading && (
+      {isLoading && (
         <motion.div
           initial={{ opacity: 1 }}
           exit={{
