@@ -17,6 +17,57 @@
 .inline-block, .display-inline-block { display: inline-block !important; }
 .display-flex { display: flex !important; display: -ms-flexbox !important; }
 
+/* accordion hidden items */
+.tt-accordion-hidden { 
+  display: none;
+}
+.tt-accordion-visible {
+  display: block !important;
+}
+
+/* Show/Hide buttons styling - matching tt-btn-dark style */
+.tt-show-more-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 50px !important;
+  background-color: rgb(50 50 50 / 50%) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  margin: 15px 15px 15px 0 !important;
+  padding: 0 30px !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  border: none !important;
+  border-radius: 100px !important;
+  color: var(--tt-text-color) !important;
+  transition: all 0.3s ease !important;
+  z-index: 9 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.tt-show-more-btn:hover {
+  background-color: rgb(60 60 60 / 60%) !important;
+  transform: translateY(-2px) !important;
+}
+
+.tt-show-more-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.tt-show-more-btn .show-more-text,
+.tt-show-more-btn .show-less-text {
+  position: relative !important;
+  color: var(--tt-text-color) !important;
+  transition: transform 0.3s !important;
+}
+
 /* position */
 .position-unset { position: unset !important; }
 .position-relative { position: relative !important; }

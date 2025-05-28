@@ -1711,8 +1711,8 @@
         var $dataSpeed = 900; // by default
       }
 
-      if ($ttContentCarousel.is("[data-pagination-type]")) {
-        var $dataPaginationType = $ttContentCarousel.data("pagination-type");
+      if ($ttContentCarousel.is("[data-pagination_type]")) {
+        var $dataPaginationType = $ttContentCarousel.data("pagination_type");
       } else {
         var $dataPaginationType = "bullets";
       }
@@ -3610,15 +3610,138 @@
     .on("touchend", function () {
       $(this).trigger("hover");
     });
+
+  // Show More/Less Functionality for Accordion Sections
+  $(document).ready(function() {
+    // Function to handle show more/less functionality
+    function initShowMoreFunctionality() {
+      // Debug: Log found buttons
+      console.log('Initializing show more functionality...');
+      console.log('Found', $('.tt-show-more-btn').length, 'show more buttons');
+      
+      // Remove any existing event listeners to avoid duplicates
+      $('.tt-show-more-btn').off('click.showmore');
+      
+      $('.tt-show-more-btn').on('click.showmore', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Show more button clicked!');
+        
+        var $button = $(this);
+        var targetId = $button.data('target');
+        var targetAccordion = $('#' + targetId);
+        var showMoreText = $button.find('.show-more-text');
+        var showLessText = $button.find('.show-less-text');
+        
+        console.log('Button ID:', $button.attr('id'));
+        console.log('Target accordion ID:', targetId);
+        console.log('Target accordion found:', targetAccordion.length > 0);
+        
+        if (targetAccordion.length === 0) {
+          console.error('Target accordion not found:', targetId);
+          return;
+        }
+        
+        // Find hidden and visible items within the target accordion
+        var hiddenItems = targetAccordion.find('.tt-accordion-hidden');
+        var visibleItems = targetAccordion.find('.tt-accordion-visible');
+        
+        console.log('Hidden items found:', hiddenItems.length);
+        console.log('Visible items found:', visibleItems.length);
+        
+        // Check if we're in "show more" mode (hidden items exist) or "show less" mode (visible items exist)
+        var isShowMoreMode = hiddenItems.length > 0 && visibleItems.length === 0;
+        var isShowLessMode = visibleItems.length > 0 && hiddenItems.length === 0;
+        
+        console.log('Show more mode:', isShowMoreMode);
+        console.log('Show less mode:', isShowLessMode);
+        
+        if (!isShowMoreMode && !isShowLessMode) {
+          console.log('No hidden or visible items found, or mixed state!');
+          return;
+        }
+        
+        if (isShowMoreMode) {
+          // Show items
+          console.log('Showing hidden items...');
+          hiddenItems.each(function() {
+            var $item = $(this);
+            // First remove the hidden class and make visible, then animate
+            $item.removeClass('tt-accordion-hidden').css('display', 'block').hide();
+            $item.slideDown(400, function() {
+              $(this).addClass('tt-accordion-visible');
+            });
+          });
+          showMoreText.hide();
+          showLessText.show();
+        } else if (isShowLessMode) {
+          // Hide items (target visible items)
+          console.log('Hiding visible items...');
+          visibleItems.slideUp(400, function() {
+            $(this).removeClass('tt-accordion-visible').addClass('tt-accordion-hidden');
+          });
+          showMoreText.show();
+          showLessText.hide();
+        }
+      });
+    }
+    
+    // Initialize the functionality
+    initShowMoreFunctionality();
+    
+    // Make function available globally for debugging
+    window.debugShowMore = function() {
+      console.log('=== DEBUG SHOW MORE ===');
+      console.log('Buttons found:', $('.tt-show-more-btn').length);
+      $('.tt-show-more-btn').each(function() {
+        var $btn = $(this);
+        console.log('Button:', $btn.attr('id'), 'Target:', $btn.data('target'));
+        var target = $('#' + $btn.data('target'));
+        console.log('Target found:', target.length);
+        var hidden = target.find('.tt-accordion-hidden');
+        console.log('Hidden items:', hidden.length);
+      });
+    };
+    
+    // Make manual trigger available
+    window.triggerShowMore = function(buttonId) {
+      $('#' + buttonId).trigger('click');
+    };
+    
+    // Check if there are hidden or visible items, if neither exist, hide the button
+    $('.tt-show-more-btn').each(function() {
+      var targetId = $(this).data('target');
+      var targetAccordion = $('#' + targetId);
+      var hiddenItems = targetAccordion.find('.tt-accordion-hidden');
+      var visibleItems = targetAccordion.find('.tt-accordion-visible');
+      
+      console.log('Button for', targetId, 'found', hiddenItems.length, 'hidden items and', visibleItems.length, 'visible items');
+      
+      // Show button if there are either hidden items (show more mode) or visible items (show less mode)
+      if (hiddenItems.length === 0 && visibleItems.length === 0) {
+        $(this).hide();
+        console.log('Hiding button for', targetId, '- no hidden or visible items');
+      } else {
+        $(this).show();
+        console.log('Showing button for', targetId, '- has toggleable items');
+      }
+    });
+  });
+
+  // Debug: Test if jQuery and elements are available
+  console.log('jQuery loaded:', typeof $ !== 'undefined');
+  console.log('Total accordion items:', $('.tt-accordion-item').length);
+  console.log('Hidden accordion items:', $('.tt-accordion-hidden').length);
+  console.log('Show more buttons:', $('.tt-show-more-btn').length);
+
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
+  // Update the visible text
+  document.getElementById('copyright-year').textContent = currentYear;
+
+  // Update the hover text
+  const copyrightDiv = document.getElementById('copyright-text');
+  copyrightDiv.setAttribute('data-hover',
+    currentYear + '. Designed & Developed by KARTHIK LAL');
 })(jQuery);
-
-// Get the current year
-const currentYear = new Date().getFullYear();
-
-// Update the visible text
-document.getElementById('copyright-year').textContent = currentYear;
-
-// Update the hover text
-const copyrightDiv = document.getElementById('copyright-text');
-copyrightDiv.setAttribute('data-hover',
-  currentYear + '. Designed & Developed by KARTHIK LAL');

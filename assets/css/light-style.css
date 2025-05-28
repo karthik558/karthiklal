@@ -117,7 +117,7 @@ body.tt-np-image-on.tt-next-project-top:not(.tt-light-bg-on):not(.is-mobile):not
 	}
 
 	body.ph-bg-image-on.tt-ph-visible:not(.tt-light-bg-on) .tt-main-menu-list > li > a, 
-	body.ph-bg-image-on.tt-ph-visible:not(.tt-light-bg-on) .tt-main-menu-list > li > .tt-submenu-trigger > a,
+	body.ph-bg-image-on.tt-ph-visible:not(.tt.light-bg-on) .tt-main-menu-list > li > .tt-submenu-trigger > a,
 
 	body.tt-portfolio-slider-on:not(.tt-light-bg-on) .tt-main-menu-list > li > a, 
 	body.tt-portfolio-slider-on:not(.tt-light-bg-on) .tt-main-menu-list > li > .tt-submenu-trigger > a,
@@ -404,7 +404,7 @@ body.pi-full-on:not(.page-header-on) .portfolio-interactive-ghost {
 	body.portfolio-split-on:not(.pspl-light-image-on).pspl-reverse-on #tt-footer .tt-btn-link > *::after {
 		color: var(--tt-text-color) !important;
 	}
-	body.portfolio-split-on:not(.pspl-light-image-on).pspl-reverse-on #tt-footer .tt-btn-link:hover > *, 
+	body.portfolio-split-on:not(.pspl.light-image-on).pspl-reverse-on #tt-footer .tt-btn-link:hover > *, 
 	body.portfolio-split-on:not(.pspl-light-image-on).pspl-reverse-on #tt-footer .tt-btn-link:hover > *::after {
 		color: var(--tt-text-color) !important;
 	}
@@ -592,6 +592,26 @@ body:not(.tt-portfolio-slider-on):not(.tt-portfolio-hover-carousel-on):not(.tt-n
 }
 body:not(.tt-portfolio-slider-on):not(.tt-portfolio-hover-carousel-on):not(.tt-np-image-on):not(.is-404-page) .tt-btn-light-outline {
 	box-shadow: inset 0 0 0 2px var(--tt-stroke-color);
+}
+
+/* Show/Hide buttons for light mode - matching design pattern */
+.tt-show-more-btn {
+  background-color: rgb(0 0 0 / 10%) !important;
+  color: var(--tt-stroke-color) !important;
+}
+
+.tt-show-more-btn:hover {
+  background-color: rgb(0 0 0 / 15%) !important;
+}
+
+.tt-show-more-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.tt-show-more-btn .show-more-text,
+.tt-show-more-btn .show-less-text {
+  color: var(--tt-stroke-color) !important;
 }
 
 .social-buttons > ul > li a,
