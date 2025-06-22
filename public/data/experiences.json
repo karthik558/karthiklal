@@ -1,0 +1,28 @@
+{
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Senior IT Executive",
+      "company": "Tamara Leisure Experiences Pvt. Ltd.",
+      "duration": "2024 - Present",
+      "description": "Responsible for managing IT operations and ensuring the smooth functioning of all IT systems. Collaborated with cross-functional teams to implement new technologies and improve existing processes.",
+      "type": "work"
+    },
+    {
+      "id": 2,
+      "title": "IT Executive",
+      "company": "Paul John Hotels & Resorts",
+      "duration": "2020 - 2022",
+      "description": "Designed user interfaces and experiences for various clients. Conducted user research and created wireframes and prototypes for web and mobile applications.",
+      "type": "work"
+    },
+    {
+      "id": 3,
+      "title": "Master's Degree in Computer Science",
+      "company": "Tech University",
+      "duration": "2018 - 2020",
+      "description": "Specialized in Human-Computer Interaction and Web Technologies. Completed thesis on improving user experiences in web applications.",
+      "type": "education"
+    }
+  ]
+}

@@ -15,17 +15,18 @@ export default function HeroSectionStatic() {
           <div className="space-y-6">
             <div className="relative inline-block">
               <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full">
-                Full-Stack Developer
+                Web & Linux Developer
               </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-              Hi, I'm <span className="text-primary">Karthik Lal</span>
+              Hi there, I'm <span className="text-primary">Karthik Lal</span>
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-xl">
-              I create immersive digital experiences with modern web technologies, focusing on interactive design and
-              seamless functionality.
+              {/* I create immersive digital experiences with modern web technologies, focusing on interactive design and
+              seamless functionality. */}
+              Creative Technologist | Web & Linux Developer
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

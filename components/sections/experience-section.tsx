@@ -4,70 +4,14 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BriefcaseIcon, GraduationCap } from "lucide-react"
-
-const experiences = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    duration: "2022 - Present",
-    description:
-      "Lead the frontend development team in creating responsive and interactive web applications. Implemented modern frameworks and optimized performance.",
-    type: "work",
-  },
-  {
-    id: 2,
-    title: "UI/UX Designer",
-    company: "DesignStudio",
-    duration: "2020 - 2022",
-    description:
-      "Designed user interfaces and experiences for various clients. Conducted user research and created wireframes and prototypes for web and mobile applications.",
-    type: "work",
-  },
-  {
-    id: 3,
-    title: "Master's Degree in Computer Science",
-    company: "Tech University",
-    duration: "2018 - 2020",
-    description:
-      "Specialized in Human-Computer Interaction and Web Technologies. Completed thesis on improving user experiences in web applications.",
-    type: "education",
-  },
-  {
-    id: 4,
-    title: "Frontend Developer",
-    company: "WebSolutions",
-    duration: "2017 - 2020",
-    description:
-      "Developed responsive websites and web applications using React and related technologies. Collaborated with designers to implement UI/UX designs.",
-    type: "work",
-  },
-  {
-    id: 5,
-    title: "Bachelor's Degree in Computer Science",
-    company: "State University",
-    duration: "2013 - 2017",
-    description:
-      "Studied Computer Science with a focus on software development and web technologies. Participated in various coding competitions and hackathons.",
-    type: "education",
-  },
-  {
-    id: 6,
-    title: "Web Development Intern",
-    company: "StartUp Labs",
-    duration: "2016 - 2017",
-    description:
-      "Assisted in the development of web applications and websites. Learned modern web development practices and worked in an agile environment.",
-    type: "work",
-  },
-]
+import experiencesData from "@/public/data/experiences.json"
 
 export default function ExperienceSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
-  const workExperiences = experiences.filter((exp) => exp.type === "work")
-  const educationExperiences = experiences.filter((exp) => exp.type === "education")
+  const workExperiences = experiencesData.experiences.filter((exp) => exp.type === "work")
+  const educationExperiences = experiencesData.experiences.filter((exp) => exp.type === "education")
 
   return (
     <section id="experience" className="py-20 md:py-32 bg-secondary/5">

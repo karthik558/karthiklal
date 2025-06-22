@@ -73,21 +73,16 @@ export default function AboutSection() {
                 About Me
               </motion.span>
               <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mb-4">
-                Full-Stack Developer & Digital Creator
+                <span className="text-gradient">Hey there!</span>
               </motion.h2>
             </div>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed">
-              Hello! I'm Karthik Lal, a passionate full-stack developer with expertise in creating dynamic and
-              responsive web applications. With a strong foundation in both frontend and backend technologies, I
-              specialize in building seamless user experiences that combine beautiful design with efficient
-              functionality.
+              I'm a 25-Year-old creative with a passion for technology and design. My specialties lie in Cybersecurity, Linux Kernel Development, Graphic Design, and Web Development. I'm driven by my desire to craft visually pleasing yet functional experiences for users, combining technical know-how with artistic flair.
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed">
-              My journey in web development began over 5 years ago, and since then, I've worked on a diverse range of
-              projects, from e-commerce platforms to interactive data visualizations. I'm constantly exploring new
-              technologies and methodologies to enhance my skill set and deliver cutting-edge solutions.
+              Each project in my portfolio is unique and reflects my dedication to creating one-of-a-kind solutions. In my free time, I love exploring my surroundings through photography, making every experience truly worthwhile.
             </motion.p>
 
             {/* Personal details grid */}
@@ -98,11 +93,11 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Email:</p>
-                <p className="font-medium">contact@KARTHIK LAL.com</p>
+                <p className="font-medium">dev@karthiklal.in</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location:</p>
-                <p className="font-medium">New York, USA</p>
+                <p className="font-medium">Haripad, Alappuzha, India</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Availability:</p>
@@ -113,7 +108,7 @@ export default function AboutSection() {
             {/* Buttons */}
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 pt-4">
               <Button asChild size="lg" className="interactive rounded-full">
-                <Link href="#contact">
+                <Link href="/contact">
                   Let's Talk
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>

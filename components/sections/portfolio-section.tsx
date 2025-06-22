@@ -8,83 +8,21 @@ import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/c
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Github } from "lucide-react"
 import { useTheme } from "next-themes"
+import projectsData from "@/public/data/projects.json"
 
-// Sample portfolio projects
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "A modern e-commerce platform built with Next.js and Tailwind CSS.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "Web Development",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["Next.js", "Tailwind CSS", "Stripe", "Vercel"],
-  },
-  {
-    id: 2,
-    title: "Portfolio Dashboard",
-    description: "Interactive dashboard for portfolio tracking with real-time data visualization.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "UI/UX Design",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["React", "D3.js", "Firebase", "Framer Motion"],
-  },
-  {
-    id: 3,
-    title: "AI Content Generator",
-    description: "AI-powered application that generates high-quality content for various purposes.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "AI/ML",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["Python", "TensorFlow", "OpenAI API", "Next.js"],
-  },
-  {
-    id: 4,
-    title: "3D Product Configurator",
-    description: "Interactive 3D product configurator for customizing product features in real-time.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "3D Development",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["Three.js", "React Three Fiber", "WebGL", "Blender"],
-  },
-  {
-    id: 5,
-    title: "Mobile Fitness App",
-    description: "Fitness tracking application with workout plans and progress monitoring.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "Mobile Development",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["React Native", "Redux", "Firebase", "Expo"],
-  },
-  {
-    id: 6,
-    title: "Smart Home Dashboard",
-    description: "IoT dashboard for controlling and monitoring smart home devices.",
-    image: "/placeholder.svg?height=450&width=640",
-    category: "IoT",
-    link: "https://example.com",
-    github: "https://github.com",
-    technologies: ["React", "Node.js", "MQTT", "Socket.io"],
-  },
-]
-
-// Filtering categories
-const categories = ["All", "Web Development", "UI/UX Design", "3D Development", "Mobile Development", "AI/ML", "IoT"]
+// Filtering categories based on available project categories
+const categories = ["All", ...new Set(projectsData.projects.map(project => project.category))]
 
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All")
   const ref = useRef(null)
-  // Update useInView configuration
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const { theme } = useTheme()
 
   const filteredProjects =
-    activeCategory === "All" ? projects : projects.filter((project) => project.category === activeCategory)
+    activeCategory === "All" 
+      ? projectsData.projects 
+      : projectsData.projects.filter((project) => project.category === activeCategory)
 
   return (
     <section id="portfolio" className="py-20 md:py-32">

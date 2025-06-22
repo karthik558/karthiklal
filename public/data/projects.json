@@ -1,0 +1,174 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Guest-IT Portal",
+      "description": "A Modern, Feature-Rich Guest IT Portal Application built with React, TypeScript, and Supabase. (Escalation tool for Hotel/Resorts for getting guest request directly on Portal.)",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://guest-it.vercel.app",
+      "github": "https://github.com/karthik558/GuestIT-Portal",
+      "technologies": ["React", "Typescript", "Tailwind", "Supabase", "Cloudflare"]
+    },
+    {
+      "id": 2,
+      "title": "RustPing",
+      "description": "A fast, Rust-powered network monitoring tool inspired by PRTG. Monitor network health, track live logs, and detect failures in real-time. Lightweight, efficient, and built for reliability.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Software Development",
+      "link": "https://rust-ping.vercel.app/",
+      "github": "https://github.com/karthik558/RustPing-Website",
+      "technologies": ["Rust", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "id": 3,
+      "title": "Rust-Crypt",
+      "description": "A simple yet powerful file encryption tool built with Rust. Securely encrypt and decrypt files using AES-256-GCM encryption with password-based key derivation.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Security Tools",
+      "link": "https://github.com/karthik558/Rust-Crypt",
+      "github": "https://github.com/karthik558/Rust-Crypt",
+      "technologies": ["Rust"]
+    },
+    {
+      "id": 4,
+      "title": "GPM-DarkMode",
+      "description": "Unofficial dark mode support for GPM Software (Supports Firefox and Chromium based browsers). This tool enables dark mode, enhancing UI accessibility.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Extension Development",
+      "link": "https://github.com/karthik558/GPM-DarkMode",
+      "github": "https://github.com/karthik558/GPM-DarkMode",
+      "technologies": ["HTML", "CSS", "JavaScript"]
+    },
+    {
+      "id": 5,
+      "title": "LogAnalyzerPro",
+      "description": "LogAnalyzerPro is a versatile tool for analyzing log files with features like filtering, search, and export, ideal for developers and sysadmins.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Software Development",
+      "link": "https://github.com/karthik558/LogAnalyzerPro",
+      "github": "https://github.com/karthik558/LogAnalyzerPro",
+      "technologies": ["Python"]
+    },
+    {
+      "id": 6,
+      "title": "InRoomDining",
+      "description": "This project is a modern web application designed to enhance the dining experience for hotel guests by enabling them to order meals and services directly from their room.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://lilacird.vercel.app/",
+      "github": "https://lilacird.vercel.app/",
+      "technologies": ["React", "NextJS", "CSS"]
+    },
+    {
+      "id": 7,
+      "title": "CyberKeyGen",
+      "description": "CyberKeyGen is a secure React & TypeScript-based password generator with a sleek, responsive UI, real-time strength analysis, and advanced security features.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://password.karthiklal.in",
+      "github": "https://password.karthiklal.in",
+      "technologies": ["React", "NextJS", "CSS"]
+    },
+    {
+      "id": 8,
+      "title": "CodeLogger",
+      "description": "A Python script that captures key events of Windows, Mac or Linux machines and outputs the log as code.txt on the script file directory.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Security Tools",
+      "link": "https://github.com/karthik558/CodeLogger",
+      "github": "https://github.com/karthik558/CodeLogger",
+      "technologies": ["Python"]
+    },
+    {
+      "id": 9,
+      "title": "Namashivalaya Resorts",
+      "description": "Official Website of Shivalaya Arunachala Hotels and Resort, Built with HTML, CSS, JS, BOOTSRAP, SaSS",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://namashivalaya.org",
+      "github": "https://github.com",
+      "technologies": ["HTML", "CSS", "JavaScript", "Bootstrap", "Sass"]
+    },
+    {
+      "id": 10,
+      "title": "WebBlockerScript",
+      "description": "Web Blocker Script is a command-line tool that blocks websites by modifying the host file, with options for custom blocking, backup, and restore.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Custom Tools",
+      "link": "https://github.com/karthik558/WebBlockerScript",
+      "github": "https://github.com/karthik558/WebBlockerScript",
+      "technologies": ["Bash"]
+    },
+    {
+      "id": 11,
+      "title": "DDOS-ATTACK",
+      "description": "This educational script simulates a DDoS attack to help users understand its mechanics, but should not be used for malicious purposes.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Security Tools",
+      "link": "https://github.com/karthik558/DDOS-ATTACK",
+      "github": "https://github.com/karthik558/DDOS-ATTACK",
+      "technologies": ["Python"]
+    },
+    {
+      "id": 12,
+      "title": "CleanWindowsPro",
+      "description": "Optimize Windows system performance and stability with this script designed to clean junk files and repair corrupted system files. Achieve better efficiency with ease.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Custom Tools",
+      "link": "https://github.com/karthik558/CleanWindowsPro",
+      "github": "https://github.com/karthik558/CleanWindowsPro",
+      "technologies": ["Bash"]
+    },
+    {
+      "id": 13,
+      "title": "FakeAPBuilder",
+      "description": "Automate creation of fake access points for MITM attacks with this bash script. Ideal for those who need to perform penetration testing or network security assessments.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Custom Tools",
+      "link": "https://github.com/karthik558/FakeAPBuilder",
+      "github": "https://github.com/karthik558/FakeAPBuilder",
+      "technologies": ["Python"]
+    },
+    {
+      "id": 14,
+      "title": "EuclidOS",
+      "description": "Customize your phone with EuclidOS: a beautiful, open-source Android skin, Built with ReactJS, NextJS, SaSS",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://euclidos.org",
+      "github": "https://euclidos.org",
+      "technologies": ["React", "NextJS", "SaSS"]
+    },
+    {
+      "id": 15,
+      "title": "CherishOS",
+      "description": "Customize your phone with CherishOS: a beautiful, open-source Android skin, Built with ReactJS, NextJS, SaSS",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://cherishos.vercel.app",
+      "github": "https://cherishos.vercel.app",
+      "technologies": ["React", "NextJS", "SaSS"]
+    },
+    {
+      "id": 16,
+      "title": "RohieOS",
+      "description": "Customize your phone with RohieOS: a beautiful, open-source Android skin, Built with HTML, CSS and JS",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://rohieos.github.io",
+      "github": "https://rohieos.github.io",
+      "technologies": ["HTML", "CSS, JavaScript"]
+    },
+    {
+      "id": 17,
+      "title": "RYZEN Kernel",
+      "description": "Access the latest RYZEN kernel releases on the official website, built with HTML, CSS, JavaScript, Bootstrap, jQuery, and PHP.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Kernel Development",
+      "link": "",
+      "github": "",
+      "technologies": ["C", "Makefile"]
+    }
+  ]
+}
