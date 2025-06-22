@@ -1,0 +1,40 @@
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Hotel Management Team",
+      "position": "Senior Management",
+      "company": "IHCL",
+      "content": "Karthik's expertise in IT infrastructure management has been invaluable to our operations. His proactive approach to security and system optimization has significantly improved our guest experience and operational efficiency.",
+      "avatar": "/placeholder-user.jpg",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "name": "IT Director",
+      "position": "Director of Technology",
+      "company": "Tamara Leisure Experiences",
+      "content": "Working with Karthik was exceptional. His deep knowledge of network security and penetration testing helped us identify and resolve critical vulnerabilities. His technical skills are matched by his professionalism.",
+      "avatar": "/placeholder-user.jpg",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "name": "Development Team",
+      "position": "Lead Developer",
+      "company": "Tech Startup",
+      "content": "Karthik delivered a comprehensive web application that exceeded our expectations. His expertise in React, TypeScript, and modern web technologies resulted in a scalable and secure solution.",
+      "avatar": "/placeholder-user.jpg",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "name": "Operations Manager",
+      "position": "Operations Manager",
+      "company": "Paul John Hotels & Resorts",
+      "content": "Karthik's IT support and infrastructure management transformed our daily operations. His ability to troubleshoot complex issues and implement efficient solutions saved us significant time and resources.",
+      "avatar": "/placeholder-user.jpg",
+      "rating": 5
+    }
+  ]
+}

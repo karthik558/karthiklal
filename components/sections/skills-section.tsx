@@ -25,32 +25,46 @@ import {
 // Define skill categories with their respective skills
 const skillCategories = [
   {
-    name: "Frontend Development",
+    name: "Programming Languages",
     icon: Code2,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
-    skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"],
+    skills: ["Python", "Rust", "TypeScript", "JavaScript", "C", "C++", "SHELL", "BASH"],
   },
   {
-    name: "Backend Development",
+    name: "Web Development",
     icon: Terminal,
     color: "text-green-500",
     bgColor: "bg-green-500/10",
-    skills: ["Node.js", "Python", "SQL", "MongoDB", "REST APIs"],
+    skills: ["ReactJS", "NextJS", "HTML", "CSS", "Supabase", "Git"],
   },
   {
-    name: "Design & Creative",
-    icon: Palette,
+    name: "IT Infrastructure & Security",
+    icon: Shield,
+    color: "text-red-500",
+    bgColor: "bg-red-500/10",
+    skills: ["VMware", "Virtualization", "Wireshark", "NMAP", "BurpSuite", "Acunetix"],
+  },
+  {
+    name: "Systems & Cloud",
+    icon: Cpu,
     color: "text-purple-500",
     bgColor: "bg-purple-500/10",
-    skills: ["UI/UX Design", "Figma", "Adobe XD", "Responsive Design", "Web Animation"],
+    skills: ["Windows", "Linux", "MacOS", "AWS", "CloudFlare", "VirtualBox"],
   },
   {
-    name: "Tools & Others",
+    name: "Design & Media",
+    icon: Palette,
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    skills: ["Photoshop", "Illustrator", "Figma", "UI/UX Design"],
+  },
+  {
+    name: "Enterprise Software",
     icon: Wrench,
     color: "text-orange-500",
     bgColor: "bg-orange-500/10",
-    skills: ["Git", "DevOps", "Docker", "AWS", "Testing"],
+    skills: ["Microsoft 365", "Opera", "Micros", "ShawMan", "CPanel"],
   },
 ]
 

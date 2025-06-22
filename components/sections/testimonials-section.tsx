@@ -8,43 +8,43 @@ import { cn } from "@/lib/utils"
 const testimonials = [
   {
     author: {
-      name: "Alex Johnson",
-      handle: "@alextech",
-      avatar: "/placeholder.svg?height=80&width=80"
+      name: "Hotel Management Team",
+      handle: "@ihcl_management",
+      avatar: "/placeholder-user.jpg"
     },
-    text: "Karthik delivered exceptional results for our website redesign project. His technical expertise and creative vision transformed our online presence."
+    text: "Karthik's expertise in IT infrastructure management has been invaluable to our operations. His proactive approach to security and system optimization has significantly improved our guest experience and operational efficiency."
   },
   {
     author: {
-      name: "Sarah Williams",
-      handle: "@sarahcreates",
-      avatar: "/placeholder.svg?height=80&width=80"
+      name: "IT Director",
+      handle: "@tamara_tech",
+      avatar: "/placeholder-user.jpg"
     },
-    text: "Working with Karthik was a pleasure. He understood our design requirements perfectly and implemented them with precision."
+    text: "Working with Karthik was exceptional. His deep knowledge of network security and penetration testing helped us identify and resolve critical vulnerabilities. His technical skills are matched by his professionalism."
   },
   {
     author: {
-      name: "Michael Chen",
-      handle: "@michaeldev",
-      avatar: "/placeholder.svg?height=80&width=80"
+      name: "Development Team",
+      handle: "@tech_startup",
+      avatar: "/placeholder-user.jpg"
     },
-    text: "Karthik helped us build our MVP from scratch, and the results exceeded our expectations. His full-stack expertise enabled us to launch quickly."
+    text: "Karthik delivered a comprehensive web application that exceeded our expectations. His expertise in React, TypeScript, and modern web technologies resulted in a scalable and secure solution."
   },
   {
     author: {
-      name: "Emily Rodriguez",
-      handle: "@emilydesign",
-      avatar: "/placeholder.svg?height=80&width=80"
+      name: "Operations Manager",
+      handle: "@pauljohn_ops",
+      avatar: "/placeholder-user.jpg"
     },
-    text: "As a designer, I appreciate working with developers who respect the design process. Karthik's attention to detail made our collaboration seamless."
+    text: "Karthik's IT support and infrastructure management transformed our daily operations. His ability to troubleshoot complex issues and implement efficient solutions saved us significant time and resources."
   },
   {
     author: {
-      name: "David Thompson",
-      handle: "@davidpm",
-      avatar: "/placeholder.svg?height=80&width=80"
+      name: "Security Consultant",
+      handle: "@cybersec_expert",
+      avatar: "/placeholder-user.jpg"
     },
-    text: "Karthik's technical skills and problem-solving abilities are outstanding. He tackled complex challenges with innovative solutions."
+    text: "Karthik's penetration testing and security auditing skills are impressive. His CEH certification and practical experience make him a valuable asset for any cybersecurity initiative."
   }
 ]
 

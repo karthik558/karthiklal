@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react"
+import { Mail, MapPin, Phone, Send, Github, Linkedin, Globe } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
@@ -70,8 +70,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="font-medium">Email</p>
-                    <a href="mailto:contact@example.com" className="text-muted-foreground hover:text-primary">
-                      contact@example.com
+                    <a href="mailto:dev@karthiklal.in" className="text-muted-foreground hover:text-primary">
+                      dev@karthiklal.in
                     </a>
                   </div>
                 </motion.div>
@@ -85,8 +85,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="font-medium">Phone</p>
-                    <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary">
-                      +1 (234) 567-890
+                    <a href="tel:+918129624036" className="text-muted-foreground hover:text-primary">
+                      +91 8129624036
                     </a>
                   </div>
                 </motion.div>
@@ -100,7 +100,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="font-medium">Location</p>
-                    <p className="text-muted-foreground">New York, USA</p>
+                    <p className="text-muted-foreground">Kerala, India</p>
                   </div>
                 </motion.div>
               </div>
@@ -113,7 +113,7 @@ export default function ContactSection() {
                 <motion.a
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://github.com"
+                  href="https://github.com/karthik558"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
@@ -123,7 +123,7 @@ export default function ContactSection() {
                 <motion.a
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://linkedin.com"
+                  href="https://linkedin.com/in/karthiklal"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
@@ -133,12 +133,12 @@ export default function ContactSection() {
                 <motion.a
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://twitter.com"
+                  href="https://karthiklal.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
                 >
-                  <Twitter className="h-5 w-5" />
+                  <Globe className="h-5 w-5" />
                 </motion.a>
               </div>
             </div>

@@ -18,9 +18,9 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "Karthik Lal | Portfolio",
-  description: "Full-stack developer and designer specializing in creative digital experiences",
-  keywords: ["portfolio", "developer", "designer", "3D", "web development", "UI/UX"],
+  title: "Karthik Lal | IT Manager & Full Stack Developer",
+  description: "IT Manager with 6.8+ years in network management, cybersecurity, and full-stack development. Specializing in secure, scalable IT solutions.",
+  keywords: ["IT Manager", "Full Stack Developer", "Cybersecurity", "Network Security", "React", "Next.js", "TypeScript", "Rust", "Python", "Kerala"],
   authors: [{ name: "Karthik Lal" }],
   creator: "Karthik Lal",
   icons: {

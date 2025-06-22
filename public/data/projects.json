@@ -3,12 +3,12 @@
     {
       "id": 1,
       "title": "Guest-IT Portal",
-      "description": "A Modern, Feature-Rich Guest IT Portal Application built with React, TypeScript, and Supabase. (Escalation tool for Hotel/Resorts for getting guest request directly on Portal.)",
+      "description": "A Modern, Feature-Rich Guest IT Portal Application built with React, TypeScript, and Supabase. Escalation tool for Hotel/Resorts for getting guest request directly on Portal.",
       "image": "/placeholder.svg?height=450&width=640",
       "category": "Web Development",
       "link": "https://guest-it.vercel.app",
       "github": "https://github.com/karthik558/GuestIT-Portal",
-      "technologies": ["React", "Typescript", "Tailwind", "Supabase", "Cloudflare"]
+      "technologies": ["React", "TypeScript", "Tailwind", "Supabase", "Cloudflare"]
     },
     {
       "id": 2,
@@ -18,7 +18,7 @@
       "category": "Software Development",
       "link": "https://rust-ping.vercel.app/",
       "github": "https://github.com/karthik558/RustPing-Website",
-      "technologies": ["Rust", "HTML", "CSS", "JavaScript"]
+      "technologies": ["Rust", "React", "TypeScript", "Vite"]
     },
     {
       "id": 3,
@@ -62,28 +62,18 @@
     },
     {
       "id": 7,
-      "title": "CyberKeyGen",
-      "description": "CyberKeyGen is a secure React & TypeScript-based password generator with a sleek, responsive UI, real-time strength analysis, and advanced security features.",
+      "title": "euclidOS",
+      "description": "Customize your phone with euclidOS: a beautiful, open-source Android skin. Built with modern web technologies for a stunning user experience.",
       "image": "/placeholder.svg?height=450&width=640",
       "category": "Web Development",
-      "link": "https://password.karthiklal.in",
-      "github": "https://password.karthiklal.in",
-      "technologies": ["React", "NextJS", "CSS"]
+      "link": "https://euclidos.org",
+      "github": "https://euclidos.org",
+      "technologies": ["React", "NextJS", "SaSS"]
     },
     {
       "id": 8,
-      "title": "CodeLogger",
-      "description": "A Python script that captures key events of Windows, Mac or Linux machines and outputs the log as code.txt on the script file directory.",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Security Tools",
-      "link": "https://github.com/karthik558/CodeLogger",
-      "github": "https://github.com/karthik558/CodeLogger",
-      "technologies": ["Python"]
-    },
-    {
-      "id": 9,
-      "title": "Namashivalaya Resorts",
-      "description": "Official Website of Shivalaya Arunachala Hotels and Resort, Built with HTML, CSS, JS, BOOTSRAP, SaSS",
+      "title": "namashivalaya.org",
+      "description": "Official Website of Shivalaya Arunachala Hotels and Resort, Built with HTML, CSS, JS, BOOTSTRAP, SaSS",
       "image": "/placeholder.svg?height=450&width=640",
       "category": "Web Development",
       "link": "https://namashivalaya.org",
@@ -91,17 +81,37 @@
       "technologies": ["HTML", "CSS", "JavaScript", "Bootstrap", "Sass"]
     },
     {
-      "id": 10,
-      "title": "WebBlockerScript",
-      "description": "Web Blocker Script is a command-line tool that blocks websites by modifying the host file, with options for custom blocking, backup, and restore.",
+      "id": 9,
+      "title": "CyberKeyGen",
+      "description": "CyberKeyGen is a secure React & TypeScript-based password generator with a sleek, responsive UI, real-time strength analysis, and advanced security features.",
       "image": "/placeholder.svg?height=450&width=640",
-      "category": "Custom Tools",
-      "link": "https://github.com/karthik558/WebBlockerScript",
-      "github": "https://github.com/karthik558/WebBlockerScript",
-      "technologies": ["Bash"]
+      "category": "Web Development",
+      "link": "https://password.karthiklal.in",
+      "github": "https://password.karthiklal.in",
+      "technologies": ["React", "TypeScript", "CSS"]
+    },
+    {
+      "id": 10,
+      "title": "CherishOS",
+      "description": "Customize your phone with CherishOS: a beautiful, open-source Android skin. Modern design meets functionality.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Web Development",
+      "link": "https://cherishos.vercel.app",
+      "github": "https://cherishos.vercel.app",
+      "technologies": ["React", "NextJS", "SaSS"]
     },
     {
       "id": 11,
+      "title": "CodeLogger",
+      "description": "A Python script that captures key events of Windows, Mac or Linux machines and outputs the log as code.txt on the script file directory. Educational purpose only.",
+      "image": "/placeholder.svg?height=450&width=640",
+      "category": "Security Tools",
+      "link": "https://github.com/karthik558/CodeLogger",
+      "github": "https://github.com/karthik558/CodeLogger",
+      "technologies": ["Python"]
+    },
+    {
+      "id": 12,
       "title": "DDOS-ATTACK",
       "description": "This educational script simulates a DDoS attack to help users understand its mechanics, but should not be used for malicious purposes.",
       "image": "/placeholder.svg?height=450&width=640",
@@ -111,7 +121,7 @@
       "technologies": ["Python"]
     },
     {
-      "id": 12,
+      "id": 13,
       "title": "CleanWindowsPro",
       "description": "Optimize Windows system performance and stability with this script designed to clean junk files and repair corrupted system files. Achieve better efficiency with ease.",
       "image": "/placeholder.svg?height=450&width=640",
@@ -119,56 +129,6 @@
       "link": "https://github.com/karthik558/CleanWindowsPro",
       "github": "https://github.com/karthik558/CleanWindowsPro",
       "technologies": ["Bash"]
-    },
-    {
-      "id": 13,
-      "title": "FakeAPBuilder",
-      "description": "Automate creation of fake access points for MITM attacks with this bash script. Ideal for those who need to perform penetration testing or network security assessments.",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Custom Tools",
-      "link": "https://github.com/karthik558/FakeAPBuilder",
-      "github": "https://github.com/karthik558/FakeAPBuilder",
-      "technologies": ["Python"]
-    },
-    {
-      "id": 14,
-      "title": "EuclidOS",
-      "description": "Customize your phone with EuclidOS: a beautiful, open-source Android skin, Built with ReactJS, NextJS, SaSS",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Web Development",
-      "link": "https://euclidos.org",
-      "github": "https://euclidos.org",
-      "technologies": ["React", "NextJS", "SaSS"]
-    },
-    {
-      "id": 15,
-      "title": "CherishOS",
-      "description": "Customize your phone with CherishOS: a beautiful, open-source Android skin, Built with ReactJS, NextJS, SaSS",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Web Development",
-      "link": "https://cherishos.vercel.app",
-      "github": "https://cherishos.vercel.app",
-      "technologies": ["React", "NextJS", "SaSS"]
-    },
-    {
-      "id": 16,
-      "title": "RohieOS",
-      "description": "Customize your phone with RohieOS: a beautiful, open-source Android skin, Built with HTML, CSS and JS",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Web Development",
-      "link": "https://rohieos.github.io",
-      "github": "https://rohieos.github.io",
-      "technologies": ["HTML", "CSS, JavaScript"]
-    },
-    {
-      "id": 17,
-      "title": "RYZEN Kernel",
-      "description": "Access the latest RYZEN kernel releases on the official website, built with HTML, CSS, JavaScript, Bootstrap, jQuery, and PHP.",
-      "image": "/placeholder.svg?height=450&width=640",
-      "category": "Kernel Development",
-      "link": "",
-      "github": "",
-      "technologies": ["C", "Makefile"]
     }
   ]
 }

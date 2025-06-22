@@ -1,0 +1,19 @@
+{
+  "personalInfo": {
+    "name": "Karthik Lal",
+    "title": "IT Manager, Full Stack Developer, Cybersecurity Enthusiast",
+    "dateOfBirth": "11/03/2000",
+    "location": "Kerala, India",
+    "phone": "+91 8129624036",
+    "email": "dev@karthiklal.in",
+    "linkedin": "https://linkedin.com/in/karthiklal",
+    "github": "https://github.com/karthik558",
+    "website": "https://karthiklal.in",
+    "avatar": "/placeholder-user.jpg",
+    "bio": "Driven IT Manager and developer with a strong background in cybersecurity and network management. Passionate about building secure, scalable systems and improving digital experiences for users. Experienced in leading IT operations for hospitality, designing modern web applications, and delivering hands-on support. Always learning, currently pursuing MCA to expand technical and leadership skills.",
+    "professionalSummary": "IT Manager with 6.8+ years in network management, cybersecurity, and full-stack development. Currently managing IT operations at IHCL, focusing on infrastructure, guest connectivity, and in-room tech. Skilled in Python, Rust, TypeScript, and Next.js. Holds a BCA and CEH certification. Pursuing MCA to deepen technical and management expertise. Delivers secure, scalable IT solutions aligned with business goals and guest experience."
+  },
+  "languages": ["English", "Malayalam"],
+  "interests": ["Cybersecurity", "Linux Kernel Development", "Web Development", "Network Security", "Photography", "Technology Innovation"],
+  "availability": "Open to opportunities"
+}

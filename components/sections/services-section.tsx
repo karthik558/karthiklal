@@ -2,37 +2,51 @@
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Code2, Shield, Palette, Gauge } from "lucide-react"
+import { Code2, Shield, Palette, Gauge, Network, Cloud } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const services = [
   {
-    title: "Full-Stack Development",
-    description: "Creating modern, scalable web applications with cutting-edge technologies and best practices for optimal performance and user experience.",
-    icon: Code2,
+    title: "IT Infrastructure Management",
+    description: "Comprehensive IT operations management including property management systems, network configuration, and daily IT support for hospitality and enterprise environments.",
+    icon: Network,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
   },
   {
-    title: "Security Assessment",
-    description: "Comprehensive penetration testing and security audits to identify vulnerabilities and ensure your applications are protected against cyber threats.",
+    title: "Network Security & Penetration Testing",
+    description: "Advanced cybersecurity services including penetration testing, security audits, vulnerability assessments, and implementation of robust security policies and protocols.",
     icon: Shield,
     color: "text-red-500",
     bgColor: "bg-red-500/10",
   },
   {
-    title: "Creative Design Solutions",
-    description: "Crafting visually stunning and intuitive designs that blend aesthetics with functionality, from brand identities to user interfaces.",
-    icon: Palette,
+    title: "Full Stack Web Development",
+    description: "Modern web application development using React, Next.js, TypeScript, and Rust. Creating scalable, secure solutions from frontend interfaces to backend systems.",
+    icon: Code2,
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
+  },
+  {
+    title: "Cloud Hosting & Virtualization",
+    description: "Cloud infrastructure setup and management using AWS, VMware virtualization, and modern hosting solutions to ensure scalable and reliable systems.",
+    icon: Cloud,
     color: "text-purple-500",
     bgColor: "bg-purple-500/10",
   },
   {
-    title: "Performance Engineering",
-    description: "Optimizing application performance through advanced techniques in caching, load balancing, and code optimization for maximum efficiency.",
+    title: "Graphic Design & Branding",
+    description: "Creative design solutions including marketing materials, brand identities, and UI/UX design using Photoshop, Illustrator, and modern design tools.",
+    icon: Palette,
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+  },
+  {
+    title: "IT Support & Training",
+    description: "Comprehensive IT support services, staff training programs, vendor coordination, and technical troubleshooting for enterprise and hospitality environments.",
     icon: Gauge,
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10",
   },
 ]
 
@@ -57,7 +71,7 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.title}

@@ -78,11 +78,11 @@ export default function AboutSection() {
             </div>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed">
-              I'm a 25-Year-old creative with a passion for technology and design. My specialties lie in Cybersecurity, Linux Kernel Development, Graphic Design, and Web Development. I'm driven by my desire to craft visually pleasing yet functional experiences for users, combining technical know-how with artistic flair.
+              Driven IT Manager and developer with a strong background in cybersecurity and network management. With 6.8+ years of experience in IT operations, I currently manage infrastructure at IHCL, focusing on network security, guest connectivity, and in-room technology solutions.
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed">
-              Each project in my portfolio is unique and reflects my dedication to creating one-of-a-kind solutions. In my free time, I love exploring my surroundings through photography, making every experience truly worthwhile.
+              Passionate about building secure, scalable systems and improving digital experiences for users. Experienced in leading IT operations for hospitality, designing modern web applications, and delivering hands-on support. Always learning, currently pursuing MCA to expand technical and leadership skills.
             </motion.p>
 
             {/* Personal details grid */}
@@ -97,11 +97,11 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location:</p>
-                <p className="font-medium">Haripad, Alappuzha, India</p>
+                <p className="font-medium">Kerala, India</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Availability:</p>
-                <p className="font-medium">Open to opportunities</p>
+                <p className="text-sm text-muted-foreground">Phone:</p>
+                <p className="font-medium">+91 8129624036</p>
               </div>
             </motion.div>
 

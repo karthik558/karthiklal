@@ -110,7 +110,7 @@ export default function HeroSection() {
               className="relative inline-block"
             >
               <span className="glass text-primary text-sm font-semibold px-6 py-3 rounded-full">
-                Full-Stack Developer
+                IT Manager, Full Stack Developer, Cybersecurity Enthusiast
               </span>
             </motion.div>
 
@@ -129,8 +129,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="text-xl text-muted-foreground max-w-xl glass p-4 rounded-lg"
             >
-              I create immersive digital experiences with modern web technologies, focusing on interactive design and
-              seamless functionality.
+              IT Manager with 6.8+ years in network management, cybersecurity, and full-stack development. Currently managing IT operations at IHCL, delivering secure, scalable IT solutions aligned with business goals.
             </motion.p>
 
             <motion.div
