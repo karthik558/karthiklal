@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, ChevronDown, ChevronUp } from "lucide-react"
 import { useTheme } from "next-themes"
 import projectsData from "@/public/data/projects.json"
 
@@ -15,6 +15,7 @@ const categories = ["All", ...new Set(projectsData.projects.map(project => proje
 
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All")
+  const [showAll, setShowAll] = useState(false)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const { theme } = useTheme()
@@ -23,6 +24,8 @@ export default function PortfolioSection() {
     activeCategory === "All" 
       ? projectsData.projects 
       : projectsData.projects.filter((project) => project.category === activeCategory)
+
+  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3)
 
   return (
     <section id="portfolio" className="py-20 md:py-32">
@@ -63,7 +66,7 @@ export default function PortfolioSection() {
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -125,6 +128,35 @@ export default function PortfolioSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Show More/Less Button */}
+        {filteredProjects.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex justify-center mt-12"
+          >
+            <Button
+              onClick={() => setShowAll(!showAll)}
+              variant="outline"
+              size="lg"
+              className="rounded-full interactive"
+            >
+              {showAll ? (
+                <>
+                  Show Less
+                  <ChevronUp className="ml-2 h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Show More ({filteredProjects.length - 3} more)
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   )

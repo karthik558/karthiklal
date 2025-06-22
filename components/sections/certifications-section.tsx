@@ -1,9 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Award, ExternalLink, CheckCircle, Clock } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Award, ExternalLink, CheckCircle, Clock, ChevronDown, ChevronUp } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
@@ -55,8 +56,11 @@ const certifications = [
 ]
 
 export default function CertificationsSection() {
+  const [showAll, setShowAll] = useState(false)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  const displayedCertifications = showAll ? certifications : certifications.slice(0, 3)
 
   return (
     <section id="certifications" className="py-20 md:py-32 bg-secondary/10">
@@ -76,7 +80,7 @@ export default function CertificationsSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certifications.map((certification, index) => (
+          {displayedCertifications.map((certification, index) => (
             <motion.div
               key={certification.id}
               initial={{ opacity: 0, y: 20 }}
@@ -138,6 +142,35 @@ export default function CertificationsSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Show More/Less Button */}
+        {certifications.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex justify-center mt-12"
+          >
+            <Button
+              onClick={() => setShowAll(!showAll)}
+              variant="outline"
+              size="lg"
+              className="rounded-full interactive"
+            >
+              {showAll ? (
+                <>
+                  Show Less
+                  <ChevronUp className="ml-2 h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Show More ({certifications.length - 3} more)
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   )

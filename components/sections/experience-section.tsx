@@ -1,17 +1,23 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BriefcaseIcon, GraduationCap } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
 
 export default function ExperienceSection() {
+  const [showAllWork, setShowAllWork] = useState(false)
+  const [showAllEducation, setShowAllEducation] = useState(false)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   const workExperiences = experiencesData.experiences.filter((exp) => exp.type === "work")
   const educationExperiences = experiencesData.experiences.filter((exp) => exp.type === "education")
+  
+  const displayedWorkExperiences = showAllWork ? workExperiences : workExperiences.slice(0, 3)
+  const displayedEducationExperiences = showAllEducation ? educationExperiences : educationExperiences.slice(0, 3)
 
   return (
     <section id="experience" className="py-20 md:py-32 bg-secondary/5">
@@ -43,7 +49,7 @@ export default function ExperienceSection() {
             </div>
 
             <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
-              {workExperiences.map((experience, index) => (
+              {displayedWorkExperiences.map((experience, index) => (
                 <motion.div
                   key={experience.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -69,6 +75,35 @@ export default function ExperienceSection() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Show More/Less Button for Work Experience */}
+            {workExperiences.length > 3 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex justify-center mt-8"
+              >
+                <Button
+                  onClick={() => setShowAllWork(!showAllWork)}
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full"
+                >
+                  {showAllWork ? (
+                    <>
+                      Show Less
+                      <ChevronUp className="ml-2 h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      Show More ({workExperiences.length - 3} more)
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Education */}
@@ -85,7 +120,7 @@ export default function ExperienceSection() {
             </div>
 
             <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
-              {educationExperiences.map((education, index) => (
+              {displayedEducationExperiences.map((education, index) => (
                 <motion.div
                   key={education.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -111,6 +146,35 @@ export default function ExperienceSection() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Show More/Less Button for Education */}
+            {educationExperiences.length > 3 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="flex justify-center mt-8"
+              >
+                <Button
+                  onClick={() => setShowAllEducation(!showAllEducation)}
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full"
+                >
+                  {showAllEducation ? (
+                    <>
+                      Show Less
+                      <ChevronUp className="ml-2 h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      Show More ({educationExperiences.length - 3} more)
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
