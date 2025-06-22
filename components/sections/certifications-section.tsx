@@ -57,10 +57,26 @@ const certifications = [
 
 export default function CertificationsSection() {
   const [showAll, setShowAll] = useState(false)
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   const displayedCertifications = showAll ? certifications : certifications.slice(0, 3)
+
+  const handleShowMore = () => {
+    if (showAll) {
+      // When collapsing, scroll back to the certifications section
+      setShowAll(false)
+      setTimeout(() => {
+        ref.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+      }, 100)
+    } else {
+      setShowAll(true)
+    }
+  }
 
   return (
     <section id="certifications" className="py-20 md:py-32 bg-secondary/10">
@@ -152,7 +168,7 @@ export default function CertificationsSection() {
             className="flex justify-center mt-12"
           >
             <Button
-              onClick={() => setShowAll(!showAll)}
+              onClick={handleShowMore}
               variant="outline"
               size="lg"
               className="rounded-full interactive"

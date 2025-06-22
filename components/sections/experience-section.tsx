@@ -10,7 +10,7 @@ import experiencesData from "@/public/data/experiences.json"
 export default function ExperienceSection() {
   const [showAllWork, setShowAllWork] = useState(false)
   const [showAllEducation, setShowAllEducation] = useState(false)
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   const workExperiences = experiencesData.experiences.filter((exp) => exp.type === "work")
@@ -18,6 +18,38 @@ export default function ExperienceSection() {
   
   const displayedWorkExperiences = showAllWork ? workExperiences : workExperiences.slice(0, 3)
   const displayedEducationExperiences = showAllEducation ? educationExperiences : educationExperiences.slice(0, 3)
+
+  const handleShowMoreWork = () => {
+    if (showAllWork) {
+      // When collapsing, scroll back to the experience section
+      setShowAllWork(false)
+      setTimeout(() => {
+        ref.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+      }, 100)
+    } else {
+      setShowAllWork(true)
+    }
+  }
+
+  const handleShowMoreEducation = () => {
+    if (showAllEducation) {
+      // When collapsing, scroll back to the experience section
+      setShowAllEducation(false)
+      setTimeout(() => {
+        ref.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+      }, 100)
+    } else {
+      setShowAllEducation(true)
+    }
+  }
 
   return (
     <section id="experience" className="py-20 md:py-32 bg-secondary/5">
@@ -85,7 +117,7 @@ export default function ExperienceSection() {
                 className="flex justify-center mt-8"
               >
                 <Button
-                  onClick={() => setShowAllWork(!showAllWork)}
+                  onClick={handleShowMoreWork}
                   variant="outline"
                   size="sm"
                   className="rounded-full"
@@ -156,7 +188,7 @@ export default function ExperienceSection() {
                 className="flex justify-center mt-8"
               >
                 <Button
-                  onClick={() => setShowAllEducation(!showAllEducation)}
+                  onClick={handleShowMoreEducation}
                   variant="outline"
                   size="sm"
                   className="rounded-full"
