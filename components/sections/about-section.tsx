@@ -10,10 +10,10 @@ export default function AboutSection() {
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image column */}
-          <div className="relative mx-auto lg:mx-0 max-w-sm lg:max-w-full scale-on-scroll">
+          <div className="relative mx-auto lg:mx-0 max-w-sm lg:max-w-full">
             <div className="relative">
-              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg rotate-on-scroll"></div>
-              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg rotate-on-scroll"></div>
+              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
                   src="/placeholder.svg?height=600&width=500"
@@ -28,7 +28,7 @@ export default function AboutSection() {
           </div>
 
           {/* Content column */}
-          <div className="space-y-6 slide-in-right">
+          <div className="space-y-6">
             <div>
               <span className="inline-block text-primary font-medium mb-2 animate-item">
                 About Me
@@ -68,14 +68,14 @@ export default function AboutSection() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 pt-4 animate-item">
-              <Button asChild size="lg" className="interactive rounded-full button scale-on-scroll">
+              <Button asChild size="lg" className="interactive rounded-full button">
                 <Link href="/contact">
                   Let's Talk
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" size="lg" className="interactive rounded-full button scale-on-scroll">
+              <Button asChild variant="outline" size="lg" className="interactive rounded-full button">
                 <Link href="#" download>
                   Download CV
                   <Download className="ml-2 h-4 w-4" />

@@ -189,34 +189,11 @@ body {
   overflow-x: hidden;
 }
 
-.gsap-smooth-wrapper {
-  overflow-x: hidden;
-}
-
-/* GSAP Animation Classes */
-.scale-on-scroll {
-  transform: scale(0.8);
-  opacity: 0;
-}
-
-.slide-in-left {
-  transform: translateX(-100px);
-  opacity: 0;
-}
-
-.slide-in-right {
-  transform: translateX(100px);
-  opacity: 0;
-}
-
-.rotate-on-scroll {
-  transform: rotate(-45deg) scale(0.5);
-  opacity: 0;
-}
+/* Interactive hover effects */
 
 .animate-item {
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: none;
 }
 
 /* Parallax elements */
@@ -262,7 +239,7 @@ section {
   will-change: transform, opacity;
 }
 
-/* Additional performance optimizations for GSAP smooth scrolling */
+/* Additional performance optimizations */
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -299,22 +276,6 @@ body {
 /* Performance improvements */
 * {
   will-change: auto;
-}
-
-.gsap-smooth-wrapper {
-  overflow-x: hidden;
-  width: 100%;
-}
-
-/* GSAP Animation Performance Classes */
-.animate-item,
-.scale-on-scroll,
-.slide-in-left,
-.slide-in-right,
-.rotate-on-scroll {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform: translateZ(0);
 }
 
 /* Optimized button animations */
@@ -383,11 +344,7 @@ body {
     scroll-behavior: auto !important;
   }
   
-  .animate-item,
-  .scale-on-scroll,
-  .slide-in-left,
-  .slide-in-right,
-  .rotate-on-scroll {
+  .animate-item {
     transform: none !important;
     opacity: 1 !important;
   }

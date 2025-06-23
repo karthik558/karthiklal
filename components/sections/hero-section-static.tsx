@@ -12,7 +12,7 @@ export default function HeroSectionStatic() {
         {/* Content */}
         <div className="container relative z-10 mt-24 lg:mt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6 slide-in-left">
+          <div className="space-y-6">
             <div className="relative inline-block">
               <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
                 Web & Linux Developer
@@ -28,14 +28,14 @@ export default function HeroSectionStatic() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4 animate-item">
-              <Button asChild size="lg" className="rounded-full button scale-on-scroll">
+              <Button asChild size="lg" className="rounded-full button">
                 <Link href="#portfolio">
                   View My Work
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" size="lg" className="rounded-full button scale-on-scroll">
+              <Button asChild variant="outline" size="lg" className="rounded-full button">
                 <Link href="#" download>
                   Download CV
                   <Download className="ml-2 h-4 w-4" />
@@ -44,10 +44,10 @@ export default function HeroSectionStatic() {
             </div>
           </div>
 
-          <div className="hidden lg:block slide-in-right">
+          <div className="hidden lg:block">
             {/* Static image instead of 3D */}
-            <div className="relative scale-on-scroll">
-              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg rotate-on-scroll"></div>
+            <div className="relative">
+              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg rotate-on-scroll"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img

@@ -74,7 +74,7 @@ export default function SkillsSection() {
             return (
               <Card 
                 key={category.name} 
-                className="border border-border/50 bg-card/50 backdrop-blur-sm h-full card scale-on-scroll"
+                className="border border-border/50 bg-card/50 backdrop-blur-sm h-full card"
               >
                 <CardHeader>
                   <div className="flex items-center gap-4 mb-2">
@@ -89,7 +89,7 @@ export default function SkillsSection() {
                     {category.skills.map((skill, skillIndex) => (
                       <div
                         key={skill}
-                        className={`px-3 py-2 rounded-lg ${category.bgColor} ${category.color} text-sm font-medium animate-item slide-in-left`}
+                        className={`px-3 py-2 rounded-lg ${category.bgColor} ${category.color} text-sm font-medium animate-item`}
                         style={{
                           animationDelay: `${(categoryIndex * 0.05) + (skillIndex * 0.02)}s`
                         }}
