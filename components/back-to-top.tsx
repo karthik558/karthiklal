@@ -3,12 +3,11 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   // Check if we're in a browser environment
   const isBrowser = typeof window !== "undefined"
@@ -23,7 +22,13 @@ export default function BackToTop() {
     const timer = setTimeout(() => {
       try {
         const toggleVisibility = () => {
-          if (window.scrollY > 500) {
+          const scrolled = window.scrollY
+          const maxHeight = document.documentElement.scrollHeight - window.innerHeight
+          const progress = Math.min((scrolled / maxHeight) * 100, 100)
+
+          setScrollProgress(progress)
+          
+          if (scrolled > 500) {
             setIsVisible(true)
           } else {
             setIsVisible(false)
@@ -65,41 +70,61 @@ export default function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.6 }}
+          initial={{ opacity: 0, scale: 0.5, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.5, y: 20 }}
           transition={{ 
             type: "spring",
-            stiffness: 300,
+            stiffness: 400,
             damping: 25
           }}
           onClick={scrollToTop}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={cn(
-            "interactive fixed right-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-full",
-            "bg-primary/80 text-primary-foreground backdrop-blur-[2px]",
-            "shadow-sm hover:shadow-md",
-            "transition-all duration-200",
-            "hover:bg-primary",
-            "before:absolute before:inset-0 before:rounded-full",
-            "before:border before:border-primary/30 before:transition-all",
-            "hover:before:scale-105 before:opacity-0 hover:before:opacity-100",
-          )}
-          aria-label="Back to top"
+          className="fixed right-6 bottom-6 z-50 group"
+          aria-label="Scroll to top"
         >
-          <motion.div
-            animate={{
-              y: isHovered ? -2 : 0
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 15
-            }}
-          >
-            <ArrowUp className="h-4 w-4" />
-          </motion.div>
+          {/* Main button with progress ring */}
+          <div className="relative w-14 h-14">
+            {/* Progress circle background */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 56 56">
+              {/* Background circle */}
+              <circle
+                cx="28"
+                cy="28"
+                r="26"
+                fill="none"
+                stroke="hsl(var(--border))"
+                strokeWidth="2"
+                opacity="0.2"
+              />
+              {/* Progress circle */}
+              <motion.circle
+                cx="28"
+                cy="28"
+                r="26"
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray={163.36} // 2 * π * 26
+                strokeDashoffset={163.36 - (163.36 * scrollProgress) / 100}
+                className="drop-shadow-sm"
+                transition={{ duration: 0.1 }}
+              />
+            </svg>
+
+            {/* Button content */}
+            <div className="absolute inset-1 bg-gradient-to-br from-background to-background/95 rounded-full border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group-hover:scale-105 group-active:scale-95">
+              <motion.div
+                whileHover={{ y: -1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
+                <ArrowUp className="h-5 w-5 text-primary" strokeWidth={2.5} />
+              </motion.div>
+            </div>
+
+            {/* Subtle glow on hover */}
+            <div className="absolute inset-0 bg-primary/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+          </div>
         </motion.button>
       )}
     </AnimatePresence>
