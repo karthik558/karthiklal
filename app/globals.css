@@ -179,3 +179,217 @@ html {
   animation: borderGradient 4s ease infinite;
 }
 
+/* Ultra-smooth scrolling styles */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.gsap-smooth-wrapper {
+  overflow-x: hidden;
+}
+
+/* GSAP Animation Classes */
+.scale-on-scroll {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.slide-in-left {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-in-right {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.rotate-on-scroll {
+  transform: rotate(-45deg) scale(0.5);
+  opacity: 0;
+}
+
+.animate-item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Parallax elements */
+[data-speed] {
+  will-change: transform;
+}
+
+/* Enhanced smooth scrolling for webkit browsers */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimized scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.6);
+}
+
+/* GPU acceleration for better performance */
+section {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Improved card animations */
+.card, .button {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Additional performance optimizations for GSAP smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbar with smooth animations */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.6));
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, hsl(var(--primary) / 0.6), hsl(var(--primary) / 0.8));
+  transform: scale(1.1);
+}
+
+/* Performance improvements */
+* {
+  will-change: auto;
+}
+
+.gsap-smooth-wrapper {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* GSAP Animation Performance Classes */
+.animate-item,
+.scale-on-scroll,
+.slide-in-left,
+.slide-in-right,
+.rotate-on-scroll {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Optimized button animations */
+.button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* Card hover animations with GPU acceleration */
+.card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Smooth gradient animations */
+@keyframes gradientShift {
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)), 
+    hsl(var(--primary) / 0.8), 
+    hsl(var(--accent-foreground)),
+    hsl(var(--primary))
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+/* Improved focus states for accessibility */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-item,
+  .scale-on-scroll,
+  .slide-in-left,
+  .slide-in-right,
+  .rotate-on-scroll {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+

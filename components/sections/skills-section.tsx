@@ -1,24 +1,12 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
-  Binary,
-  Blocks,
-  Box,
-  BrainCircuit,
   Code2,
-  Cog,
-  Cpu,
-  Figma,
-  FileCode2,
-  ImageIcon,
-  LayoutGrid,
-  Palette,
-  PenTool,
-  Shield,
   Terminal,
+  Shield,
+  Cpu,
+  Palette,
   Wrench,
 } from "lucide-react"
 
@@ -69,65 +57,53 @@ const skillCategories = [
 ]
 
 export default function SkillsSection() {
-  const ref = useRef(null)
-  // Update useInView configuration
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
-
   return (
     <section id="skills" className="py-20 md:py-32">
       <div className="container">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <span className="inline-block text-primary font-medium mb-2">Skills & Expertise</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Proficiency</h2>
-          <p className="text-muted-foreground">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-block text-primary font-medium mb-2 animate-item">Skills & Expertise</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">Technical Proficiency</h2>
+          <p className="text-muted-foreground animate-item">
             A comprehensive overview of my technical skills and areas of expertise across various domains of software development.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-            >
-              <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full">
+          {skillCategories.map((category, categoryIndex) => {
+            const IconComponent = category.icon
+            return (
+              <Card 
+                key={category.name} 
+                className="border border-border/50 bg-card/50 backdrop-blur-sm h-full card scale-on-scroll"
+              >
                 <CardHeader>
                   <div className="flex items-center gap-4 mb-2">
-                    <div className={`p-2 rounded-lg ${category.bgColor}`}>
-                      <category.icon className={`h-6 w-6 ${category.color}`} />
+                    <div className={`p-2 rounded-lg ${category.bgColor} rotate-on-scroll`}>
+                      <IconComponent className={`h-6 w-6 ${category.color}`} />
                     </div>
-                    <CardTitle>{category.name}</CardTitle>
+                    <CardTitle className="animate-item">{category.name}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-2">
                     {category.skills.map((skill, skillIndex) => (
-                      <motion.div
+                      <div
                         key={skill}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                        transition={{ duration: 0.5, delay: categoryIndex * 0.1 + skillIndex * 0.1 }}
-                        className={`px-3 py-2 rounded-lg ${category.bgColor} ${category.color} text-sm font-medium`}
+                        className={`px-3 py-2 rounded-lg ${category.bgColor} ${category.color} text-sm font-medium animate-item slide-in-left`}
+                        style={{
+                          animationDelay: `${(categoryIndex * 0.05) + (skillIndex * 0.02)}s`
+                        }}
                       >
                         {skill}
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
   )
 }
-
