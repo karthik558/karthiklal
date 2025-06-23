@@ -61,7 +61,7 @@ export default function PortfolioSection() {
   }, [activeCategory, showAll])
 
   return (
-    <section id="portfolio" className="py-20 md:py-32">
+    <section id="portfolio" className="py-20 md:py-32 bg-background">
       <div className="container">
         <div className="text-center mb-16">
           <span className="inline-block text-primary font-medium mb-2 animate-item">My Work</span>

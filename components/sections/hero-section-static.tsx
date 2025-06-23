@@ -4,12 +4,13 @@ import Link from "next/link"
 
 export default function HeroSectionStatic() {
   return (
-    <section className="relative min-h-screen flex items-center">
-      {/* Background with gradient instead of 3D */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-background" data-speed="0.3"></div>
-
-      {/* Content */}
-      <div className="container relative z-10 mt-24 lg:mt-0">
+    <div className="relative">
+      {/* Extended background that covers hero and bleeds into next section */}
+      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background"></div>
+      
+      <section className="relative min-h-screen flex items-center">
+        {/* Content */}
+        <div className="container relative z-10 mt-24 lg:mt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="space-y-6 slide-in-left">
             <div className="relative inline-block">
@@ -73,7 +74,8 @@ export default function HeroSectionStatic() {
           <ArrowDown className="h-5 w-5 animate-bounce rotate-on-scroll" />
         </Link>
       </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

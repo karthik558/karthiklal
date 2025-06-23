@@ -53,7 +53,7 @@ export default function TestimonialsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section id="testimonials" className="py-20 md:py-32 overflow-hidden">
+    <section id="testimonials" className="py-20 md:py-32 overflow-hidden bg-secondary/10">
       <div className="container relative">
         <motion.div
           ref={ref}
@@ -63,9 +63,7 @@ export default function TestimonialsSection() {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <span className="inline-block text-primary font-medium mb-2">Testimonials</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
-            What Clients Say
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">What Clients <span className="text-gradient">Say</span></h2>
           <p className="text-muted-foreground">
             Feedback from clients and collaborators I've worked with on various projects.
           </p>

@@ -53,7 +53,7 @@ export default function ExperienceSection() {
   }
 
   return (
-    <section id="experience" className="py-20 md:py-32">
+    <section id="experience" className="py-20 md:py-32 bg-secondary/5">
       <div className="container max-w-6xl mx-auto">
         <motion.div
           ref={ref}

@@ -58,7 +58,7 @@ const skillCategories = [
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="py-20 md:py-32">
+    <section id="skills" className="py-20 md:py-32 bg-secondary/5">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-primary font-medium mb-2 animate-item">Skills & Expertise</span>
