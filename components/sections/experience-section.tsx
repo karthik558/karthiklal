@@ -2,9 +2,10 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp, Calendar, Building2 } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
 
 export default function ExperienceSection() {
@@ -52,60 +53,79 @@ export default function ExperienceSection() {
   }
 
   return (
-    <section id="experience" className="py-20 md:py-32 bg-secondary/5">
-      <div className="container">
+    <section id="experience" className="py-20 md:py-32">
+      <div className="container max-w-6xl mx-auto">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center mb-16"
         >
-          <span className="inline-block text-primary font-medium mb-2">Experience & Education</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">My Professional Journey</h2>
-          <p className="text-muted-foreground">A timeline of my professional experience and educational background.</p>
+          <span className="inline-block text-primary font-medium mb-2 animate-item">Experience & Education</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">My Professional <span className="text-gradient">Journey</span></h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto animate-item">
+            A comprehensive overview of my professional experience and educational milestones that shaped my expertise.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Work Experience */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                <BriefcaseIcon className="h-6 w-6 text-primary" />
+          <div className="space-y-8">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                <BriefcaseIcon className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">Work Experience</h3>
+              <div>
+                <h3 className="text-2xl font-bold">Work Experience</h3>
+                <p className="text-sm text-muted-foreground">{workExperiences.length} positions</p>
+              </div>
             </div>
 
-            <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
-              {displayedWorkExperiences.map((experience, index) => (
-                <motion.div
-                  key={experience.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  className="relative pl-8"
-                >
-                  <div className="absolute left-0 top-3 h-5 w-5 rounded-full border-4 border-primary/30 bg-primary"></div>
-                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
-                    <CardHeader className="pb-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-                        <CardTitle className="text-lg font-bold">{experience.title}</CardTitle>
-                        <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap">
-                          {experience.duration}
-                        </span>
-                      </div>
-                      <div className="text-sm font-medium text-primary/80">{experience.company}</div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{experience.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-6 top-8 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
+              
+              <div className="space-y-8">
+                {displayedWorkExperiences.map((experience, index) => (
+                  <motion.div
+                    key={experience.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+                    className="relative"
+                  >
+                    {/* Timeline dot */}
+                    <div className="absolute left-4 top-6 w-4 h-4 rounded-full border-3 border-background bg-primary shadow-lg z-10"></div>
+                    
+                    <Card className="ml-14 group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                            <div className="space-y-1">
+                              <h4 className="font-bold text-lg group-hover:text-primary transition-colors">
+                                {experience.title}
+                              </h4>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Building2 className="h-4 w-4" />
+                                <span className="font-medium">{experience.company}</span>
+                              </div>
+                            </div>
+                            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 whitespace-nowrap">
+                              <Calendar className="h-3 w-3 mr-1" />
+                              {experience.duration}
+                            </Badge>
+                          </div>
+                          
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {experience.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             {/* Show More/Less Button for Work Experience */}
@@ -114,69 +134,85 @@ export default function ExperienceSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex justify-center mt-8"
+                className="flex justify-center"
               >
                 <Button
                   onClick={handleShowMoreWork}
                   variant="outline"
-                  size="sm"
-                  className="rounded-full"
+                  className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   {showAllWork ? (
                     <>
+                      <ChevronUp className="mr-2 h-4 w-4" />
                       Show Less
-                      <ChevronUp className="ml-2 h-4 w-4" />
                     </>
                   ) : (
                     <>
-                      Show More ({workExperiences.length - 3} more)
-                      <ChevronDown className="ml-2 h-4 w-4" />
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      Show {workExperiences.length - 3} More Positions
                     </>
                   )}
                 </Button>
               </motion.div>
             )}
-          </motion.div>
+          </div>
 
           {/* Education */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                <GraduationCap className="h-6 w-6 text-primary" />
+          <div className="space-y-8">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                <GraduationCap className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">Education</h3>
+              <div>
+                <h3 className="text-2xl font-bold">Education</h3>
+                <p className="text-sm text-muted-foreground">{educationExperiences.length} qualifications</p>
+              </div>
             </div>
 
-            <div className="space-y-6 relative before:absolute before:left-[11px] before:top-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:to-primary/0">
-              {displayedEducationExperiences.map((education, index) => (
-                <motion.div
-                  key={education.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  className="relative pl-8"
-                >
-                  <div className="absolute left-0 top-3 h-5 w-5 rounded-full border-4 border-primary/30 bg-primary"></div>
-                  <Card className="border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-colors">
-                    <CardHeader className="pb-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-                        <CardTitle className="text-lg font-bold">{education.title}</CardTitle>
-                        <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap">
-                          {education.duration}
-                        </span>
-                      </div>
-                      <div className="text-sm font-medium text-primary/80">{education.company}</div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{education.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-6 top-8 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
+              
+              <div className="space-y-8">
+                {displayedEducationExperiences.map((education, index) => (
+                  <motion.div
+                    key={education.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                    transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                    className="relative"
+                  >
+                    {/* Timeline dot */}
+                    <div className="absolute left-4 top-6 w-4 h-4 rounded-full border-3 border-background bg-primary shadow-lg z-10"></div>
+                    
+                    <Card className="ml-14 group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                            <div className="space-y-1">
+                              <h4 className="font-bold text-lg group-hover:text-primary transition-colors">
+                                {education.title}
+                              </h4>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Building2 className="h-4 w-4" />
+                                <span className="font-medium">{education.company}</span>
+                              </div>
+                            </div>
+                            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 whitespace-nowrap">
+                              <Calendar className="h-3 w-3 mr-1" />
+                              {education.duration}
+                            </Badge>
+                          </div>
+                          
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {education.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             {/* Show More/Less Button for Education */}
@@ -184,30 +220,29 @@ export default function ExperienceSection() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="flex justify-center mt-8"
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex justify-center"
               >
                 <Button
                   onClick={handleShowMoreEducation}
                   variant="outline"
-                  size="sm"
-                  className="rounded-full"
+                  className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   {showAllEducation ? (
                     <>
+                      <ChevronUp className="mr-2 h-4 w-4" />
                       Show Less
-                      <ChevronUp className="ml-2 h-4 w-4" />
                     </>
                   ) : (
                     <>
-                      Show More ({educationExperiences.length - 3} more)
-                      <ChevronDown className="ml-2 h-4 w-4" />
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      Show {educationExperiences.length - 3} More Qualifications
                     </>
                   )}
                 </Button>
               </motion.div>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
