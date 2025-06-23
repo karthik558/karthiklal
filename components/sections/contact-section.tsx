@@ -1,18 +1,20 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Globe } from "lucide-react"
-import { motion } from "framer-motion"
-import { useState } from "react"
+import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle } from "lucide-react"
+import { motion, useInView } from "framer-motion"
+import { useState, useRef } from "react"
 import { useToast } from "@/components/ui/use-toast"
 
 export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -31,188 +33,282 @@ export default function ContactSection() {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[400px] w-full bg-gradient-to-b from-primary/10 to-background">
-        <div className="container h-full flex flex-col justify-center items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Let's Connect</h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
-              Have a project in mind or want to collaborate? I'd love to hear from you.
-            </p>
-          </motion.div>
+    <section id="contact" className="relative py-20 md:py-32 bg-secondary/5 overflow-hidden">
+      {/* Enhanced background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Main gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-gradient-to-br from-primary/10 to-primary/5 rounded-full blur-3xl opacity-60" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-gradient-to-bl from-orange-500/10 to-red-500/5 rounded-full blur-3xl opacity-40" />
+        <div className="absolute top-1/2 left-0 w-64 h-64 bg-gradient-to-r from-primary/5 to-transparent rounded-full blur-2xl opacity-30" />
+        
+        {/* Additional floating elements */}
+        <div className="absolute top-16 right-16 w-32 h-32 bg-gradient-to-br from-primary/8 to-transparent rounded-full blur-xl opacity-50" />
+        <div className="absolute top-32 left-16 w-24 h-24 bg-gradient-to-br from-orange-500/8 to-transparent rounded-full blur-lg opacity-40" />
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div className="h-full w-full bg-[linear-gradient(to_right,_hsl(var(--border))_1px,_transparent_1px),linear-gradient(to_bottom,_hsl(var(--border))_1px,_transparent_1px)] bg-[size:4rem_4rem]"></div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
-      </section>
+        
+        {/* Animated floating dots */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: 0.5 }}
+          className="absolute top-16 left-8 w-2 h-2 bg-primary/30 rounded-full"
+        ></motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: 0.8 }}
+          className="absolute top-32 right-32 w-1 h-1 bg-primary/40 rounded-full"
+        ></motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: 1.1 }}
+          className="absolute top-24 left-2/3 w-1.5 h-1.5 bg-primary/20 rounded-full"
+        ></motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: 1.4 }}
+          className="absolute top-8 right-1/3 w-1 h-1 bg-orange-500/30 rounded-full"
+        ></motion.div>
+      </div>
+      
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          {/* Enhanced badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-8"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <Mail className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Get In Touch</span>
+            </div>
+          </motion.div>
+          
+          {/* Enhanced heading */}
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-item"
+          >
+            Let's <span className="text-gradient">Connect</span>
+          </motion.h2>
+          
+          {/* Enhanced description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-item mb-8"
+          >
+            Have a project in mind or want to collaborate? I'd love to hear from you and discuss how we can work together to bring your ideas to life.
+          </motion.p>
+          
+          {/* Status indicators */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex items-center justify-center gap-8 mb-4"
+          >
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Available for new projects</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+              <MessageCircle className="h-4 w-4" />
+              <span>Quick response time</span>
+            </div>
+          </motion.div>
+        </motion.div>
 
-      <section className="container py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-8"
           >
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
-              <div className="space-y-6">
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="flex items-center p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50"
-                >
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Email</p>
-                    <a href="mailto:dev@karthiklal.in" className="text-muted-foreground hover:text-primary">
-                      dev@karthiklal.in
-                    </a>
-                  </div>
-                </motion.div>
+            <div className="space-y-6">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                  <MessageCircle className="h-7 w-7 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold">Let's Talk</h3>
+                  <p className="text-sm text-muted-foreground">Ready to bring your ideas to life</p>
+                </div>
+              </div>
 
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="flex items-center p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50"
-                >
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Phone</p>
-                    <a href="tel:+918129624036" className="text-muted-foreground hover:text-primary">
-                      +91 8129624036
-                    </a>
-                  </div>
-                </motion.div>
+              {/* Contact Cards */}
+              <div className="space-y-4">
+                <Card className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Mail className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold mb-1">Email Address</h4>
+                        <a 
+                          href="mailto:dev@karthiklal.in" 
+                          className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          dev@karthiklal.in
+                        </a>
+                      </div>
+                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                  </CardContent>
+                </Card>
 
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="flex items-center p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50"
-                >
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                    <MapPin className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Location</p>
-                    <p className="text-muted-foreground">Kerala, India</p>
-                  </div>
-                </motion.div>
+                <Card className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <MapPin className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold mb-1">Location</h4>
+                        <p className="text-sm text-muted-foreground">Lakshadweep, India</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
 
             {/* Social Links */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Connect with me</h3>
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold">Connect With Me</h4>
               <div className="flex gap-4">
                 <motion.a
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://github.com/karthik558"
+                  href="https://github.com/karthiklal004"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
+                  className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </motion.a>
                 <motion.a
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://linkedin.com/in/karthiklal"
+                  href="https://linkedin.com/in/karthiklal004"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
+                  className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"
                 >
-                  <Linkedin className="h-5 w-5" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://karthiklal.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-12 w-12 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
-                >
-                  <Globe className="h-5 w-5" />
+                  <Linkedin className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </motion.a>
               </div>
+            </div>
+
+            {/* Additional Info */}
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
+              <h4 className="font-semibold mb-2">Response Time</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                I typically respond to all messages within 24 hours. For urgent matters, feel free to reach out via email directly.
+              </p>
             </div>
           </motion.div>
 
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Card className="border border-border/50 bg-card/50 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <Card className="border border-border shadow-lg">
+              <CardContent className="p-8">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold mb-2">Send Me a Message</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Fill out the form below and I'll get back to you as soon as possible.
+                  </p>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
+                      <Label htmlFor="name" className="text-sm font-medium">Name *</Label>
                       <Input
                         id="name"
                         name="name"
+                        placeholder="Your full name"
                         required
                         disabled={isLoading}
-                        className="bg-background/50"
+                        className="h-11"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                      <Label htmlFor="email" className="text-sm font-medium">Email *</Label>
                       <Input
                         id="email"
                         name="email"
                         type="email"
+                        placeholder="your.email@example.com"
                         required
                         disabled={isLoading}
-                        className="bg-background/50"
+                        className="h-11"
                       />
                     </div>
                   </div>
+                  
                   <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
+                    <Label htmlFor="subject" className="text-sm font-medium">Subject *</Label>
                     <Input
                       id="subject"
                       name="subject"
+                      placeholder="What's this about?"
                       required
                       disabled={isLoading}
-                      className="bg-background/50"
+                      className="h-11"
                     />
                   </div>
+                  
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="message" className="text-sm font-medium">Message *</Label>
                     <Textarea
                       id="message"
                       name="message"
                       rows={5}
+                      placeholder="Tell me about your project or how I can help you..."
                       required
                       disabled={isLoading}
-                      className="bg-background/50"
+                      className="resize-none"
                     />
                   </div>
+                  
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full"
+                    className="w-full h-12 rounded-xl"
                     disabled={isLoading}
                   >
                     <motion.span
-                      className="flex items-center"
+                      className="flex items-center gap-2"
                       animate={isLoading ? { opacity: [1, 0.5, 1] } : {}}
                       transition={{ repeat: Infinity, duration: 1 }}
                     >
-                      {isLoading ? "Sending..." : "Send Message"}
-                      <Send className="ml-2 h-4 w-4" />
+                      {isLoading ? "Sending Message..." : "Send Message"}
+                      <Send className="h-4 w-4" />
                     </motion.span>
                   </Button>
                 </form>
@@ -220,8 +316,8 @@ export default function ContactSection() {
             </Card>
           </motion.div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }
 

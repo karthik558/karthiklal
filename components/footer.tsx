@@ -1,160 +1,118 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import { Github, Linkedin, Mail, MapPin } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-background border-t border-border">
-      <div className="container py-8 md:py-12">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-primary">KARTHIK LAL</h3>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              Full-stack developer focused on creating beautiful, functional, and accessible digital experiences.
-            </p>
+    <footer className="bg-secondary/5 border-t border-border">
+      <div className="container py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Brand Section */}
+          <div className="space-y-6 lg:col-span-1">
+            <div>
+              <h3 className="text-2xl font-bold">
+                KARTHIK <span className="text-gradient">LAL</span>
+              </h3>
+              <p className="text-sm text-muted-foreground mt-2 max-w-xs leading-relaxed">
+                Creative Technologist specializing in web development, system administration, and cybersecurity solutions.
+              </p>
+            </div>
+
+            {/* Social Links */}
             <div className="flex space-x-4">
               <Link
-                href="https://github.com"
+                href="https://github.com/karthiklal004"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="interactive text-foreground hover:text-primary transition-colors"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 group"
               >
-                <Github className="h-5 w-5" />
+                <Github className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="sr-only">GitHub</span>
               </Link>
               <Link
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/karthiklal004"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="interactive text-foreground hover:text-primary transition-colors"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 group"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
               <Link
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="interactive text-foreground hover:text-primary transition-colors"
+                href="mailto:dev@karthiklal.in"
+                className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 group"
               >
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
-              </Link>
-              <Link
-                href="mailto:contact@example.com"
-                className="interactive text-foreground hover:text-primary transition-colors"
-              >
-                <Mail className="h-5 w-5" />
+                <Mail className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="sr-only">Email</span>
               </Link>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 lg:col-span-2 lg:grid-cols-3">
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium text-foreground">Navigation</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#about"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#portfolio"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Portfolio
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#contact"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Contact
-                  </Link>
-                </li>
-              </ul>
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold">Quick Links</h4>
+            <div className="grid grid-cols-2 gap-2">
+              <Link
+                href="#about"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                About Me
+              </Link>
+              <Link
+                href="#portfolio"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                Portfolio
+              </Link>
+              <Link
+                href="#services"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                Services
+              </Link>
+              <Link
+                href="#experience"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                Experience
+              </Link>
+              <Link
+                href="#skills"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                Skills
+              </Link>
+              <Link
+                href="#contact"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                Contact
+              </Link>
             </div>
+          </div>
 
+          {/* Contact Info */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold">Get In Touch</h4>
             <div className="space-y-3">
-              <h4 className="text-sm font-medium text-foreground">Services</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#services"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#services"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    UI/UX Design
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#services"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    3D Visualization
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#services"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Digital Strategy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium text-foreground">Legal</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="interactive text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-              </ul>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Mail className="h-4 w-4 text-primary" />
+                <span>dev@karthiklal.in</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span>Lakshadweep, India</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-xs text-muted-foreground">© {currentYear}. Designed & Developed by KARTHIK LAL</p>
-          <p className="text-xs text-muted-foreground mt-4 sm:mt-0">Built with Next.js, Tailwind CSS, and Three.js</p>
+        {/* Bottom Section */}
+        <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            © {currentYear}. Designed & Developed by KARTHIK LAL
+          </p>
         </div>
       </div>
     </footer>
