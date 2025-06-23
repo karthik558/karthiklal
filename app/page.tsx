@@ -12,11 +12,11 @@ export default function Home() {
     <div className="relative">
       <HeroSectionStatic />
       <AboutSection />
+      <SkillsSection />
+      <CertificationsSection />
+      <ExperienceSection />
       <PortfolioSection />
       <ServicesSection />
-      <ExperienceSection />
-      <CertificationsSection />
-      <SkillsSection />
       <TestimonialsSection />
     </div>
   )
