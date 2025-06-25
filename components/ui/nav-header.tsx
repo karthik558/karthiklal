@@ -22,12 +22,12 @@ function NavHeader() {
   const isMobile = useIsMobile()
   const pathname = usePathname()
   
-  // Navigation items with proper routes
+  // Navigation items with proper routes in order of sections
   const navItems = [
     { label: 'Home', href: '/' },
+    { label: 'Experience', href: '/#experience' },
     { label: 'Portfolio', href: '/#portfolio' },
     { label: 'Services', href: '/#services' },
-    { label: 'Experience', href: '/#experience' },
     { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' }
   ]

@@ -10,16 +10,16 @@ export default function AboutSection() {
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image column */}
-          <div className="relative mx-auto lg:mx-0 max-w-sm lg:max-w-full">
+          <div className="relative mx-auto lg:mx-0 max-w-xs lg:max-w-sm">
             <div className="relative">
               <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
-                  src="/placeholder.svg?height=600&width=500"
-                  alt="Karthik Lal"
-                  width={500}
-                  height={600}
+                  src="/2.jpg"
+                  alt="Karthik Lal - About Picture"
+                  width={350}
+                  height={420}
                   className="w-full h-auto object-cover animate-item"
                   data-speed="0.5"
                 />

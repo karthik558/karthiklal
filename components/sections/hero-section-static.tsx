@@ -46,15 +46,15 @@ export default function HeroSectionStatic() {
 
           <div className="hidden lg:block">
             {/* Static image instead of 3D */}
-            <div className="relative">
+            <div className="relative max-w-sm mx-auto">
               <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg rotate-on-scroll"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
-                  src="/placeholder.svg?height=600&width=500"
-                  alt="3D Visualization"
-                  width={500}
-                  height={600}
+                  src="/1.jpg"
+                  alt="Karthik Lal - Profile Picture"
+                  width={400}
+                  height={480}
                   className="w-full h-auto object-cover"
                   data-speed="0.2"
                 />
