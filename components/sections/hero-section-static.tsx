@@ -192,18 +192,21 @@ export default function HeroSectionStatic() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-0 right-0 z-10 animate-item flex justify-center">
-          <Link href="#about" className="block">
-            <div className="flex flex-col items-center group cursor-pointer">
-              {/* Animated scroll wheel */}
-              <div className="relative w-6 h-10 border-2 border-foreground/30 rounded-full mb-3 group-hover:border-primary transition-colors duration-300">
-                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-foreground/30 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
+        {/* Scroll indicator - positioned on right */}
+        <div className="absolute bottom-8 right-8 z-10">
+          <Link href="#about" className="block group">
+            <div className="flex flex-col items-center space-y-2">
+              {/* Mouse design */}
+              <div className="relative">
+                <div className="w-6 h-10 border-2 border-primary/40 rounded-full bg-background/10 backdrop-blur-sm group-hover:border-primary/80 transition-all duration-300">
+                  {/* Mouse wheel - positioned at top center */}
+                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-2 bg-primary/60 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
+                </div>
               </div>
               
-              {/* Text */}
-              <span className="text-xs font-medium text-foreground/70 group-hover:text-primary transition-colors duration-300">
-                Scroll Down
+              {/* Minimal text */}
+              <span className="text-xs font-medium text-muted-foreground/70 group-hover:text-primary transition-colors duration-300 tracking-wider">
+                Scroll
               </span>
             </div>
           </Link>
