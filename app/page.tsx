@@ -6,6 +6,7 @@ import CertificationsSection from "@/components/sections/certifications-section"
 import SkillsSection from "@/components/sections/skills-section"
 import TestimonialsSection from "@/components/sections/testimonials-section"
 import HeroSectionStatic from "@/components/sections/hero-section-static"
+import MarqueeSection from "@/components/sections/marquee-section"
 
 // Structured Data for SEO
 const structuredData = {
@@ -82,6 +83,7 @@ export default function Home() {
       />
       
       <HeroSectionStatic />
+      <MarqueeSection />
       <AboutSection />
       <SkillsSection />
       <CertificationsSection />
