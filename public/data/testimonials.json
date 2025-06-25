@@ -2,39 +2,53 @@
   "testimonials": [
     {
       "id": 1,
-      "name": "Hotel Management Team",
-      "position": "Senior Management",
-      "company": "IHCL",
-      "content": "Karthik's expertise in IT infrastructure management has been invaluable to our operations. His proactive approach to security and system optimization has significantly improved our guest experience and operational efficiency.",
+      "name": "Shivalaya Arunachala",
+      "position": "Organization",
+      "company": "Shivalaya",
+      "content": "Karthik was a massive help in building our website. Extremely creative and adapted to all our requests. The finishing and commitment were truly commendable.",
       "avatar": "/placeholder-user.jpg",
-      "rating": 5
+      "rating": 5,
+      "website": "https://namashivalaya.org"
     },
     {
       "id": 2,
-      "name": "IT Director",
-      "position": "Director of Technology",
-      "company": "Tamara Leisure Experiences",
-      "content": "Working with Karthik was exceptional. His deep knowledge of network security and penetration testing helped us identify and resolve critical vulnerabilities. His technical skills are matched by his professionalism.",
+      "name": "Paul John Hotels and Resorts",
+      "position": "Management Team",
+      "company": "Paul John Hotels and Resorts",
+      "content": "Mr. Karthik Lal's invaluable contribution to developing ACE, the Financial Mobile Application for The Paul John Hotels and Resorts, exceeded our expectations.",
       "avatar": "/placeholder-user.jpg",
-      "rating": 5
+      "rating": 5,
+      "website": "https://ace-redirect.vercel.app/"
     },
     {
       "id": 3,
-      "name": "Development Team",
-      "position": "Lead Developer",
-      "company": "Tech Startup",
-      "content": "Karthik delivered a comprehensive web application that exceeded our expectations. His expertise in React, TypeScript, and modern web technologies resulted in a scalable and secure solution.",
+      "name": "TWIST-orgx",
+      "position": "Development Team",
+      "company": "TWIST-orgx",
+      "content": "This Clean Windows Tool has revolutionized our Windows systems. It effortlessly optimizes performance, repairs corrupted files, and boosts efficiency. A game-changer trusted by our team.",
       "avatar": "/placeholder-user.jpg",
-      "rating": 5
+      "rating": 5,
+      "website": "https://github.com/karthik558/CleanWindowsPro"
     },
     {
       "id": 4,
-      "name": "Operations Manager",
-      "position": "Operations Manager",
-      "company": "Paul John Hotels & Resorts",
-      "content": "Karthik's IT support and infrastructure management transformed our daily operations. His ability to troubleshoot complex issues and implement efficient solutions saved us significant time and resources.",
+      "name": "EuclidOS Team",
+      "position": "Development Team",
+      "company": "EuclidOS",
+      "content": "Very happy with the website created for EuclidOS. Karthik turned our vision into reality with amazing design that captures the soul of our Android ROM. Highly recommended!",
       "avatar": "/placeholder-user.jpg",
-      "rating": 5
+      "rating": 5,
+      "website": "https://euclidos.org"
+    },
+    {
+      "id": 5,
+      "name": "Karthik Lal",
+      "position": "Development Team",
+      "company": "CherishOS",
+      "content": "Karthik's support and expertise in developing CherishOS were invaluable. His attention to detail and commitment to quality made a significant difference in our project.",
+      "avatar": "/placeholder-user.jpg",
+      "rating": 5,
+      "website": "https://cherishos.vercel.app"
     }
   ]
 }
