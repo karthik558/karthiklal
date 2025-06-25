@@ -7,6 +7,14 @@ import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
+// Add Google Fonts for Dancing Script
+if (typeof window !== 'undefined') {
+  const link = document.createElement('link');
+  link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap';
+  link.rel = 'stylesheet';
+  document.head.appendChild(link);
+}
+
 interface GalleryGridCellProps extends HTMLMotionProps<"div"> {
   index: number
 }
@@ -140,7 +148,8 @@ export default function HeroSectionStatic() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
-                Hi there, I'm <span className="text-primary">Karthik Lal</span>
+                <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
+                <span className="text-6xl md:text-7xl lg:text-8xl text-primary block" style={{ fontFamily: 'Dancing Script, Brush Script MT, cursive' }}>Karthik Lal</span>
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
