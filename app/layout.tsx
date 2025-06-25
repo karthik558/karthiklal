@@ -4,13 +4,7 @@ import { Mona_Sans as FontSans } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Analytics } from "@/components/analytics"
-import NavBar from "@/components/nav-bar"
-import Footer from "@/components/footer"
-import Preloader from "@/components/preloader"
-import BackToTop from "@/components/back-to-top"
-import { LoadingProvider } from "@/components/loading-context"
-import ContentWrapper from "@/components/content-wrapper"
+import AppWrapper from "@/components/app-wrapper"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -136,16 +130,9 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
-          <LoadingProvider>
-            <Preloader />
-            <ContentWrapper>
-              <NavBar />
-              <main>{children}</main>
-              <Footer />
-              <BackToTop />
-            </ContentWrapper>
-            <Analytics />
-          </LoadingProvider>
+          <AppWrapper>
+            {children}
+          </AppWrapper>
         </ThemeProvider>
       </body>
     </html>
