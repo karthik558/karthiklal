@@ -66,12 +66,18 @@ export default function HeroSectionStatic() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-0 right-0 z-10 animate-item flex justify-center">
-        <Link
-          href="#about"
-          className="flex flex-col items-center text-foreground/70 hover:text-primary transition-colors"
-        >
-          <span className="text-sm mb-2">Scroll Down</span>
-          <ArrowDown className="h-5 w-5 animate-bounce rotate-on-scroll" />
+        <Link href="#about" className="block">
+          <div className="flex flex-col items-center group cursor-pointer">
+            {/* Animated scroll wheel */}
+            <div className="relative w-6 h-10 border-2 border-foreground/30 rounded-full mb-3 group-hover:border-primary transition-colors duration-300">
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-foreground/30 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
+            </div>
+            
+            {/* Text */}
+            <span className="text-xs font-medium text-foreground/70 group-hover:text-primary transition-colors duration-300">
+              Scroll Down
+            </span>
+          </div>
         </Link>
       </div>
       </section>
