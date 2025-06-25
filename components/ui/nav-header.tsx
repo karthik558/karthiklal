@@ -1,16 +1,17 @@
 "use client"
 
 import React, { useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Code, Phone } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./sheet"
+import { Sheet, SheetContent, SheetTrigger } from "./sheet"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
+import { Separator } from "./separator"
 
 function NavHeader() {
   const [position, setPosition] = useState({
@@ -22,21 +23,37 @@ function NavHeader() {
   const isMobile = useIsMobile()
   const pathname = usePathname()
   
-  // Navigation items with proper routes in order of sections
+  // Navigation items with proper routes and icons
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Experience', href: '/#experience' },
-    { label: 'Portfolio', href: '/#portfolio' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'Services', href: '/#services' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Home', href: '/', icon: Home },
+    { label: 'Experience', href: '/#experience', icon: Briefcase },
+    { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
+    { label: 'Projects', href: '/projects', icon: Code },
+    { label: 'Services', href: '/#services', icon: User },
+    { label: 'Blog', href: '/blog', icon: User },
+    { label: 'Contact', href: '/contact', icon: Phone }
+  ]
+
+  // Social media links with icons
+  const socialLinks = [
+    { name: "GitHub", icon: Github, url: "https://github.com/karthik558", username: "@karthik558", active: true },
+    { name: "LinkedIn", icon: Linkedin, url: "https://linkedin.com/in/karthiklal", username: "Karthik Lal", active: true },
+    { name: "Email", icon: Mail, url: "mailto:dev@karthiklal.in", username: "dev@karthiklal.in", active: false },
+    { name: "Twitter", icon: Twitter, url: "https://twitter.com/karthiklal", username: "@karthiklal", active: true },
+    { name: "Instagram", icon: Instagram, url: "https://instagram.com/_karthiklal", username: "@_karthiklal", active: true },
+    { name: "Facebook", icon: Facebook, url: "https://facebook.com/karthiklal0", username: "Karthik Lal", active: true },
+    { name: "YouTube", icon: Youtube, url: "https://youtube.com/@karthiklal", username: "@karthiklal", active: false },
+    { name: "Behance", icon: Palette, url: "https://behance.net/karthik558", username: "Karthik Lal", active: true },
+    { name: "Discord", icon: MessageCircle, url: "https://discord.gg/karthiklal", username: "karthiklal#1234", active: false }
   ]
 
   // Filter navigation items based on current page
   const currentPageItems = pathname === '/' 
     ? navItems.filter(item => item.label !== 'Home')
     : navItems
+
+  // Filter active social links
+  const activeSocials = socialLinks.filter(social => social.active)
 
   return (
     <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
@@ -85,32 +102,133 @@ function NavHeader() {
           <ThemeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative md:hidden">
-                <Menu className={cn("h-5 w-5 transition-all", isOpen && "rotate-90 opacity-0")} />
-                <X className={cn("absolute h-5 w-5 transition-all", !isOpen && "-rotate-90 opacity-0")} />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative md:hidden hover:bg-primary/10 transition-colors"
+              >
+                <AnimatePresence mode="wait">
+                  {!isOpen ? (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu className="h-5 w-5" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X className="h-5 w-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Button>
             </SheetTrigger>
             <SheetContent 
               side="right" 
-              className="w-[min(300px,_85vw)] rounded-l-2xl border-l-0 pr-0"
+              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background backdrop-blur-xl border border-border overflow-hidden"
             >
-              <SheetTitle className="px-6 py-4 border-b">Navigation Menu</SheetTitle>
-              <nav className="flex h-full flex-col">
-                <div className="flex-1 overflow-auto">
-                  <div className="flex flex-col gap-1 p-6">
-                    {currentPageItems.map((item) => (
-                      <MenuItem 
-                        key={item.href}
-                        href={item.href} 
-                        onClick={() => setIsOpen(false)}
-                        active={pathname === item.href}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
+              <div className="flex h-full flex-col">
+                {/* Header */}
+                <div className="px-6 py-6 border-b border-border flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                      <User className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Karthik Lal</h3>
+                      <p className="text-sm text-muted-foreground">Full Stack Developer</p>
+                    </div>
                   </div>
                 </div>
-              </nav>
+
+                {/* Navigation Menu */}
+                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                  <div className="p-6 space-y-2">
+                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                      Navigation
+                    </h4>
+                    {currentPageItems.map((item, index) => {
+                      const Icon = item.icon
+                      return (
+                        <motion.div
+                          key={item.href}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.08 }}
+                        >
+                          <MenuItem 
+                            href={item.href} 
+                            onClick={() => setIsOpen(false)}
+                            active={pathname === item.href}
+                            icon={Icon}
+                          >
+                            {item.label}
+                          </MenuItem>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+
+                  <Separator className="mx-6" />
+
+                  {/* Social Links */}
+                  <div className="p-6 pb-4">
+                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                      Connect
+                    </h4>
+                    <div className="flex flex-wrap gap-3 justify-center">
+                      {activeSocials.map((social, index) => {
+                        const Icon = social.icon
+                        return (
+                          <motion.div
+                            key={social.name}
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ 
+                              delay: 0.1 + index * 0.05,
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 20
+                            }}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <a
+                              href={social.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group relative w-12 h-12 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 border border-border hover:border-primary/40 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 overflow-hidden"
+                              onClick={() => setIsOpen(false)}
+                              title={`${social.name} - ${social.username}`}
+                            >
+                              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                              <Icon className="w-5 h-5 text-primary relative z-10 transition-transform duration-200 group-hover:scale-110" />
+                            </a>
+                          </motion.div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="p-6 pt-4 border-t border-border flex-shrink-0">
+                  <div className="text-center">
+                    <p className="text-xs text-muted-foreground">
+                      © 2025 Karthik Lal. All rights reserved.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
@@ -129,25 +247,39 @@ const MenuItem = ({
   children, 
   href, 
   onClick,
-  active
+  active,
+  icon: Icon
 }: { 
   children: React.ReactNode
   href: string
   onClick?: () => void
   active?: boolean
+  icon?: React.ComponentType<{ className?: string }>
 }) => (
   <Link
     href={href}
     onClick={onClick}
     className={cn(
-      "group relative flex items-center rounded-lg p-3 text-muted-foreground transition-all hover:bg-primary/5 hover:text-foreground",
-      active && "text-primary bg-primary/5"
+      "group relative flex items-center gap-3 rounded-xl p-3 transition-all hover:bg-muted/50",
+      active 
+        ? "text-primary bg-primary/10 dark:bg-primary/10" 
+        : "text-foreground hover:text-foreground"
     )}
   >
-    <span className="relative z-10">{children}</span>
+    {Icon && (
+      <div className={cn(
+        "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
+        active 
+          ? "bg-primary/20 text-primary" 
+          : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+      )}>
+        <Icon className="w-4 h-4 transition-colors" />
+      </div>
+    )}
+    <span className="relative z-10 font-medium">{children}</span>
     <motion.div
       initial={false}
-      className="absolute inset-0 z-0 rounded-lg bg-background"
+      className="absolute inset-0 z-0 rounded-xl"
       transition={{
         type: "spring",
         stiffness: 500,

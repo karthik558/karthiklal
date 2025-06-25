@@ -350,3 +350,31 @@ body {
   }
 }
 
+@layer utilities {
+  /* Custom scrollbar styles */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thumb-primary\/20::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .scrollbar-thumb-primary\/20::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thumb-primary\/20::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.2);
+    border-radius: 2px;
+  }
+  
+  .scrollbar-thumb-primary\/20::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.3);
+  }
+  
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
