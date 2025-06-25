@@ -2,8 +2,9 @@
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Code2, Shield, Palette, Gauge, Network, Cloud } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Code2, Shield, Palette, Cloud } from "lucide-react"
+import { GlowingEffect } from "@/components/ui/glowing-effect"
+import { cn } from "@/lib/utils"
 import servicesData from "@/public/data/services.json"
 
 // Icon mapping for dynamic icon rendering
@@ -12,9 +13,53 @@ const iconMap = {
   Code2,
   Cloud,
   Palette,
-  Network,
-  Gauge,
 }
+
+interface ServiceItemProps {
+  area: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  delay: number;
+  isInView: boolean;
+}
+
+const ServiceItem = ({ area, icon, title, description, delay, isInView }: ServiceItemProps) => {
+  return (
+    <motion.li 
+      className={cn("min-h-[14rem] list-none", area)}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay }}
+    >
+      <div className="relative h-full rounded-[1.25rem] border-[0.75px] border-border p-2 md:rounded-[1.5rem] md:p-3">
+        <GlowingEffect
+          spread={40}
+          glow={true}
+          disabled={false}
+          proximity={64}
+          inactiveZone={0.01}
+          borderWidth={3}
+        />
+        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-[0.75px] bg-background p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)] md:p-6">
+          <div className="relative flex flex-1 flex-col justify-between gap-3">
+            <div className="w-fit rounded-lg border-[0.75px] border-border bg-muted p-2">
+              {icon}
+            </div>
+            <div className="space-y-3">
+              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-semibold font-sans tracking-[-0.04em] md:text-2xl md:leading-[1.875rem] text-balance text-foreground">
+                {title}
+              </h3>
+              <p className="[&_b]:md:font-semibold [&_strong]:md:font-semibold font-sans text-sm leading-[1.125rem] md:text-base md:leading-[1.375rem] text-muted-foreground">
+                {description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.li>
+  );
+};
 
 export default function ServicesSection() {
   const ref = useRef(null)
@@ -37,36 +82,31 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-2 lg:gap-4 xl:max-h-[34rem]">
           {servicesData.services.map((service, index) => {
             const IconComponent = iconMap[service.icon as keyof typeof iconMap]
             
+            // Define grid areas for different service layouts
+            const gridAreas = [
+              "md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/7]",
+              "md:[grid-area:1/7/2/13] xl:[grid-area:1/7/2/13]", 
+              "md:[grid-area:2/1/3/7] xl:[grid-area:2/1/3/7]",
+              "md:[grid-area:2/7/3/13] xl:[grid-area:2/7/3/13]"
+            ]
+            
             return (
-              <motion.div
+              <ServiceItem
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 } }}
-                className="group"
-              >
-                <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
-                  <CardHeader className="text-center pb-4">
-                    <div className={`w-20 h-20 rounded-2xl ${service.bgColor} flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className={`h-10 w-10 ${service.color} group-hover:scale-110 transition-transform duration-300`} />
-                    </div>
-                    <CardTitle className="text-xl mb-3 group-hover:text-primary transition-colors duration-300">{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-center pt-0">
-                    <CardDescription className="text-muted-foreground leading-relaxed text-sm">
-                      {service.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                area={gridAreas[index] || ""}
+                icon={<IconComponent className="h-4 w-4" />}
+                title={service.title}
+                description={service.description}
+                delay={0.1 * index}
+                isInView={isInView}
+              />
             )
           })}
-        </div>
+        </ul>
       </div>
     </section>
   )
