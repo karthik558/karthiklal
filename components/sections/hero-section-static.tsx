@@ -1,8 +1,128 @@
+"use client"
+
+import * as React from "react"
+import { motion, HTMLMotionProps, Variants } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+
+interface GalleryGridCellProps extends HTMLMotionProps<"div"> {
+  index: number
+}
+
+const SPRING_TRANSITION_CONFIG = {
+  type: "spring" as const,
+  stiffness: 100,
+  damping: 16,
+  mass: 0.75,
+  restDelta: 0.005,
+}
+
+const filterVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(10px)",
+  },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+  },
+}
+
+const areaClasses = [
+  "col-start-2 col-end-3 row-start-1 row-end-3", // .div1
+  "col-start-1 col-end-2 row-start-2 row-end-4", // .div2
+  "col-start-1 col-end-2 row-start-4 row-end-6", // .div3
+  "col-start-2 col-end-3 row-start-3 row-end-5", // .div4
+]
+
+export const ContainerStagger = React.forwardRef<
+  HTMLDivElement,
+  HTMLMotionProps<"div">
+>(({ transition, ...props }, ref) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      whileInView={"visible"}
+      viewport={{ once: true }}
+      transition={{
+        staggerChildren: 0.2,
+        delayChildren: 0.2,
+        duration: 0.3,
+      }}
+      {...props}
+    />
+  )
+})
+ContainerStagger.displayName = "ContainerStagger"
+
+export const ContainerAnimated = React.forwardRef<
+  HTMLDivElement,
+  HTMLMotionProps<"div">
+>(({ transition, ...props }, ref) => {
+  return (
+    <motion.div
+      ref={ref}
+      variants={filterVariants}
+      transition={{
+        duration: 0.3,
+      }}
+      {...props}
+    />
+  )
+})
+ContainerAnimated.displayName = "ContainerAnimated"
+
+export const GalleryGrid = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "grid grid-cols-2 grid-rows-[80px_200px_80px_200px_80px] gap-6",
+        className
+      )}
+      {...props}
+    />
+  )
+})
+GalleryGrid.displayName = "GalleryGrid"
+
+export const GalleryGridCell = React.forwardRef<
+  HTMLDivElement,
+  GalleryGridCellProps
+>(({ className, index, children, ...props }, ref) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.3,
+        delay: index * 0.2,
+      }}
+      className={`relative overflow-hidden rounded-xl shadow-xl ${areaClasses[index]}`}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  )
+})
+GalleryGridCell.displayName = "GalleryGridCell"
 
 export default function HeroSectionStatic() {
+  const images = [
+    { src: "/1.jpg", alt: "Portfolio Image 1" },
+    { src: "/2.jpg", alt: "Portfolio Image 2" },
+    { src: "/1.jpg", alt: "Portfolio Image 3" },
+    { src: "/2.jpg", alt: "Portfolio Image 4" },
+  ]
+
   return (
     <div className="relative">
       {/* Extended background that covers hero and bleeds into next section */}
@@ -11,75 +131,74 @@ export default function HeroSectionStatic() {
       <section className="relative min-h-screen flex items-center">
         {/* Content */}
         <div className="container relative z-10 mt-24 lg:mt-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6 text-center lg:text-left">
-            <div className="relative inline-block">
-              <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
-                Web & Linux Developer
-              </span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
-              Hi there, I'm <span className="text-primary">Karthik Lal</span>
-            </h1>
-
-            <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
-              Creative Technologist | Web & Linux Developer
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
-              <Button asChild size="lg" className="rounded-full button">
-                <Link href="#portfolio">
-                  View My Work
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button asChild variant="outline" size="lg" className="rounded-full button">
-                <Link href="#" download>
-                  Download CV
-                  <Download className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-
-          <div className="hidden lg:block">
-            {/* Static image instead of 3D */}
-            <div className="relative max-w-sm mx-auto">
-              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
-              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg rotate-on-scroll"></div>
-              <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
-                <img
-                  src="/1.jpg"
-                  alt="Karthik Lal - Profile Picture"
-                  width={400}
-                  height={480}
-                  className="w-full h-auto object-cover"
-                  data-speed="0.2"
-                />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="space-y-6 text-center lg:text-left">
+              <div className="relative inline-block">
+                <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
+                  Web & Linux Developer
+                </span>
               </div>
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
+                Hi there, I'm <span className="text-primary">Karthik Lal</span>
+              </h1>
+
+              <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
+                Creative Technologist | Web & Linux Developer
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
+                <Button asChild size="lg" className="rounded-full button">
+                  <Link href="#portfolio">
+                    View My Work
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+
+                <Button asChild variant="outline" size="lg" className="rounded-full button">
+                  <Link href="#" download>
+                    Download CV
+                    <Download className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="hidden lg:block">
+              {/* Gallery Grid */}
+              <ContainerStagger className="max-w-lg mx-auto">
+                <GalleryGrid>
+                  {images.map((image, index) => (
+                    <GalleryGridCell key={index} index={index}>
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </GalleryGridCell>
+                  ))}
+                </GalleryGrid>
+              </ContainerStagger>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-0 right-0 z-10 animate-item flex justify-center">
-        <Link href="#about" className="block">
-          <div className="flex flex-col items-center group cursor-pointer">
-            {/* Animated scroll wheel */}
-            <div className="relative w-6 h-10 border-2 border-foreground/30 rounded-full mb-3 group-hover:border-primary transition-colors duration-300">
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-foreground/30 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-0 right-0 z-10 animate-item flex justify-center">
+          <Link href="#about" className="block">
+            <div className="flex flex-col items-center group cursor-pointer">
+              {/* Animated scroll wheel */}
+              <div className="relative w-6 h-10 border-2 border-foreground/30 rounded-full mb-3 group-hover:border-primary transition-colors duration-300">
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-foreground/30 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
+              </div>
+              
+              {/* Text */}
+              <span className="text-xs font-medium text-foreground/70 group-hover:text-primary transition-colors duration-300">
+                Scroll Down
+              </span>
             </div>
-            
-            {/* Text */}
-            <span className="text-xs font-medium text-foreground/70 group-hover:text-primary transition-colors duration-300">
-              Scroll Down
-            </span>
-          </div>
-        </Link>
-      </div>
+          </Link>
+        </div>
       </section>
     </div>
   )
