@@ -106,7 +106,7 @@ export const GalleryGridCell = React.forwardRef<
         duration: 0.3,
         delay: index * 0.2,
       }}
-      className={`relative overflow-hidden rounded-xl shadow-xl ${areaClasses[index]}`}
+      className={`relative overflow-hidden rounded-xl shadow-xl border-2 border-primary/60 ${areaClasses[index]}`}
       {...props}
     >
       {children}
