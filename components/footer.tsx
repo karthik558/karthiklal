@@ -22,7 +22,7 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex space-x-4">
               <Link
-                href="https://github.com/karthiklal004"
+                href="https://github.com/karthiklal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 group"
@@ -31,7 +31,7 @@ export default function Footer() {
                 <span className="sr-only">GitHub</span>
               </Link>
               <Link
-                href="https://linkedin.com/in/karthiklal004"
+                href="https://linkedin.com/in/karthiklal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 group"

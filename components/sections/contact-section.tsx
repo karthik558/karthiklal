@@ -200,7 +200,7 @@ export default function ContactSection() {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://github.com/karthiklal004"
+                  href="https://github.com/karthik558"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"
@@ -210,7 +210,7 @@ export default function ContactSection() {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://linkedin.com/in/karthiklal004"
+                  href="https://linkedin.com/in/karthiklal"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"

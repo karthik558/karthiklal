@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://karthiklal.in/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Block access to admin areas (if any)
+# Disallow: /admin/
+
+# Allow all search engine bots to crawl the entire site
+Allow: /
+Allow: /projects
+Allow: /blog
+Allow: /contact
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
