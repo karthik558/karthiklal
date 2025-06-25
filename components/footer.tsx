@@ -1,8 +1,92 @@
+"use client"
+
 import Link from "next/link"
-import { Github, Linkedin, Mail, MapPin } from "lucide-react"
+import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette } from "lucide-react"
+import { useState, useEffect } from "react"
+
+// Icon mapping for dynamic icon rendering
+const iconMap = {
+  Github,
+  Linkedin,
+  Mail,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  MessageCircle,
+  Globe,
+  Palette,
+}
+
+interface Social {
+  id: number
+  name: string
+  icon: keyof typeof iconMap
+  url: string
+  username: string
+  active: boolean
+  priority: number
+}
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const [socials, setSocials] = useState<Social[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Load socials from JSON
+    fetch('/data/socials.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
+      .then(data => {
+        console.log('Loaded socials data:', data) // Debug log
+        // Filter active socials and sort by priority
+        const activeSocials = data.socials
+          .filter((social: Social) => social.active)
+          .sort((a: Social, b: Social) => a.priority - b.priority)
+        console.log('Active socials:', activeSocials) // Debug log
+        setSocials(activeSocials)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Failed to load socials:', error)
+        setLoading(false)
+        // Fallback to hardcoded socials
+        setSocials([
+          {
+            id: 1,
+            name: "GitHub",
+            icon: "Github",
+            url: "https://github.com/karthik558",
+            username: "@karthik558",
+            active: true,
+            priority: 1
+          },
+          {
+            id: 2,
+            name: "LinkedIn",
+            icon: "Linkedin",
+            url: "https://linkedin.com/in/karthiklal",
+            username: "Karthik Lal",
+            active: true,
+            priority: 2
+          },
+          {
+            id: 3,
+            name: "Email",
+            icon: "Mail",
+            url: "mailto:dev@karthiklal.in",
+            username: "dev@karthiklal.in",
+            active: true,
+            priority: 3
+          }
+        ])
+      })
+  }, [])
 
   return (
     <footer className="bg-secondary/5 border-t border-border">
@@ -21,31 +105,36 @@ export default function Footer() {
 
             {/* Social Links */}
             <div className="flex space-x-3">
-              <Link
-                href="https://github.com/karthiklal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-              >
-                <Github className="h-4 w-4" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-              <Link
-                href="https://linkedin.com/in/karthiklal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-              >
-                <Linkedin className="h-4 w-4" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
-              <Link
-                href="mailto:dev@karthiklal.in"
-                className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-              >
-                <Mail className="h-4 w-4" />
-                <span className="sr-only">Email</span>
-              </Link>
+              {loading ? (
+                // Loading skeleton
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-9 h-9 rounded-full bg-muted animate-pulse"
+                  />
+                ))
+              ) : (
+                socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) {
+                    console.warn(`Icon not found for ${social.icon}`)
+                    return null
+                  }
+                  return (
+                    <Link
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== 'Email' ? "_blank" : undefined}
+                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                      className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                      title={social.name}
+                    >
+                      <IconComponent className="h-4 w-4" />
+                      <span className="sr-only">{social.name}</span>
+                    </Link>
+                  )
+                })
+              )}
             </div>
           </div>
 

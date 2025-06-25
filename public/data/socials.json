@@ -1,0 +1,85 @@
+{
+  "socials": [
+    {
+      "id": 1,
+      "name": "GitHub",
+      "icon": "Github",
+      "url": "https://github.com/karthik558",
+      "username": "@karthik558",
+      "active": true,
+      "priority": 1
+    },
+    {
+      "id": 2,
+      "name": "LinkedIn",
+      "icon": "Linkedin",
+      "url": "https://linkedin.com/in/karthiklal",
+      "username": "Karthik Lal",
+      "active": true,
+      "priority": 2
+    },
+    {
+      "id": 3,
+      "name": "Email",
+      "icon": "Mail",
+      "url": "mailto:dev@karthiklal.in",
+      "username": "dev@karthiklal.in",
+      "active": false,
+      "priority": 3
+    },
+    {
+      "id": 4,
+      "name": "Twitter",
+      "icon": "Twitter",
+      "url": "https://twitter.com/karthiklal",
+      "username": "@karthiklal",
+      "active": true,
+      "priority": 4
+    },
+    {
+      "id": 5,
+      "name": "Instagram",
+      "icon": "Instagram",
+      "url": "https://instagram.com/_karthiklal",
+      "username": "@_karthiklal",
+      "active": true,
+      "priority": 5
+    },
+    {
+      "id": 6,
+      "name": "Facebook",
+      "icon": "Facebook",
+      "url": "https://facebook.com/karthiklal0",
+      "username": "Karthik Lal",
+      "active": true,
+      "priority": 6
+    },
+    {
+      "id": 7,
+      "name": "YouTube",
+      "icon": "Youtube",
+      "url": "https://youtube.com/@karthiklal",
+      "username": "@karthiklal",
+      "active": false,
+      "priority": 7
+    },
+    {
+      "id": 8,
+      "name": "Behance",
+      "icon": "Palette",
+      "url": "https://behance.net/karthik558",
+      "username": "Karthik Lal",
+      "active": true,
+      "priority": 8
+    },
+    {
+      "id": 9,
+      "name": "Discord",
+      "icon": "MessageCircle",
+      "url": "https://discord.gg/karthiklal",
+      "username": "karthiklal#1234",
+      "active": false,
+      "priority": 9
+    }
+  ]
+}

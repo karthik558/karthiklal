@@ -5,16 +5,57 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle } from "lucide-react"
+import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette } from "lucide-react"
 import { motion, useInView } from "framer-motion"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
+
+// Icon mapping for dynamic icon rendering
+const iconMap = {
+  Github,
+  Linkedin,
+  Mail,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  MessageCircle,
+  Globe,
+  Palette,
+}
+
+interface Social {
+  id: number
+  name: string
+  icon: keyof typeof iconMap
+  url: string
+  username: string
+  active: boolean
+  priority: number
+}
 
 export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
+  const [socials, setSocials] = useState<Social[]>([])
   const { toast } = useToast()
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  useEffect(() => {
+    // Load socials from JSON
+    fetch('/data/socials.json')
+      .then(res => res.json())
+      .then(data => {
+        // Filter active socials (excluding email) and sort by priority
+        const activeSocials = data.socials
+          .filter((social: Social) => social.active && social.name !== 'Email')
+          .sort((a: Social, b: Social) => a.priority - b.priority)
+        setSocials(activeSocials)
+      })
+      .catch(error => {
+        console.error('Failed to load socials:', error)
+      })
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -196,27 +237,29 @@ export default function ContactSection() {
             {/* Social Links */}
             <div className="space-y-6">
               <h4 className="text-lg font-semibold">Connect With Me</h4>
-              <div className="flex gap-4">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://github.com/karthik558"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"
-                >
-                  <Github className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://linkedin.com/in/karthiklal"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-card hover:bg-primary/10 border border-border hover:border-primary/20 flex items-center justify-center transition-all duration-300 group"
-                >
-                  <Linkedin className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </motion.a>
+              
+              {/* Social usernames display */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {socials.map((social) => (
+                  <a
+                    key={social.id}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors duration-200 group"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+                      {(() => {
+                        const IconComponent = iconMap[social.icon]
+                        return <IconComponent className="h-4 w-4 text-primary" />
+                      })()}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{social.name}</p>
+                      <p className="text-xs text-muted-foreground">{social.username}</p>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
 
