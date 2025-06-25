@@ -8,7 +8,8 @@
       "category": "Web Development",
       "link": "https://guest-it.vercel.app",
       "github": "https://github.com/karthik558/GuestIT-Portal",
-      "technologies": ["React", "TypeScript", "Tailwind", "Supabase", "Cloudflare"]
+      "technologies": ["React", "TypeScript", "Tailwind", "Supabase", "Cloudflare"],
+      "featured": true
     },
     {
       "id": 2,
@@ -18,7 +19,8 @@
       "category": "Software Development",
       "link": "https://rust-ping.vercel.app/",
       "github": "https://github.com/karthik558/RustPing-Website",
-      "technologies": ["Rust", "React", "TypeScript", "Vite"]
+      "technologies": ["Rust", "React", "TypeScript", "Vite"],
+      "featured": true
     },
     {
       "id": 3,
@@ -28,7 +30,8 @@
       "category": "Security Tools",
       "link": "https://github.com/karthik558/Rust-Crypt",
       "github": "https://github.com/karthik558/Rust-Crypt",
-      "technologies": ["Rust"]
+      "technologies": ["Rust"],
+      "featured": true
     },
     {
       "id": 4,
@@ -38,7 +41,8 @@
       "category": "Extension Development",
       "link": "https://github.com/karthik558/GPM-DarkMode",
       "github": "https://github.com/karthik558/GPM-DarkMode",
-      "technologies": ["HTML", "CSS", "JavaScript"]
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "featured": false
     },
     {
       "id": 5,
@@ -48,7 +52,8 @@
       "category": "Software Development",
       "link": "https://github.com/karthik558/LogAnalyzerPro",
       "github": "https://github.com/karthik558/LogAnalyzerPro",
-      "technologies": ["Python"]
+      "technologies": ["Python"],
+      "featured": false
     },
     {
       "id": 6,
@@ -58,7 +63,8 @@
       "category": "Web Development",
       "link": "https://lilacird.vercel.app/",
       "github": "https://lilacird.vercel.app/",
-      "technologies": ["React", "NextJS", "CSS"]
+      "technologies": ["React", "NextJS", "CSS"],
+      "featured": false
     },
     {
       "id": 7,
@@ -68,7 +74,8 @@
       "category": "Web Development",
       "link": "https://euclidos.org",
       "github": "https://euclidos.org",
-      "technologies": ["React", "NextJS", "SaSS"]
+      "technologies": ["React", "NextJS", "SaSS"],
+      "featured": false
     },
     {
       "id": 8,
@@ -78,7 +85,8 @@
       "category": "Web Development",
       "link": "https://namashivalaya.org",
       "github": "https://github.com",
-      "technologies": ["HTML", "CSS", "JavaScript", "Bootstrap", "Sass"]
+      "technologies": ["HTML", "CSS", "JavaScript", "Bootstrap", "Sass"],
+      "featured": false
     },
     {
       "id": 9,
@@ -88,7 +96,8 @@
       "category": "Web Development",
       "link": "https://password.karthiklal.in",
       "github": "https://password.karthiklal.in",
-      "technologies": ["React", "TypeScript", "CSS"]
+      "technologies": ["React", "TypeScript", "CSS"],
+      "featured": false
     },
     {
       "id": 10,
@@ -98,7 +107,8 @@
       "category": "Web Development",
       "link": "https://cherishos.vercel.app",
       "github": "https://cherishos.vercel.app",
-      "technologies": ["React", "NextJS", "SaSS"]
+      "technologies": ["React", "NextJS", "SaSS"],
+      "featured": false
     },
     {
       "id": 11,
@@ -108,7 +118,8 @@
       "category": "Security Tools",
       "link": "https://github.com/karthik558/CodeLogger",
       "github": "https://github.com/karthik558/CodeLogger",
-      "technologies": ["Python"]
+      "technologies": ["Python"],
+      "featured": false
     },
     {
       "id": 12,
@@ -118,7 +129,8 @@
       "category": "Security Tools",
       "link": "https://github.com/karthik558/DDOS-ATTACK",
       "github": "https://github.com/karthik558/DDOS-ATTACK",
-      "technologies": ["Python"]
+      "technologies": ["Python"],
+      "featured": false
     },
     {
       "id": 13,
@@ -128,7 +140,8 @@
       "category": "Custom Tools",
       "link": "https://github.com/karthik558/CleanWindowsPro",
       "github": "https://github.com/karthik558/CleanWindowsPro",
-      "technologies": ["Bash"]
+      "technologies": ["Bash"],
+      "featured": false
     }
   ]
 }

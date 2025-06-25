@@ -27,6 +27,7 @@ function NavHeader() {
     { label: 'Home', href: '/' },
     { label: 'Experience', href: '/#experience' },
     { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'Projects', href: '/projects' },
     { label: 'Services', href: '/#services' },
     { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' }
