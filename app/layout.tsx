@@ -19,7 +19,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Karthik Lal - IT Manager & Cybersecurity Expert",
+    default: "KARTHIK LAL - Certified Ethical Hacker",
     template: "%s | Karthik Lal"
   },
   description: "Karthik Lal is a 25-year-old IT Manager and cybersecurity expert with 6.8+ years of experience in network management, threat intelligence, and full-stack development. Based in Kerala, India, specializing in secure IT solutions, web development, and cybersecurity education.",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
         url: "/1.jpg",
         width: 1200,
         height: 630,
-        alt: "Karthik Lal - IT Manager and Cybersecurity Expert",
+        alt: "Karthik Lal - IT Manager & Certified Ethical Hacker",
       },
     ],
   },
