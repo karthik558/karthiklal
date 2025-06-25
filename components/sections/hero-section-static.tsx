@@ -12,7 +12,7 @@ export default function HeroSectionStatic() {
         {/* Content */}
         <div className="container relative z-10 mt-24 lg:mt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
+          <div className="space-y-6 text-center lg:text-left">
             <div className="relative inline-block">
               <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
                 Web & Linux Developer
@@ -23,11 +23,11 @@ export default function HeroSectionStatic() {
               Hi there, I'm <span className="text-primary">Karthik Lal</span>
             </h1>
 
-            <p className="text-xl text-muted-foreground max-w-xl animate-item">
+            <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
               Creative Technologist | Web & Linux Developer
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4 animate-item">
+            <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
               <Button asChild size="lg" className="rounded-full button">
                 <Link href="#portfolio">
                   View My Work
@@ -65,7 +65,7 @@ export default function HeroSectionStatic() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-item">
+      <div className="absolute bottom-10 left-0 right-0 z-10 animate-item flex justify-center">
         <Link
           href="#about"
           className="flex flex-col items-center text-foreground/70 hover:text-primary transition-colors"
