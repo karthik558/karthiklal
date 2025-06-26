@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion, HTMLMotionProps, Variants } from "framer-motion"
+import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
@@ -122,6 +122,9 @@ export const GalleryGridCell = React.forwardRef<
 GalleryGridCell.displayName = "GalleryGridCell"
 
 export default function HeroSectionStatic() {
+  const { scrollYProgress } = useScroll()
+  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  
   const images = [
     { src: "/1.jpg", alt: "Portfolio Image 1" },
     { src: "/2.jpg", alt: "Portfolio Image 2" },
@@ -187,25 +190,15 @@ export default function HeroSectionStatic() {
           </div>
         </div>
 
-        {/* Scroll indicator - positioned on right */}
-        <div className="absolute bottom-8 right-8 z-10">
+        {/* Scroll indicator - positioned at bottom center */}
+        <motion.div 
+          style={{ opacity: scrollIndicatorOpacity }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        >
           <Link href="#about" className="block group">
-            <div className="flex flex-col items-center space-y-2">
-              {/* Mouse design */}
-              <div className="relative">
-                <div className="w-6 h-10 border-2 border-primary/40 rounded-full bg-background/10 backdrop-blur-sm group-hover:border-primary/80 transition-all duration-300">
-                  {/* Mouse wheel - positioned at top center */}
-                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-2 bg-primary/60 rounded-full animate-pulse group-hover:bg-primary transition-colors duration-300"></div>
-                </div>
-              </div>
-              
-              {/* Minimal text */}
-              <span className="text-xs font-medium text-muted-foreground/70 group-hover:text-primary transition-colors duration-300 tracking-wider glass px-3 py-1 rounded-full">
-                Scroll
-              </span>
-            </div>
+            <ArrowDown className="h-6 w-6 text-primary/70 group-hover:text-primary animate-bounce transition-colors duration-300" />
           </Link>
-        </div>
+        </motion.div>
       </section>
     </div>
   )

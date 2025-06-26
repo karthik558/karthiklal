@@ -68,6 +68,7 @@ export default function HeroSection() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -165,23 +166,11 @@ export default function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.8,
-          delay: 1.5,
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "mirror",
-          repeatDelay: 0.5,
-        }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+        style={{ opacity: scrollIndicatorOpacity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
       >
-        <Link
-          href="#about"
-          className="flex flex-col items-center text-foreground/70 hover:text-primary transition-colors"
-        >
-          <span className="text-sm mb-2 glass px-4 py-2 rounded-full">Scroll Down</span>
-          <ArrowDown className="h-5 w-5 animate-bounce" />
+        <Link href="#about" className="block group">
+          <ArrowDown className="h-6 w-6 text-primary/70 group-hover:text-primary animate-bounce transition-colors duration-300" />
         </Link>
       </motion.div>
     </section>
