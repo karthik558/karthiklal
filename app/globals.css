@@ -79,22 +79,7 @@ body {
   }
 }
 
-/* Custom scroll styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-background;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-primary/50 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
-}
+/* Remove duplicate scrollbar styles - handled below with responsive design */
 
 /* Smooth scrolling */
 html {
@@ -272,23 +257,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Optimized scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Optimized scrollbar - Desktop only */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.3);
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.6);
+/* Hide scrollbar on mobile */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
+  
+  /* For Firefox */
+  html {
+    scrollbar-width: none;
+  }
 }
 
 /* GPU acceleration for better performance */
