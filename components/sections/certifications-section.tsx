@@ -73,7 +73,7 @@ export default function CertificationsSection() {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <span className="inline-block text-primary font-medium mb-2">Certifications</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Certifications</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional <span className="text-gradient">Achievements</span></h2>
           <p className="text-muted-foreground">
             Continuous learning is essential in tech. Here are some of my professional certifications and achievements.
           </p>
@@ -95,52 +95,78 @@ export default function CertificationsSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.1 * index }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="group"
             >
-              <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg group-hover:shadow-xl">
-                  <CardHeader className="space-y-4 pb-4">
-                    <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Award className="h-6 w-6 text-primary" />
+              <Card className="h-full bg-card border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-lg group">
+                <CardHeader className="pb-4">
+                  {/* Header with icon and status */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+                      <Award className="h-6 w-6 text-primary" />
+                    </div>
+                    {certification.status === 'active' ? (
+                      <Badge variant="default" className="bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Active
+                      </Badge>
+                    ) : (
+                      <Badge variant="secondary" className="bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-900/30 dark:text-orange-400">
+                        <Clock className="w-3 h-3 mr-1" />
+                        Expiring
+                      </Badge>
+                    )}
+                  </div>
+
+                  {/* Title and issuer */}
+                  <div className="space-y-2">
+                    <CardTitle className="text-lg font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                      {certification.title}
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground font-medium">
+                      {certification.issuer}
+                    </p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed mt-3">
+                    {certification.description}
+                  </p>
+                </CardHeader>
+
+                <CardContent className="pt-0">
+                  {/* Divider */}
+                  <div className="border-t border-border/50 mb-4"></div>
+                  
+                  {/* Bottom section with details */}
+                  <div className="space-y-3">
+                    {/* Credential ID */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                        Credential ID
+                      </span>
+                      <span className="text-xs font-mono bg-secondary px-2 py-1 rounded text-foreground">
+                        {certification.credentialId}
+                      </span>
+                    </div>
+                    
+                    {/* Dates */}
+                    <div className="flex justify-between items-center text-xs">
+                      <div className="flex items-center gap-1">
+                        <span className="text-muted-foreground">Issued:</span>
+                        <span className="font-medium text-foreground">{certification.date}</span>
                       </div>
-                      {certification.status === 'active' ? (
-                        <Badge variant="default" className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Active
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500">
-                          <Clock className="w-3 h-3 mr-1" />
-                          Expiring
-                        </Badge>
+                      {certification.expiryDate && (
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Expires:</span>
+                          <span className="font-medium text-foreground">{certification.expiryDate}</span>
+                        </div>
                       )}
                     </div>
-                    <div>
-                      <CardTitle className="text-lg transition-colors group-hover:text-primary">
-                        {certification.title}
-                      </CardTitle>
-                      <div className="text-sm text-muted-foreground mt-1">{certification.issuer}</div>
-                    </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {certification.description}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between items-center pt-2 border-t border-border/50">
-                      <div className="space-y-1">
-                        <div className="text-xs text-muted-foreground">Credential ID</div>
-                        <div className="text-xs font-medium">{certification.credentialId}</div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
-                          {certification.date}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
             ))
           )}
         </div>
@@ -157,7 +183,7 @@ export default function CertificationsSection() {
               onClick={handleShowMore}
               variant="outline"
               size="lg"
-              className="rounded-full interactive"
+              className="border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 font-medium"
             >
               {showAll ? (
                 <>
