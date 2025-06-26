@@ -53,8 +53,7 @@ export const ContainerStagger = React.forwardRef<
     <motion.div
       ref={ref}
       initial="hidden"
-      whileInView={"visible"}
-      viewport={{ once: true }}
+      animate="visible"
       transition={{
         staggerChildren: 0.2,
         delayChildren: 0.2,
@@ -108,8 +107,7 @@ export const GalleryGridCell = React.forwardRef<
     <motion.div
       ref={ref}
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1 }}
       transition={{
         duration: 0.3,
         delay: index * 0.2,
