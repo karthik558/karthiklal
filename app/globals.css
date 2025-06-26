@@ -580,3 +580,81 @@ input, textarea, [contenteditable] {
   cursor: url('/cursor/cursor.png'), default !important;
 }
 
+/* Enhanced nav header styles for better visibility */
+/* Navigation cursor/hover background */
+.bg-primary\/10 {
+  background-color: hsl(6 74% 29% / 0.15) !important;
+}
+
+/* Improved nav hover states for light mode */
+.hover\:bg-primary\/10:hover {
+  background-color: hsl(6 74% 29% / 0.15) !important;
+}
+
+.hover\:bg-muted\/50:hover {
+  background-color: hsl(var(--muted) / 0.8) !important;
+}
+
+/* Dark mode nav enhancements */
+.dark .bg-primary\/10 {
+  background-color: hsl(0 0% 100% / 0.12) !important;
+  border: 1px solid hsl(0 0% 100% / 0.1) !important;
+}
+
+.dark .hover\:bg-primary\/10:hover {
+  background-color: hsl(0 0% 100% / 0.15) !important;
+  border-color: hsl(0 0% 100% / 0.2) !important;
+}
+
+.dark .hover\:bg-muted\/50:hover {
+  background-color: hsl(0 0% 100% / 0.08) !important;
+}
+
+/* Nav tab hover effects */
+.dark li:hover {
+  color: hsl(0 0% 100%) !important;
+}
+
+/* Navigation link active states */
+.text-primary {
+  color: hsl(6 74% 29%) !important;
+}
+
+.dark .text-primary {
+  color: hsl(0 0% 100%) !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Mobile menu item hover enhancements */
+.dark .group-hover\:bg-primary\/10:hover {
+  background-color: hsl(0 0% 100% / 0.12) !important;
+}
+
+.dark .group-hover\:text-primary:hover {
+  color: hsl(0 0% 100%) !important;
+}
+
+/* Social icons in mobile menu */
+.dark .hover\:border-primary\/40:hover {
+  border-color: hsl(0 0% 100% / 0.4) !important;
+}
+
+.dark .hover\:shadow-primary\/20:hover {
+  box-shadow: 0 4px 12px hsl(0 0% 100% / 0.15) !important;
+}
+
+/* Navigation backdrop in dark mode */
+.dark .bg-background\/40 {
+  background-color: hsl(var(--background) / 0.8) !important;
+  border-color: hsl(0 0% 100% / 0.2) !important;
+}
+
+/* Desktop nav border enhancement */
+.border-primary\/20 {
+  border-color: hsl(6 74% 29% / 0.25) !important;
+}
+
+.dark .border-primary\/20 {
+  border-color: hsl(0 0% 100% / 0.25) !important;
+}
+
