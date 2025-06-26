@@ -56,7 +56,7 @@ export default function PortfolioSection() {
             <Button 
               asChild 
               size="lg" 
-              className="relative bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground border-2 border-primary/20 hover:border-primary rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105"
+              className="relative bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105"
             >
               <Link href="/projects" className="flex items-center gap-3">
                 <FolderOpen className="h-5 w-5" />

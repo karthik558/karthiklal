@@ -139,12 +139,6 @@ export default function HeroSectionStatic() {
         <div className="container relative z-10 px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
             <div className="space-y-6 text-center lg:text-left flex flex-col justify-center">
-              <div className="relative inline-block">
-                <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
-                  Web & Linux Developer
-                </span>
-              </div>
-
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
                 <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
                 <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">Karthik Lal</span>
@@ -155,17 +149,20 @@ export default function HeroSectionStatic() {
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
-                <Button asChild size="lg" className="rounded-full button">
+                <Button asChild size="lg" className="rounded-full glass hover:shadow-primary/20 hover:shadow-lg">
                   <Link href="#portfolio">
                     View My Work
                     <ExternalLink className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
 
-                <Button asChild variant="outline" size="lg" className="rounded-full button">
+                <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
                   <Link href="#" download>
-                    Download CV
-                    <Download className="ml-2 h-4 w-4" />
+                    <span className="relative z-10 flex items-center">
+                      <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      Download CV
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                   </Link>
                 </Button>
               </div>
@@ -203,7 +200,7 @@ export default function HeroSectionStatic() {
               </div>
               
               {/* Minimal text */}
-              <span className="text-xs font-medium text-muted-foreground/70 group-hover:text-primary transition-colors duration-300 tracking-wider">
+              <span className="text-xs font-medium text-muted-foreground/70 group-hover:text-primary transition-colors duration-300 tracking-wider glass px-3 py-1 rounded-full">
                 Scroll
               </span>
             </div>

@@ -145,10 +145,13 @@ export default function HeroSection() {
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" size="lg" className="rounded-full glass border-primary/20">
+              <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
                 <Link href="#" download>
-                  Download CV
-                  <Download className="ml-2 h-4 w-4" />
+                  <span className="relative z-10 flex items-center">
+                    <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    Download CV
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                 </Link>
               </Button>
             </motion.div>
