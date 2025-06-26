@@ -50,7 +50,7 @@ function NavHeader() {
 
   // Filter navigation items based on current page
   const currentPageItems = pathname === '/' 
-    ? navItems.filter(item => item.label !== 'Home')
+    ? navItems.filter(item => item.label !== 'Home' && item.label !== 'Projects')
     : navItems
 
   // Filter active social links
