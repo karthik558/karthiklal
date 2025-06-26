@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Code, Phone } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -99,7 +99,6 @@ function NavHeader() {
       {/* Mobile Navigation */}
       {isMobile && (
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button 
@@ -134,7 +133,7 @@ function NavHeader() {
             </SheetTrigger>
             <SheetContent 
               side="right" 
-              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background backdrop-blur-xl border border-border overflow-hidden"
+              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background backdrop-blur-xl border border-border overflow-hidden [&>button]:hidden"
             >
               <div className="flex h-full flex-col">
                 {/* Header */}
@@ -176,6 +175,18 @@ function NavHeader() {
                         </motion.div>
                       )
                     })}
+                  </div>
+
+                  <Separator className="mx-6" />
+
+                  {/* Theme Toggle Section */}
+                  <div className="p-6 pb-4">
+                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                      Theme
+                    </h4>
+                    <div className="flex justify-center">
+                      <ThemeToggleAnimated />
+                    </div>
                   </div>
 
                   <Separator className="mx-6" />
@@ -234,10 +245,12 @@ function NavHeader() {
         </div>
       )}
 
-      {/* Desktop Theme Toggle */}
-      <div className="hidden md:block">
-        <ThemeToggle />
-      </div>
+      {/* Desktop Theme Toggle - Only show on desktop */}
+      {!isMobile && (
+        <div className="hidden md:block">
+          <ThemeToggleAnimated />
+        </div>
+      )}
     </div>
   )
 }
