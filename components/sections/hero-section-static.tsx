@@ -136,7 +136,9 @@ export default function HeroSectionStatic() {
   return (
     <div className="relative">
       {/* Extended background that covers hero and bleeds into next section */}
-      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background" data-speed="0.8"></div>
+      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/5 via-primary/2 to-background" data-speed="0.8"></div>
+      {/* Additional subtle radial gradient for depth */}
+      <div className="absolute inset-0 h-[120vh] bg-gradient-radial from-primary/3 via-transparent to-transparent opacity-60"></div>
       
       <section className="relative min-h-screen flex items-center justify-center pt-20">
         {/* Content */}

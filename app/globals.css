@@ -415,6 +415,11 @@ body {
 }
 
 @layer utilities {
+  /* Custom gradient utilities */
+  .bg-gradient-radial {
+    background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+  
   /* Custom scrollbar styles */
   .scrollbar-thin {
     scrollbar-width: thin;
