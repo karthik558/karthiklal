@@ -54,15 +54,11 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Email:</p>
-                <p className="font-medium">dev@karthiklal.in</p>
+                <a href="mailto:dev@karthiklal.in" className="font-medium text-primary hover:underline transition-colors">dev@karthiklal.in</a>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location:</p>
                 <p className="font-medium">Kerala, India</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Phone:</p>
-                <p className="font-medium">+91 8129624036</p>
               </div>
             </div>
 

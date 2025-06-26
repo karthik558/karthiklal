@@ -168,7 +168,7 @@ export default function Footer() {
             <div className="space-y-1 text-sm">
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <Mail className="h-3 w-3" />
-                <span>dev@karthiklal.in</span>
+                <a href="mailto:dev@karthiklal.in" className="hover:text-primary transition-colors">dev@karthiklal.in</a>
               </div>
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <MapPin className="h-3 w-3" />
@@ -279,7 +279,7 @@ export default function Footer() {
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-3 w-3" />
-                <span>dev@karthiklal.in</span>
+                <a href="mailto:dev@karthiklal.in" className="hover:text-primary transition-colors">dev@karthiklal.in</a>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-3 w-3" />

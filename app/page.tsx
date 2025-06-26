@@ -45,7 +45,6 @@ const structuredData = {
     "addressCountry": "IN"
   },
   "email": "dev@karthiklal.in",
-  "telephone": "+91-8129624036",
   "knowsAbout": [
     "Cybersecurity",
     "Network Security",
