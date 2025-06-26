@@ -1,8 +1,10 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useTheme } from "next-themes"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -32,6 +34,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   const [socials, setSocials] = useState<Social[]>([])
   const [loading, setLoading] = useState(true)
+  const { theme } = useTheme()
 
   useEffect(() => {
     // Load socials from JSON
@@ -90,23 +93,25 @@ export default function Footer() {
 
   return (
     <footer className="bg-secondary/5 border-t border-border">
-      <div className="container py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-xl font-bold">
-                KARTHIK <span className="text-gradient">LAL</span>
-              </h3>
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                IT Manager & Cybersecurity Expert
-              </p>
+      <div className="container py-4 md:py-6">
+        {/* Mobile Layout */}
+        <div className="block md:hidden">
+          <div className="text-center space-y-3">
+            {/* Signature */}
+            <div className="flex justify-center">
+              <Image
+                src={theme === 'dark' ? '/signature/signature-dark.png' : '/signature/signature-light.png'}
+                alt="Karthik Lal Signature"
+                width={200}
+                height={60}
+                className="h-12 w-auto object-contain"
+                priority
+              />
             </div>
-
+            
             {/* Social Links */}
-            <div className="flex space-x-3">
+            <div className="flex justify-center space-x-3">
               {loading ? (
-                // Loading skeleton
                 Array.from({ length: 3 }).map((_, index) => (
                   <div
                     key={index}
@@ -136,37 +141,142 @@ export default function Footer() {
                 })
               )}
             </div>
+
+            {/* Quick Links - Horizontal on Mobile */}
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm">
+              <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
+                About
+              </Link>
+              <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
+                Projects
+              </Link>
+              <Link href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
+                Services
+              </Link>
+              <Link href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
+                Experience
+              </Link>
+              <Link href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
+                Skills
+              </Link>
+              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                Contact
+              </Link>
+            </div>
+
+            {/* Contact Info */}
+            <div className="space-y-1 text-sm">
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Mail className="h-3 w-3" />
+                <span>dev@karthiklal.in</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <MapPin className="h-3 w-3" />
+                <span>Lakshadweep, India</span>
+              </div>
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex justify-center gap-4 text-xs">
+              <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
+                Privacy
+              </Link>
+              <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+                Terms
+              </Link>
+              <Link href="/cookies" className="text-muted-foreground hover:text-primary transition-colors">
+                Cookies
+              </Link>
+            </div>
+
+            {/* Copyright */}
+            <div className="pt-2 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                © {currentYear} Karthik Lal. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
+          {/* Brand Section */}
+          <div className="space-y-3">
+            <div>
+              <Image
+                src={theme === 'dark' ? '/signature/signature-dark.png' : '/signature/signature-light.png'}
+                alt="Karthik Lal Signature"
+                width={180}
+                height={50}
+                className="h-10 w-auto object-contain"
+                priority
+              />
+            </div>
+
+            {/* Social Links */}
+            <div className="flex space-x-2">
+              {loading ? (
+                // Loading skeleton
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-8 h-8 rounded-full bg-muted animate-pulse"
+                  />
+                ))
+              ) : (
+                socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) {
+                    console.warn(`Icon not found for ${social.icon}`)
+                    return null
+                  }
+                  return (
+                    <Link
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== 'Email' ? "_blank" : undefined}
+                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                      className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                      title={social.name}
+                    >
+                      <IconComponent className="h-3.5 w-3.5" />
+                      <span className="sr-only">{social.name}</span>
+                    </Link>
+                  )
+                })
+              )}
+            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Quick Links</h4>
-            <div className="grid grid-cols-2 gap-1">
-              <Link href="/#about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            <div className="grid grid-cols-2 gap-1 text-sm">
+              <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </Link>
-              <Link href="/projects" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
                 Projects
               </Link>
-              <Link href="/#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                 Services
               </Link>
-              <Link href="/#experience" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
                 Experience
               </Link>
-              <Link href="/#skills" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
                 Skills
               </Link>
-              <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
               </Link>
             </div>
           </div>
 
           {/* Contact & Legal */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Contact</h4>
-            <div className="space-y-2">
+            <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-3 w-3" />
                 <span>dev@karthiklal.in</span>
@@ -178,7 +288,7 @@ export default function Footer() {
             </div>
             
             {/* Legal Links */}
-            <div className="pt-2">
+            <div className="pt-1">
               <div className="flex flex-wrap gap-3 text-xs">
                 <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
                   Privacy
@@ -192,13 +302,13 @@ export default function Footer() {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom Section */}
-        <div className="mt-8 pt-6 border-t border-border text-center">
-          <p className="text-xs text-muted-foreground">
-            © {currentYear} Karthik Lal. All rights reserved.
-          </p>
+          {/* Desktop Bottom Section */}
+          <div className="col-span-3 mt-6 pt-4 border-t border-border text-center">
+            <p className="text-xs text-muted-foreground">
+              © {currentYear} Karthik Lal. All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
