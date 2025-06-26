@@ -15,11 +15,11 @@ export function scrollToElement(targetId: string) {
     const smoother = ScrollSmoother.get()
     
     if (smoother && smoother.scrollTo) {
-      // Use ScrollSmoother for smooth navigation
-      smoother.scrollTo(targetElement, true, "top 100px")
+      // Use ScrollSmoother for smooth navigation with proper offset for fixed navbar
+      smoother.scrollTo(targetElement, true, "top 80px")
     } else {
-      // Fallback to regular scrolling with offset
-      const yOffset = -100
+      // Fallback to regular scrolling with offset for fixed navbar
+      const yOffset = -80
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
@@ -27,8 +27,8 @@ export function scrollToElement(targetId: string) {
     console.warn("Error in scrollToElement, using fallback", error)
     const targetElement = document.getElementById(targetId)
     if (targetElement) {
-      // Final fallback to basic scroll
-      const yOffset = -100
+      // Final fallback to basic scroll with navbar offset
+      const yOffset = -80
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
@@ -72,5 +72,21 @@ export function getCurrentScrollProgress(): number {
       1
     )
     return Math.min(scrollTop / scrollHeight, 1)
+  }
+}
+
+export function resetScrollPosition() {
+  try {
+    const smoother = ScrollSmoother.get()
+    
+    if (smoother) {
+      smoother.scrollTo(0, false) // Instant scroll to top
+      smoother.refresh()
+    } else {
+      window.scrollTo({ top: 0, behavior: 'auto' })
+    }
+  } catch (error) {
+    console.warn("Error resetting scroll position", error)
+    window.scrollTo({ top: 0, behavior: 'auto' })
   }
 }

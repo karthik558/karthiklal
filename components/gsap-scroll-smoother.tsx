@@ -39,6 +39,8 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
             content: contentRef.current,
             smooth: 1, // Default smooth value for responsiveness
             effects: true, // Enable data-speed effects for parallax
+            normalizeScroll: true, // Help normalize scroll behavior across devices
+            ignoreMobileResize: true, // Prevent issues on mobile resize
           })
 
           // Handle smooth scrolling to anchors with better detection
@@ -57,8 +59,8 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
                 if (targetElement && smootherRef.current) {
                   e.preventDefault()
                   e.stopPropagation()
-                  // Use ScrollSmoother's smooth scrolling
-                  smootherRef.current.scrollTo(targetElement, true, "top 100px")
+                  // Use ScrollSmoother's smooth scrolling with proper offset for fixed navbar
+                  smootherRef.current.scrollTo(targetElement, true, "top 80px")
                 }
               }
               // For all other links (external, page navigation, etc.), let them work normally
@@ -74,6 +76,18 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
           }
 
           setIsInitialized(true)
+          
+          // Force a refresh after initialization to ensure proper calculations
+          setTimeout(() => {
+            if (smootherRef.current) {
+              smootherRef.current.refresh()
+              // Ensure we start at the top of the page
+              if (window.scrollY === 0) {
+                smootherRef.current.scrollTo(0, false)
+              }
+            }
+            ScrollTrigger.refresh()
+          }, 300)
         } catch (error) {
           console.error("Failed to initialize ScrollSmoother:", error)
         }
@@ -109,10 +123,24 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
     // Refresh ScrollTrigger when content changes
     const refreshScrollTrigger = () => {
       ScrollTrigger.refresh()
+      if (smootherRef.current) {
+        smootherRef.current.refresh()
+      }
+    }
+
+    // Handle window focus to refresh when user returns to tab
+    const handleFocus = () => {
+      setTimeout(() => {
+        if (smootherRef.current) {
+          smootherRef.current.refresh()
+        }
+        ScrollTrigger.refresh()
+      }, 100)
     }
 
     window.addEventListener("resize", handleResize)
     window.addEventListener("load", refreshScrollTrigger)
+    window.addEventListener("focus", handleFocus)
     
     // Initial refresh after a short delay
     const refreshTimer = setTimeout(refreshScrollTrigger, 200)
@@ -120,6 +148,7 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
     return () => {
       window.removeEventListener("resize", handleResize)
       window.removeEventListener("load", refreshScrollTrigger)
+      window.removeEventListener("focus", handleFocus)
       clearTimeout(refreshTimer)
     }
   }, [isInitialized])

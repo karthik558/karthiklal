@@ -5,6 +5,7 @@ import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "fram
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
 
 // Add Google Fonts for Dancing Script
@@ -196,9 +197,9 @@ export default function HeroSectionStatic() {
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
           data-speed="1.0"
         >
-          <Link href="#about" className="block group">
+          <SmoothLink href="#about" className="block group">
             <ArrowDown className="h-6 w-6 text-primary/70 group-hover:text-primary animate-bounce transition-colors duration-300" />
-          </Link>
+          </SmoothLink>
         </motion.div>
       </section>
     </div>
