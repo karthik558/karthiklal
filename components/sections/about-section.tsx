@@ -10,10 +10,10 @@ export default function AboutSection() {
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image column */}
-          <div className="relative mx-auto lg:mx-0 max-w-xs lg:max-w-sm">
+          <div className="relative mx-auto lg:mx-0 max-w-xs lg:max-w-sm" data-speed="1.1">
             <div className="relative">
-              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg"></div>
-              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg"></div>
+              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg" data-speed="0.9"></div>
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg" data-speed="1.2"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
                   src="/2.jpg"
@@ -21,14 +21,14 @@ export default function AboutSection() {
                   width={350}
                   height={420}
                   className="w-full h-auto object-cover animate-item"
-                  data-speed="0.5"
+                  data-speed="1.0"
                 />
               </div>
             </div>
           </div>
 
           {/* Content column */}
-          <div className="space-y-6">
+          <div className="space-y-6" data-speed="0.95">
             <div>
               <span className="inline-block text-primary font-medium mb-2 animate-item">
                 About Me

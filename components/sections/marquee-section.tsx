@@ -5,15 +5,15 @@ import { MarqueeAnimation } from "@/components/ui/marquee-effect"
 export default function MarqueeSection() {
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-secondary/5 to-background">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      {/* Background decoration with parallax effect */}
+      <div className="absolute inset-0 opacity-20" data-speed="0.8">
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse" data-speed="0.9"></div>
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} data-speed="1.1"></div>
       </div>
       
-      <div className="relative space-y-12">
+      <div className="relative space-y-12" data-speed="0.95">
         {/* First marquee - tilted left, main skills */}
-        <div className="transform -rotate-3 origin-center">
+        <div className="transform -rotate-3 origin-center" data-speed="0.98">
           <MarqueeAnimation
             direction="left"
             baseVelocity={2}
@@ -24,7 +24,7 @@ export default function MarqueeSection() {
         </div>
 
         {/* Second marquee - tilted right, technical skills */}
-        <div className="transform rotate-3 origin-center">
+        <div className="transform rotate-3 origin-center" data-speed="1.02">
           <MarqueeAnimation
             direction="right"
             baseVelocity={1.8}
@@ -35,8 +35,8 @@ export default function MarqueeSection() {
         </div>
       </div>
 
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
+      {/* Subtle grid overlay with slow parallax */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none" data-speed="0.9">
         <div className="w-full h-full bg-grid-pattern"></div>
       </div>
     </section>

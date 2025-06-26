@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
+import { scrollToTop, getCurrentScrollProgress } from "@/lib/scroll-utils"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
@@ -22,16 +23,28 @@ export default function BackToTop() {
     const timer = setTimeout(() => {
       try {
         const toggleVisibility = () => {
-          const scrolled = window.scrollY
-          const maxHeight = document.documentElement.scrollHeight - window.innerHeight
-          const progress = Math.min((scrolled / maxHeight) * 100, 100)
+          try {
+            const scrolled = window.scrollY
+            let progress = 0
+            
+            try {
+              progress = getCurrentScrollProgress() * 100
+            } catch {
+              // Fallback calculation if ScrollSmoother is not available
+              const maxHeight = Math.max(
+                document.documentElement.scrollHeight - window.innerHeight,
+                1
+              )
+              progress = Math.min((scrolled / maxHeight) * 100, 100)
+            }
 
-          setScrollProgress(progress)
-          
-          if (scrolled > 500) {
-            setIsVisible(true)
-          } else {
-            setIsVisible(false)
+            setScrollProgress(Math.min(Math.max(progress, 0), 100))
+            setIsVisible(scrolled > 500)
+          } catch (error) {
+            console.warn("Error in scroll detection, using fallback", error)
+            const scrolled = window.scrollY
+            setIsVisible(scrolled > 500)
+            setScrollProgress(0)
           }
         }
 
@@ -52,13 +65,9 @@ export default function BackToTop() {
     }
   }, [isBrowser])
 
-  const scrollToTop = () => {
+  const handleScrollToTop = () => {
     if (!isBrowser) return
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
+    scrollToTop()
   }
 
   // Don't render anything on server or if not mounted
@@ -78,7 +87,7 @@ export default function BackToTop() {
             stiffness: 400,
             damping: 25
           }}
-          onClick={scrollToTop}
+          onClick={handleScrollToTop}
           className="fixed right-6 bottom-6 z-50 group"
           aria-label="Scroll to top"
         >

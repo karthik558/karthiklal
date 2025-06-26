@@ -135,13 +135,13 @@ export default function HeroSectionStatic() {
   return (
     <div className="relative">
       {/* Extended background that covers hero and bleeds into next section */}
-      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background"></div>
+      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background" data-speed="0.8"></div>
       
       <section className="relative min-h-screen flex items-center justify-center">
         {/* Content */}
         <div className="container relative z-10 px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
-            <div className="space-y-6 text-center lg:text-left flex flex-col justify-center">
+            <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
                 <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
                 <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">Karthik Lal</span>
@@ -171,7 +171,7 @@ export default function HeroSectionStatic() {
               </div>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden lg:block" data-speed="1.1">
               {/* Gallery Grid */}
               <ContainerStagger className="max-w-lg mx-auto">
                 <GalleryGrid>
@@ -194,6 +194,7 @@ export default function HeroSectionStatic() {
         <motion.div 
           style={{ opacity: scrollIndicatorOpacity }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+          data-speed="1.0"
         >
           <Link href="#about" className="block group">
             <ArrowDown className="h-6 w-6 text-primary/70 group-hover:text-primary animate-bounce transition-colors duration-300" />

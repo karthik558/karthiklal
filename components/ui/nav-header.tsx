@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./sheet"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
 import { Separator } from "./separator"
+import SmoothLink from "@/components/smooth-link"
 
 function NavHeader() {
   const [position, setPosition] = useState({

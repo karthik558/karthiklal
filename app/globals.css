@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* GSAP ScrollSmoother Styles - Simplified for better compatibility */
+#smooth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#smooth-content {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure body allows for smooth scrolling */
+body {
+  overflow-x: hidden;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
