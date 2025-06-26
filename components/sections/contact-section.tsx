@@ -170,10 +170,6 @@ export default function ContactSection() {
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span>Available for new projects</span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-              <MessageCircle className="h-4 w-4" />
-              <span>Quick response time</span>
-            </div>
           </motion.div>
         </motion.div>
 
@@ -261,14 +257,6 @@ export default function ContactSection() {
                   </a>
                 ))}
               </div>
-            </div>
-
-            {/* Additional Info */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-              <h4 className="font-semibold mb-2">Response Time</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                I typically respond to all messages within 24 hours. For urgent matters, feel free to reach out via email directly.
-              </p>
             </div>
           </motion.div>
 
