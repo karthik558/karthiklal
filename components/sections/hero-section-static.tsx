@@ -134,11 +134,11 @@ export default function HeroSectionStatic() {
       {/* Extended background that covers hero and bleeds into next section */}
       <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background"></div>
       
-      <section className="relative min-h-screen flex items-center">
+      <section className="relative min-h-screen flex items-center justify-center">
         {/* Content */}
-        <div className="container relative z-10 mt-24 lg:mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div className="space-y-6 text-center lg:text-left">
+        <div className="container relative z-10 px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
+            <div className="space-y-6 text-center lg:text-left flex flex-col justify-center">
               <div className="relative inline-block">
                 <span className="bg-primary/20 text-primary text-sm font-semibold px-4 py-2 rounded-full animate-item">
                   Web & Linux Developer
