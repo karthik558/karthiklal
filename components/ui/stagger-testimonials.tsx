@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const SQRT_5000 = Math.sqrt(5000);
@@ -114,46 +115,110 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       </div>
 
       {/* Modal for full testimonial */}
-      {showModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setShowModal(false)}
-          />
-          
-          {/* Modal content */}
-          <div className="relative bg-card border border-border rounded-xl shadow-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
-            <button
+      <AnimatePresence>
+        {showModal && (
+          <motion.div 
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            {/* Backdrop */}
+            <motion.div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors z-10"
-              aria-label="Close"
-            >
-              <span className="text-muted-foreground text-lg">×</span>
-            </button>
+            />
             
-            <div className="pr-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center font-bold text-lg">
-                  {testimonial.by.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground text-sm sm:text-base">{testimonial.by}</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Client Testimonial</p>
-                </div>
-              </div>
+            {/* Modal content */}
+            <motion.div 
+              className="relative bg-card border border-border/50 rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto"
+              initial={{ 
+                opacity: 0, 
+                scale: 0.9, 
+                y: 20 
+              }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                y: 0 
+              }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.9, 
+                y: 20 
+              }}
+              transition={{ 
+                duration: 0.3, 
+                ease: "easeOut",
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }}
+            >
+              {/* Close button */}
+              <motion.button
+                onClick={() => setShowModal(false)}
+                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-all duration-200 group"
+                aria-label="Close"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="text-muted-foreground group-hover:text-foreground text-xl font-light">×</span>
+              </motion.button>
               
-              <blockquote className="text-foreground leading-relaxed text-sm sm:text-base mb-4">
-                "{testimonial.testimonial}"
-              </blockquote>
-              
-              <div className="text-xs sm:text-sm text-muted-foreground italic">
-                - {testimonial.by}
+              <div className="pr-8">
+                {/* Header */}
+                <motion.div 
+                  className="flex items-center gap-4 mb-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.3 }}
+                >
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex items-center justify-center font-bold text-lg text-primary">
+                    {testimonial.by.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground text-lg">{testimonial.by}</h3>
+                    <p className="text-sm text-muted-foreground">Client Testimonial</p>
+                  </div>
+                </motion.div>
+                
+                {/* Quote */}
+                <motion.div 
+                  className="relative mb-6"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.3 }}
+                >
+                  <div className="absolute -top-2 -left-2 text-4xl text-primary/30 font-serif">"</div>
+                  <blockquote className="text-foreground leading-relaxed text-base pl-6 pr-4">
+                    {testimonial.testimonial}
+                  </blockquote>
+                  <div className="absolute -bottom-2 -right-2 text-4xl text-primary/30 font-serif">"</div>
+                </motion.div>
+                
+                {/* Attribution */}
+                <motion.div 
+                  className="text-right"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full">
+                    <span className="text-sm text-muted-foreground">—</span>
+                    <span className="text-sm font-medium text-foreground">{testimonial.by}</span>
+                  </div>
+                </motion.div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
