@@ -1,4 +1,5 @@
 import AboutSection from "@/components/sections/about-section"
+import PortfolioGallerySection from "@/components/sections/portfolio-gallery-section"
 import PortfolioSection from "@/components/sections/portfolio-section"
 import ServicesSection from "@/components/sections/services-section"
 import ExperienceSection from "@/components/sections/experience-section"
@@ -84,6 +85,7 @@ export default function Home() {
       <HeroSectionStatic />
       <MarqueeSection />
       <AboutSection />
+      <PortfolioGallerySection />
       <SkillsSection />
       <ServicesSection />
       <ExperienceSection />

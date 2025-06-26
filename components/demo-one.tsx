@@ -1,43 +1,73 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState, useCallback } from "react"
-import Preloader from "@/components/preloader"
+import { Component } from "@/components/ui/circular-gallery";
+
+const demoItems = [
+  {
+    image: `https://picsum.photos/seed/1/800/600?grayscale`,
+    text: "Bridge",
+  },
+  {
+    image: `https://picsum.photos/seed/2/800/600?grayscale`,
+    text: "Desk Setup",
+  },
+  {
+    image: `https://picsum.photos/seed/3/800/600?grayscale`,
+    text: "Waterfall",
+  },
+  {
+    image: `https://picsum.photos/seed/4/800/600?grayscale`,
+    text: "Strawberries",
+  },
+  {
+    image: `https://picsum.photos/seed/5/800/600?grayscale`,
+    text: "Deep Diving",
+  },
+  {
+    image: `https://picsum.photos/seed/16/800/600?grayscale`,
+    text: "Train Track",
+  },
+  {
+    image: `https://picsum.photos/seed/17/800/600?grayscale`,
+    text: "Santorini",
+  },
+  {
+    image: `https://picsum.photos/seed/8/800/600?grayscale`,
+    text: "Blurry Lights",
+  },
+  {
+    image: `https://picsum.photos/seed/9/800/600?grayscale`,
+    text: "New York",
+  },
+  {
+    image: `https://picsum.photos/seed/10/800/600?grayscale`,
+    text: "Good Boy",
+  },
+  {
+    image: `https://picsum.photos/seed/21/800/600?grayscale`,
+    text: "Coastline",
+  },
+  {
+    image: `https://picsum.photos/seed/12/800/600?grayscale`,
+    text: "Palm Trees",
+  },
+];
 
 const DemoOne = () => {
-  const [showPreloader, setShowPreloader] = useState(true)
-
-  const handleComplete = useCallback(() => {
-    setShowPreloader(false)
-  }, [])
-
-  const handleReplay = useCallback(() => {
-    setShowPreloader(true)
-  }, [])
-
   return (
-    <>
-      {showPreloader && <Preloader onComplete={handleComplete} />}
-      <main className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-        <motion.div
-          className="text-center space-y-8 max-w-3xl"
-          initial="hidden"
-          animate="visible"
-        >
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">Welcome</h1>
-          <p className="text-xl text-muted-foreground">
-            Your content has loaded successfully. The preloader animation has completed.
-          </p>
-          <button
-            onClick={handleReplay}
-            className="px-6 py-3 mt-6 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-md hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transform transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
-          >
-            Replay Preloader
-          </button>
-        </motion.div>
-      </main>
-    </>
-  )
-}
+    <div className="flex w-full h-screen justify-center items-center bg-black">
+      <div 
+        className="w-full max-w-screen-xl mx-auto h-[80vh] overflow-hidden relative bg-black border-none shadow-none"
+      >
+        <Component 
+          items={demoItems} 
+          bend={3} 
+          textColor="#ffffff" 
+          borderRadius={0.05} 
+        />
+      </div>
+    </div>
+  );
+};
 
-export { DemoOne }
+export { DemoOne };
