@@ -1,64 +1,48 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Award, ExternalLink, CheckCircle, Clock, ChevronDown, ChevronUp } from "lucide-react"
-import Link from "next/link"
+import { Award, CheckCircle, Clock, ChevronDown, ChevronUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
-const certifications = [
-  {
-    id: 1,
-    title: "Certified Ethical Hacking (CEH)",
-    issuer: "EC-Council",
-    date: "Jun 2021",
-    expiryDate: "Jun 2024",
-    credentialId: "CEH-2021",
-    status: "active",
-    description: "Comprehensive ethical hacking certification covering penetration testing, vulnerability assessment, and cybersecurity best practices.",
-    link: "https://www.eccouncil.org/",
-  },
-  {
-    id: 2,
-    title: "Git Certified Specialist",
-    issuer: "GitKraken",
-    date: "Apr 2023",
-    expiryDate: "No Expiry",
-    credentialId: "GK-GIT-2023",
-    status: "active",
-    description: "Professional certification in Git version control, covering advanced Git workflows, branching strategies, and collaboration techniques.",
-    link: "https://www.gitkraken.com/",
-  },
-  {
-    id: 3,
-    title: "LFD103: A Beginner's Guide to Linux Kernel Development",
-    issuer: "The Linux Foundation",
-    date: "Feb 2023",
-    expiryDate: "No Expiry",
-    credentialId: "LF-LKD-2023",
-    status: "active",
-    description: "Comprehensive course on Linux kernel development fundamentals, covering kernel architecture and development practices.",
-    link: "https://www.linuxfoundation.org/",
-  },
-  {
-    id: 4,
-    title: "Programming in C & Object Oriented Programming using C++",
-    issuer: "NIST Computer Education Center",
-    date: "Dec 2021",
-    expiryDate: "No Expiry",
-    credentialId: "NIST-CPP-2021",
-    status: "active",
-    description: "Advanced programming certification covering C fundamentals and object-oriented programming concepts in C++.",
-    link: "https://nist.edu/",
-  },
-]
+interface Certification {
+  id: number
+  title: string
+  issuer: string
+  date: string
+  expiryDate: string
+  credentialId: string
+  status: string
+  description: string
+}
 
 export default function CertificationsSection() {
+  const [certifications, setCertifications] = useState<Certification[]>([])
+  const [loading, setLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  useEffect(() => {
+    // Load certifications from JSON
+    fetch('/data/certifications.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
+      .then(data => {
+        setCertifications(data.certifications)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Failed to load certifications:', error)
+        setLoading(false)
+      })
+  }, [])
 
   const displayedCertifications = showAll ? certifications : certifications.slice(0, 3)
 
@@ -96,7 +80,16 @@ export default function CertificationsSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedCertifications.map((certification, index) => (
+          {loading ? (
+            // Loading skeleton
+            Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-64 bg-muted/50 rounded-lg animate-pulse"
+              />
+            ))
+          ) : (
+            displayedCertifications.map((certification, index) => (
             <motion.div
               key={certification.id}
               initial={{ opacity: 0, y: 20 }}
@@ -105,13 +98,7 @@ export default function CertificationsSection() {
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="group"
             >
-              <Link
-                href={certification.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block h-full"
-              >
-                <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full hover:border-primary/50 transition-all duration-300">
+              <Card className="border border-border/50 bg-card/50 backdrop-blur-sm h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg group-hover:shadow-xl">
                   <CardHeader className="space-y-4 pb-4">
                     <div className="flex items-start justify-between">
                       <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -130,7 +117,7 @@ export default function CertificationsSection() {
                       )}
                     </div>
                     <div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                      <CardTitle className="text-lg transition-colors group-hover:text-primary">
                         {certification.title}
                       </CardTitle>
                       <div className="text-sm text-muted-foreground mt-1">{certification.issuer}</div>
@@ -149,14 +136,13 @@ export default function CertificationsSection() {
                         <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">
                           {certification.date}
                         </span>
-                        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))
+          )}
         </div>
 
         {/* Show More/Less Button */}
