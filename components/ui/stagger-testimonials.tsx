@@ -64,17 +64,22 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
             height: 2
           }}
         />
-        <img
-          src={testimonial.imgSrc}
-          alt={`${testimonial.by.split(',')[0]}`}
-          className="mb-4 h-14 w-12 bg-muted object-cover object-top"
+        <div
+          className={cn(
+            "mb-4 h-14 w-12 flex items-center justify-center font-bold text-lg",
+            isCenter 
+              ? "bg-white/20 text-white dark:bg-primary-foreground/20 dark:text-primary-foreground" 
+              : "bg-muted text-foreground"
+          )}
           style={{
             boxShadow: "3px 3px 0px hsl(var(--background))"
           }}
-        />
+        >
+          {testimonial.by.charAt(0).toUpperCase()}
+        </div>
         <h3 className={cn(
           "text-base sm:text-lg font-medium overflow-hidden",
-          isCenter ? "text-primary-foreground" : "text-foreground"
+          isCenter ? "text-white dark:text-primary-foreground" : "text-foreground"
         )}
         style={{
           display: '-webkit-box',
@@ -93,16 +98,16 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
               e.stopPropagation();
               setShowModal(true);
             }}
-            className="absolute bottom-14 right-8 w-6 h-6 rounded-full bg-primary-foreground/20 hover:bg-primary-foreground/30 flex items-center justify-center transition-all duration-200 group"
+            className="absolute bottom-14 right-8 w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 dark:bg-primary-foreground/20 dark:hover:bg-primary-foreground/30 flex items-center justify-center transition-all duration-200 group"
             aria-label="Read full testimonial"
           >
-            <span className="text-xs font-bold text-primary-foreground group-hover:scale-110 transition-transform">⋯</span>
+            <span className="text-xs font-bold text-white dark:text-primary-foreground group-hover:scale-110 transition-transform">⋯</span>
           </button>
         )}
         
         <p className={cn(
           "absolute bottom-8 left-8 right-8 mt-2 text-sm italic",
-          isCenter ? "text-primary-foreground/80" : "text-muted-foreground"
+          isCenter ? "text-white/90 dark:text-primary-foreground/80" : "text-muted-foreground"
         )}>
           - {testimonial.by}
         </p>
@@ -129,11 +134,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
             
             <div className="pr-8">
               <div className="flex items-center gap-3 mb-4">
-                <img
-                  src={testimonial.imgSrc}
-                  alt={testimonial.by}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center font-bold text-lg">
+                  {testimonial.by.charAt(0).toUpperCase()}
+                </div>
                 <div>
                   <h3 className="font-semibold text-foreground text-sm sm:text-base">{testimonial.by}</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">Client Testimonial</p>
