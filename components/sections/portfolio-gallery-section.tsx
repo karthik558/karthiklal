@@ -1,6 +1,9 @@
 "use client"
 
 import { Component } from "@/components/ui/circular-gallery";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 // Portfolio items showcasing design works
 const portfolioItems = [
@@ -74,6 +77,18 @@ const PortfolioGallerySection = () => {
               font="bold 24px DM Sans"
             />
           </div>
+        </div>
+        
+        <div className="text-center mt-12">
+          <Link href="https://www.behance.net/karthik558">
+            <Button 
+              size="lg" 
+              className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <ExternalLink className="w-5 h-5 mr-2" />
+              View All Designs
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
