@@ -2,9 +2,10 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp, Calendar, Building2 } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
 
@@ -22,7 +23,6 @@ export default function ExperienceSection() {
 
   const handleShowMoreWork = () => {
     if (showAllWork) {
-      // When collapsing, scroll back to the experience section
       setShowAllWork(false)
       setTimeout(() => {
         ref.current?.scrollIntoView({ 
@@ -38,7 +38,6 @@ export default function ExperienceSection() {
 
   const handleShowMoreEducation = () => {
     if (showAllEducation) {
-      // When collapsing, scroll back to the experience section
       setShowAllEducation(false)
       setTimeout(() => {
         ref.current?.scrollIntoView({ 
@@ -60,190 +59,208 @@ export default function ExperienceSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="inline-block text-primary font-medium mb-2 animate-item">Experience & Education</span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">My Professional <span className="text-gradient">Journey</span></h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto animate-item">
+          <span className="inline-block text-primary font-medium mb-2">Experience & Education</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">My Professional <span className="text-gradient">Journey</span></h2>
+          <p className="text-muted-foreground">
             A comprehensive overview of my professional experience and educational milestones that shaped my expertise.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Work Experience */}
-          <div className="space-y-8">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                <BriefcaseIcon className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold">Work Experience</h3>
-                <p className="text-sm text-muted-foreground">{workExperiences.length} positions</p>
-              </div>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="max-w-4xl mx-auto"
+        >
+          <Tabs defaultValue="experience" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-12 h-16 p-2 bg-secondary/30 backdrop-blur-md border border-border/30 rounded-full shadow-sm">
+              <TabsTrigger 
+                value="experience" 
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md h-12 text-base font-medium transition-all duration-300 rounded-full flex items-center justify-center gap-2 group"
+              >
+                <BriefcaseIcon className="h-4 w-4" />
+                Work Experience
+                <Badge className="ml-1 h-5 px-2 text-xs bg-background/20 text-current border border-current/30 group-data-[state=active]:bg-white group-data-[state=active]:text-primary group-data-[state=active]:border-white/50">
+                  {workExperiences.length}
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="education" 
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md h-12 text-base font-medium transition-all duration-300 rounded-full flex items-center justify-center gap-2 group"
+              >
+                <GraduationCap className="h-4 w-4" />
+                Education
+                <Badge className="ml-1 h-5 px-2 text-xs bg-background/20 text-current border border-current/30 group-data-[state=active]:bg-white group-data-[state=active]:text-primary group-data-[state=active]:border-white/50">
+                  {educationExperiences.length}
+                </Badge>
+              </TabsTrigger>
+            </TabsList>
 
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-6 top-8 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
-              
-              <div className="space-y-8">
-                {displayedWorkExperiences.map((experience, index) => (
-                  <motion.div
-                    key={experience.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                    className="relative"
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute left-4 top-6 w-4 h-4 rounded-full border-3 border-background bg-primary shadow-lg z-10"></div>
-                    
-                    <Card className="ml-14 group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
-                      <CardContent className="p-6">
-                        <div className="space-y-4">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                            <div className="space-y-1">
-                              <h4 className="font-bold text-lg group-hover:text-primary transition-colors">
-                                {experience.title}
-                              </h4>
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Building2 className="h-4 w-4" />
-                                <span className="font-medium">{experience.company}</span>
+            {/* Work Experience Tab */}
+            <TabsContent value="experience" className="space-y-8">
+              <div className="relative">
+                {/* Enhanced timeline line */}
+                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full"></div>
+                
+                <div className="space-y-8">
+                  {displayedWorkExperiences.map((experience, index) => (
+                    <motion.div
+                      key={experience.id}
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                      transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
+                      className="relative"
+                    >
+                      {/* Enhanced timeline dot */}
+                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10">
+                        <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
+                      </div>
+                      
+                      <Card className="ml-20 group hover:shadow-xl transition-all duration-500 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30">
+                        <CardHeader className="pb-4">
+                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                            <div className="space-y-3 flex-1">
+                              <div className="space-y-2">
+                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                                  {experience.title}
+                                </h4>
+                                <div className="flex items-center gap-3 text-muted-foreground">
+                                  <div className="flex items-center gap-2">
+                                    <Building2 className="h-4 w-4 text-primary" />
+                                    <span className="font-medium">{experience.company}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="flex flex-wrap gap-2">
+                                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                                  <Calendar className="h-3 w-3 mr-1" />
+                                  {experience.duration}
+                                </Badge>
                               </div>
                             </div>
-                            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 whitespace-nowrap">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {experience.duration}
-                            </Badge>
                           </div>
-                          
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {experience.description}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                        </CardHeader>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Show More/Less Button for Work Experience */}
-            {workExperiences.length > 3 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex justify-center"
-              >
-                <Button
-                  onClick={handleShowMoreWork}
-                  variant="outline"
-                  className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+              {/* Show More/Less Button for Work Experience */}
+              {workExperiences.length > 3 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="flex justify-center pt-8"
                 >
-                  {showAllWork ? (
-                    <>
-                      <ChevronUp className="mr-2 h-4 w-4" />
-                      Show Less
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="mr-2 h-4 w-4" />
-                      Show {workExperiences.length - 3} More Positions
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            )}
-          </div>
-
-          {/* Education */}
-          <div className="space-y-8">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                <GraduationCap className="h-7 w-7 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold">Education</h3>
-                <p className="text-sm text-muted-foreground">{educationExperiences.length} qualifications</p>
-              </div>
-            </div>
-
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-6 top-8 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
-              
-              <div className="space-y-8">
-                {displayedEducationExperiences.map((education, index) => (
-                  <motion.div
-                    key={education.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                    transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                    className="relative"
+                  <Button
+                    onClick={handleShowMoreWork}
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full hover:bg-primary hover:text-primary-foreground border-primary/30 hover:border-primary transition-all duration-300 group"
                   >
-                    {/* Timeline dot */}
-                    <div className="absolute left-4 top-6 w-4 h-4 rounded-full border-3 border-background bg-primary shadow-lg z-10"></div>
-                    
-                    <Card className="ml-14 group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
-                      <CardContent className="p-6">
-                        <div className="space-y-4">
-                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                            <div className="space-y-1">
-                              <h4 className="font-bold text-lg group-hover:text-primary transition-colors">
-                                {education.title}
-                              </h4>
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Building2 className="h-4 w-4" />
-                                <span className="font-medium">{education.company}</span>
+                    {showAllWork ? (
+                      <>
+                        <ChevronUp className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                        Show Less
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                        Show {workExperiences.length - 3} More Positions
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              )}
+            </TabsContent>
+
+            {/* Education Tab */}
+            <TabsContent value="education" className="space-y-8">
+              <div className="relative">
+                {/* Enhanced timeline line */}
+                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full"></div>
+                
+                <div className="space-y-8">
+                  {displayedEducationExperiences.map((education, index) => (
+                    <motion.div
+                      key={education.id}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+                      transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
+                      className="relative"
+                    >
+                      {/* Enhanced timeline dot */}
+                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10">
+                        <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
+                      </div>
+                      
+                      <Card className="ml-20 group hover:shadow-xl transition-all duration-500 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30">
+                        <CardHeader className="pb-4">
+                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                            <div className="space-y-3 flex-1">
+                              <div className="space-y-2">
+                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                                  {education.title}
+                                </h4>
+                                <div className="flex items-center gap-3 text-muted-foreground">
+                                  <div className="flex items-center gap-2">
+                                    <Building2 className="h-4 w-4 text-primary" />
+                                    <span className="font-medium">{education.company}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="flex flex-wrap gap-2">
+                                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                                  <Calendar className="h-3 w-3 mr-1" />
+                                  {education.duration}
+                                </Badge>
                               </div>
                             </div>
-                            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 whitespace-nowrap">
-                              <Calendar className="h-3 w-3 mr-1" />
-                              {education.duration}
-                            </Badge>
                           </div>
-                          
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {education.description}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                        </CardHeader>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Show More/Less Button for Education */}
-            {educationExperiences.length > 3 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="flex justify-center"
-              >
-                <Button
-                  onClick={handleShowMoreEducation}
-                  variant="outline"
-                  className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+              {/* Show More/Less Button for Education */}
+              {educationExperiences.length > 3 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="flex justify-center pt-8"
                 >
-                  {showAllEducation ? (
-                    <>
-                      <ChevronUp className="mr-2 h-4 w-4" />
-                      Show Less
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="mr-2 h-4 w-4" />
-                      Show {educationExperiences.length - 3} More Qualifications
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            )}
-          </div>
-        </div>
+                  <Button
+                    onClick={handleShowMoreEducation}
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full hover:bg-primary hover:text-primary-foreground border-primary/30 hover:border-primary transition-all duration-300 group"
+                  >
+                    {showAllEducation ? (
+                      <>
+                        <ChevronUp className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                        Show Less
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                        Show {educationExperiences.length - 3} More Qualifications
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              )}
+            </TabsContent>
+          </Tabs>
+        </motion.div>
       </div>
     </section>
   )
