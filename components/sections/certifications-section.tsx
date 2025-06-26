@@ -183,17 +183,17 @@ export default function CertificationsSection() {
               onClick={handleShowMore}
               variant="outline"
               size="lg"
-              className="border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 font-medium"
+              className="rounded-full hover:bg-primary hover:text-primary-foreground border-primary/30 hover:border-primary transition-all duration-300 group"
             >
               {showAll ? (
                 <>
+                  <ChevronUp className="mr-2 h-4 w-4 group-hover:animate-bounce" />
                   Show Less
-                  <ChevronUp className="ml-2 h-4 w-4" />
                 </>
               ) : (
                 <>
-                  Show More ({certifications.length - 3} more)
-                  <ChevronDown className="ml-2 h-4 w-4" />
+                  <ChevronDown className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                  Show {certifications.length - 3} More Certifications
                 </>
               )}
             </Button>
