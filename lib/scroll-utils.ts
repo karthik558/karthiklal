@@ -8,20 +8,26 @@ export function scrollToElement(targetId: string) {
     
     if (!targetElement) {
       console.warn(`Element with id "${targetId}" not found`)
-      return
+      return false
     }
+
+    console.log(`Scrolling to element: ${targetId}`) // Debug log
 
     // Try to use ScrollSmoother first
     const smoother = ScrollSmoother.get()
     
     if (smoother && smoother.scrollTo) {
+      console.log('Using ScrollSmoother for navigation') // Debug log
       // Use ScrollSmoother for smooth navigation with proper offset for fixed navbar
       smoother.scrollTo(targetElement, true, "top 80px")
+      return true
     } else {
+      console.log('Using fallback scroll navigation') // Debug log
       // Fallback to regular scrolling with offset for fixed navbar
       const yOffset = -80
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
+      return true
     }
   } catch (error) {
     console.warn("Error in scrollToElement, using fallback", error)
@@ -31,7 +37,9 @@ export function scrollToElement(targetId: string) {
       const yOffset = -80
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
+      return true
     }
+    return false
   }
 }
 
