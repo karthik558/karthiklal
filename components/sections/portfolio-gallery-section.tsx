@@ -8,40 +8,49 @@ import Link from "next/link";
 // Portfolio items showcasing design works
 const portfolioItems = [
   {
-    image: "/1.jpg", // Use your existing image
+    image: "https://mir-s3-cdn-cf.behance.net/project_modules/fs/00634e215516589.67cb14067e350.jpeg",
   },
   {
-    image: "/2.jpg", // Use your existing image
+    image: "https://mir-s3-cdn-cf.behance.net/project_modules/fs/06a1c6198005031.664f4d2c07e1a.png",
   },
   {
-    image: `https://picsum.photos/seed/portfolio1/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/2b8ef1198005031.663a25afab140.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio2/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/0300da198005031.663b38c0e793d.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio3/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/bd3b4d174168173.649d2364da5e0.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio4/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/8ca4ef174167957.649d222d7535e.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio5/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/94f398149008519.62e286d4a6d9a.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio6/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/41f9c5149008519.62dfe2d31023a.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio7/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/138959140295881.623ef4a205c5d.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio8/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/946118139026885.623bf32779298.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio9/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/e22062188246697.66a9d29dc9560.png`,
   },
   {
-    image: `https://picsum.photos/seed/portfolio10/800/600?grayscale`,
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/a79652134749859.61dbf42a779fb.jpg`,
+  },
+  {
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/f1df08134749859.620251784767a.png`,
+  },
+  {
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/60449a174168051.649d22bb84335.png`,
+  },
+  {
+    image: `https://mir-s3-cdn-cf.behance.net/project_modules/fs/0ef99e139027447.62482ffc0e5e7.png`,
   },
 ];
 
