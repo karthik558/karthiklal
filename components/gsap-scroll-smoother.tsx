@@ -44,27 +44,33 @@ export default function GSAPScrollSmoother({ children }: GSAPScrollSmootherProps
           // Handle smooth scrolling to anchors with better detection
           const handleAnchorClick = (e: Event) => {
             const target = e.target as HTMLElement
-            const link = target.closest('a[href^="#"]') as HTMLAnchorElement
+            const link = target.closest('a') as HTMLAnchorElement
             
-            if (link && link.getAttribute('href')?.startsWith('#')) {
-              const targetId = link.getAttribute('href')?.substring(1)
-              const targetElement = document.getElementById(targetId || '')
+            if (link) {
+              const href = link.getAttribute('href')
               
-              if (targetElement && smootherRef.current) {
-                e.preventDefault()
-                e.stopPropagation()
-                // Use ScrollSmoother's smooth scrolling
-                smootherRef.current.scrollTo(targetElement, true, "top 100px")
+              // Only handle same-page anchor links (starting with # or /#)
+              if (href?.startsWith('#') || href?.startsWith('/#')) {
+                const targetId = href.startsWith('/#') ? href.substring(2) : href.substring(1)
+                const targetElement = document.getElementById(targetId || '')
+                
+                if (targetElement && smootherRef.current) {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  // Use ScrollSmoother's smooth scrolling
+                  smootherRef.current.scrollTo(targetElement, true, "top 100px")
+                }
               }
+              // For all other links (external, page navigation, etc.), let them work normally
             }
           }
 
-          // Add event listener for anchor clicks
-          document.addEventListener('click', handleAnchorClick, { capture: true })
+          // Add event listener for anchor clicks without capture to avoid interfering with other navigation
+          document.addEventListener('click', handleAnchorClick)
           
           // Store cleanup function
           cleanupAnchorListener = () => {
-            document.removeEventListener('click', handleAnchorClick, { capture: true })
+            document.removeEventListener('click', handleAnchorClick)
           }
 
           setIsInitialized(true)

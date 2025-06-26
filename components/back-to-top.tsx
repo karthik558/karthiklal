@@ -88,7 +88,7 @@ export default function BackToTop() {
             damping: 25
           }}
           onClick={handleScrollToTop}
-          className="fixed right-6 bottom-6 z-50 group"
+          className="fixed right-6 bottom-6 z-[9998] group"
           aria-label="Scroll to top"
         >
           {/* Main button with progress ring */}

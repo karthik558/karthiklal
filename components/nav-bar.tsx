@@ -46,11 +46,12 @@ export default function NavBar() {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ease-out ${
         isScrolled 
           ? "py-2 bg-background/80 backdrop-blur-xl border-b border-primary/10 shadow-lg shadow-primary/5" 
           : "py-4 bg-transparent"
       }`}
+      style={{ position: 'fixed' }}
     >
       <div className="container flex items-center justify-center">
         <NavHeader />

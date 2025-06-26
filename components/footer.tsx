@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
+import SmoothLink from "@/components/smooth-link"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -144,24 +145,24 @@ export default function Footer() {
 
             {/* Quick Links - Horizontal on Mobile */}
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm">
-              <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
+              <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
-              </Link>
-              <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
                 Projects
-              </Link>
-              <Link href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                 Services
-              </Link>
-              <Link href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
                 Experience
-              </Link>
-              <Link href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
                 Skills
-              </Link>
-              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
-              </Link>
+              </SmoothLink>
             </div>
 
             {/* Contact Info */}
@@ -252,24 +253,24 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Quick Links</h4>
             <div className="grid grid-cols-2 gap-1 text-sm">
-              <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
+              <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
-              </Link>
-              <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
                 Projects
-              </Link>
-              <Link href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                 Services
-              </Link>
-              <Link href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
                 Experience
-              </Link>
-              <Link href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
                 Skills
-              </Link>
-              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+              </SmoothLink>
+              <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
-              </Link>
+              </SmoothLink>
             </div>
           </div>
 

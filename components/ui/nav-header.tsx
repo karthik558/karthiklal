@@ -83,7 +83,7 @@ function NavHeader() {
       >
         {currentPageItems.map((item) => (
           <Tab key={item.href} setPosition={setPosition}>
-            <Link 
+            <SmoothLink 
               href={item.href}
               className={cn(
                 "transition-colors relative z-10",
@@ -91,7 +91,7 @@ function NavHeader() {
               )}
             >
               {item.label}
-            </Link>
+            </SmoothLink>
           </Tab>
         ))}
         <Cursor position={position} />
@@ -257,7 +257,7 @@ const MenuItem = ({
   active?: boolean
   icon?: React.ComponentType<{ className?: string }>
 }) => (
-  <Link
+  <SmoothLink
     href={href}
     onClick={onClick}
     className={cn(
@@ -288,7 +288,7 @@ const MenuItem = ({
       }}
       whileTap={{ scale: 0.95 }}
     />
-  </Link>
+  </SmoothLink>
 )
 
 const Tab = ({

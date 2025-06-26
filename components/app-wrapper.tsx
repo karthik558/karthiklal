@@ -24,12 +24,12 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       {showPreloader && <Preloader onComplete={handleComplete} />}
       {!showPreloader && (
         <>
+          <NavBar />
           <ContentWrapper>
-            <NavBar />
             <main>{children}</main>
             <Footer />
-            <BackToTop />
           </ContentWrapper>
+          <BackToTop />
           <Analytics />
         </>
       )}

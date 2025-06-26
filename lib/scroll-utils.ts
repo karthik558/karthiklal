@@ -4,13 +4,20 @@ import { ScrollSmoother } from "gsap/ScrollSmoother"
 
 export function scrollToElement(targetId: string) {
   try {
-    const smoother = ScrollSmoother.get()
     const targetElement = document.getElementById(targetId)
     
-    if (smoother && targetElement) {
+    if (!targetElement) {
+      console.warn(`Element with id "${targetId}" not found`)
+      return
+    }
+
+    // Try to use ScrollSmoother first
+    const smoother = ScrollSmoother.get()
+    
+    if (smoother && smoother.scrollTo) {
       // Use ScrollSmoother for smooth navigation
       smoother.scrollTo(targetElement, true, "top 100px")
-    } else if (targetElement) {
+    } else {
       // Fallback to regular scrolling with offset
       const yOffset = -100
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
@@ -20,7 +27,10 @@ export function scrollToElement(targetId: string) {
     console.warn("Error in scrollToElement, using fallback", error)
     const targetElement = document.getElementById(targetId)
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Final fallback to basic scroll
+      const yOffset = -100
+      const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
 }

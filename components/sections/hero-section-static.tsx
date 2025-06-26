@@ -137,7 +137,7 @@ export default function HeroSectionStatic() {
       {/* Extended background that covers hero and bleeds into next section */}
       <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/3 via-background to-background" data-speed="0.8"></div>
       
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center pt-20">
         {/* Content */}
         <div className="container relative z-10 px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
