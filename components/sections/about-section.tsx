@@ -66,6 +66,22 @@ export default function AboutSection() {
               </div>
             </div>
 
+            {/* Signature */}
+            <div className="flex justify-start animate-item">
+              <div className="relative">
+                <img
+                  src="/signature/signature-light.png"
+                  alt="Karthik Lal Signature"
+                  className="h-16 w-auto dark:hidden"
+                />
+                <img
+                  src="/signature/signature-dark.png"
+                  alt="Karthik Lal Signature"
+                  className="h-16 w-auto hidden dark:block"
+                />
+              </div>
+            </div>
+
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 pt-4 animate-item">
               <Button asChild size="lg" className="interactive rounded-full button">

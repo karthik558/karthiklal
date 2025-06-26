@@ -561,3 +561,22 @@ body {
   border-color: hsl(0 0% 100% / 0.3) !important;
 }
 
+/* Custom cursor for entire website */
+* {
+  cursor: url('/cursor/cursor.png'), auto !important;
+}
+
+/* Specific cursor states for interactive elements */
+a, button, .cursor-pointer, [role="button"] {
+  cursor: url('/cursor/cursor.png'), pointer !important;
+}
+
+input, textarea, [contenteditable] {
+  cursor: url('/cursor/cursor.png'), text !important;
+}
+
+/* Fallback for elements that need default cursors */
+.cursor-default {
+  cursor: url('/cursor/cursor.png'), default !important;
+}
+
