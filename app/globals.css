@@ -10,19 +10,19 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 14 100% 57%;
+    --primary: 6 74% 29%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 14 100% 57%;
+    --accent: 6 74% 29%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 14 100% 57%;
+    --ring: 6 74% 29%;
     --radius: 0.75rem;
   }
 
@@ -33,19 +33,19 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 15%; /* #262626 */
     --popover-foreground: 0 0% 98%;
-    --primary: 14 100% 57%; /* Orange */
-    --primary-foreground: 0 0% 10%;
+    --primary: 6 74% 29%; /* Dark red primary */
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 25%; /* #404040 */
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 20%; /* #333333 */
     --muted-foreground: 0 0% 64%;
-    --accent: 0 84% 55%; /* Red accent */
+    --accent: 6 74% 29%; /* Dark red accent */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 25%; /* #404040 */
     --input: 0 0% 25%; /* #404040 */
-    --ring: 14 100% 57%; /* Orange */
+    --ring: 6 74% 29%; /* Dark red ring */
   }
 }
 
@@ -143,7 +143,7 @@ html {
 
 /* Elegant text gradient */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-500 to-red-500;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-500 to-[#7d1e16];
 }
 
 /* Glass effect */
@@ -314,10 +314,10 @@ body {
 
 .text-gradient {
   background: linear-gradient(90deg, 
-    hsl(var(--primary)), 
+    hsl(6 74% 29%), 
     hsl(14 100% 67%),
-    hsl(0 100% 60%),
-    hsl(var(--primary))
+    hsl(6 74% 29%),
+    hsl(6 74% 29%)
   );
   background-size: 300% 300%;
   background-clip: text;
@@ -376,5 +376,102 @@ body {
   .scrollbar-track-transparent::-webkit-scrollbar-track {
     background: transparent;
   }
+}
+
+/* Explicit accent color overrides - ensures new color is applied */
+:root {
+  --accent-color-override: #7d1e16;
+  --accent-hsl-override: 6 74% 29%;
+}
+
+.bg-accent,
+.bg-accent\/10,
+.bg-accent\/20,
+.bg-accent\/5 {
+  background-color: hsl(6 74% 29% / var(--tw-bg-opacity, 1)) !important;
+}
+
+.bg-accent\/10 {
+  background-color: hsl(6 74% 29% / 0.1) !important;
+}
+
+.bg-accent\/20 {
+  background-color: hsl(6 74% 29% / 0.2) !important;
+}
+
+.bg-accent\/5 {
+  background-color: hsl(6 74% 29% / 0.05) !important;
+}
+
+.text-accent {
+  color: hsl(6 74% 29%) !important;
+}
+
+.border-accent {
+  border-color: hsl(6 74% 29%) !important;
+}
+
+/* Comprehensive primary color overrides */
+.bg-primary,
+.bg-primary\/10,
+.bg-primary\/20,
+.bg-primary\/5,
+.bg-primary\/8 {
+  background-color: hsl(6 74% 29% / var(--tw-bg-opacity, 1)) !important;
+}
+
+.bg-primary\/10 {
+  background-color: hsl(6 74% 29% / 0.1) !important;
+}
+
+.bg-primary\/20 {
+  background-color: hsl(6 74% 29% / 0.2) !important;
+}
+
+.bg-primary\/5 {
+  background-color: hsl(6 74% 29% / 0.05) !important;
+}
+
+.bg-primary\/8 {
+  background-color: hsl(6 74% 29% / 0.08) !important;
+}
+
+.text-primary {
+  color: hsl(6 74% 29%) !important;
+}
+
+.border-primary,
+.border-primary\/20,
+.border-primary\/30,
+.border-primary\/40 {
+  border-color: hsl(6 74% 29% / var(--tw-border-opacity, 1)) !important;
+}
+
+.border-primary\/20 {
+  border-color: hsl(6 74% 29% / 0.2) !important;
+}
+
+.border-primary\/30 {
+  border-color: hsl(6 74% 29% / 0.3) !important;
+}
+
+.border-primary\/40 {
+  border-color: hsl(6 74% 29% / 0.4) !important;
+}
+
+/* Update gradient classes that use primary */
+.from-primary {
+  --tw-gradient-from: hsl(6 74% 29%) !important;
+  --tw-gradient-to: hsl(6 74% 29% / 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.to-primary {
+  --tw-gradient-to: hsl(6 74% 29%) !important;
+}
+
+.via-primary {
+  --tw-gradient-to: hsl(6 74% 29% / 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), hsl(6 74% 29%), var(--tw-gradient-to) !important;
 }
 

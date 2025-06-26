@@ -17,8 +17,8 @@
     {
       "name": "IT Infrastructure & Security",
       "icon": "Shield",
-      "color": "text-red-500",
-      "bgColor": "bg-red-500/10",
+      "color": "text-accent",
+      "bgColor": "bg-accent/10",
       "skills": ["VMware", "Virtualization", "Wireshark", "NMAP", "BurpSuite", "Acunetix"]
     },
     {

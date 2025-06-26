@@ -76,19 +76,19 @@ export default function TermsPage() {
               </p>
               <ul className="space-y-2 text-muted-foreground ml-4">
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>modify or copy the materials</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>use the materials for any commercial purpose or for any public display (commercial or non-commercial)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>attempt to decompile or reverse engineer any software contained on the website</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>remove any copyright or other proprietary notations from the materials</span>
                 </li>
               </ul>
@@ -190,27 +190,27 @@ export default function TermsPage() {
               </p>
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>For any unlawful purpose or to solicit others to unlawful acts</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>To violate any international, federal, provincial, or state regulations, rules, laws, or local ordinances</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>To infringe upon or violate our intellectual property rights or the intellectual property rights of others</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>To harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>To submit false or misleading information</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
                   <span>To upload or transmit viruses or any other type of malicious code</span>
                 </li>
               </ul>

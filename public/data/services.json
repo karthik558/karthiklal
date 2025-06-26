@@ -5,8 +5,8 @@
       "title": "Network Security & Penetration Testing",
       "description": "Advanced cybersecurity services including penetration testing, security audits, vulnerability assessments, and implementation of robust security policies and protocols.",
       "icon": "Shield",
-      "color": "text-red-500",
-      "bgColor": "bg-red-500/10"
+      "color": "text-accent",
+      "bgColor": "bg-accent/10"
     },
     {
       "id": 2,

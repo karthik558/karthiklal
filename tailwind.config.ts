@@ -63,6 +63,7 @@ const config = {
           500: "#ef4444",
           600: "#dc2626",
         },
+        "accent-custom": "#7d1e16",
       },
       borderRadius: {
         lg: "var(--radius)",
