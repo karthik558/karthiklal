@@ -27,15 +27,15 @@ export default function SmoothLink({ href, children, className, onClick }: Smoot
       }
       // For cross-page navigation, let Next.js handle navigation with hash
       // The global hash handler in app-wrapper will handle scrolling after navigation
-      if (onClick) onClick()
     } else if (href.startsWith('#') && pathname === '/') {
       // Same page anchor link
       e.preventDefault()
       const targetId = href.substring(1) // Remove #
       scrollToElement(targetId)
-      if (onClick) onClick()
     }
-    // For regular links, let Next.js handle them normally
+    
+    // Always call onClick callback if provided (for closing mobile menu, etc.)
+    if (onClick) onClick()
   }
 
   return (
