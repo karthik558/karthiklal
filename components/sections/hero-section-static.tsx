@@ -147,7 +147,7 @@ export default function HeroSectionStatic() {
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
                 <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
-                <span className="text-6xl md:text-7xl lg:text-8xl text-primary block" style={{ fontFamily: 'Dancing Script, Brush Script MT, cursive' }}>Karthik Lal</span>
+                <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">Karthik Lal</span>
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">

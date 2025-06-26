@@ -475,3 +475,18 @@ body {
   --tw-gradient-stops: var(--tw-gradient-from), hsl(6 74% 29%), var(--tw-gradient-to) !important;
 }
 
+/* Hero name styling - accent color in light mode, white in dark mode */
+.hero-name {
+  color: hsl(var(--accent)) !important;
+  font-family: 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  font-style: italic !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .hero-name {
+  color: hsl(0 0% 100%) !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+

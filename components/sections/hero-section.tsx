@@ -120,7 +120,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold"
             >
-              Hi, I'm <span className="text-gradient">Karthik Lal</span>
+              Hi, I'm <span className="hero-name">Karthik Lal</span>
             </motion.h1>
 
             <motion.p
