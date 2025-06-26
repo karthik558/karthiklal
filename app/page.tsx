@@ -85,10 +85,10 @@ export default function Home() {
       <MarqueeSection />
       <AboutSection />
       <SkillsSection />
-      <CertificationsSection />
-      <ExperienceSection />
-      <PortfolioSection />
       <ServicesSection />
+      <ExperienceSection />
+      <CertificationsSection />
+      <PortfolioSection />
       <TestimonialsSection />
     </div>
   )

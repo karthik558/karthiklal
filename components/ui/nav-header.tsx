@@ -24,13 +24,12 @@ function NavHeader() {
   const isMobile = useIsMobile()
   const pathname = usePathname()
   
-  // Navigation items with proper routes and icons
+  // Navigation items with proper routes and icons - simplified to essential sections
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Experience', href: '/#experience', icon: Briefcase },
+    { label: 'About', href: '/#about', icon: User },
+    { label: 'Services', href: '/#services', icon: Briefcase },
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
-    { label: 'Projects', href: '/projects', icon: Code },
-    { label: 'Services', href: '/#services', icon: User },
     { label: 'Blog', href: '/blog', icon: User },
     { label: 'Contact', href: '/contact', icon: Phone }
   ]
@@ -50,7 +49,7 @@ function NavHeader() {
 
   // Filter navigation items based on current page
   const currentPageItems = pathname === '/' 
-    ? navItems.filter(item => item.label !== 'Home' && item.label !== 'Projects')
+    ? navItems.filter(item => item.label !== 'Home')
     : navItems
 
   // Filter active social links

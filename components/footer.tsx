@@ -148,18 +148,15 @@ export default function Footer() {
               <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </SmoothLink>
-              <SmoothLink href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
-                Projects
-              </SmoothLink>
               <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                 Services
               </SmoothLink>
-              <SmoothLink href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
-                Experience
+              <SmoothLink href="/#portfolio" className="text-muted-foreground hover:text-primary transition-colors">
+                Portfolio
               </SmoothLink>
-              <SmoothLink href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
-                Skills
-              </SmoothLink>
+              <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
+                Blog
+              </Link>
               <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
               </SmoothLink>
@@ -256,18 +253,15 @@ export default function Footer() {
               <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </SmoothLink>
-              <SmoothLink href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
-                Projects
-              </SmoothLink>
               <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                 Services
               </SmoothLink>
-              <SmoothLink href="/#experience" className="text-muted-foreground hover:text-primary transition-colors">
-                Experience
+              <SmoothLink href="/#portfolio" className="text-muted-foreground hover:text-primary transition-colors">
+                Portfolio
               </SmoothLink>
-              <SmoothLink href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">
-                Skills
-              </SmoothLink>
+              <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
+                Blog
+              </Link>
               <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
               </SmoothLink>
