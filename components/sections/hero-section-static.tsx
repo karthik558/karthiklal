@@ -127,10 +127,10 @@ export default function HeroSectionStatic() {
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   
   const images = [
-    { src: "/1.jpg", alt: "Portfolio Image 1" },
-    { src: "/2.jpg", alt: "Portfolio Image 2" },
-    { src: "/1.jpg", alt: "Portfolio Image 3" },
-    { src: "/2.jpg", alt: "Portfolio Image 4" },
+    { src: "/user/3.jpg", alt: "Portfolio Image 1" },
+    { src: "/user/2.jpg", alt: "Portfolio Image 2" },
+    { src: "/user/4.jpg", alt: "Portfolio Image 3" },
+    { src: "/user/5.jpg", alt: "Portfolio Image 4" },
   ]
 
   return (

@@ -16,7 +16,7 @@ export default function AboutSection() {
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg" data-speed="1.2"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
-                  src="/2.jpg"
+                  src="/user/1.jpg"
                   alt="Karthik Lal - About Picture"
                   width={350}
                   height={420}
