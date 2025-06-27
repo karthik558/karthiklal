@@ -8,6 +8,7 @@ import type * as THREE from "three"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import SmoothLink from "@/components/smooth-link"
 
 function ParticleField() {
   const particlesRef = useRef<THREE.Points>(null)
@@ -140,10 +141,10 @@ export default function HeroSection() {
               className="flex flex-wrap gap-4 pt-4"
             >
               <Button asChild size="lg" className="rounded-full glass hover:shadow-primary/20 hover:shadow-lg">
-                <Link href="#portfolio">
-                  View My Work
+                <SmoothLink href="/#portfolio-gallery">
+                  View Design Portfolio
                   <ExternalLink className="ml-2 h-4 w-4" />
-                </Link>
+                </SmoothLink>
               </Button>
 
               <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">

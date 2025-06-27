@@ -13,9 +13,6 @@ export function scrollToElement(targetId: string) {
 
     console.log(`Scrolling to element: ${targetId}`) // Debug log
 
-    // Disable any competing scroll behaviors temporarily
-    document.body.style.scrollBehavior = 'auto'
-    
     // Try to use ScrollSmoother first
     const smoother = ScrollSmoother.get()
     
@@ -23,40 +20,15 @@ export function scrollToElement(targetId: string) {
       console.log('Using ScrollSmoother for navigation') // Debug log
       // Use ScrollSmoother for smooth navigation with proper offset for fixed navbar
       smoother.scrollTo(targetElement, true, "top 100px")
-      
-      // Re-enable smooth scrolling after navigation
-      setTimeout(() => {
-        document.body.style.scrollBehavior = 'smooth'
-      }, 100)
-      
       return true
     } else {
       console.log('Using fallback scroll navigation') // Debug log
       // Fallback to regular scrolling with offset for fixed navbar
-      const yOffset = -100 // Increased offset to account for navbar
+      const yOffset = -100 // Offset to account for navbar
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       
-      // Use requestAnimationFrame to ensure scroll happens after any other scroll events
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: y, behavior: 'smooth' })
-        
-        // Ensure the scroll position is maintained
-        setTimeout(() => {
-          const currentPos = window.pageYOffset
-          const targetPos = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
-          
-          if (Math.abs(currentPos - targetPos) > 50) {
-            console.log('Correcting scroll position...')
-            window.scrollTo({ top: targetPos, behavior: 'smooth' })
-          }
-        }, 500)
-      })
-      
-      // Re-enable smooth scrolling
-      setTimeout(() => {
-        document.body.style.scrollBehavior = 'smooth'
-      }, 100)
-      
+      // Simple scroll without complicated behavior changes
+      window.scrollTo({ top: y, behavior: 'smooth' })
       return true
     }
   } catch (error) {

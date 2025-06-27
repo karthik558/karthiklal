@@ -43,77 +43,45 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       if (targetId) {
         console.log('Target detected:', targetId) // Debug log
 
-        // Prevent any auto-scroll to top behaviors
-        let scrollLocked = false
-        const lockScroll = () => {
-          if (!scrollLocked) {
-            scrollLocked = true
-            window.addEventListener('scroll', preventScroll, { passive: false })
-          }
-        }
-        
-        const unlockScroll = () => {
-          if (scrollLocked) {
-            scrollLocked = false
-            window.removeEventListener('scroll', preventScroll)
-          }
-        }
-
-        const preventScroll = (e: Event) => {
-          if (scrollLocked) {
-            e.preventDefault()
-            return false
-          }
-        }
-
-        // Function to attempt scrolling
+        // Function to attempt scrolling with less aggressive locking
         const attemptScroll = (retryCount = 0) => {
           console.log(`Attempting to scroll to ${targetId}, retry: ${retryCount}`)
           
           // First check if the element exists
           const targetElement = document.getElementById(targetId)
-          if (!targetElement && retryCount < 10) {
-            // Element not found, retry with longer delay
+          if (!targetElement && retryCount < 8) {
+            // Element not found, retry with reasonable delay
             setTimeout(() => {
               console.log(`Element not found, retry attempt ${retryCount + 1} for ${targetId}`)
               attemptScroll(retryCount + 1)
-            }, 200 * (retryCount + 1)) // Progressive delays: 200ms, 400ms, 600ms, etc.
+            }, 300 + (retryCount * 200)) // Progressive delays: 300ms, 500ms, 700ms, etc.
             return
           }
 
           if (targetElement) {
-            // Lock scroll temporarily to prevent interference
-            lockScroll()
-            
-            // Wait a moment then scroll
+            // Element found, attempt to scroll without aggressive locking
             setTimeout(() => {
               const success = scrollToElement(targetId)
               
               if (success) {
                 console.log(`Successfully scrolled to ${targetId}`)
                 
-                // Keep scroll locked for a moment to ensure position is maintained
-                setTimeout(() => {
-                  unlockScroll()
-                  // Clean up the hash from URL after successful scrolling
-                  if (hash) {
-                    setTimeout(() => {
-                      window.history.replaceState(null, '', window.location.pathname)
-                    }, 300)
-                  }
-                }, 800)
-              } else if (retryCount < 10) {
-                unlockScroll()
+                // Clean up the hash from URL after successful scrolling
+                if (hash) {
+                  setTimeout(() => {
+                    window.history.replaceState(null, '', window.location.pathname)
+                  }, 500)
+                }
+              } else if (retryCount < 8) {
                 // Scroll failed, retry
                 setTimeout(() => {
                   console.log(`Scroll failed, retry attempt ${retryCount + 1} for ${targetId}`)
                   attemptScroll(retryCount + 1)
-                }, 200 * (retryCount + 1))
+                }, 300 + (retryCount * 200))
               } else {
-                unlockScroll()
                 console.warn(`Failed to scroll to ${targetId} after ${retryCount + 1} attempts`)
               }
-            }, 100)
+            }, 200) // Small delay to ensure element is ready
           } else {
             console.warn(`Element ${targetId} not found after ${retryCount + 1} attempts`)
           }
@@ -122,7 +90,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
         // Start attempting to scroll after waiting for page content to load
         setTimeout(() => {
           attemptScroll()
-        }, 1000) // Increased initial delay to ensure all components are loaded
+        }, 600) // Reduced initial delay for better responsiveness
       }
     }
   }, [pathname, showPreloader])
