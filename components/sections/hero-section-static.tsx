@@ -1,12 +1,23 @@
 "use client"
 
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
+
+interface PersonalInfo {
+  name: string
+  title: string
+  bio: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+}
 
 // Add Google Fonts for Dancing Script
 if (typeof window !== 'undefined') {
@@ -125,6 +136,21 @@ GalleryGridCell.displayName = "GalleryGridCell"
 export default function HeroSectionStatic() {
   const { scrollYProgress } = useScroll()
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/data/profile.json')
+        const data: ProfileData = await response.json()
+        setProfileData(data.personalInfo)
+      } catch (error) {
+        console.error('Failed to fetch profile:', error)
+      }
+    }
+
+    fetchProfile()
+  }, [])
   
   const images = [
     { src: "/user/3.jpg", alt: "Portfolio Image 1" },
@@ -147,11 +173,11 @@ export default function HeroSectionStatic() {
             <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
                 <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
-                <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">Karthik Lal</span>
+                <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">{profileData?.name || "Loading..."}</span>
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
-                Creative Technologist | Web & Linux Developer
+                {profileData?.title || "Loading..."}
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">

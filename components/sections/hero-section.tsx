@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF, MeshDistortMaterial } from "@react-three/drei"
@@ -9,6 +9,16 @@ import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import SmoothLink from "@/components/smooth-link"
+
+interface PersonalInfo {
+  name: string
+  title: string
+  professionalSummary: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+}
 
 function ParticleField() {
   const particlesRef = useRef<THREE.Points>(null)
@@ -70,6 +80,21 @@ export default function HeroSection() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/data/profile.json')
+        const data: ProfileData = await response.json()
+        setProfileData(data.personalInfo)
+      } catch (error) {
+        console.error('Failed to fetch profile:', error)
+      }
+    }
+
+    fetchProfile()
+  }, [])
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -112,7 +137,7 @@ export default function HeroSection() {
               className="relative inline-block"
             >
               <span className="glass text-primary text-sm font-semibold px-6 py-3 rounded-full">
-                IT Manager, Full Stack Developer, Cybersecurity Enthusiast
+                {profileData?.title || "Loading..."}
               </span>
             </motion.div>
 
@@ -122,7 +147,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold"
             >
-              Hi, I'm <span className="hero-name">Karthik Lal</span>
+              Hi, I'm <span className="hero-name">{profileData?.name || "Loading..."}</span>
             </motion.h1>
 
             <motion.p
@@ -131,7 +156,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="text-xl text-muted-foreground max-w-xl glass p-4 rounded-lg"
             >
-              IT Manager with 6.8+ years in network management, cybersecurity, and full-stack development. Currently managing IT operations at IHCL, delivering secure, scalable IT solutions aligned with business goals.
+              {profileData?.professionalSummary || "Loading professional summary..."}
             </motion.p>
 
             <motion.div

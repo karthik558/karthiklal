@@ -33,24 +33,37 @@ interface Social {
   priority: number
 }
 
+interface PersonalInfo {
+  email: string
+  location: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+}
+
 export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [socials, setSocials] = useState<Social[]>([])
+  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
-    // Load socials from JSON
-    fetch('/data/socials.json')
-      .then(res => res.json())
-      .then(data => {
+    // Load socials and profile data from JSON
+    Promise.all([
+      fetch('/data/socials.json').then(res => res.json()),
+      fetch('/data/profile.json').then(res => res.json())
+    ])
+      .then(([socialsData, profileData]) => {
         // Filter active socials (excluding email) and sort by priority
-        const activeSocials = data.socials
+        const activeSocials = socialsData.socials
           .filter((social: Social) => social.active && social.name !== 'Email')
           .sort((a: Social, b: Social) => a.priority - b.priority)
         setSocials(activeSocials)
+        setProfileData(profileData.personalInfo)
       })
       .catch(error => {
-        console.error('Failed to load socials:', error)
+        console.error('Failed to fetch data:', error)
       })
   }, [])
 
@@ -129,10 +142,10 @@ export default function ContactSection() {
                       <div className="flex-1">
                         <h4 className="font-semibold mb-1">Email Address</h4>
                         <a 
-                          href="mailto:dev@karthiklal.in" 
+                          href={`mailto:${profileData?.email || 'dev@karthiklal.in'}`} 
                           className="text-sm text-muted-foreground hover:text-primary transition-colors"
                         >
-                          dev@karthiklal.in
+                          {profileData?.email || 'Loading...'}
                         </a>
                       </div>
                       <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -148,7 +161,7 @@ export default function ContactSection() {
                       </div>
                       <div className="flex-1">
                         <h4 className="font-semibold mb-1">Location</h4>
-                        <p className="text-sm text-muted-foreground">Lakshadweep, India</p>
+                        <p className="text-sm text-muted-foreground">{profileData?.location || 'Loading...'}</p>
                       </div>
                     </div>
                   </CardContent>

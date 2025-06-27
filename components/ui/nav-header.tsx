@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
@@ -14,6 +14,42 @@ import { usePathname } from 'next/navigation'
 import { Separator } from "./separator"
 import SmoothLink from "@/components/smooth-link"
 
+// Icon mapping for social links
+const iconMap = {
+  Github,
+  Linkedin,
+  Mail,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  MessageCircle,
+  Palette,
+}
+
+interface Social {
+  id: number
+  name: string
+  icon: keyof typeof iconMap
+  url: string
+  username: string
+  active: boolean
+  priority: number
+}
+
+interface SocialsData {
+  socials: Social[]
+}
+
+interface PersonalInfo {
+  name: string
+  title: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+}
+
 function NavHeader() {
   const [position, setPosition] = useState({
     left: 0,
@@ -21,9 +57,50 @@ function NavHeader() {
     opacity: 0,
   })
   const [isOpen, setIsOpen] = useState(false)
+  const [socialLinks, setSocialLinks] = useState<Social[]>([])
+  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
   const isMobile = useIsMobile()
   const pathname = usePathname()
-  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch social links
+        const socialsResponse = await fetch('/data/socials.json')
+        const socialsData: SocialsData = await socialsResponse.json()
+        setSocialLinks(socialsData.socials)
+
+        // Fetch profile data
+        const profileResponse = await fetch('/data/profile.json')
+        const profileData: ProfileData = await profileResponse.json()
+        setProfileData(profileData.personalInfo)
+      } catch (error) {
+        console.error('Failed to fetch navigation data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch social links
+        const socialsResponse = await fetch('/data/socials.json')
+        const socialsData: SocialsData = await socialsResponse.json()
+        setSocialLinks(socialsData.socials)
+
+        // Fetch profile data
+        const profileResponse = await fetch('/data/profile.json')
+        const profileData: ProfileData = await profileResponse.json()
+        setProfileData(profileData.personalInfo)
+      } catch (error) {
+        console.error('Failed to fetch navigation data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
   // Navigation items with proper routes and icons - simplified to essential sections
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
@@ -32,19 +109,6 @@ function NavHeader() {
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
     { label: 'Blog', href: '/blog', icon: User },
     { label: 'Contact', href: '/contact', icon: Phone }
-  ]
-
-  // Social media links with icons
-  const socialLinks = [
-    { name: "GitHub", icon: Github, url: "https://github.com/karthik558", username: "@karthik558", active: true },
-    { name: "LinkedIn", icon: Linkedin, url: "https://linkedin.com/in/karthiklal", username: "Karthik Lal", active: true },
-    { name: "Email", icon: Mail, url: "mailto:dev@karthiklal.in", username: "dev@karthiklal.in", active: false },
-    { name: "Twitter", icon: Twitter, url: "https://twitter.com/karthiklal", username: "@karthiklal", active: true },
-    { name: "Instagram", icon: Instagram, url: "https://instagram.com/_karthiklal", username: "@_karthiklal", active: true },
-    { name: "Facebook", icon: Facebook, url: "https://facebook.com/karthiklal0", username: "Karthik Lal", active: true },
-    { name: "YouTube", icon: Youtube, url: "https://youtube.com/@karthiklal", username: "@karthiklal", active: false },
-    { name: "Behance", icon: Palette, url: "https://behance.net/karthik558", username: "Karthik Lal", active: true },
-    { name: "Discord", icon: MessageCircle, url: "https://discord.gg/karthiklal", username: "karthiklal#1234", active: false }
   ]
 
   // Filter navigation items based on current page
@@ -143,8 +207,8 @@ function NavHeader() {
                       <User className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground">Karthik Lal</h3>
-                      <p className="text-sm text-muted-foreground">Full Stack Developer</p>
+                      <h3 className="font-semibold text-foreground">{profileData?.name || 'Loading...'}</h3>
+                      <p className="text-sm text-muted-foreground">{profileData?.title || 'Loading...'}</p>
                     </div>
                   </div>
                 </div>
@@ -198,10 +262,10 @@ function NavHeader() {
                     </h4>
                     <div className="flex flex-wrap gap-3 justify-center">
                       {activeSocials.map((social, index) => {
-                        const Icon = social.icon
+                        const Icon = iconMap[social.icon]
                         return (
                           <motion.div
-                            key={social.name}
+                            key={social.id}
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ 

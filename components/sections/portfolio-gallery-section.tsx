@@ -1,9 +1,19 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Component } from "@/components/ui/circular-gallery";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+
+interface Social {
+  name: string
+  url: string
+}
+
+interface SocialsData {
+  socials: Social[]
+}
 
 // Portfolio items showcasing design works
 const portfolioItems = [
@@ -55,6 +65,24 @@ const portfolioItems = [
 ];
 
 const PortfolioGallerySection = () => {
+  const [behanceUrl, setBehanceUrl] = useState<string>("#")
+
+  useEffect(() => {
+    const fetchBehanceUrl = async () => {
+      try {
+        const response = await fetch('/data/socials.json')
+        const data: SocialsData = await response.json()
+        const behance = data.socials.find(social => social.name === 'Behance')
+        if (behance) {
+          setBehanceUrl(behance.url)
+        }
+      } catch (error) {
+        console.error('Failed to fetch socials:', error)
+      }
+    }
+
+    fetchBehanceUrl()
+  }, [])
   return (
     <section 
       id="portfolio-gallery" 
@@ -89,7 +117,7 @@ const PortfolioGallerySection = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Link href="https://www.behance.net/karthik558">
+          <Link href={behanceUrl}>
             <Button 
               size="lg" 
               className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"

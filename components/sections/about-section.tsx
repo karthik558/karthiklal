@@ -1,10 +1,51 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
+interface PersonalInfo {
+  name: string
+  title: string
+  dateOfBirth: string
+  location: string
+  email: string
+  linkedin: string
+  github: string
+  website: string
+  avatar: string
+  bio: string
+  professionalSummary: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+  languages: string[]
+  interests: string[]
+  availability: string
+}
+
 export default function AboutSection() {
+  const [profileData, setProfileData] = useState<ProfileData | null>(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/data/profile.json')
+        const data: ProfileData = await response.json()
+        setProfileData(data)
+      } catch (error) {
+        console.error('Failed to fetch profile:', error)
+      }
+    }
+
+    fetchProfile()
+  }, [])
+
+  if (!profileData) {
+    return <div>Loading...</div>
+  }
   return (
     <section id="about" className="py-20 md:py-32 bg-secondary/10 relative z-10">
       <div className="container">
@@ -16,8 +57,8 @@ export default function AboutSection() {
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg" data-speed="1.2"></div>
               <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
                 <img
-                  src="/user/1.jpg"
-                  alt="Karthik Lal - About Picture"
+                  src={profileData.personalInfo.avatar || "/user/1.jpg"}
+                  alt={`${profileData.personalInfo.name} - About Picture`}
                   width={350}
                   height={420}
                   className="w-full h-auto object-cover animate-item"
@@ -39,26 +80,26 @@ export default function AboutSection() {
             </div>
 
             <p className="text-muted-foreground leading-relaxed animate-item">
-              Driven IT Manager and developer with a strong background in cybersecurity and network management. With 6.8+ years of experience in IT operations, I currently manage infrastructure at IHCL, focusing on network security, guest connectivity, and in-room technology solutions.
+              {profileData.personalInfo.bio}
             </p>
 
             <p className="text-muted-foreground leading-relaxed animate-item">
-              Passionate about building secure, scalable systems and improving digital experiences for users. Experienced in leading IT operations for hospitality, designing modern web applications, and delivering hands-on support. Always learning, currently pursuing MCA to expand technical and leadership skills.
+              {profileData.personalInfo.professionalSummary}
             </p>
 
             {/* Personal details grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 animate-item">
               <div>
                 <p className="text-sm text-muted-foreground">Name:</p>
-                <p className="font-medium">Karthik Lal</p>
+                <p className="font-medium">{profileData.personalInfo.name}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Email:</p>
-                <a href="mailto:dev@karthiklal.in" className="font-medium text-primary hover:underline transition-colors">dev@karthiklal.in</a>
+                <a href={`mailto:${profileData.personalInfo.email}`} className="font-medium text-primary hover:underline transition-colors">{profileData.personalInfo.email}</a>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location:</p>
-                <p className="font-medium">Kerala, India</p>
+                <p className="font-medium">{profileData.personalInfo.location}</p>
               </div>
             </div>
 
@@ -67,12 +108,12 @@ export default function AboutSection() {
               <div className="relative">
                 <img
                   src="/signature/signature-light.png"
-                  alt="Karthik Lal Signature"
+                  alt={`${profileData.personalInfo.name} Signature`}
                   className="h-16 w-auto dark:hidden"
                 />
                 <img
                   src="/signature/signature-dark.png"
-                  alt="Karthik Lal Signature"
+                  alt={`${profileData.personalInfo.name} Signature`}
                   className="h-16 w-auto hidden dark:block"
                 />
               </div>

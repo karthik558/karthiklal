@@ -1,8 +1,32 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { MarqueeAnimation } from "@/components/ui/marquee-effect"
 
+interface PersonalInfo {
+  title: string
+}
+
+interface ProfileData {
+  personalInfo: PersonalInfo
+}
+
 export default function MarqueeSection() {
+  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/data/profile.json')
+        const data: ProfileData = await response.json()
+        setProfileData(data.personalInfo)
+      } catch (error) {
+        console.error('Failed to fetch profile:', error)
+      }
+    }
+
+    fetchProfile()
+  }, [])
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-secondary/5 to-background">
       {/* Background decoration with parallax effect */}
@@ -19,7 +43,7 @@ export default function MarqueeSection() {
             baseVelocity={2}
             className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 text-primary font-black py-6 tracking-widest text-2xl md:text-4xl lg:text-5xl backdrop-blur-md border-y border-primary/30 shadow-lg"
           >
-            FULL STACK DEVELOPER • IT MANAGER • CYBERSECURITY EXPERT
+            {profileData?.title ? profileData.title.toUpperCase().replace(/,/g, ' •') : 'LOADING...'}
           </MarqueeAnimation>
         </div>
 

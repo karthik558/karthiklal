@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,43 +13,46 @@ import {
   Wrench,
 } from "lucide-react"
 
-// Define skill categories with their respective skills
-const skillCategories = [
-  {
-    name: "Programming Languages",
-    icon: Code2,
-    skills: ["Python", "Rust", "TypeScript", "JavaScript", "C", "C++", "SHELL", "BASH"],
-  },
-  {
-    name: "Web Development",
-    icon: Terminal,
-    skills: ["ReactJS", "NextJS", "HTML", "CSS", "Supabase", "Git"],
-  },
-  {
-    name: "IT Infrastructure & Security",
-    icon: Shield,
-    skills: ["VMware", "Virtualization", "Wireshark", "NMAP", "BurpSuite", "Acunetix"],
-  },
-  {
-    name: "Systems & Cloud",
-    icon: Cpu,
-    skills: ["Windows", "Linux", "MacOS", "AWS", "CloudFlare", "VirtualBox"],
-  },
-  {
-    name: "Design & Media",
-    icon: Palette,
-    skills: ["Photoshop", "Illustrator", "Figma", "UI/UX Design"],
-  },
-  {
-    name: "Enterprise Software",
-    icon: Wrench,
-    skills: ["Microsoft 365", "Opera", "Micros", "ShawMan", "CPanel"],
-  },
-]
+// Icon mapping for skill categories
+const iconMap = {
+  Code2,
+  Terminal,
+  Shield,
+  Cpu,
+  Palette,
+  Wrench,
+}
+
+interface SkillCategory {
+  name: string
+  icon: keyof typeof iconMap
+  color: string
+  bgColor: string
+  skills: string[]
+}
+
+interface SkillsData {
+  skillCategories: SkillCategory[]
+}
 
 export default function SkillsSection() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([])
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch('/data/skills.json')
+        const data: SkillsData = await response.json()
+        setSkillCategories(data.skillCategories)
+      } catch (error) {
+        console.error('Failed to fetch skills:', error)
+      }
+    }
+
+    fetchSkills()
+  }, [])
 
   return (
     <section id="skills" className="py-20 md:py-32 bg-secondary/10">
@@ -70,7 +73,7 @@ export default function SkillsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category, categoryIndex) => {
-            const IconComponent = category.icon
+            const IconComponent = iconMap[category.icon]
             return (
               <motion.div
                 key={category.name}
