@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette } from "lucide-react"
-import { motion, useInView } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
 
 // Icon mapping for dynamic icon rendering
@@ -38,8 +37,6 @@ export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [socials, setSocials] = useState<Social[]>([])
   const { toast } = useToast()
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   useEffect(() => {
     // Load socials from JSON
@@ -74,113 +71,42 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative py-20 md:py-32 bg-secondary/5 overflow-hidden">
-      {/* Enhanced background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Main gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-gradient-to-br from-primary/10 to-primary/5 rounded-full blur-3xl opacity-60" />
-        <div className="absolute top-20 right-1/4 w-96 h-96 bg-gradient-to-bl from-orange-500/10 to-accent/5 rounded-full blur-3xl opacity-40" />
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-gradient-to-r from-primary/5 to-transparent rounded-full blur-2xl opacity-30" />
-        
-        {/* Additional floating elements */}
-        <div className="absolute top-16 right-16 w-32 h-32 bg-gradient-to-br from-primary/8 to-transparent rounded-full blur-xl opacity-50" />
-        <div className="absolute top-32 left-16 w-24 h-24 bg-gradient-to-br from-orange-500/8 to-transparent rounded-full blur-lg opacity-40" />
-        
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="h-full w-full bg-[linear-gradient(to_right,_hsl(var(--border))_1px,_transparent_1px),linear-gradient(to_bottom,_hsl(var(--border))_1px,_transparent_1px)] bg-[size:4rem_4rem]"></div>
-        </div>
-        
-        {/* Animated floating dots */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="absolute top-16 left-8 w-2 h-2 bg-primary/30 rounded-full"
-        ></motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, delay: 0.8 }}
-          className="absolute top-32 right-32 w-1 h-1 bg-primary/40 rounded-full"
-        ></motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, delay: 1.1 }}
-          className="absolute top-24 left-2/3 w-1.5 h-1.5 bg-primary/20 rounded-full"
-        ></motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2, delay: 1.4 }}
-          className="absolute top-8 right-1/3 w-1 h-1 bg-orange-500/30 rounded-full"
-        ></motion.div>
-      </div>
+    <section id="contact" className="py-20 md:py-32">
+      {/* Simple background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/20"></div>
       
       <div className="container max-w-6xl mx-auto relative z-10">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          {/* Enhanced badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-8"
-          >
+        <div className="text-center mb-16">
+          {/* Simple badge */}
+          <div className="mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Mail className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium text-primary">Get In Touch</span>
             </div>
-          </motion.div>
+          </div>
           
-          {/* Enhanced heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-item"
-          >
+          {/* Clean heading */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Let's <span className="text-gradient">Connect</span>
-          </motion.h2>
+          </h2>
           
-          {/* Enhanced description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-item mb-8"
-          >
+          {/* Simple description */}
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
             Have a project in mind or want to collaborate? I'd love to hear from you and discuss how we can work together to bring your ideas to life.
-          </motion.p>
+          </p>
           
-          {/* Status indicators */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex items-center justify-center gap-8 mb-4"
-          >
+          {/* Status indicator */}
+          <div className="flex items-center justify-center gap-8 mb-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span>Available for new projects</span>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-8"
-          >
+          <div className="space-y-8">
             <div className="space-y-6">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
@@ -194,10 +120,10 @@ export default function ContactSection() {
 
               {/* Contact Cards */}
               <div className="space-y-4">
-                <Card className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                <Card className="hover:shadow-md transition-shadow border-l-4 border-l-primary/20">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                         <Mail className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1">
@@ -209,15 +135,15 @@ export default function ContactSection() {
                           dev@karthiklal.in
                         </a>
                       </div>
-                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      <ExternalLink className="h-4 w-4 text-muted-foreground" />
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">
+                <Card className="hover:shadow-md transition-shadow border-l-4 border-l-primary/20">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                         <MapPin className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1">
@@ -242,9 +168,9 @@ export default function ContactSection() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors duration-200 group"
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                       {(() => {
                         const IconComponent = iconMap[social.icon]
                         return <IconComponent className="h-4 w-4 text-primary" />
@@ -258,14 +184,10 @@ export default function ContactSection() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
+          <div>
             <Card className="border border-border shadow-lg">
               <CardContent className="p-8">
                 <div className="mb-6">
@@ -333,19 +255,15 @@ export default function ContactSection() {
                     className="w-full h-12 rounded-xl"
                     disabled={isLoading}
                   >
-                    <motion.span
-                      className="flex items-center gap-2"
-                      animate={isLoading ? { opacity: [1, 0.5, 1] } : {}}
-                      transition={{ repeat: Infinity, duration: 1 }}
-                    >
+                    <span className="flex items-center gap-2">
                       {isLoading ? "Sending Message..." : "Send Message"}
                       <Send className="h-4 w-4" />
-                    </motion.span>
+                    </span>
                   </Button>
                 </form>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
