@@ -10,10 +10,7 @@ export default function CtaSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 })
 
   return (
-    <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-      {/* Separator line */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-px bg-border"></div>
-      
+    <section id="contact" className="py-20 md:py-32 bg-background relative overflow-hidden">
       <div className="container relative z-10">
         <motion.div
           ref={ref}
@@ -50,16 +47,26 @@ export default function CtaSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex justify-center"
           >
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg rounded-full transition-all duration-300"
-            >
-              <Link href="/contact">
-                Start a Conversation
-              </Link>
-            </Button>
+            <div className="relative group">
+              {/* Animated background */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 rounded-full blur opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Button */}
+              <Button 
+                asChild 
+                size="lg" 
+                className="relative bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105"
+              >
+                <Link href="/contact" className="flex items-center gap-2">
+                  <span>Start a Conversation</span>
+                  <div className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1">
+                    →
+                  </div>
+                </Link>
+              </Button>
+            </div>
           </motion.div>
         </motion.div>
       </div>
