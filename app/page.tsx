@@ -6,6 +6,7 @@ import ExperienceSection from "@/components/sections/experience-section"
 import CertificationsSection from "@/components/sections/certifications-section"
 import SkillsSection from "@/components/sections/skills-section"
 import TestimonialsSection from "@/components/sections/testimonials-section"
+import CtaSection from "@/components/sections/cta-section"
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
 
@@ -92,6 +93,7 @@ export default function Home() {
       <CertificationsSection />
       <PortfolioSection />
       <TestimonialsSection />
+      <CtaSection />
     </div>
   )
 }

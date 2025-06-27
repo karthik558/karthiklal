@@ -107,8 +107,7 @@ function NavHeader() {
     { label: 'About', href: '/#about', icon: User },
     { label: 'Services', href: '/#services', icon: Briefcase },
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
-    { label: 'Blog', href: '/blog', icon: User },
-    { label: 'Contact', href: '/contact', icon: Phone }
+    { label: 'Blog', href: '/blog', icon: User }
   ]
 
   // Filter navigation items based on current page
