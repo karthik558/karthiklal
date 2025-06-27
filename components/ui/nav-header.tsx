@@ -169,54 +169,23 @@ function NavHeader() {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="relative md:hidden hover:bg-primary/10 transition-colors"
+                className={cn(
+                  "relative md:hidden hover:bg-primary/10 transition-colors",
+                  isOpen && "opacity-0 pointer-events-none"
+                )}
               >
-                <AnimatePresence mode="wait">
-                  {!isOpen ? (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu className="h-5 w-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="h-5 w-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
+            
             <SheetContent 
               side="right" 
-              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background backdrop-blur-xl border border-border overflow-hidden [&>button]:hidden"
+              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background border border-border overflow-hidden"
             >
               <div className="flex h-full flex-col">
-                {/* Header */}
-                <div className="px-6 py-6 border-b border-border flex-shrink-0">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                      <User className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">{profileData?.name || 'Loading...'}</h3>
-                      <p className="text-sm text-muted-foreground">{profileData?.title || 'Loading...'}</p>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Navigation Menu */}
                 <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-                  <div className="p-6 space-y-2">
+                  <div className="p-6 space-y-2 pt-12">
                     <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
                       Navigation
                     </h4>
