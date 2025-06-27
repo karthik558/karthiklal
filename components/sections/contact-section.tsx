@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { ContactSuccessModal } from "@/components/ui/contact-success-modal"
 import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
@@ -46,6 +47,8 @@ export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [socials, setSocials] = useState<Social[]>([])
   const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [senderName, setSenderName] = useState('')
   const { toast } = useToast()
 
   useEffect(() => {
@@ -71,16 +74,68 @@ export default function ContactSection() {
     e.preventDefault()
     setIsLoading(true)
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    toast({
-      title: "Message sent!",
-      description: "Thank you for your message. I'll get back to you soon.",
-    })
-    
-    setIsLoading(false)
-    ;(e.target as HTMLFormElement).reset()
+    try {
+      const formData = new FormData(e.currentTarget)
+      const data = {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        subject: formData.get('subject') as string,
+        message: formData.get('message') as string,
+      }
+
+      // Validate data before sending
+      console.log('Form data:', data)
+      
+      // Check for empty fields
+      if (!data.name?.trim() || !data.email?.trim() || !data.subject?.trim() || !data.message?.trim()) {
+        throw new Error('All fields are required')
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(data.email)) {
+        throw new Error('Please enter a valid email address')
+      }
+
+      console.log('Sending request to /api/contact...')
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      console.log('Response status:', response.status)
+      const responseData = await response.json()
+      console.log('Response data:', responseData)
+
+      if (response.ok) {
+        // Store the sender's name for the modal
+        setSenderName(data.name)
+        // Show success modal instead of toast
+        setShowSuccessModal(true)
+        ;(e.target as HTMLFormElement).reset()
+      } else {
+        throw new Error(responseData.error || `Server error: ${response.status}`)
+      }
+    } catch (error) {
+      console.error('Error sending message:', error)
+      
+      let errorMessage = 'Failed to send message. Please try again later.'
+      if (error instanceof Error) {
+        errorMessage = error.message
+      }
+      
+      toast({
+        title: "😔 Oops! Something went wrong",
+        description: errorMessage,
+        variant: "destructive",
+        duration: 5000,
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -279,6 +334,13 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <ContactSuccessModal 
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        name={senderName}
+      />
     </section>
   )
 }
