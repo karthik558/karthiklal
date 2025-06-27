@@ -2,39 +2,28 @@
   "certifications": [
     {
       "id": 1,
-      "title": "Certified Ethical Hacking (CEH)",
-      "issuer": "EC-Council",
-      "date": "Jun 2021",
-      "expiryDate": "Jun 2024",
-      "credentialId": "CEH-2021",
-      "status": "active",
-      "description": "Comprehensive ethical hacking certification covering penetration testing, vulnerability assessment, and cybersecurity best practices.",
-      "link": "https://www.eccouncil.org/"
-    },
-    {
-      "id": 2,
-      "title": "Git Certified Specialist",
+      "title": "Git Certified Specialist - Version Control & Collaboration",
       "issuer": "GitKraken",
       "date": "Apr 2023",
       "expiryDate": "No Expiry",
       "credentialId": "GK-GIT-2023",
       "status": "active",
-      "description": "Professional certification in Git version control, covering advanced Git workflows, branching strategies, and collaboration techniques.",
+      "description": "Professional certification in Git version control systems, covering advanced Git workflows, branching strategies, collaboration techniques, and distributed version control best practices.",
       "link": "https://www.gitkraken.com/"
     },
     {
-      "id": 3,
+      "id": 2,
       "title": "LFD103: A Beginner's Guide to Linux Kernel Development",
       "issuer": "The Linux Foundation",
       "date": "Feb 2023",
       "expiryDate": "No Expiry",
       "credentialId": "LF-LKD-2023",
       "status": "active",
-      "description": "Comprehensive course on Linux kernel development fundamentals, covering kernel architecture and development practices.",
+      "description": "Comprehensive course on Linux kernel development fundamentals, covering kernel architecture, development practices, and system-level programming concepts.",
       "link": "https://www.linuxfoundation.org/"
     },
     {
-      "id": 4,
+      "id": 3,
       "title": "Programming in C & Object Oriented Programming using C++",
       "issuer": "NIST Computer Education Center",
       "date": "Dec 2021",
@@ -43,6 +32,17 @@
       "status": "active",
       "description": "Advanced programming certification covering C fundamentals and object-oriented programming concepts in C++.",
       "link": "https://nist.edu/"
+    },
+    {
+      "id": 4,
+      "title": "CEH - Certified Ethical Hacking (Certified Ethical Hacker)",
+      "issuer": "EC-Council",
+      "date": "Jun 2021",
+      "expiryDate": "Jun 2024",
+      "credentialId": "CEH-2021",
+      "status": "active",
+      "description": "Comprehensive ethical hacking certification covering penetration testing, vulnerability assessment, and cybersecurity best practices.",
+      "link": "https://www.eccouncil.org/"
     }
   ]
 }
