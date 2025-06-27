@@ -47,89 +47,105 @@ export default function AboutSection() {
     return <div>Loading...</div>
   }
   return (
-    <section id="about" className="py-20 md:py-32 bg-secondary/10 relative z-10">
+    <section id="about" className="py-16 md:py-24 bg-secondary/10 relative z-10">
       <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image column */}
           <div className="relative mx-auto lg:mx-0 max-w-xs lg:max-w-sm" data-speed="1.1">
-            <div className="relative">
-              <div className="absolute -left-4 -top-4 w-24 h-24 bg-primary/10 rounded-lg" data-speed="0.9"></div>
-              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/20 rounded-lg" data-speed="1.2"></div>
-              <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 shadow-xl">
-                <img
-                  src={profileData.personalInfo.avatar || "/user/1.jpg"}
-                  alt={`${profileData.personalInfo.name} - About Picture`}
-                  width={350}
-                  height={420}
-                  className="w-full h-auto object-cover animate-item"
-                  data-speed="1.0"
-                />
+            <div className="relative group">
+              {/* Elegant image container with glow effect */}
+              <div className="relative">
+                {/* Glow effect background */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-purple-500/20 to-primary/30 rounded-2xl blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Main image container */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border/20 bg-background">
+                  <img
+                    src={profileData.personalInfo.avatar || "/user/1.jpg"}
+                    alt={`${profileData.personalInfo.name} - About Picture`}
+                    width={300}
+                    height={360}
+                    className="w-full h-auto object-cover animate-item transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+                    data-speed="1.0"
+                  />
+                  
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Decorative corner accents */}
+                  <div className="absolute top-4 left-4 w-3 h-3 border-t-2 border-l-2 border-primary/60 rounded-tl-lg"></div>
+                  <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-primary/60 rounded-tr-lg"></div>
+                  <div className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-primary/60 rounded-bl-lg"></div>
+                  <div className="absolute bottom-4 right-4 w-3 h-3 border-b-2 border-r-2 border-primary/60 rounded-br-lg"></div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Content column */}
           <div className="space-y-6" data-speed="0.95">
-            <div>
-              <span className="inline-block text-primary font-medium mb-2 animate-item">
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-primary uppercase tracking-wider animate-item">
                 About Me
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">
+              </h3>
+              <h2 className="text-3xl md:text-4xl font-bold leading-tight animate-item">
                 <span className="text-gradient">Hey there!</span>
               </h2>
             </div>
 
-            <p className="text-muted-foreground leading-relaxed animate-item">
-              {profileData.personalInfo.bio}
-            </p>
+            <div className="space-y-4">
+              <p className="text-muted-foreground leading-relaxed animate-item">
+                {profileData.personalInfo.bio}
+              </p>
 
-            <p className="text-muted-foreground leading-relaxed animate-item">
-              {profileData.personalInfo.professionalSummary}
-            </p>
+              <p className="text-muted-foreground leading-relaxed animate-item">
+                {profileData.personalInfo.professionalSummary}
+              </p>
+            </div>
 
-            {/* Personal details grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 animate-item">
-              <div>
-                <p className="text-sm text-muted-foreground">Name:</p>
-                <p className="font-medium">{profileData.personalInfo.name}</p>
+            {/* Personal details cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 animate-item">
+              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
+                <p className="text-xs text-muted-foreground mb-1">Name</p>
+                <p className="font-semibold text-foreground">{profileData.personalInfo.name}</p>
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Email:</p>
-                <a href={`mailto:${profileData.personalInfo.email}`} className="font-medium text-primary hover:underline transition-colors">{profileData.personalInfo.email}</a>
+              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
+                <p className="text-xs text-muted-foreground mb-1">Email</p>
+                <a href={`mailto:${profileData.personalInfo.email}`} className="font-semibold text-primary hover:underline transition-colors text-sm">{profileData.personalInfo.email}</a>
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Location:</p>
-                <p className="font-medium">{profileData.personalInfo.location}</p>
+              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors col-span-1 sm:col-span-2">
+                <p className="text-xs text-muted-foreground mb-1">Location</p>
+                <p className="font-semibold text-foreground">{profileData.personalInfo.location}</p>
               </div>
             </div>
 
             {/* Signature */}
-            <div className="flex justify-start animate-item">
-              <div className="relative">
+            <div className="flex justify-start animate-item pt-2">
+              <div className="relative p-3 rounded-lg bg-background/30 border border-border/30 backdrop-blur-sm">
                 <img
                   src="/signature/signature-light.png"
                   alt={`${profileData.personalInfo.name} Signature`}
-                  className="h-16 w-auto dark:hidden"
+                  className="h-10 w-auto dark:hidden opacity-80"
                 />
                 <img
                   src="/signature/signature-dark.png"
                   alt={`${profileData.personalInfo.name} Signature`}
-                  className="h-16 w-auto hidden dark:block"
+                  className="h-10 w-auto hidden dark:block opacity-80"
                 />
               </div>
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4 animate-item">
-              <Button asChild size="lg" className="interactive rounded-full button">
+            <div className="flex flex-wrap gap-3 pt-4 animate-item">
+              <Button asChild size="default" className="interactive rounded-full button bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300">
                 <Link href="/contact">
                   Let's Talk
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" size="lg" className="interactive rounded-full button">
-                <Link href="#" download>
+              <Button asChild variant="outline" size="default" className="interactive rounded-full button border-2 hover:bg-primary/10 transition-all duration-300">
+                <Link href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=sharing" download>
                   Download CV
                   <Download className="ml-2 h-4 w-4" />
                 </Link>

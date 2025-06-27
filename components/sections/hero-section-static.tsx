@@ -189,7 +189,7 @@ export default function HeroSectionStatic() {
                 </Button>
 
                 <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-                  <Link href="#" download>
+                  <Link href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=sharing" download>
                     <span className="relative z-10 flex items-center">
                       <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                       Download CV
