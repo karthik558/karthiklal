@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft } from "lucide-react"
@@ -79,6 +80,29 @@ const posts = [
 interface BlogPostProps {
 	params: {
 		id: string
+	}
+}
+
+// Generate metadata for the blog post
+export async function generateMetadata({ params }: BlogPostProps): Promise<Metadata> {
+	const post = posts.find(p => p.id === parseInt(params.id))
+	
+	if (!post) {
+		return {
+			title: "Blog Post Not Found",
+			description: "The requested blog post could not be found.",
+		}
+	}
+	
+	return {
+		title: post.title,
+		description: post.excerpt,
+		openGraph: {
+			title: `${post.title} | Karthik Lal`,
+			description: post.excerpt,
+			type: "article",
+			publishedTime: post.date,
+		},
 	}
 }
 

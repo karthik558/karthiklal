@@ -1,7 +1,17 @@
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import Image from "next/image"
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Thoughts, tutorials, and insights about web development, design, and technology from Karthik Lal.",
+  openGraph: {
+    title: "Blog | Karthik Lal",
+    description: "Thoughts, tutorials, and insights about web development, design, and technology from Karthik Lal.",
+  },
+}
 
 // Sample blog posts data - you can replace this with your actual data source
 const posts = [
