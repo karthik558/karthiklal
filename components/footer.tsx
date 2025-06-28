@@ -170,7 +170,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <MapPin className="h-3 w-3" />
-                <span>Lakshadweep, India</span>
+                <span>Kerala, India</span>
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-3 w-3" />
-                <span>Lakshadweep, India</span>
+                <span>Kerala, India</span>
               </div>
             </div>
             
