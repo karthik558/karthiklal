@@ -28,6 +28,17 @@ interface ProfileData {
 
 export default function AboutSection() {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  // Array of images to cycle through
+  const images = [
+    "/user/1.jpg",
+    "/user/2.jpg", 
+    "/user/3.jpg",
+    "/user/4.jpg",
+    "/user/5.jpg"
+  ]
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -43,6 +54,19 @@ export default function AboutSection() {
     fetchProfile()
   }, [])
 
+  // Auto-rotate images every 3.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true)
+      setTimeout(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+        setIsTransitioning(false)
+      }, 300) // Transition duration
+    }, 3500) // Change every 3.5 seconds
+
+    return () => clearInterval(interval)
+  }, [images.length])
+
   if (!profileData) {
     return <div>Loading...</div>
   }
@@ -51,7 +75,7 @@ export default function AboutSection() {
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image column */}
-          <div className="relative mx-auto lg:mx-0 max-w-xs lg:max-w-sm" data-speed="1.1">
+          <div className="relative mx-auto lg:mx-0 w-full max-w-sm lg:max-w-md" data-speed="1.1">
             <div className="relative group">
               {/* Elegant image container with glow effect */}
               <div className="relative">
@@ -60,23 +84,58 @@ export default function AboutSection() {
                 
                 {/* Main image container */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border/20 bg-background">
-                  <img
-                    src={profileData.personalInfo.avatar || "/user/1.jpg"}
-                    alt={`${profileData.personalInfo.name} - About Picture`}
-                    width={300}
-                    height={360}
-                    className="w-full h-auto object-cover animate-item transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
-                    data-speed="1.0"
-                  />
+                  {/* Image carousel */}
+                  <div className="relative w-full aspect-[3/4]">
+                    {images.map((image, index) => (
+                      <img
+                        key={image}
+                        src={image}
+                        alt={`${profileData.personalInfo.name} - About Picture ${index + 1}`}
+                        width={400}
+                        height={500}
+                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                          index === currentImageIndex 
+                            ? 'opacity-100 scale-100' 
+                            : 'opacity-0 scale-105'
+                        } ${
+                          isTransitioning && index === currentImageIndex 
+                            ? 'animate-pulse' 
+                            : ''
+                        }`}
+                        style={{
+                          transform: index === currentImageIndex 
+                            ? 'scale(1)' 
+                            : 'scale(1.05)',
+                          filter: index === currentImageIndex 
+                            ? 'brightness(1)' 
+                            : 'brightness(0.8)'
+                        }}
+                      />
+                    ))}
+                  </div>
                   
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                   
                   {/* Decorative corner accents */}
-                  <div className="absolute top-4 left-4 w-3 h-3 border-t-2 border-l-2 border-primary/60 rounded-tl-lg"></div>
-                  <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-primary/60 rounded-tr-lg"></div>
-                  <div className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-primary/60 rounded-bl-lg"></div>
-                  <div className="absolute bottom-4 right-4 w-3 h-3 border-b-2 border-r-2 border-primary/60 rounded-br-lg"></div>
+                  <div className="absolute top-4 left-4 w-3 h-3 border-t-2 border-l-2 border-primary/60 rounded-tl-lg z-10"></div>
+                  <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-primary/60 rounded-tr-lg z-10"></div>
+                  <div className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-primary/60 rounded-bl-lg z-10"></div>
+                  <div className="absolute bottom-4 right-4 w-3 h-3 border-b-2 border-r-2 border-primary/60 rounded-br-lg z-10"></div>
+
+                  {/* Image indicators */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                    {images.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentImageIndex 
+                            ? 'bg-primary scale-125' 
+                            : 'bg-white/50 scale-100'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
