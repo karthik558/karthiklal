@@ -196,17 +196,10 @@ export default function AboutSection() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-3 pt-4 animate-item">
-              <Button asChild size="default" className="interactive rounded-full button bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button asChild size="lg" className="interactive rounded-full button bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300">
                 <Link href="/contact">
                   Let's Talk
                   <ExternalLink className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button asChild variant="outline" size="default" className="interactive rounded-full button border-2 hover:bg-primary/10 transition-all duration-300">
-                <Link href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=sharing" download>
-                  Download CV
-                  <Download className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
