@@ -97,27 +97,26 @@ export default function PortfolioSection() {
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: isVisible ? 1 : 0.8 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 text-primary font-medium mb-4 px-4 py-2 bg-primary/10 rounded-full"
+          <motion.span 
+            className="inline-block text-primary font-medium mb-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Sparkles className="h-4 w-4" />
-            <span>My Work</span>
-          </motion.div>
+            My Work
+          </motion.span>
           
           <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+            className="text-3xl md:text-4xl font-bold mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Featured <span className="text-gradient bg-gradient-to-r from-primary via-purple-500 to-primary bg-clip-text text-transparent">Projects</span>
+            Featured <span className="text-gradient">Projects</span>
           </motion.h2>
           
           <motion.p 
-            className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed"
+            className="text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.4 }}
