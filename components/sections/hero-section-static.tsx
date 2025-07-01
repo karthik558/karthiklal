@@ -173,11 +173,11 @@ export default function HeroSectionStatic() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
             <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
-                <span className="text-2xl md:text-3xl lg:text-4xl block mb-2">Hi there, I'm</span>
+                <span className="text-xl text-muted-foreground block mb-2 font-medium">Hi there, I'm</span>
                 <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">{profileData?.name || "Loading..."}</span>
               </h1>
 
-              <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0">
+              <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0 font-medium">
                 {profileData?.title || "Loading..."}
               </p>
 
