@@ -8,7 +8,6 @@ import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 
 interface PersonalInfo {
   name: string
@@ -189,40 +188,16 @@ export default function HeroSectionStatic() {
                   </SmoothLink>
                 </Button>
 
-                {/* Download CV Popover */}
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-                      <span className="relative z-10 flex items-center">
-                        <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                        Download CV
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent 
-                    className="w-56 p-3 z-50 bg-popover border border-border shadow-lg rounded-lg" 
-                    side="bottom" 
-                    align="center" 
-                    sideOffset={12}
-                    avoidCollisions={true}
-                    collisionPadding={20}
-                    style={{ zIndex: 9999 }}
-                  >
-                    <div className="flex flex-col gap-2">
-                      <Button asChild variant="ghost" size="sm" className="justify-start hover:bg-accent">
-                        <a href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                          Open in New Tab
-                        </a>
-                      </Button>
-                      <Button asChild variant="ghost" size="sm" className="justify-start hover:bg-accent">
-                        <a href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u">
-                          Download (Same Tab)
-                        </a>
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                {/* Download CV Button */}
+                <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
+                  <a href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u">
+                    <span className="relative z-10 flex items-center">
+                      <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      Download CV
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                  </a>
+                </Button>
               </div>
             </div>
 
