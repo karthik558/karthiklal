@@ -1,0 +1,142 @@
+{
+  "blogs": [
+    {
+      "id": "kernel-development-for-developers",
+      "title": "Why Every Developer Should Explore Kernel Development",
+      "excerpt": "If you're a developer who likes to dig deep, kernel development gives you full control over how the system interacts with hardware.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "If you're a developer who likes to dig deep, kernel development gives you full control over how the system interacts with hardware."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "What You'll Learn"
+        },
+        {
+          "type": "list",
+          "items": [
+            "You learn how operating systems work from the inside out",
+            "You'll understand memory management, scheduling, and device drivers",
+            "Debugging kernel panics sharpens your low-level skills"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Getting Started"
+        },
+        {
+          "type": "paragraph",
+          "text": "Start by setting up a virtual environment using QEMU or VirtualBox. Try editing a simple kernel module and compile it for a test boot."
+        },
+        {
+          "type": "quote",
+          "text": "Focus on a small task like adding a custom syscall or modifying the scheduler behavior."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Real-World Applications"
+        },
+        {
+          "type": "paragraph",
+          "text": "If you're building a custom OS for embedded devices or need optimized performance, writing your own kernel or customizing one is the way to go."
+        },
+        {
+          "type": "paragraph",
+          "text": "Kernel hacking isn't just for OS devs—it's a mindset shift toward understanding your system fully."
+        },
+        {
+          "type": "image",
+          "src": "/blog/1/kernel-1.png",
+          "alt": "Kernel development environment with code editor",
+          "caption": "Setting up a kernel development environment"
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2025-05-25",
+      "category": "System Programming",
+      "tags": ["kernel", "linux", "system-programming", "operating-systems", "low-level"],
+      "image": "/blog/1/kernel-2.png",
+      "readTime": "8 min read",
+      "featured": true
+    },
+    {
+      "id": "virtualization-tools-comparison",
+      "title": "Choosing the Right Virtualization Tool: VMware vs VirtualBox vs Parallels",
+      "excerpt": "Virtualization helps you run multiple OS environments on one machine. Here's how to choose the right tool for your needs.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Virtualization helps you run multiple OS environments on one machine. Choosing the right tool can significantly impact your development workflow and productivity."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Platform Comparison"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**VirtualBox** is free, open-source, and works on all major platforms",
+            "**VMware Workstation** is more stable and performance-focused, ideal for heavy testing",
+            "**Parallels** is built for macOS, offering great macOS-to-Windows integration"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Developer-Specific Recommendations"
+        },
+        {
+          "type": "paragraph",
+          "text": "If you're a developer working with cross-platform apps:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Use VirtualBox for quick testing or lightweight Linux distros",
+            "Choose VMware for enterprise-grade testing environments",
+            "Pick Parallels if you're a Mac user needing smooth Windows support"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Always allocate enough RAM and enable nested virtualization for best results."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Common Use Cases"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Testing malware in isolated VMs",
+            "Developing apps for multiple OS versions",
+            "Running legacy software safely"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Virtualization is essential for modern development workflows—master it early."
+        },
+        {
+          "type": "image",
+          "src": "/blog/2/virtualization.png",
+          "alt": "Comparison of different virtualization tools",
+          "caption": "VMware vs VirtualBox vs Parallels feature comparison"
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2025-05-02",
+      "category": "DevOps",
+      "tags": ["virtualization", "vmware", "virtualbox", "parallels", "development-tools"],
+      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop&crop=center&auto=format&q=80",
+      "readTime": "6 min read",
+      "featured": true
+    }
+  ]
+}

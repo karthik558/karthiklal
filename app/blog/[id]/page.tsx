@@ -1,162 +1,299 @@
-import type { Metadata } from "next"
+"use client"
+
+import { useState, useEffect, use } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound } from "next/navigation"
 
 // Add Edge Runtime configuration for Cloudflare Pages compatibility
 export const runtime = 'edge'
 
-// Sample blog posts data - this should match the data in the main blog page
-const posts = [
-	{
-		id: 1,
-		title: "Getting Started with Next.js 13",
-		excerpt: "Learn how to build modern web applications with Next.js 13 and its new app directory structure.",
-		date: "2024-04-01",
-		category: "Web Development",
-		image: "/placeholder.svg?height=300&width=600",
-		content: `
-      Next.js 13 introduces several groundbreaking features that revolutionize how we build React applications. 
-      The new app directory structure provides a more intuitive way to create routes, layouts, and handle server-side components.
-
-      Key Features:
-      - New app directory for better organization
-      - Server and Client Components
-      - Improved data fetching
-      - Built-in SEO optimizations
-      - Enhanced performance
-      
-      This comprehensive guide will walk you through setting up a Next.js 13 project from scratch and exploring its powerful features.
-    `
-	},
-	{
-		id: 2,
-		title: "The Power of Framer Motion",
-		excerpt: "Explore how to create stunning animations in React applications using Framer Motion.",
-		date: "2024-03-28",
-		category: "Animation",
-		image: "/placeholder.svg?height=300&width=600",
-		content: `
-      Framer Motion is a powerful animation library for React that makes it easy to create beautiful animations with minimal code.
-      In this tutorial, we'll explore how to create various types of animations using Framer Motion's intuitive API.
-
-      Topics covered:
-      - Basic animations
-      - Gesture animations
-      - Page transitions
-      - Layout animations
-      - Animation orchestration
-      
-      By the end of this guide, you'll have a solid understanding of how to implement engaging animations in your React projects.
-    `
-	},
-	{
-		id: 3,
-		title: "Building with Three.js",
-		excerpt: "A comprehensive guide to creating 3D experiences on the web using Three.js and React Three Fiber.",
-		date: "2024-03-25",
-		category: "3D Development",
-		image: "/placeholder.svg?height=300&width=600",
-		content: `
-      Three.js is a powerful JavaScript library that makes it possible to create stunning 3D graphics in the browser.
-      Combined with React Three Fiber, it becomes even more powerful for React developers.
-
-      In this guide, we'll cover:
-      - Three.js fundamentals
-      - React Three Fiber basics
-      - Creating 3D scenes
-      - Adding lighting and shadows
-      - Implementing controls
-      - Performance optimization
-      
-      Follow along as we build an interactive 3D web application from the ground up.
-    `
-	}
-]
-
-interface BlogPostProps {
-	params: {
-		id: string
-	}
+interface BlogPost {
+  id: string
+  title: string
+  excerpt: string
+  content: ContentBlock[]
+  author: string
+  date: string
+  category: string
+  tags: string[]
+  image: string
+  readTime: string
+  featured: boolean
 }
 
-// Generate metadata for the blog post
-export async function generateMetadata({ params }: BlogPostProps): Promise<Metadata> {
-	const post = posts.find(p => p.id === parseInt(params.id))
-	
-	if (!post) {
-		return {
-			title: "Blog Post Not Found",
-			description: "The requested blog post could not be found.",
-		}
-	}
-	
-	return {
-		title: post.title,
-		description: post.excerpt,
-		openGraph: {
-			title: `${post.title} | Karthik Lal`,
-			description: post.excerpt,
-			type: "article",
-			publishedTime: post.date,
-		},
-	}
+interface ContentBlock {
+  type: 'paragraph' | 'heading' | 'image' | 'code' | 'list' | 'quote'
+  text?: string
+  level?: number
+  src?: string
+  alt?: string
+  caption?: string
+  language?: string
+  code?: string
+  items?: string[]
 }
 
-export default function BlogPost({ params }: BlogPostProps) {
-	const post = posts.find(p => p.id === parseInt(params.id))
+interface BlogData {
+  blogs: BlogPost[]
+}
 
-	if (!post) {
-		notFound()
-	}
+export default function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const [blog, setBlog] = useState<BlogPost | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  
+  // Unwrap the params Promise using React.use()
+  const resolvedParams = use(params)
 
-	return (
-		<div className="py-20 md:py-32">
-			<div className="container max-w-4xl">
-				<div className="mb-8">
-					<Button asChild variant="ghost" className="mb-8">
-						<Link href="/blog">
-							<ArrowLeft className="mr-2 h-4 w-4" />
-							Back to Blog
-						</Link>
-					</Button>
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await fetch('/data/blogs.json')
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs')
+        }
+        
+        const data: BlogData = await response.json()
+        const foundBlog = data.blogs?.find(b => b?.id === resolvedParams.id)
+        
+        if (!foundBlog) {
+          setError('Blog post not found')
+        } else {
+          setBlog(foundBlog)
+        }
+      } catch (error) {
+        console.error('Failed to fetch blog:', error)
+        setError('Failed to load blog post')
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-					<span className="inline-block text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-full mb-4">
-						{post.category}
-					</span>
-					<h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-					<p className="text-muted-foreground">{post.excerpt}</p>
-					<div className="mt-4 text-sm text-muted-foreground">
-						Published on {post.date}
-					</div>
-				</div>
+    if (resolvedParams.id) {
+      fetchBlog()
+    }
+  }, [resolvedParams.id])
 
-				<Card className="border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden">
-					<div className="relative h-[400px] w-full">
-						<Image
-							src={post.image}
-							alt={post.title}
-							fill
-							className="object-cover"
-						/>
-					</div>
-					<CardHeader>
-						<CardTitle className="sr-only">{post.title}</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className="prose prose-gray dark:prose-invert max-w-none">
-							{post.content.split('\n').map((paragraph, index) => (
-								<p key={index} className="mb-4">
-									{paragraph.trim()}
-								</p>
-							))}
-						</div>
-					</CardContent>
-				</Card>
-			</div>
-		</div>
-	)
+  const renderContentBlock = (block: ContentBlock, index: number) => {
+    switch (block.type) {
+      case 'paragraph':
+        return (
+          <p key={index} className="text-muted-foreground leading-relaxed mb-6">
+            {block.text}
+          </p>
+        )
+      
+      case 'heading':
+        const headingClasses = {
+          1: "text-3xl md:text-4xl font-bold mb-6 mt-8",
+          2: "text-2xl md:text-3xl font-bold mb-4 mt-8",
+          3: "text-xl md:text-2xl font-semibold mb-4 mt-6",
+          4: "text-lg md:text-xl font-semibold mb-3 mt-6"
+        }
+        const className = headingClasses[block.level as keyof typeof headingClasses] || headingClasses[2]
+        
+        if (block.level === 1) {
+          return <h1 key={index} className={className}>{block.text}</h1>
+        } else if (block.level === 3) {
+          return <h3 key={index} className={className}>{block.text}</h3>
+        } else if (block.level === 4) {
+          return <h4 key={index} className={className}>{block.text}</h4>
+        } else {
+          return <h2 key={index} className={className}>{block.text}</h2>
+        }
+      
+      case 'image':
+        return (
+          <div key={index} className="my-8">
+            <div className="relative rounded-lg overflow-hidden shadow-lg">
+              <Image
+                src={block.src || '/placeholder.svg'}
+                alt={block.alt || ''}
+                width={800}
+                height={400}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            {block.caption && (
+              <p className="text-sm text-muted-foreground text-center mt-2 italic">
+                {block.caption}
+              </p>
+            )}
+          </div>
+        )
+      
+      case 'code':
+        return (
+          <div key={index} className="my-6">
+            <pre className="bg-muted rounded-lg p-4 overflow-x-auto">
+              <code className={`language-${block.language || 'text'} text-sm`}>
+                {block.code}
+              </code>
+            </pre>
+          </div>
+        )
+      
+      case 'list':
+        return (
+          <ul key={index} className="list-disc list-inside space-y-2 mb-6 text-muted-foreground">
+            {block.items?.map((item, itemIndex) => (
+              <li key={itemIndex}>{item}</li>
+            ))}
+          </ul>
+        )
+      
+      case 'quote':
+        return (
+          <blockquote key={index} className="border-l-4 border-primary pl-6 py-4 my-6 bg-primary/5 rounded-r-lg">
+            <p className="text-foreground italic text-lg">"{block.text}"</p>
+          </blockquote>
+        )
+      
+      default:
+        return null
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="py-20 md:py-32">
+        <div className="container max-w-4xl">
+          <div className="animate-pulse">
+            <div className="h-8 bg-muted rounded w-32 mb-8"></div>
+            <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
+            <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
+            <div className="h-64 bg-muted rounded mb-8"></div>
+            <div className="space-y-4">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="h-4 bg-muted rounded w-full"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !blog) {
+    return (
+      <div className="py-20 md:py-32">
+        <div className="container max-w-4xl">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold">
+              {error === 'Blog post not found' ? 'Blog Post Not Found' : 'Error Loading Blog'}
+            </h1>
+            <p className="text-muted-foreground">
+              {error === 'Blog post not found' 
+                ? 'The blog post you\'re looking for doesn\'t exist or has been removed.'
+                : 'There was an error loading the blog post. Please try again later.'
+              }
+            </p>
+            <Button asChild className="mt-6">
+              <Link href="/blog">Back to Blog</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="py-20 md:py-32">
+      <div className="container max-w-4xl">
+        {/* Back Navigation */}
+        <Button asChild variant="ghost" className="mb-8 hover:bg-accent">
+          <Link href="/blog" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Blog
+          </Link>
+        </Button>
+
+        {/* Article Header */}
+        <article className="space-y-8">
+          <header className="space-y-6">
+            {/* Category and Featured Badge */}
+            <div className="flex items-center gap-3">
+              <Badge variant="secondary">{blog.category}</Badge>
+              {blog.featured && (
+                <Badge className="bg-primary text-primary-foreground">Featured</Badge>
+              )}
+            </div>
+
+            {/* Title */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              {blog.title}
+            </h1>
+
+            {/* Meta Information */}
+            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                <span>{blog.author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>{new Date(blog.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                <span>{blog.readTime}</span>
+              </div>
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              {blog.tags.map((tag) => (
+                <Badge key={tag} variant="outline" className="text-xs">
+                  #{tag}
+                </Badge>
+              ))}
+            </div>
+
+            {/* Featured Image */}
+            <div className="relative rounded-xl overflow-hidden shadow-2xl">
+              <Image
+                src={blog.image}
+                alt={blog.title}
+                width={1200}
+                height={600}
+                className="w-full h-64 md:h-96 object-cover"
+                priority
+              />
+            </div>
+          </header>
+
+          {/* Article Content */}
+          <div className="prose prose-lg max-w-none">
+            <div className="text-xl text-muted-foreground mb-8 p-6 bg-secondary/30 rounded-lg border-l-4 border-primary">
+              {blog.excerpt}
+            </div>
+            
+            {blog.content.map((block, index) => renderContentBlock(block, index))}
+          </div>
+
+          {/* Share and Navigation */}
+          <footer className="border-t pt-8 mt-12">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <Button variant="outline" className="flex items-center gap-2">
+                <Share2 className="h-4 w-4" />
+                Share Article
+              </Button>
+              
+              <Button asChild>
+                <Link href="/blog">View All Posts</Link>
+              </Button>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  )
 }
