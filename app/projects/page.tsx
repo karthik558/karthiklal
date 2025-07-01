@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { ExternalLink, Github, Search, Grid, List, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import Head from "next/head"
 import projectsData from "@/public/data/projects.json"
 
 export default function ProjectsPage() {

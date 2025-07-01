@@ -10,35 +10,51 @@ import CtaSection from "@/components/sections/cta-section"
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
 
-// Structured Data for SEO
+// Enhanced Structured Data for SEO - targeting "Karthik Lal" searches
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Karthik Lal",
-  "alternateName": "Karthik Lal IT Manager",
-  "description": "IT Manager, Certified Ethical Hacker, and Full Stack Developer with 6.8+ years of experience in cybersecurity and network management",
+  "alternateName": [
+    "Karthik Lal IT Manager",
+    "Karthik Lal Certified Ethical Hacker",
+    "Karthik Lal Developer"
+  ],
+  "description": "Karthik Lal is an experienced IT Manager, Certified Ethical Hacker, and Full Stack Developer with 6.8+ years of expertise in cybersecurity, network management, and web development. Based in Kerala, India.",
   "url": "https://karthiklal.in",
-  "image": "https://karthiklal.in/1.jpg",
+  "image": [
+    "https://karthiklal.in/1.jpg",
+    "https://karthiklal.in/user/2.jpg",
+    "https://karthiklal.in/user/3.jpg"
+  ],
   "sameAs": [
     "https://linkedin.com/in/karthiklal",
     "https://github.com/karthik558",
-    "https://twitter.com/karthiklal_in"
+    "https://twitter.com/karthiklal_in",
+    "https://instagram.com/karthiklal_in"
   ],
   "jobTitle": [
     "IT Manager",
-    "Certified Ethical Hacker",
+    "Certified Ethical Hacker", 
     "Full Stack Developer",
-    "Cybersecurity Expert"
+    "Cybersecurity Expert",
+    "Network Security Specialist"
   ],
   "worksFor": {
     "@type": "Organization",
-    "name": "IHCL (Indian Hotels Company Limited)"
+    "name": "IHCL (Indian Hotels Company Limited)",
+    "url": "https://www.ihcltata.com/"
   },
   "alumniOf": [
     {
-      "@type": "CollegeOrUniversity",
+      "@type": "CollegeOrUniversity", 
       "name": "Uttaranchal University",
-      "address": "Dehradun, Uttarakhand"
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dehradun",
+        "addressRegion": "Uttarakhand",
+        "addressCountry": "IN"
+      }
     }
   ],
   "address": {
@@ -49,38 +65,90 @@ const structuredData = {
   "email": "dev@karthiklal.in",
   "knowsAbout": [
     "Cybersecurity",
-    "Network Security",
+    "Network Security", 
     "Penetration Testing",
+    "Ethical Hacking",
     "React Development",
-    "Next.js",
-    "TypeScript",
+    "Next.js Development",
+    "TypeScript Programming",
     "Rust Programming",
     "Python Development",
     "Linux System Administration",
     "Hotel IT Solutions",
-    "Infrastructure Management"
+    "Infrastructure Management",
+    "Threat Intelligence",
+    "DDOS Mitigation",
+    "Phishing Defense",
+    "Information Security"
   ],
   "hasCredential": [
     {
       "@type": "EducationalOccupationalCredential",
       "name": "Certified Ethical Hacker (CEH)",
-      "credentialCategory": "Professional Certification"
+      "credentialCategory": "Professional Certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "EC-Council"
+      }
     },
     {
-      "@type": "EducationalOccupationalCredential",
+      "@type": "EducationalOccupationalCredential", 
       "name": "Bachelor of Computer Applications (BCA)",
       "credentialCategory": "Degree"
     }
-  ]
+  ],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "IT Manager",
+    "occupationLocation": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "skills": [
+      "Cybersecurity",
+      "Network Management", 
+      "Web Development",
+      "System Administration",
+      "Threat Analysis"
+    ]
+  },
+  "brand": {
+    "@type": "Brand",
+    "name": "Karthik Lal",
+    "description": "Professional IT Manager and Cybersecurity Expert"
+  }
 }
 
 export default function Home() {
+  // Additional Website/Organization structured data
+  const websiteStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Karthik Lal - Official Portfolio",
+    "alternateName": "Karthik Lal Website",
+    "url": "https://karthiklal.in",
+    "description": "Official portfolio website of Karthik Lal - IT Manager, Certified Ethical Hacker, and Full Stack Developer",
+    "author": {
+      "@type": "Person",
+      "name": "Karthik Lal"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://karthiklal.in/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+
   return (
     <div className="relative">
-      {/* Structured Data for SEO */}
+      {/* Enhanced Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
       />
       
       <HeroSectionStatic />
