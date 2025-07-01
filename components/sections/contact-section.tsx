@@ -197,7 +197,7 @@ export default function ContactSection() {
                       <div className="flex-1">
                         <h4 className="font-semibold mb-1">Email Address</h4>
                         <a 
-                          href={`mailto:${profileData?.email || 'dev@karthiklal.in'}`} 
+                          href={`mailto:${profileData?.email || 'contact@karthiklal.in'}`} 
                           className="text-sm text-muted-foreground hover:text-primary transition-colors"
                         >
                           {profileData?.email || 'Loading...'}

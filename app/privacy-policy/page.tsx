@@ -256,7 +256,7 @@ export default function PrivacyPolicyPage() {
                 If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us:
               </p>
               <div className="space-y-2">
-                <p><strong>Email:</strong> <a href="mailto:dev@karthiklal.in" className="text-primary hover:underline">dev@karthiklal.in</a></p>
+                <p><strong>Email:</strong> <a href="mailto:contact@karthiklal.in" className="text-primary hover:underline">contact@karthiklal.in</a></p>
                 <p><strong>Website:</strong> <a href="https://karthiklal.in" className="text-primary hover:underline">https://karthiklal.in</a></p>
               </div>
             </CardContent>

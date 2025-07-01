@@ -102,7 +102,7 @@ function NavHeader() {
     fetchData()
   }, [])
   // Navigation items with proper routes and icons - simplified to essential sections
-  const navItems = [
+  const allNavItems = [
     { label: 'Home', href: '/', icon: Home },
     { label: 'About', href: '/#about', icon: User },
     { label: 'Services', href: '/#services', icon: Briefcase },
@@ -113,9 +113,23 @@ function NavHeader() {
   ]
 
   // Filter navigation items based on current page
-  const currentPageItems = pathname === '/' 
-    ? navItems.filter(item => item.label !== 'Home')
-    : navItems
+  const getNavigationItems = () => {
+    if (pathname === '/') {
+      // Home page: show all items except Home itself
+      return allNavItems.filter(item => item.label !== 'Home')
+    } else if (pathname.startsWith('/blog')) {
+      // Blog page and blog posts: show only Home and Contact
+      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Contact')
+    } else if (pathname === '/contact') {
+      // Contact page: show only Home and Blog
+      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Blog')
+    } else {
+      // Other pages: show only Home and Blog
+      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Blog')
+    }
+  }
+
+  const currentPageItems = getNavigationItems()
 
   // Filter active social links
   const activeSocials = socialLinks.filter(social => social.active)

@@ -96,7 +96,7 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
             
             <button
               onClick={() => {
-                window.open('mailto:dev@karthiklal.in', '_blank')
+                window.open('mailto:contact@karthiklal.in', '_blank')
                 onClose()
               }}
               className="w-full text-sm text-gray-500 dark:text-gray-400 hover:text-primary transition-colors"
