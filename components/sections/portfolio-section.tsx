@@ -92,7 +92,7 @@ export default function PortfolioSection() {
       
       <div className="container relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-8"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -155,7 +155,7 @@ export default function PortfolioSection() {
 
         {/* Enhanced View All Projects Button */}
         <motion.div 
-          className="flex justify-center mt-16"
+          className="flex justify-center mt-8"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 0.6 }}
