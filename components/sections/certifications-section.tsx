@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Award, CheckCircle, Clock, ChevronDown, ChevronUp } from "lucide-react"
@@ -22,6 +22,7 @@ export default function CertificationsSection() {
   const [certifications, setCertifications] = useState<Certification[]>([])
   const [loading, setLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
+  const [expandedCerts, setExpandedCerts] = useState<Set<number>>(new Set())
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
@@ -45,6 +46,18 @@ export default function CertificationsSection() {
   }, [])
 
   const displayedCertifications = showAll ? certifications : certifications.slice(0, 3)
+
+  const toggleCertDescription = (certId: number) => {
+    setExpandedCerts(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(certId)) {
+        newSet.delete(certId)
+      } else {
+        newSet.add(certId)
+      }
+      return newSet
+    })
+  }
 
   const handleShowMore = () => {
     if (showAll) {
@@ -128,10 +141,79 @@ export default function CertificationsSection() {
                     </p>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed mt-3">
-                    {certification.description}
-                  </p>
+                  {/* Description with expand/collapse */}
+                  <div className="mt-3">
+                    {/* Show expand button only if description is long enough */}
+                    {certification.description.length > 100 && (
+                      <>
+                        <AnimatePresence mode="wait">
+                          {expandedCerts.has(certification.id) && (
+                            <motion.div
+                              key="description"
+                              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                              animate={{ 
+                                opacity: 1, 
+                                height: "auto", 
+                                marginBottom: 8,
+                                transition: {
+                                  duration: 0.4,
+                                  ease: [0.4, 0, 0.2, 1]
+                                }
+                              }}
+                              exit={{ 
+                                opacity: 0, 
+                                height: 0, 
+                                marginBottom: 0,
+                                transition: {
+                                  duration: 0.3,
+                                  ease: [0.4, 0, 0.2, 1]
+                                }
+                              }}
+                              style={{ overflow: "hidden" }}
+                            >
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {certification.description}
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        
+                        <motion.button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleCertDescription(certification.id);
+                          }}
+                          className="w-6 h-6 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-200 group"
+                          aria-label={expandedCerts.has(certification.id) ? "Hide description" : "Show description"}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <motion.span 
+                            className="text-xs font-bold text-primary transition-transform"
+                            animate={{ 
+                              rotate: expandedCerts.has(certification.id) ? 0 : 0,
+                              scale: expandedCerts.has(certification.id) ? 1.1 : 1
+                            }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            {expandedCerts.has(certification.id) ? '−' : '⋯'}
+                          </motion.span>
+                        </motion.button>
+                      </>
+                    )}
+                    
+                    {/* For short descriptions, show them normally */}
+                    {certification.description.length <= 100 && (
+                      <motion.p 
+                        className="text-sm text-muted-foreground leading-relaxed"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
+                        {certification.description}
+                      </motion.p>
+                    )}
+                  </div>
                 </CardHeader>
 
                 <CardContent className="pt-0">
