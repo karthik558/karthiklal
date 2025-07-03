@@ -122,20 +122,6 @@ export default function AboutSection() {
                   <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-primary/60 rounded-tr-lg z-10"></div>
                   <div className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-primary/60 rounded-bl-lg z-10"></div>
                   <div className="absolute bottom-4 right-4 w-3 h-3 border-b-2 border-r-2 border-primary/60 rounded-br-lg z-10"></div>
-
-                  {/* Image indicators */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                    {images.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentImageIndex 
-                            ? 'bg-primary scale-125' 
-                            : 'bg-white/50 scale-100'
-                        }`}
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>

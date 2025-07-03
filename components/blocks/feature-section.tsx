@@ -153,33 +153,6 @@ export function FeatureSteps({
 
           {/* Project Navigation */}
           <div className="flex flex-col items-center space-y-6">
-            {/* Progress Bar */}
-            <div className="w-full max-w-md">
-              <div className="flex gap-2">
-                {features.map((_, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "h-2 rounded-full transition-all duration-300 cursor-pointer flex-1",
-                      index === currentFeature 
-                        ? "bg-primary" 
-                        : "bg-muted hover:bg-muted-foreground/20"
-                    )}
-                    onClick={() => handleFeatureClick(index)}
-                  >
-                    {index === currentFeature && (
-                      <motion.div
-                        className="h-full bg-primary/60 rounded-full"
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.1 }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Project Thumbnails */}
             <div className="flex gap-4 overflow-x-auto pb-4 pt-2 px-4 w-full justify-center">
               {features.map((feature, index) => (
