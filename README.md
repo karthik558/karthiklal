@@ -7,55 +7,58 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black?style=flat-round&logo=next.js)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.17-38B2AC?style=flat-round&logo=tailwind-css)
 
-Welcome to my modern portfolio repository! This is a cutting-edge portfolio website built with **Next.js 15** and **TypeScript**, showcasing my journey as a **Certified Ethical Hacker** and **Full Stack Developer** with 6.8+ years of experience. The website features smooth animations, responsive design, and modern UI components.
+This repository contains the source code for my personal portfolio website. It is a modern, performant, and fully responsive single-page application built with Next.js 15, React 19, and TypeScript. It showcases my skills, experience, and projects in the fields of cybersecurity and full-stack development.
 
 ## About
 
-This portfolio represents my professional journey, expertise, and accomplishments in cybersecurity and full-stack development. Built with modern web technologies, it provides an immersive experience showcasing my projects, skills, and professional background while serving as a platform to connect with fellow developers and potential collaborators.
+This portfolio serves as a comprehensive showcase of my 6.8+ years of professional experience as a Certified Ethical Hacker and Full Stack Developer. It highlights my technical skills, key projects, and career milestones. The site is designed to be an immersive and interactive platform for potential employers, collaborators, and fellow developers to learn more about my work.
 
 ## Key Features
 
-- Hero Section: Eye-catching introduction with smooth animations
+- **Hero Section**: An eye-catching introduction with smooth, engaging animations.
 - About Section: Comprehensive overview of my background and expertise
 - Experience: Detailed professional journey and career milestones
 - Certifications: Professional certifications and achievements
 - Skills: Interactive skill showcase with proficiency levels
 - Portfolio: Featured projects with live demos and source code
 - Testimonials: Client and colleague feedback
-- Contact: Multiple ways to get in touch with integrated contact form
-- Blog: Technical articles and insights (Coming Soon)
-- Dark/Light Mode: Seamless theme switching
-- Fully Responsive: Optimized for all devices
-- Performance Optimized: Fast loading with Next.js optimization
-- Smooth Animations: GSAP and Framer Motion powered animations
+- **Contact**: Multiple ways to get in touch, including an integrated contact form.
+- **Blog**: A dedicated section for technical articles and insights (Coming Soon).
+- **Dark/Light Mode**: Seamless theme switching for user preference.
+- **Fully Responsive**: Optimized for a great experience on all devices, from mobile to desktop.
+- **Performance Optimized**: Built for speed with Next.js image optimization, lazy loading, and minimal bundle size.
+- **Smooth Animations**: Powered by GSAP and Framer Motion for a fluid user experience.
 
-## Modern Tech Stack
+## Tech Stack
 
-### Core Technologies
-- **Next.js 15** - React framework with App Router
-- **React 19** - Latest React with concurrent features
-- **TypeScript 5** - Type-safe development
-- **Tailwind CSS 3.4** - Utility-first CSS framework
+This project is built with a modern and robust technology stack to ensure a high-quality, maintainable, and scalable application.
 
-### UI & Animation Libraries
-- **Radix UI** - Headless UI components
-- **Framer Motion** - Advanced animations
-- **GSAP** - Professional animations
-- **Lucide React** - Beautiful icons
-- **Sonner** - Toast notifications
+### Core Frameworks & Languages
+- **Next.js 15**: The React framework for production, featuring the App Router.
+- **React 19**: Leveraging the latest features for building user interfaces.
+- **TypeScript 5**: For robust, type-safe development.
 
-### Development Tools
-- **ESLint** - Code linting
-- **PostCSS** - CSS processing
-- **Class Variance Authority** - Component variants
-- **clsx & tailwind-merge** - Conditional styling
+### Styling & UI
+- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+- **Radix UI**: Unstyled, accessible UI components for building a design system.
+- **Lucide React**: A comprehensive and beautiful icon library.
+- **Sonner**: An opinionated toast component for notifications.
+- **Class Variance Authority (CVA)**: For creating flexible and reusable component variants.
+- **clsx & tailwind-merge**: Utilities for constructing conditional class names.
 
-### Additional Features
-- **React Hook Form** - Form management
-- **Zod** - Schema validation
-- **Nodemailer** - Email functionality
-- **Next Themes** - Theme management
-- **Recharts** - Data visualization
+### Animation
+- **Framer Motion**: A production-ready motion library for creating fluid animations.
+- **GSAP (GreenSock Animation Platform)**: A professional-grade animation library for high-performance animations.
+
+### Forms & Validation
+- **React Hook Form**: Performant, flexible, and extensible forms with easy-to-use validation.
+- **Zod**: A TypeScript-first schema declaration and validation library.
+
+### Backend & Tooling
+- **Nodemailer**: For handling email functionality from the contact form.
+- **ESLint & PostCSS**: For code linting and CSS processing to maintain code quality.
+- **Next Themes**: For seamless dark and light mode management.
+- **Recharts**: For creating beautiful and interactive data visualizations.
 
 ## Quick Start
 
@@ -90,12 +93,12 @@ This portfolio represents my professional journey, expertise, and accomplishment
 
 ## Design Features
 
-- **Modern UI/UX**: Clean, professional design with attention to detail
-- **Smooth Animations**: GSAP-powered scroll animations and page transitions
-- **Interactive Elements**: Hover effects, micro-interactions, and dynamic content
-- **Accessibility**: ARIA labels, keyboard navigation, and screen reader support
-- **SEO Optimized**: Meta tags, structured data, and semantic HTML
-- **Performance**: Optimized images, lazy loading, and minimal bundle size
+- **Modern UI/UX**: A clean, professional design with a strong focus on user experience and attention to detail.
+- **Smooth Animations**: GSAP-powered scroll-triggered animations and fluid page transitions.
+- **Interactive Elements**: Engaging hover effects, micro-interactions, and dynamic content loading.
+- **Accessibility First**: Designed with ARIA labels, keyboard navigation, and screen reader support in mind.
+- **SEO Optimized**: Implemented with best practices for search engine optimization, including meta tags and structured data.
+- **Performance-Driven**: Optimized images, lazy loading, and a minimal bundle size for fast load times.
 
 ## Contributing
 
