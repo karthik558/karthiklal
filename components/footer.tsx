@@ -101,11 +101,11 @@ export default function Footer() {
             {/* Signature */}
             <div className="flex justify-center">
               <Image
-                src={theme === 'dark' ? '/signature/signature-dark.png' : '/signature/signature-light.png'}
+                src="/signature.svg"
                 alt="Karthik Lal Signature"
-                width={200}
-                height={60}
-                className="h-12 w-auto object-contain"
+                width={160}
+                height={48}
+                className="h-8 w-auto object-contain filter dark:invert"
                 priority
               />
             </div>
@@ -202,11 +202,11 @@ export default function Footer() {
           <div className="space-y-3">
             <div>
               <Image
-                src={theme === 'dark' ? '/signature/signature-dark.png' : '/signature/signature-light.png'}
+                src="/signature.svg"
                 alt="Karthik Lal Signature"
-                width={180}
-                height={50}
-                className="h-10 w-auto object-contain"
+                width={140}
+                height={40}
+                className="h-7 w-auto object-contain filter dark:invert"
                 priority
               />
             </div>

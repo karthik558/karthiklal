@@ -168,14 +168,9 @@ export default function AboutSection() {
             <div className="flex justify-start animate-item pt-2">
               <div className="relative p-3 rounded-lg bg-background/30 border border-border/30 backdrop-blur-sm">
                 <img
-                  src="/signature/signature-light.png"
+                  src="/signature.svg"
                   alt={`${profileData.personalInfo.name} Signature`}
-                  className="h-10 w-auto dark:hidden opacity-80"
-                />
-                <img
-                  src="/signature/signature-dark.png"
-                  alt={`${profileData.personalInfo.name} Signature`}
-                  className="h-10 w-auto hidden dark:block opacity-80"
+                  className="h-7 w-auto opacity-80 filter dark:invert"
                 />
               </div>
             </div>
