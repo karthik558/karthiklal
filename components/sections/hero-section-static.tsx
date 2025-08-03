@@ -6,6 +6,7 @@ import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "fram
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
 
@@ -173,7 +174,13 @@ export default function HeroSectionStatic() {
             <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
                 <span className="text-xl text-muted-foreground block mb-2 font-medium">Hi there, I'm</span>
-                <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">{profileData?.name || "Loading..."}</span>
+                <div className="flex justify-center lg:justify-start">
+                  <img
+                    src="/hero_name.svg"
+                    alt="Karthik Lal"
+                    className="h-12 md:h-14 lg:h-16 w-auto object-contain filter dark:invert"
+                  />
+                </div>
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0 font-medium">

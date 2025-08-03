@@ -8,6 +8,7 @@ import type * as THREE from "three"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import SmoothLink from "@/components/smooth-link"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 
@@ -148,7 +149,14 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold"
             >
-              Hi, I'm <span className="hero-name">{profileData?.name || "Loading..."}</span>
+              <div className="flex items-center flex-wrap gap-2">
+                Hi, I'm{" "}
+                <img
+                  src="/hero_name.svg"
+                  alt="Karthik Lal"
+                  className="h-10 md:h-12 lg:h-14 w-auto object-contain filter dark:invert"
+                />
+              </div>
             </motion.h1>
 
             <motion.p
