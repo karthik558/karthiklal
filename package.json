@@ -56,7 +56,7 @@
     "gsap": "^3.13.0",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
-    "next": "15.2.4",
+    "next": "15.4.7",
     "next-themes": "latest",
     "nodemailer": "^7.0.3",
     "ogl": "^1.0.11",
