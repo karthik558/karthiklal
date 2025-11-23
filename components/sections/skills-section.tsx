@@ -71,8 +71,8 @@ function SkillCard({ category, index }: { category: SkillCategory, index: number
         />
         <CardHeader className="pb-4 relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${category.bgColor} group-hover:scale-110 transition-transform`}>
-              <IconComponent className={`h-6 w-6 ${category.color}`} />
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110 transition-transform`}>
+              <IconComponent className={`h-6 w-6 text-primary`} />
             </div>
             <div>
               <CardTitle className="text-lg group-hover:text-primary transition-colors">{category.name}</CardTitle>
