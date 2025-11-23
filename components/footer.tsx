@@ -2,9 +2,9 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette } from "lucide-react"
+import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
 import { useState, useEffect } from "react"
-import { useTheme } from "next-themes"
+import { motion } from "framer-motion"
 import SmoothLink from "@/components/smooth-link"
 
 // Icon mapping for dynamic icon rendering
@@ -35,7 +35,6 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   const [socials, setSocials] = useState<Social[]>([])
   const [loading, setLoading] = useState(true)
-  const { theme } = useTheme()
 
   useEffect(() => {
     // Load socials from JSON
@@ -47,12 +46,10 @@ export default function Footer() {
         return res.json()
       })
       .then(data => {
-        console.log('Loaded socials data:', data) // Debug log
         // Filter active socials and sort by priority
         const activeSocials = data.socials
           .filter((social: Social) => social.active)
           .sort((a: Social, b: Social) => a.priority - b.priority)
-        console.log('Active socials:', activeSocials) // Debug log
         setSocials(activeSocials)
         setLoading(false)
       })
@@ -92,220 +89,138 @@ export default function Footer() {
       })
   }, [])
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 20
+      }
+    }
+  }
+
   return (
-    <footer className="bg-secondary/5 border-t border-border">
-      <div className="container py-4 md:py-6">
-        {/* Mobile Layout */}
-        <div className="block md:hidden">
-          <div className="text-center space-y-3">
-            {/* Signature */}
-            <div className="flex justify-center">
-              <Image
-                src="/hero_name.svg"
-                alt="Karthik Lal Signature"
-                width={200}
-                height={60}
-                className="h-8 w-auto object-contain dark:invert"
-                priority
-              />
-            </div>
-            
-            {/* Social Links */}
-            <div className="flex justify-center space-x-3">
-              {loading ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="w-9 h-9 rounded-full bg-muted animate-pulse"
-                  />
-                ))
+    <footer className="bg-background border-t border-border/40 relative overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none" />
+      
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-100px" }}
+        className="container py-16 md:py-20 relative z-10"
+      >
+        <div className="flex flex-col items-center text-center space-y-10">
+          
+          {/* Brand Signature */}
+          <motion.div variants={item} className="relative group">
+            <div className="absolute -inset-4 bg-primary/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Image
+              src="/hero_name.svg"
+              alt="Karthik Lal"
+              width={200}
+              height={60}
+              className="h-10 w-auto object-contain dark:invert relative z-10 opacity-90 group-hover:opacity-100 transition-opacity"
+              priority
+            />
+          </motion.div>
+
+          {/* Navigation Links */}
+          <motion.nav variants={item} className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium text-muted-foreground">
+            {[
+              { name: "About", href: "/#about", isSmooth: true },
+              { name: "Services", href: "/#services", isSmooth: true },
+              { name: "Portfolio", href: "/#portfolio", isSmooth: true },
+              { name: "Blog", href: "/blog", isSmooth: false },
+              { name: "Contact", href: "/contact", isSmooth: true },
+            ].map((link) => (
+              link.isSmooth ? (
+                <SmoothLink 
+                  key={link.name} 
+                  href={link.href} 
+                  className="hover:text-primary transition-colors relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </SmoothLink>
               ) : (
-                socials.map((social) => {
-                  const IconComponent = iconMap[social.icon]
-                  if (!IconComponent) {
-                    console.warn(`Icon not found for ${social.icon}`)
-                    return null
-                  }
-                  return (
+                <Link 
+                  key={link.name} 
+                  href={link.href} 
+                  className="hover:text-primary transition-colors relative group"
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+              )
+            ))}
+          </motion.nav>
+
+          {/* Social Icons */}
+          <motion.div variants={item} className="flex gap-4">
+            {loading ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="w-10 h-10 rounded-full bg-muted animate-pulse" />
+              ))
+            ) : (
+              socials.map((social) => {
+                const IconComponent = iconMap[social.icon]
+                if (!IconComponent) return null
+                
+                return (
+                  <motion.div
+                    key={social.id}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <Link
-                      key={social.id}
                       href={social.url}
                       target={social.name !== 'Email' ? "_blank" : undefined}
                       rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                      className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                      className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-primary hover:text-primary-foreground border border-border/50 hover:border-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
                       title={social.name}
                     >
                       <IconComponent className="h-4 w-4" />
                       <span className="sr-only">{social.name}</span>
                     </Link>
-                  )
-                })
-              )}
+                  </motion.div>
+                )
+              })
+            )}
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div variants={item} className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+          {/* Bottom Section */}
+          <motion.div variants={item} className="flex flex-col md:flex-row justify-between items-center w-full gap-6 text-xs text-muted-foreground max-w-4xl px-4">
+            <div className="flex items-center gap-2">
+              <span>© {currentYear} Karthik Lal. All rights reserved.</span>
             </div>
 
-            {/* Quick Links - Horizontal on Mobile */}
-            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm">
-              <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
-                About
-              </SmoothLink>
-              <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
-                Services
-              </SmoothLink>
-              <SmoothLink href="/#portfolio" className="text-muted-foreground hover:text-primary transition-colors">
-                Portfolio
-              </SmoothLink>
-              <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
-                Blog
-              </Link>
-              <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </SmoothLink>
+            <div className="flex gap-6">
+              <Link href="/privacy-policy" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Privacy</Link>
+              <Link href="/terms" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Terms</Link>
+              <Link href="/cookies" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Cookies</Link>
             </div>
-
-            {/* Contact Info */}
-            <div className="space-y-1 text-sm">
-              <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <Mail className="h-3 w-3" />
-                <a href="mailto:contact@karthiklal.in" className="hover:text-primary transition-colors">contact@karthiklal.in</a>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <MapPin className="h-3 w-3" />
-                <span>Kerala, India</span>
-              </div>
-            </div>
-
-            {/* Legal Links */}
-            <div className="flex justify-center gap-4 text-xs">
-              <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
-                Privacy
-              </Link>
-              <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
-                Terms
-              </Link>
-              <Link href="/cookies" className="text-muted-foreground hover:text-primary transition-colors">
-                Cookies
-              </Link>
-            </div>
-
-            {/* Copyright */}
-            <div className="pt-2 border-t border-border">
-              <p className="text-xs text-muted-foreground">
-                © {currentYear} Karthik Lal. All rights reserved.
-              </p>
-            </div>
-          </div>
+          </motion.div>
         </div>
-
-        {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
-          {/* Brand Section */}
-          <div className="space-y-3">
-            <div>
-              <Image
-                src="/hero_name.svg"
-                alt="Karthik Lal Signature"
-                width={180}
-                height={50}
-                className="h-8 w-auto object-contain dark:invert"
-                priority
-              />
-            </div>
-
-            {/* Social Links */}
-            <div className="flex space-x-2">
-              {loading ? (
-                // Loading skeleton
-                Array.from({ length: 3 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="w-8 h-8 rounded-full bg-muted animate-pulse"
-                  />
-                ))
-              ) : (
-                socials.map((social) => {
-                  const IconComponent = iconMap[social.icon]
-                  if (!IconComponent) {
-                    console.warn(`Icon not found for ${social.icon}`)
-                    return null
-                  }
-                  return (
-                    <Link
-                      key={social.id}
-                      href={social.url}
-                      target={social.name !== 'Email' ? "_blank" : undefined}
-                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                      className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-                      title={social.name}
-                    >
-                      <IconComponent className="h-3.5 w-3.5" />
-                      <span className="sr-only">{social.name}</span>
-                    </Link>
-                  )
-                })
-              )}
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">Quick Links</h4>
-            <div className="grid grid-cols-2 gap-1 text-sm">
-              <SmoothLink href="/#about" className="text-muted-foreground hover:text-primary transition-colors">
-                About
-              </SmoothLink>
-              <SmoothLink href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
-                Services
-              </SmoothLink>
-              <SmoothLink href="/#portfolio" className="text-muted-foreground hover:text-primary transition-colors">
-                Portfolio
-              </SmoothLink>
-              <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
-                Blog
-              </Link>
-              <SmoothLink href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </SmoothLink>
-            </div>
-          </div>
-
-          {/* Contact & Legal */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">Contact</h4>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-3 w-3" />
-                <a href="mailto:contact@karthiklal.in" className="hover:text-primary transition-colors">contact@karthiklal.in</a>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <MapPin className="h-3 w-3" />
-                <span>Kerala, India</span>
-              </div>
-            </div>
-            
-            {/* Legal Links */}
-            <div className="pt-1">
-              <div className="flex flex-wrap gap-3 text-xs">
-                <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy
-                </Link>
-                <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
-                  Terms
-                </Link>
-                <Link href="/cookies" className="text-muted-foreground hover:text-primary transition-colors">
-                  Cookies
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop Bottom Section */}
-          <div className="col-span-3 mt-6 pt-4 border-t border-border text-center">
-            <p className="text-xs text-muted-foreground">
-              © {currentYear} Karthik Lal. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </div>
+      </motion.div>
     </footer>
   )
 }
