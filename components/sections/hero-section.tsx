@@ -147,16 +147,17 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold flex flex-wrap items-center gap-x-3"
             >
-              <div className="flex items-center flex-wrap gap-2">
-                Hi, I'm{" "}
-                <img
-                  src="/hero_name.svg"
-                  alt="Karthik Lal"
-                  className="h-10 md:h-12 lg:h-14 w-auto object-contain filter dark:invert"
-                />
-              </div>
+              <span>Hi, I'm</span>
+              <Image 
+                src="/hero_name.svg" 
+                alt="Karthik Lal" 
+                width={300} 
+                height={80} 
+                className="h-12 md:h-16 lg:h-20 w-auto" 
+                priority 
+              />
             </motion.h1>
 
             <motion.p

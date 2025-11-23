@@ -3,8 +3,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette } from "lucide-react"
+import { useState, useEffect } from "react"
+import { useTheme } from "next-themes"
 import SmoothLink from "@/components/smooth-link"
-import { SOCIALS_DATA } from "@/lib/static-data"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -32,9 +33,64 @@ interface Social {
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
-  const socials = ((SOCIALS_DATA.socials ?? []) as Social[])
-    .filter((social) => social.active)
-    .sort((a, b) => a.priority - b.priority)
+  const [socials, setSocials] = useState<Social[]>([])
+  const [loading, setLoading] = useState(true)
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    // Load socials from JSON
+    fetch('/data/socials.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
+      .then(data => {
+        console.log('Loaded socials data:', data) // Debug log
+        // Filter active socials and sort by priority
+        const activeSocials = data.socials
+          .filter((social: Social) => social.active)
+          .sort((a: Social, b: Social) => a.priority - b.priority)
+        console.log('Active socials:', activeSocials) // Debug log
+        setSocials(activeSocials)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Failed to load socials:', error)
+        setLoading(false)
+        // Fallback to hardcoded socials
+        setSocials([
+          {
+            id: 1,
+            name: "GitHub",
+            icon: "Github",
+            url: "https://github.com/karthik558",
+            username: "@karthik558",
+            active: true,
+            priority: 1
+          },
+          {
+            id: 2,
+            name: "LinkedIn",
+            icon: "Linkedin",
+            url: "https://linkedin.com/in/karthiklal",
+            username: "Karthik Lal",
+            active: true,
+            priority: 2
+          },
+          {
+            id: 3,
+            name: "Email",
+            icon: "Mail",
+            url: "mailto:contact@karthiklal.in",
+            username: "contact@karthiklal.in",
+            active: true,
+            priority: 3
+          }
+        ])
+      })
+  }, [])
 
   return (
     <footer className="bg-secondary/5 border-t border-border">
@@ -45,37 +101,46 @@ export default function Footer() {
             {/* Signature */}
             <div className="flex justify-center">
               <Image
-                src="/signature.svg"
+                src="/hero_name.svg"
                 alt="Karthik Lal Signature"
-                width={160}
-                height={48}
-                className="h-8 w-auto object-contain filter dark:invert"
+                width={200}
+                height={60}
+                className="h-8 w-auto object-contain dark:invert"
                 priority
               />
             </div>
             
             {/* Social Links */}
             <div className="flex justify-center space-x-3">
-              {socials.map((social) => {
-                const IconComponent = iconMap[social.icon]
-                if (!IconComponent) {
-                  console.warn(`Icon not found for ${social.icon}`)
-                  return null
-                }
-                return (
-                  <Link
-                    key={social.id}
-                    href={social.url}
-                    target={social.name !== 'Email' ? "_blank" : undefined}
-                    rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                    className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-                    title={social.name}
-                  >
-                    <IconComponent className="h-4 w-4" />
-                    <span className="sr-only">{social.name}</span>
-                  </Link>
-                )
-              })}
+              {loading ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-9 h-9 rounded-full bg-muted animate-pulse"
+                  />
+                ))
+              ) : (
+                socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) {
+                    console.warn(`Icon not found for ${social.icon}`)
+                    return null
+                  }
+                  return (
+                    <Link
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== 'Email' ? "_blank" : undefined}
+                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                      className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                      title={social.name}
+                    >
+                      <IconComponent className="h-4 w-4" />
+                      <span className="sr-only">{social.name}</span>
+                    </Link>
+                  )
+                })
+              )}
             </div>
 
             {/* Quick Links - Horizontal on Mobile */}
@@ -137,37 +202,47 @@ export default function Footer() {
           <div className="space-y-3">
             <div>
               <Image
-                src="/signature.svg"
+                src="/hero_name.svg"
                 alt="Karthik Lal Signature"
-                width={140}
-                height={40}
-                className="h-7 w-auto object-contain filter dark:invert"
+                width={180}
+                height={50}
+                className="h-8 w-auto object-contain dark:invert"
                 priority
               />
             </div>
 
             {/* Social Links */}
             <div className="flex space-x-2">
-              {socials.map((social) => {
-                const IconComponent = iconMap[social.icon]
-                if (!IconComponent) {
-                  console.warn(`Icon not found for ${social.icon}`)
-                  return null
-                }
-                return (
-                  <Link
-                    key={social.id}
-                    href={social.url}
-                    target={social.name !== 'Email' ? "_blank" : undefined}
-                    rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                    className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-                    title={social.name}
-                  >
-                    <IconComponent className="h-3.5 w-3.5" />
-                    <span className="sr-only">{social.name}</span>
-                  </Link>
-                )
-              })}
+              {loading ? (
+                // Loading skeleton
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-8 h-8 rounded-full bg-muted animate-pulse"
+                  />
+                ))
+              ) : (
+                socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) {
+                    console.warn(`Icon not found for ${social.icon}`)
+                    return null
+                  }
+                  return (
+                    <Link
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== 'Email' ? "_blank" : undefined}
+                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                      className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+                      title={social.name}
+                    >
+                      <IconComponent className="h-3.5 w-3.5" />
+                      <span className="sr-only">{social.name}</span>
+                    </Link>
+                  )
+                })
+              )}
             </div>
           </div>
 
@@ -234,3 +309,4 @@ export default function Footer() {
     </footer>
   )
 }
+

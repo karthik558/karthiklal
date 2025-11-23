@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Github, Search, Grid, List, X, Filter, Sparkles } from "lucide-react"
+import { ExternalLink, Github, Search, Grid, List, X, Filter } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import projectsData from "@/public/data/projects.json"
@@ -65,21 +65,11 @@ export default function ProjectsPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Portfolio Showcase</span>
-          </motion.div>
-
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
             My Creative <span className="text-gradient">Work</span>
           </h1>
 
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             Explore a collection of {projectsData.projects.length} projects demonstrating my journey through code, design, and problem-solving.
           </p>
         </motion.div>
