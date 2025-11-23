@@ -75,7 +75,7 @@ export default function ProjectsPage() {
         </motion.div>
 
         {/* Search and Filters */}
-        <div className="sticky top-20 z-30 mb-12 space-y-6">
+        <div className="mb-12 space-y-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
