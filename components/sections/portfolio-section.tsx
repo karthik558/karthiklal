@@ -112,40 +112,18 @@ export default function PortfolioSection() {
       <div className="absolute bottom-0 right-1/4 w-2 h-2 bg-secondary/30 rounded-full animate-pulse"></div>
 
       <div className="container relative z-10">
+
         <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>My Work</span>
-          </motion.div>
-
-          <motion.h2
-            className="text-3xl md:text-5xl font-bold mb-6 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Featured <span className="text-gradient">Projects</span>
-          </motion.h2>
-
-          <motion.p
-            className="text-muted-foreground max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            A curated selection of my best projects showcasing expertise in web development,
-            system administration, and creative problem-solving with cutting-edge technologies.
-          </motion.p>
+          <span className="inline-block text-primary font-medium mb-2">My Work</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured <span className="text-gradient">Projects</span></h2>
+          <p className="text-muted-foreground">
+            A curated selection of my best projects showcasing expertise in web development, system administration, and creative problem-solving with cutting-edge technologies.
+          </p>
         </motion.div>
 
         {features.length > 0 ? (
