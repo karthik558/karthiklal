@@ -66,13 +66,11 @@ const PortfolioGallerySection = () => {
     if (typeof window === "undefined") return
 
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const smallScreenQuery = window.matchMedia("(max-width: 1023px)")
 
     const evaluate = () => {
       const prefersReducedMotion = reducedMotionQuery.matches
-      const isSmallScreen = smallScreenQuery.matches
-      setUseStaticGallery(prefersReducedMotion || isSmallScreen)
-      if (prefersReducedMotion || isSmallScreen) {
+      setUseStaticGallery(prefersReducedMotion)
+      if (prefersReducedMotion) {
         setShouldRenderGallery(true)
       }
     }
@@ -80,11 +78,9 @@ const PortfolioGallerySection = () => {
     evaluate()
 
     reducedMotionQuery.addEventListener("change", evaluate)
-    smallScreenQuery.addEventListener("change", evaluate)
 
     return () => {
       reducedMotionQuery.removeEventListener("change", evaluate)
-      smallScreenQuery.removeEventListener("change", evaluate)
     }
   }, [])
 
@@ -111,8 +107,8 @@ const PortfolioGallerySection = () => {
 
   const fallbackItems = useStaticGallery ? portfolioItems.slice(0, 8) : portfolioItems
   return (
-    <section 
-      id="portfolio-gallery" 
+    <section
+      id="portfolio-gallery"
       className="py-20 md:py-32 bg-background relative z-10"
     >
       <div className="container">
@@ -124,11 +120,11 @@ const PortfolioGallerySection = () => {
             <span className="text-gradient">Featured Works</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto animate-item">
-            Explore my creative journey through various design projects, from web development 
+            Explore my creative journey through various design projects, from web development
             to cybersecurity solutions. Each piece represents innovation and attention to detail.
           </p>
         </div>
-        
+
         <div className="flex w-full h-[80vh] justify-center items-center">
           <div
             ref={galleryRef}
@@ -144,19 +140,22 @@ const PortfolioGallerySection = () => {
 
             {shouldRenderGallery && (
               useStaticGallery ? (
-                <div className="grid h-full grid-cols-2 gap-3 overflow-y-auto p-2 sm:grid-cols-3 lg:grid-cols-4">
+                <div className="flex h-full w-full gap-4 overflow-x-auto overflow-y-hidden p-4 snap-x snap-mandatory scrollbar-hide items-center">
                   {fallbackItems.map((item, index) => (
                     <div
                       key={`${item.image}-${index}`}
-                      className="relative aspect-[3/4] overflow-hidden rounded-xl border border-border/50 bg-background shadow-md"
+                      className="relative flex-shrink-0 w-[85vw] md:w-[45vw] aspect-[3/4] overflow-hidden rounded-2xl border border-border/50 bg-background shadow-lg snap-center transform transition-transform duration-300"
                     >
                       <img
                         src={item.image}
                         alt={`Portfolio item ${index + 1}`}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        className="h-full w-full object-cover"
                         loading="lazy"
                         decoding="async"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span className="text-white font-medium text-lg">Design Project {index + 1}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -169,14 +168,15 @@ const PortfolioGallerySection = () => {
                   font="bold 28px DM Sans"
                 />
               )
+
             )}
           </div>
         </div>
-        
+
         <div className="text-center mt-12">
           <Link href={behanceUrl}>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
               <ExternalLink className="w-5 h-5 mr-2" />
