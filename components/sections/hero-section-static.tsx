@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { useState, useEffect } from "react"
 import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
@@ -9,15 +8,12 @@ import Link from "next/link"
 import Image from "next/image"
 import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
+import { PROFILE_DATA } from "@/lib/static-data"
 
 interface PersonalInfo {
   name: string
   title: string
   bio: string
-}
-
-interface ProfileData {
-  personalInfo: PersonalInfo
 }
 
 // Add Google Fonts for Dancing Script
@@ -137,21 +133,7 @@ GalleryGridCell.displayName = "GalleryGridCell"
 export default function HeroSectionStatic() {
   const { scrollYProgress } = useScroll()
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('/data/profile.json')
-        const data: ProfileData = await response.json()
-        setProfileData(data.personalInfo)
-      } catch (error) {
-        console.error('Failed to fetch profile:', error)
-      }
-    }
-
-    fetchProfile()
-  }, [])
+  const profileData: PersonalInfo = PROFILE_DATA.personalInfo as PersonalInfo
   
   const images = [
     { src: "/user/3.jpg", alt: "Portfolio Image 1" },
@@ -184,7 +166,7 @@ export default function HeroSectionStatic() {
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0 font-medium">
-                {profileData?.title || "Loading..."}
+                {profileData.title}
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
@@ -241,4 +223,3 @@ export default function HeroSectionStatic() {
     </div>
   )
 }
-

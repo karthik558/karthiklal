@@ -1,33 +1,22 @@
 "use client"
 
-import { ScrollSmoother } from "gsap/ScrollSmoother"
-
 export function scrollToElement(targetId: string) {
   try {
     const targetElement = document.getElementById(targetId)
-    
+
     if (!targetElement) {
       console.warn(`Element with id "${targetId}" not found`)
       return false
     }
 
-    console.log(`Scrolling to element: ${targetId}`) // Debug log
-
-    // Try to use ScrollSmoother first
-    const smoother = ScrollSmoother.get()
-    
-    if (smoother && smoother.scrollTo) {
-      console.log('Using ScrollSmoother for navigation') // Debug log
-      // Use ScrollSmoother for smooth navigation with proper offset for fixed navbar
-      smoother.scrollTo(targetElement, true, "top 100px")
+    // @ts-ignore
+    if (window.lenis) {
+      // @ts-ignore
+      window.lenis.scrollTo(targetElement, { offset: -100 })
       return true
     } else {
-      console.log('Using fallback scroll navigation') // Debug log
-      // Fallback to regular scrolling with offset for fixed navbar
-      const yOffset = -100 // Offset to account for navbar
+      const yOffset = -100
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
-      
-      // Simple scroll without complicated behavior changes
       window.scrollTo({ top: y, behavior: 'smooth' })
       return true
     }
@@ -35,7 +24,6 @@ export function scrollToElement(targetId: string) {
     console.warn("Error in scrollToElement, using fallback", error)
     const targetElement = document.getElementById(targetId)
     if (targetElement) {
-      // Final fallback to basic scroll with navbar offset
       const yOffset = -100
       const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset
       window.scrollTo({ top: y, behavior: 'smooth' })
@@ -47,10 +35,10 @@ export function scrollToElement(targetId: string) {
 
 export function scrollToTop() {
   try {
-    const smoother = ScrollSmoother.get()
-    
-    if (smoother) {
-      smoother.scrollTo(0, true)
+    // @ts-ignore
+    if (window.lenis) {
+      // @ts-ignore
+      window.lenis.scrollTo(0)
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -62,15 +50,15 @@ export function scrollToTop() {
 
 export function getCurrentScrollProgress(): number {
   try {
-    const smoother = ScrollSmoother.get()
-    
-    if (smoother && typeof smoother.progress === 'number') {
-      return smoother.progress
+    // @ts-ignore
+    if (window.lenis) {
+      // @ts-ignore
+      return window.lenis.progress
     } else {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
       const scrollHeight = Math.max(
         document.documentElement.scrollHeight - window.innerHeight,
-        1 // Prevent division by zero
+        1
       )
       return Math.min(scrollTop / scrollHeight, 1)
     }
@@ -87,11 +75,10 @@ export function getCurrentScrollProgress(): number {
 
 export function resetScrollPosition() {
   try {
-    const smoother = ScrollSmoother.get()
-    
-    if (smoother) {
-      smoother.scrollTo(0, false) // Instant scroll to top
-      smoother.refresh()
+    // @ts-ignore
+    if (window.lenis) {
+      // @ts-ignore
+      window.lenis.scrollTo(0, { immediate: true })
     } else {
       window.scrollTo({ top: 0, behavior: 'auto' })
     }

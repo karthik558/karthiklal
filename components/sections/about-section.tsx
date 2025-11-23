@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { PROFILE_DATA } from "@/lib/static-data"
 
 interface PersonalInfo {
   name: string
@@ -27,9 +28,9 @@ interface ProfileData {
 }
 
 export default function AboutSection() {
-  const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const profileData: ProfileData = PROFILE_DATA as ProfileData
 
   // Array of images to cycle through
   const images = [
@@ -39,20 +40,6 @@ export default function AboutSection() {
     "/user/4.jpg",
     "/user/5.jpg"
   ]
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('/data/profile.json')
-        const data: ProfileData = await response.json()
-        setProfileData(data)
-      } catch (error) {
-        console.error('Failed to fetch profile:', error)
-      }
-    }
-
-    fetchProfile()
-  }, [])
 
   // Auto-rotate images every 3.5 seconds
   useEffect(() => {
@@ -66,10 +53,6 @@ export default function AboutSection() {
 
     return () => clearInterval(interval)
   }, [images.length])
-
-  if (!profileData) {
-    return <div>Loading...</div>
-  }
   return (
     <section id="about" className="py-16 md:py-24 bg-secondary/10 relative z-10">
       <div className="container">
@@ -190,4 +173,3 @@ export default function AboutSection() {
     </section>
   )
 }
-

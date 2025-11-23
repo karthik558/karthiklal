@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useRef, useState, useEffect } from "react"
+import React, { useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
-import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Code, Phone } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent, SheetTrigger } from "./sheet"
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
 import { Separator } from "./separator"
 import SmoothLink from "@/components/smooth-link"
+import { SOCIALS_DATA } from "@/lib/static-data"
 
 // Icon mapping for social links
 const iconMap = {
@@ -37,19 +38,6 @@ interface Social {
   priority: number
 }
 
-interface SocialsData {
-  socials: Social[]
-}
-
-interface PersonalInfo {
-  name: string
-  title: string
-}
-
-interface ProfileData {
-  personalInfo: PersonalInfo
-}
-
 function NavHeader() {
   const [position, setPosition] = useState({
     left: 0,
@@ -57,50 +45,11 @@ function NavHeader() {
     opacity: 0,
   })
   const [isOpen, setIsOpen] = useState(false)
-  const [socialLinks, setSocialLinks] = useState<Social[]>([])
-  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
   const isMobile = useIsMobile()
   const pathname = usePathname()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch social links
-        const socialsResponse = await fetch('/data/socials.json')
-        const socialsData: SocialsData = await socialsResponse.json()
-        setSocialLinks(socialsData.socials)
-
-        // Fetch profile data
-        const profileResponse = await fetch('/data/profile.json')
-        const profileData: ProfileData = await profileResponse.json()
-        setProfileData(profileData.personalInfo)
-      } catch (error) {
-        console.error('Failed to fetch navigation data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch social links
-        const socialsResponse = await fetch('/data/socials.json')
-        const socialsData: SocialsData = await socialsResponse.json()
-        setSocialLinks(socialsData.socials)
-
-        // Fetch profile data
-        const profileResponse = await fetch('/data/profile.json')
-        const profileData: ProfileData = await profileResponse.json()
-        setProfileData(profileData.personalInfo)
-      } catch (error) {
-        console.error('Failed to fetch navigation data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
+  const socialLinks = ((SOCIALS_DATA.socials ?? []) as Social[]).sort(
+    (a, b) => a.priority - b.priority
+  )
   // Navigation items with proper routes and icons - simplified to essential sections
   const allNavItems = [
     { label: 'Home', href: '/', icon: Home },

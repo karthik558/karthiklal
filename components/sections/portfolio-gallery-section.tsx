@@ -1,19 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Component } from "@/components/ui/circular-gallery";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
-import Link from "next/link";
-
-interface Social {
-  name: string
-  url: string
-}
-
-interface SocialsData {
-  socials: Social[]
-}
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Component } from "@/components/ui/circular-gallery"
+import { Button } from "@/components/ui/button"
+import { ExternalLink } from "lucide-react"
+import Link from "next/link"
+import { getBehanceUrl } from "@/lib/static-data"
 
 // Portfolio items showcasing design works - using higher resolution images
 const portfolioItems = [
@@ -65,24 +57,59 @@ const portfolioItems = [
 ];
 
 const PortfolioGallerySection = () => {
-  const [behanceUrl, setBehanceUrl] = useState<string>("#")
+  const behanceUrl = useMemo(() => getBehanceUrl("#"), [])
+  const [shouldRenderGallery, setShouldRenderGallery] = useState(false)
+  const [useStaticGallery, setUseStaticGallery] = useState(false)
+  const galleryRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const fetchBehanceUrl = async () => {
-      try {
-        const response = await fetch('/data/socials.json')
-        const data: SocialsData = await response.json()
-        const behance = data.socials.find(social => social.name === 'Behance')
-        if (behance) {
-          setBehanceUrl(behance.url)
-        }
-      } catch (error) {
-        console.error('Failed to fetch socials:', error)
+    if (typeof window === "undefined") return
+
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const smallScreenQuery = window.matchMedia("(max-width: 1023px)")
+
+    const evaluate = () => {
+      const prefersReducedMotion = reducedMotionQuery.matches
+      const isSmallScreen = smallScreenQuery.matches
+      setUseStaticGallery(prefersReducedMotion || isSmallScreen)
+      if (prefersReducedMotion || isSmallScreen) {
+        setShouldRenderGallery(true)
       }
     }
 
-    fetchBehanceUrl()
+    evaluate()
+
+    reducedMotionQuery.addEventListener("change", evaluate)
+    smallScreenQuery.addEventListener("change", evaluate)
+
+    return () => {
+      reducedMotionQuery.removeEventListener("change", evaluate)
+      smallScreenQuery.removeEventListener("change", evaluate)
+    }
   }, [])
+
+  useEffect(() => {
+    if (useStaticGallery || shouldRenderGallery) return
+    if (typeof window === "undefined") return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldRenderGallery(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "200px" }
+    )
+
+    if (galleryRef.current) {
+      observer.observe(galleryRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [useStaticGallery, shouldRenderGallery])
+
+  const fallbackItems = useStaticGallery ? portfolioItems.slice(0, 8) : portfolioItems
   return (
     <section 
       id="portfolio-gallery" 
@@ -103,16 +130,46 @@ const PortfolioGallerySection = () => {
         </div>
         
         <div className="flex w-full h-[80vh] justify-center items-center">
-          <div 
+          <div
+            ref={galleryRef}
             className="w-full max-w-screen-xl mx-auto h-full overflow-hidden relative border-none shadow-none"
           >
-            <Component 
-              items={portfolioItems} 
-              bend={1.5} 
-              textColor="#ffffff" 
-              borderRadius={0.08} 
-              font="bold 28px DM Sans"
-            />
+            {!shouldRenderGallery && (
+              <div className="flex h-full w-full items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/10">
+                <p className="text-muted-foreground text-sm md:text-base">
+                  Preparing interactive gallery…
+                </p>
+              </div>
+            )}
+
+            {shouldRenderGallery && (
+              useStaticGallery ? (
+                <div className="grid h-full grid-cols-2 gap-3 overflow-y-auto p-2 sm:grid-cols-3 lg:grid-cols-4">
+                  {fallbackItems.map((item, index) => (
+                    <div
+                      key={`${item.image}-${index}`}
+                      className="relative aspect-[3/4] overflow-hidden rounded-xl border border-border/50 bg-background shadow-md"
+                    >
+                      <img
+                        src={item.image}
+                        alt={`Portfolio item ${index + 1}`}
+                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <Component
+                  items={portfolioItems}
+                  bend={1.5}
+                  textColor="#ffffff"
+                  borderRadius={0.08}
+                  font="bold 28px DM Sans"
+                />
+              )
+            )}
           </div>
         </div>
         

@@ -1,8 +1,6 @@
 "use client"
 
 import { useRef, useEffect, useCallback } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Renderer,
   Camera,
@@ -12,11 +10,6 @@ import {
   Program,
   Texture,
 } from "ogl";
-
-// Register ScrollTrigger plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 type GL = Renderer["gl"];
 
@@ -333,7 +326,7 @@ class Media {
 
   createTitle() {
     if (!this.text) return; // Skip title creation if no text provided
-    
+
     this.title = new Title({
       gl: this.gl,
       plane: this.plane,
@@ -454,13 +447,13 @@ class App {
   maxRotation: number = 1; // One full rotation
   isScrollControlled: boolean = false; // Disabled automatic scroll control
   onComplete?: () => void;
-  
+
   // Auto-rotation properties
   autoRotateSpeed: number = 0.008; // Increased speed for visible rotation
   autoRotateEnabled: boolean = true;
   userInteractionTime: number = 0;
   interactionTimeout: NodeJS.Timeout | null = null;
-  
+
   // Velocity damping properties - more conservative values
   velocityDamping: number = 0.7; // Increased damping
   lastWheelTime: number = 0;
@@ -488,12 +481,12 @@ class App {
   ) {
     document.documentElement.classList.remove("no-js");
     this.container = container;
-    this.scroll = { 
+    this.scroll = {
       ease: 0.06, // Slightly increased for more responsive movement
-      current: 0, 
-      target: 0, 
-      last: 0, 
-      velocity: 0, 
+      current: 0,
+      target: 0,
+      last: 0,
+      velocity: 0,
       maxVelocity: 2.5 // Increased max velocity for better responsiveness
     };
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
@@ -513,14 +506,14 @@ class App {
     this.renderer = new Renderer({ alpha: true });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0); // Transparent background for the canvas
-    
+
     const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
     // Ensure canvas is interactive
     canvas.style.pointerEvents = 'auto';
     canvas.style.touchAction = 'none'; // Prevent default touch behaviors
     canvas.style.userSelect = 'none';
     canvas.style.cursor = 'grab';
-    
+
     this.container.appendChild(canvas);
   }
 
@@ -624,7 +617,7 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
-    
+
     // Disable auto-rotation when user interacts
     this.autoRotateEnabled = false;
     this.userInteractionTime = Date.now();
@@ -632,64 +625,64 @@ class App {
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
-    
+
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * 0.08; // Significantly increased sensitivity for better dragging
-    
+
     // Apply less damping for more responsive dragging
     const dampedDistance = distance * 0.9; // Increased responsiveness
     this.scroll.target = (this.scroll.position ?? 0) + dampedDistance;
-    
+
     // Update interaction time
     this.userInteractionTime = Date.now();
   }
 
   onTouchUp() {
     this.isDown = false;
-    
+
     // Re-enable auto-rotation after a delay
     if (this.interactionTimeout) {
       clearTimeout(this.interactionTimeout);
     }
-    
+
     this.interactionTimeout = setTimeout(() => {
       this.autoRotateEnabled = true;
     }, 3000); // Resume auto-rotation after 3 seconds of no interaction
-    
+
     this.onCheck();
   }
 
   onWheel(e: WheelEvent) {
     e.preventDefault();
-    
+
     // Disable auto-rotation during wheel interaction
     this.autoRotateEnabled = false;
     this.userInteractionTime = Date.now();
-    
+
     const currentTime = Date.now();
     const timeDelta = currentTime - this.lastWheelTime;
     this.lastWheelTime = currentTime;
-    
+
     // More responsive wheel delta calculation
     let wheelDelta = Math.abs(e.deltaY) * 0.008; // Increased from 0.003
-    
+
     // Reasonable velocity cap
     wheelDelta = Math.min(wheelDelta, this.scroll.maxVelocity * 0.5);
-    
+
     // Moderate velocity damping
     if (timeDelta < 100) {
       wheelDelta *= 0.7; // Reduced damping for better responsiveness
     }
-    
+
     // Apply scroll direction
     const direction = e.deltaY > 0 ? 1 : -1;
     this.scroll.target += direction * wheelDelta;
-    
+
     // Clear existing timeout and set new one
     if (this.wheelTimeout) {
       clearTimeout(this.wheelTimeout);
     }
-    
+
     // Re-enable auto-rotation after wheel stops
     this.wheelTimeout = setTimeout(() => {
       this.autoRotateEnabled = true;
@@ -730,14 +723,14 @@ class App {
     if (this.autoRotateEnabled && !this.isDown && Date.now() - this.userInteractionTime > 2000) {
       this.scroll.target += this.autoRotateSpeed;
     }
-    
+
     // Calculate velocity with moderate damping
     this.scroll.velocity = (this.scroll.target - this.scroll.current) * 0.5;
-    
+
     // Apply velocity-based damping with more lenient limits for better responsiveness
     const velocityMagnitude = Math.abs(this.scroll.velocity);
     let dynamicEase = this.scroll.ease;
-    
+
     if (velocityMagnitude > this.scroll.maxVelocity) {
       // Moderate damping for very high velocities
       dynamicEase = this.scroll.ease * 0.4;
@@ -745,14 +738,14 @@ class App {
       // Light damping for medium-high velocities
       dynamicEase = this.scroll.ease * 0.7;
     }
-    
+
     // Always use smooth lerp interpolation
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
       dynamicEase
     );
-    
+
     const direction = this.scroll.current > this.scroll.last ? "right" : "left";
     if (this.medias) {
       this.medias.forEach((media) => media.update(this.scroll, direction));
@@ -768,27 +761,27 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
-    
+
     const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
-    
+
     window.addEventListener("resize", this.boundOnResize);
-    
+
     // Add events to both canvas and container for better interaction
     canvas.addEventListener("wheel", this.boundOnWheel, { passive: false });
     canvas.addEventListener("mousedown", this.boundOnTouchDown);
     canvas.addEventListener("touchstart", this.boundOnTouchDown, { passive: false });
-    
+
     // Mouse and touch move/up events should be on window to capture movements outside canvas
     window.addEventListener("mousemove", this.boundOnTouchMove);
     window.addEventListener("mouseup", this.boundOnTouchUp);
     window.addEventListener("touchmove", this.boundOnTouchMove, { passive: false });
     window.addEventListener("touchend", this.boundOnTouchUp);
-    
+
     // Update cursor on mouse down/up
     canvas.addEventListener("mousedown", () => {
       canvas.style.cursor = 'grabbing';
     });
-    
+
     canvas.addEventListener("mouseup", () => {
       canvas.style.cursor = 'grab';
     });
@@ -796,7 +789,7 @@ class App {
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
-    
+
     // Clear timeouts
     if (this.wheelTimeout) {
       clearTimeout(this.wheelTimeout);
@@ -804,21 +797,21 @@ class App {
     if (this.interactionTimeout) {
       clearTimeout(this.interactionTimeout);
     }
-    
+
     const canvas = this.renderer?.gl?.canvas as HTMLCanvasElement;
-    
+
     window.removeEventListener("resize", this.boundOnResize);
     window.removeEventListener("mousemove", this.boundOnTouchMove);
     window.removeEventListener("mouseup", this.boundOnTouchUp);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
     window.removeEventListener("touchend", this.boundOnTouchUp);
-    
+
     if (canvas) {
       canvas.removeEventListener("wheel", this.boundOnWheel);
       canvas.removeEventListener("mousedown", this.boundOnTouchDown);
       canvas.removeEventListener("touchstart", this.boundOnTouchDown);
     }
-    
+
     if (
       this.renderer &&
       this.renderer.gl &&
@@ -864,7 +857,7 @@ const CircularGallery = ({
       app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, onComplete]);
-  
+
   return (
     <div
       className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing bg-transparent"
