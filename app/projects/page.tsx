@@ -1,337 +1,274 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useMemo } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Github, Search, Grid, List, X } from "lucide-react"
+import { ExternalLink, Github, Search, Grid, List, X, Filter, Sparkles } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import projectsData from "@/public/data/projects.json"
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState("All")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [searchQuery, setSearchQuery] = useState("")
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
   // Get unique categories
-  const categories = ["All", ...Array.from(new Set(projectsData.projects.map(project => project.category)))]
+  const categories = useMemo(() => ["All", ...Array.from(new Set(projectsData.projects.map(project => project.category)))], [])
 
   // Filter projects based on selected category and search query
-  const filteredProjects = projectsData.projects.filter(project => {
-    const matchesCategory = filter === "All" || project.category === filter
-    const matchesSearch = searchQuery === "" || 
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()))
-    
-    return matchesCategory && matchesSearch
-  })
+  const filteredProjects = useMemo(() => {
+    return projectsData.projects.filter(project => {
+      const matchesCategory = filter === "All" || project.category === filter
+      const matchesSearch = searchQuery === "" ||
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()))
 
-  const clearSearch = () => {
-    setSearchQuery("")
-  }
+      return matchesCategory && matchesSearch
+    })
+  }, [filter, searchQuery])
+
+  const clearSearch = () => setSearchQuery("")
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
-      <div className="container max-w-7xl mx-auto px-4">
-        {/* Header */}
+    <div className="min-h-screen pt-24 pb-20 bg-background relative">
+      {/* Background Elements - Contained to prevent overflow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+          className="absolute top-20 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{ duration: 10, repeat: Infinity, delay: 2 }}
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl"
+        />
+      </div>
+
+      <div className="container max-w-7xl mx-auto px-4 relative z-10">
+        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            All <span className="text-gradient">Projects</span>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Portfolio Showcase</span>
+          </motion.div>
+
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+            My Creative <span className="text-gradient">Work</span>
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Explore my complete portfolio of {projectsData.projects.length} projects across various technologies and domains.
+
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+            Explore a collection of {projectsData.projects.length} projects demonstrating my journey through code, design, and problem-solving.
           </p>
         </motion.div>
 
-        {/* Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="space-y-4 mb-8"
-        >
-          {/* Search Bar */}
-          <div className="relative max-w-md mx-auto">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search projects, technologies..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-10 rounded-full border-2 focus:border-primary transition-colors"
-            />
-            {searchQuery && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearSearch}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 rounded-full hover:bg-secondary"
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            )}
-          </div>
+        {/* Search and Filters */}
+        <div className="sticky top-20 z-30 mb-12 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-2xl p-4 shadow-lg"
+          >
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              {/* Search */}
+              <div className="relative w-full md:w-96">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-10 bg-secondary/50 border-transparent focus:border-primary focus:bg-background transition-all duration-300"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
 
-          {/* Filter and View Controls */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            {/* Category Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-2">
-              {categories.map((category) => (
+              {/* View Toggle */}
+              <div className="flex items-center gap-2 bg-secondary/50 p-1 rounded-lg">
                 <Button
-                  key={category}
-                  variant={filter === category ? "default" : "outline"}
+                  variant={viewMode === "grid" ? "default" : "ghost"}
                   size="sm"
-                  onClick={() => setFilter(category)}
-                  className="rounded-full text-xs"
+                  onClick={() => setViewMode("grid")}
+                  className="h-8 px-3"
                 >
-                  {category}
+                  <Grid className="h-4 w-4" />
                 </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                  className="h-8 px-3"
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Categories */}
+            <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start border-t border-border/50 pt-4">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setFilter(category)}
+                  className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${filter === category ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                    }`}
+                >
+                  {filter === category && (
+                    <motion.div
+                      layoutId="activeFilter"
+                      className="absolute inset-0 bg-primary rounded-full"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">{category}</span>
+                </button>
               ))}
             </div>
+          </motion.div>
+        </div>
 
-            {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 bg-secondary/50 rounded-full p-1">
-              <Button
-                variant={viewMode === "grid" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setViewMode("grid")}
-                className="rounded-full h-8 w-8 p-0"
-              >
-                <Grid className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setViewMode("list")}
-                className="rounded-full h-8 w-8 p-0"
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Results Count */}
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">
-              Showing {filteredProjects.length} of {projectsData.projects.length} projects
-              {searchQuery && ` for "${searchQuery}"`}
-              {filter !== "All" && ` in ${filter}`}
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Projects Grid/List */}
+        {/* Projects Grid */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className={
-            viewMode === "grid"
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              : "space-y-6"
+          layout
+          className={viewMode === "grid"
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            : "space-y-4 max-w-4xl mx-auto"
           }
         >
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Card className="group h-full hover:shadow-xl transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  {viewMode === "grid" ? (
-                    // Grid View
-                    <div className="space-y-4">
-                      {/* Project Image */}
-                      <div className="relative overflow-hidden rounded-t-lg h-48 bg-gradient-to-br from-primary/5 to-primary/10">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        {project.featured && (
-                          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
-                            Featured
-                          </Badge>
-                        )}
-                      </div>
-
-                      <div className="p-6 space-y-4">
-                        {/* Category */}
-                        <Badge variant="secondary" className="text-xs">
-                          {project.category}
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                layout
+                key={project.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+              >
+                <Card className={`group h-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 ${viewMode === "list" ? "flex flex-col md:flex-row" : ""}`}>
+                  {/* Image Section */}
+                  <div className={`relative overflow-hidden ${viewMode === "grid" ? "h-52" : "h-52 md:h-full md:w-72"}`}>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    {project.featured && (
+                      <div className="absolute top-3 right-3 z-20">
+                        <Badge className="bg-primary/90 backdrop-blur-md text-primary-foreground shadow-lg">
+                          Featured
                         </Badge>
-
-                        {/* Title */}
-                        <h3 className="font-bold text-xl group-hover:text-primary transition-colors">
-                          {project.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                          {project.description}
-                        </p>
-
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-1">
-                          {project.technologies.slice(0, 3).map((tech) => (
-                            <Badge key={tech} variant="outline" className="text-xs">
-                              {tech}
-                            </Badge>
-                          ))}
-                          {project.technologies.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{project.technologies.length - 3}
-                            </Badge>
-                          )}
-                        </div>
-
-                        {/* Links */}
-                        <div className="flex gap-2 pt-2">
-                          {project.link && (
-                            <Button asChild size="sm" className="rounded-full flex-1">
-                              <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-3 w-3 mr-2" />
-                                View
-                              </Link>
-                            </Button>
-                          )}
-                          {project.github && (
-                            <Button asChild variant="outline" size="sm" className="rounded-full">
-                              <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                                <Github className="h-3 w-3" />
-                              </Link>
-                            </Button>
-                          )}
-                        </div>
                       </div>
+                    )}
+
+                    {/* Hover Actions */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex gap-2 justify-center">
+                      {project.link && (
+                        <Button asChild size="sm" className="rounded-full bg-white/90 text-black hover:bg-white shadow-lg">
+                          <Link href={project.link} target="_blank">
+                            <ExternalLink className="w-4 h-4 mr-2" /> Live Demo
+                          </Link>
+                        </Button>
+                      )}
+                      {project.github && (
+                        <Button asChild size="sm" variant="secondary" className="rounded-full bg-black/80 text-white hover:bg-black shadow-lg">
+                          <Link href={project.github} target="_blank">
+                            <Github className="w-4 h-4 mr-2" /> Code
+                          </Link>
+                        </Button>
+                      )}
                     </div>
-                  ) : (
-                    // List View
-                    <div className="flex gap-4 p-6">
-                      <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 flex-shrink-0">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <Badge variant="secondary" className="text-xs">
-                                {project.category}
-                              </Badge>
-                              {project.featured && (
-                                <Badge className="text-xs bg-primary text-primary-foreground">
-                                  Featured
-                                </Badge>
-                              )}
-                            </div>
-                            <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
-                              {project.title}
-                            </h3>
-                          </div>
-                          
-                          <div className="flex gap-2">
-                            {project.link && (
-                              <Button asChild size="sm" variant="outline" className="rounded-full">
-                                <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink className="h-3 w-3" />
-                                </Link>
-                              </Button>
-                            )}
-                            {project.github && (
-                              <Button asChild size="sm" variant="outline" className="rounded-full">
-                                <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                                  <Github className="h-3 w-3" />
-                                </Link>
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                        
-                        <p className="text-muted-foreground text-sm">
-                          {project.description}
-                        </p>
-                        
-                        <div className="flex flex-wrap gap-1">
-                          {project.technologies.map((tech) => (
-                            <Badge key={tech} variant="outline" className="text-xs">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <CardContent className="p-6 flex flex-col flex-1">
+                    <div className="flex items-start justify-between mb-2">
+                      <Badge variant="outline" className="text-xs font-normal bg-primary/5 border-primary/20 text-primary">
+                        {project.category}
+                      </Badge>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-border/50">
+                      {project.technologies.slice(0, 4).map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-[10px] px-2 py-1 rounded-md bg-secondary text-secondary-foreground font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 4 && (
+                        <span className="text-[10px] px-2 py-1 rounded-md bg-secondary/50 text-muted-foreground">
+                          +{project.technologies.length - 4}
+                        </span>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
 
-        {/* No Results */}
+        {/* Empty State */}
         {filteredProjects.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-20"
           >
-            <div className="space-y-4">
-              <div className="text-6xl">🔍</div>
-              <h3 className="text-xl font-semibold">No projects found</h3>
-              <p className="text-muted-foreground">
-                {searchQuery && filter !== "All" 
-                  ? `No projects match "${searchQuery}" in the "${filter}" category.`
-                  : searchQuery 
-                    ? `No projects match "${searchQuery}".`
-                    : `No projects found in the "${filter}" category.`
-                }
-              </p>
-              <div className="flex justify-center gap-2">
-                {searchQuery && (
-                  <Button onClick={clearSearch} variant="outline" size="sm">
-                    Clear search
-                  </Button>
-                )}
-                {filter !== "All" && (
-                  <Button onClick={() => setFilter("All")} variant="outline" size="sm">
-                    Show all categories
-                  </Button>
-                )}
-              </div>
+            <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-10 h-10 text-muted-foreground" />
             </div>
+            <h3 className="text-2xl font-bold mb-2">No projects found</h3>
+            <p className="text-muted-foreground mb-6">
+              We couldn't find any projects matching your criteria.
+            </p>
+            <Button onClick={() => { setFilter("All"); setSearchQuery(""); }} variant="outline">
+              Clear Filters
+            </Button>
           </motion.div>
         )}
-
-        {/* Back to Home */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex justify-center mt-12"
-        >
-          <Button asChild variant="outline" size="lg" className="rounded-full">
-            <Link href="/">
-              ← Back to Home
-            </Link>
-          </Button>
-        </motion.div>
       </div>
     </div>
   )
