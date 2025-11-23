@@ -46,7 +46,7 @@ export default function PortfolioSection() {
       setFeaturedProjects([])
     }
   }, [])
-  
+
   // Convert featured project data to feature format with better error handling
   const features = featuredProjects.map((project, index) => {
     // Improved text truncation with better word boundaries
@@ -87,41 +87,63 @@ export default function PortfolioSection() {
     <section id="portfolio" className="py-20 md:py-32 bg-background relative overflow-hidden">
       {/* Enhanced background effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
+
+      {/* Animated blobs */}
+      <motion.div
+        className="absolute top-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+        animate={{
+          x: [0, 50, 0],
+          y: [0, 30, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"
+        animate={{
+          x: [0, -50, 0],
+          y: [0, -30, 0],
+          scale: [1, 1.2, 1],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+
       <div className="absolute top-0 left-1/4 w-1 h-1 bg-primary/30 rounded-full animate-ping"></div>
       <div className="absolute bottom-0 right-1/4 w-2 h-2 bg-secondary/30 rounded-full animate-pulse"></div>
-      
+
       <div className="container relative z-10">
-        <motion.div 
-          className="text-center mb-8"
+        <motion.div
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.span 
-            className="inline-block text-primary font-medium mb-2"
+          <motion.div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            My Work
-          </motion.span>
-          
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4"
+            <Sparkles className="w-4 h-4" />
+            <span>My Work</span>
+          </motion.div>
+
+          <motion.h2
+            className="text-3xl md:text-5xl font-bold mb-6 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             Featured <span className="text-gradient">Projects</span>
           </motion.h2>
-          
-          <motion.p 
-            className="text-muted-foreground max-w-2xl mx-auto"
+
+          <motion.p
+            className="text-muted-foreground max-w-2xl mx-auto text-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            A curated selection of my best projects showcasing expertise in web development, 
+            A curated selection of my best projects showcasing expertise in web development,
             system administration, and creative problem-solving with cutting-edge technologies.
           </motion.p>
         </motion.div>
@@ -132,7 +154,7 @@ export default function PortfolioSection() {
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 40 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <FeatureSteps 
+            <FeatureSteps
               features={features}
               title=""
               autoPlayInterval={6000} // Increased interval for better UX
@@ -154,37 +176,37 @@ export default function PortfolioSection() {
         )}
 
         {/* Enhanced View All Projects Button */}
-        <motion.div 
-          className="flex justify-center mt-8"
+        <motion.div
+          className="flex justify-center mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <div className="relative group">
             {/* Enhanced animated background */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 via-purple-500/30 to-primary/20 rounded-full blur-lg opacity-70 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"></div>
-            
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-purple-500 to-primary rounded-full blur opacity-70 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110 animate-gradient-x"></div>
+
             {/* Button */}
-            <Button 
-              asChild 
-              size="lg" 
-              className="relative bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-primary/25"
+            <Button
+              asChild
+              size="lg"
+              className="relative bg-background hover:bg-background/90 text-foreground border border-primary/20 rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105 shadow-xl"
             >
               <Link href="/projects" className="flex items-center gap-3">
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <FolderOpen className="h-5 w-5" />
+                  <FolderOpen className="h-5 w-5 text-primary" />
                 </motion.div>
                 <span>View All Projects</span>
                 <div className="flex items-center">
-                  <span className="text-sm opacity-70">({projectsData.projects.length})</span>
+                  <span className="text-sm text-muted-foreground ml-1 mr-2">({projectsData.projects.length})</span>
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    <ArrowRight className="h-4 w-4 text-primary" />
                   </motion.div>
                 </div>
               </Link>
