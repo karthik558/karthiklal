@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Card, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,11 +13,19 @@ export default function ExperienceSection() {
   const [showAllWork, setShowAllWork] = useState(false)
   const [showAllEducation, setShowAllEducation] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const isInView = useInView(ref, { once: true, amount: 0.1 })
+
+  // Scroll progress for timeline line
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  })
+
+  const lineHeight = useTransform(scrollYProgress, [0, 0.5], ["0%", "100%"])
 
   const workExperiences = experiencesData.experiences.filter((exp) => exp.type === "work")
   const educationExperiences = experiencesData.experiences.filter((exp) => exp.type === "education")
-  
+
   const displayedWorkExperiences = showAllWork ? workExperiences : workExperiences.slice(0, 3)
   const displayedEducationExperiences = showAllEducation ? educationExperiences : educationExperiences.slice(0, 3)
 
@@ -25,8 +33,8 @@ export default function ExperienceSection() {
     if (showAllWork) {
       setShowAllWork(false)
       setTimeout(() => {
-        ref.current?.scrollIntoView({ 
-          behavior: 'smooth', 
+        ref.current?.scrollIntoView({
+          behavior: 'smooth',
           block: 'start',
           inline: 'nearest'
         })
@@ -40,8 +48,8 @@ export default function ExperienceSection() {
     if (showAllEducation) {
       setShowAllEducation(false)
       setTimeout(() => {
-        ref.current?.scrollIntoView({ 
-          behavior: 'smooth', 
+        ref.current?.scrollIntoView({
+          behavior: 'smooth',
           block: 'start',
           inline: 'nearest'
         })
@@ -51,8 +59,27 @@ export default function ExperienceSection() {
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.5, ease: "easeOut" as any }
+    }
+  }
+
   return (
-    <section id="experience" className="py-20 md:py-32 bg-secondary/5">
+    <section id="experience" className="py-20 md:py-32 bg-secondary/5 overflow-hidden">
       <div className="container max-w-6xl mx-auto">
         <motion.div
           ref={ref}
@@ -71,13 +98,13 @@ export default function ExperienceSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
           <Tabs defaultValue="experience" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-12 h-16 p-2 bg-secondary/30 backdrop-blur-md border border-border/30 rounded-full shadow-sm">
-              <TabsTrigger 
-                value="experience" 
+              <TabsTrigger
+                value="experience"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md h-12 text-base font-medium transition-all duration-300 rounded-full flex items-center justify-center gap-2 group"
               >
                 <BriefcaseIcon className="h-4 w-4" />
@@ -86,8 +113,8 @@ export default function ExperienceSection() {
                   {workExperiences.length}
                 </Badge>
               </TabsTrigger>
-              <TabsTrigger 
-                value="education" 
+              <TabsTrigger
+                value="education"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md h-12 text-base font-medium transition-all duration-300 rounded-full flex items-center justify-center gap-2 group"
               >
                 <GraduationCap className="h-4 w-4" />
@@ -100,53 +127,66 @@ export default function ExperienceSection() {
 
             {/* Work Experience Tab */}
             <TabsContent value="experience" className="space-y-8">
-              <div className="relative">
-                {/* Enhanced timeline line */}
-                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full"></div>
-                
-                <div className="space-y-8">
+              <div className="relative pl-2">
+                {/* Enhanced timeline line with drawing animation */}
+                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/10 rounded-full"></div>
+                <motion.div
+                  style={{ height: lineHeight }}
+                  className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full origin-top"
+                />
+
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  className="space-y-8"
+                >
                   {displayedWorkExperiences.map((experience, index) => (
                     <motion.div
                       key={experience.id}
-                      initial={{ opacity: 0, x: -30 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-                      transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
+                      variants={itemVariants}
                       className="relative"
                     >
                       {/* Enhanced timeline dot */}
-                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10">
+                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10 transform -translate-x-1/2">
                         <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
                       </div>
-                      
-                      <Card className="ml-20 group hover:shadow-xl transition-all duration-500 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30">
-                        <CardHeader className="pb-4">
-                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                            <div className="space-y-3 flex-1">
-                              <div className="space-y-2">
-                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
-                                  {experience.title}
-                                </h4>
-                                <div className="flex items-center gap-3 text-muted-foreground">
-                                  <div className="flex items-center gap-2">
-                                    <Building2 className="h-4 w-4 text-primary" />
-                                    <span className="font-medium">{experience.company}</span>
+
+                      <motion.div
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <Card className="ml-16 group hover:shadow-xl transition-all duration-300 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30 overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <CardHeader className="pb-4 relative z-10">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                              <div className="space-y-3 flex-1">
+                                <div className="space-y-2">
+                                  <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                                    {experience.title}
+                                  </h4>
+                                  <div className="flex items-center gap-3 text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <Building2 className="h-4 w-4 text-primary" />
+                                      <span className="font-medium">{experience.company}</span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              
-                              <div className="flex flex-wrap gap-2">
-                                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
-                                  <Calendar className="h-3 w-3 mr-1" />
-                                  {experience.duration}
-                                </Badge>
+
+                                <div className="flex flex-wrap gap-2">
+                                  <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    {experience.duration}
+                                  </Badge>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </CardHeader>
-                      </Card>
+                          </CardHeader>
+                        </Card>
+                      </motion.div>
                     </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
 
               {/* Show More/Less Button for Work Experience */}
@@ -181,53 +221,66 @@ export default function ExperienceSection() {
 
             {/* Education Tab */}
             <TabsContent value="education" className="space-y-8">
-              <div className="relative">
-                {/* Enhanced timeline line */}
-                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full"></div>
-                
-                <div className="space-y-8">
+              <div className="relative pl-2">
+                {/* Enhanced timeline line with drawing animation */}
+                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/10 rounded-full"></div>
+                <motion.div
+                  style={{ height: lineHeight }}
+                  className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full origin-top"
+                />
+
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  className="space-y-8"
+                >
                   {displayedEducationExperiences.map((education, index) => (
                     <motion.div
                       key={education.id}
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-                      transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
+                      variants={itemVariants}
                       className="relative"
                     >
                       {/* Enhanced timeline dot */}
-                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10">
+                      <div className="absolute left-6 top-8 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10 transform -translate-x-1/2">
                         <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
                       </div>
-                      
-                      <Card className="ml-20 group hover:shadow-xl transition-all duration-500 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30">
-                        <CardHeader className="pb-4">
-                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                            <div className="space-y-3 flex-1">
-                              <div className="space-y-2">
-                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
-                                  {education.title}
-                                </h4>
-                                <div className="flex items-center gap-3 text-muted-foreground">
-                                  <div className="flex items-center gap-2">
-                                    <Building2 className="h-4 w-4 text-primary" />
-                                    <span className="font-medium">{education.company}</span>
+
+                      <motion.div
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <Card className="ml-16 group hover:shadow-xl transition-all duration-300 border border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card/90 hover:border-primary/30 overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <CardHeader className="pb-4 relative z-10">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                              <div className="space-y-3 flex-1">
+                                <div className="space-y-2">
+                                  <h4 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                                    {education.title}
+                                  </h4>
+                                  <div className="flex items-center gap-3 text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <Building2 className="h-4 w-4 text-primary" />
+                                      <span className="font-medium">{education.company}</span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              
-                              <div className="flex flex-wrap gap-2">
-                                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
-                                  <Calendar className="h-3 w-3 mr-1" />
-                                  {education.duration}
-                                </Badge>
+
+                                <div className="flex flex-wrap gap-2">
+                                  <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                                    <Calendar className="h-3 w-3 mr-1" />
+                                    {education.duration}
+                                  </Badge>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </CardHeader>
-                      </Card>
+                          </CardHeader>
+                        </Card>
+                      </motion.div>
                     </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
 
               {/* Show More/Less Button for Education */}
