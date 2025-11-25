@@ -510,7 +510,7 @@ class App {
     const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
     // Ensure canvas is interactive
     canvas.style.pointerEvents = 'auto';
-    canvas.style.touchAction = 'none'; // Prevent default touch behaviors
+    canvas.style.touchAction = 'pan-y'; // Allow vertical scrolling
     canvas.style.userSelect = 'none';
     canvas.style.cursor = 'grab';
 
@@ -653,7 +653,8 @@ class App {
   }
 
   onWheel(e: WheelEvent) {
-    e.preventDefault();
+    // Allow default scrolling behavior
+    // e.preventDefault();
 
     // Disable auto-rotation during wheel interaction
     this.autoRotateEnabled = false;

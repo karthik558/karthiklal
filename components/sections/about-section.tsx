@@ -68,10 +68,10 @@ export default function AboutSection() {
           <div className="relative group order-2 lg:order-1">
             <motion.div 
               style={{ y }}
-              initial={{ opacity: 0, clipPath: "inset(100% 0 0 0)" }}
-              whileInView={{ opacity: 1, clipPath: "inset(0% 0 0 0)" }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} // Custom bezier for smooth "GSAP-like" feel
-              viewport={{ once: true, margin: "-10%" }}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
               className="relative z-10"
             >
               <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-[#74261a]/10 border border-white/10 bg-muted">
