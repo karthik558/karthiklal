@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Component } from "@/components/ui/circular-gallery"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ExternalLink } from "lucide-react"
 import Link from "next/link"
 import { getBehanceUrl } from "@/lib/static-data"
@@ -113,9 +114,9 @@ const PortfolioGallerySection = () => {
     >
       <div className="container">
         <div className="text-center mb-16">
-          <span className="inline-block text-primary font-medium mb-2 animate-item">
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary animate-item">
             Design Portfolio
-          </span>
+          </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">
             <span className="text-gradient">Featured Works</span>
           </h2>

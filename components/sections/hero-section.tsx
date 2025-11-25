@@ -6,6 +6,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF, MeshDistortMaterial } from "@react-three/drei"
 import type * as THREE from "three"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -24,17 +25,17 @@ interface ProfileData {
 
 function ParticleField() {
   const particlesRef = useRef<THREE.Points>(null)
-  
+
   useEffect(() => {
     if (!particlesRef.current) return
-    
+
     const animate = () => {
       if (particlesRef.current) {
         particlesRef.current.rotation.y += 0.001
       }
       requestAnimationFrame(animate)
     }
-    
+
     animate()
   }, [])
 
@@ -48,10 +49,10 @@ function ParticleField() {
 
 function ProfileSphere() {
   const meshRef = useRef<THREE.Mesh>(null)
-  
+
   useEffect(() => {
     if (!meshRef.current) return
-    
+
     const animate = () => {
       if (meshRef.current) {
         meshRef.current.rotation.x += 0.002
@@ -59,7 +60,7 @@ function ProfileSphere() {
       }
       requestAnimationFrame(animate)
     }
-    
+
     animate()
   }, [])
 
@@ -101,7 +102,7 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background z-0" />
-      
+
       {/* Animated background particles */}
       <div className="absolute inset-0 z-0">
         <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
@@ -110,9 +111,9 @@ export default function HeroSection() {
           <ProfileSphere />
           <ParticleField />
           <Environment preset="city" />
-          <OrbitControls 
-            enableZoom={false} 
-            enablePan={false} 
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
             enableRotate={true}
             autoRotate
             autoRotateSpeed={0.5}
@@ -121,8 +122,8 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <motion.div 
-        style={{ y, opacity }} 
+      <motion.div
+        style={{ y, opacity }}
         className="container relative z-10 mt-24 lg:mt-0"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -138,9 +139,9 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="relative inline-block"
             >
-              <span className="glass text-primary text-sm font-semibold px-6 py-3 rounded-full">
+              <Badge variant="outline" className="glass text-primary px-6 py-2 border-primary/20 bg-primary/5">
                 {profileData?.title || "Loading..."}
-              </span>
+              </Badge>
             </motion.div>
 
             <motion.h1
@@ -150,13 +151,13 @@ export default function HeroSection() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold flex flex-wrap items-center gap-x-3"
             >
               <span>Hi, I'm</span>
-              <Image 
-                src="/hero_name.svg" 
-                alt="Karthik Lal" 
-                width={300} 
-                height={80} 
-                className="h-12 md:h-16 lg:h-20 w-auto" 
-                priority 
+              <Image
+                src="/hero_name.svg"
+                alt="Karthik Lal"
+                width={300}
+                height={80}
+                className="h-12 md:h-16 lg:h-20 w-auto"
+                priority
               />
             </motion.h1>
 
@@ -193,10 +194,10 @@ export default function HeroSection() {
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent 
-                  className="w-56 p-3 z-50 bg-popover border border-border shadow-lg rounded-lg" 
-                  side="bottom" 
-                  align="center" 
+                <PopoverContent
+                  className="w-56 p-3 z-50 bg-popover border border-border shadow-lg rounded-lg"
+                  side="bottom"
+                  align="center"
                   sideOffset={12}
                   avoidCollisions={true}
                   collisionPadding={20}

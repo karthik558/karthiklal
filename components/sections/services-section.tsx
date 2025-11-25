@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Code2, Shield, Palette, Cloud } from "lucide-react"
 import { GlowingEffect } from "@/components/ui/glowing-effect"
+import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import servicesData from "@/public/data/services.json"
 
@@ -26,7 +27,7 @@ interface ServiceItemProps {
 
 const ServiceItem = ({ area, icon, title, description, delay, isInView }: ServiceItemProps) => {
   return (
-    <motion.li 
+    <motion.li
       className={cn("min-h-[14rem] list-none", area)}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -75,7 +76,9 @@ export default function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="inline-block text-primary font-medium mb-2">Services</span>
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+            Services
+          </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Expert Solutions</h2>
           <p className="text-muted-foreground">
             Specialized services tailored to elevate your digital presence with security, performance, and design excellence.
@@ -85,15 +88,15 @@ export default function ServicesSection() {
         <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-2 lg:gap-4 xl:max-h-[34rem]">
           {servicesData.services.map((service, index) => {
             const IconComponent = iconMap[service.icon as keyof typeof iconMap]
-            
+
             // Define grid areas for different service layouts
             const gridAreas = [
               "md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/7]",
-              "md:[grid-area:1/7/2/13] xl:[grid-area:1/7/2/13]", 
+              "md:[grid-area:1/7/2/13] xl:[grid-area:1/7/2/13]",
               "md:[grid-area:2/1/3/7] xl:[grid-area:2/1/3/7]",
               "md:[grid-area:2/7/3/13] xl:[grid-area:2/7/3/13]"
             ]
-            
+
             return (
               <ServiceItem
                 key={service.id}
@@ -108,7 +111,7 @@ export default function ServicesSection() {
           })}
         </ul>
       </div>
-    </section>
+    </section >
   )
 }
 

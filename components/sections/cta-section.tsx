@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
 export default function CtaSection() {
@@ -20,6 +21,16 @@ export default function CtaSection() {
           className="text-center max-w-4xl mx-auto"
         >
           {/* Main CTA Text */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+            className="mb-6"
+          >
+            <Badge variant="outline" className="px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+              Get Started
+            </Badge>
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
@@ -52,11 +63,11 @@ export default function CtaSection() {
             <div className="relative group">
               {/* Animated background */}
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 rounded-full blur opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
+
               {/* Button */}
-              <Button 
-                asChild 
-                size="lg" 
+              <Button
+                asChild
+                size="lg"
                 className="relative bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105"
               >
                 <Link href="/contact" className="flex items-center gap-2">

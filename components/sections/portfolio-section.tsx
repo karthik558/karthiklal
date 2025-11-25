@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { FeatureSteps } from "@/components/blocks/feature-section"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ArrowRight, FolderOpen, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -119,7 +120,9 @@ export default function PortfolioSection() {
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span className="inline-block text-primary font-medium mb-2">My Work</span>
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+            My Work
+          </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured <span className="text-gradient">Projects</span></h2>
           <p className="text-muted-foreground">
             A curated selection of my best projects showcasing expertise in web development, system administration, and creative problem-solving with cutting-edge technologies.

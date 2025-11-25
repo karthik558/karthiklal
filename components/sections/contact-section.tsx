@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -73,7 +74,7 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
-    
+
     try {
       const formData = new FormData(e.currentTarget)
       const data = {
@@ -85,7 +86,7 @@ export default function ContactSection() {
 
       // Validate data before sending
       console.log('Form data:', data)
-      
+
       // Check for empty fields
       if (!data.name?.trim() || !data.email?.trim() || !data.subject?.trim() || !data.message?.trim()) {
         throw new Error('All fields are required')
@@ -115,18 +116,18 @@ export default function ContactSection() {
         setSenderName(data.name)
         // Show success modal instead of toast
         setShowSuccessModal(true)
-        ;(e.target as HTMLFormElement).reset()
+          ; (e.target as HTMLFormElement).reset()
       } else {
         throw new Error(responseData.error || `Server error: ${response.status}`)
       }
     } catch (error) {
       console.error('Error sending message:', error)
-      
+
       let errorMessage = 'Failed to send message. Please try again later.'
       if (error instanceof Error) {
         errorMessage = error.message
       }
-      
+
       toast({
         title: "😔 Oops! Something went wrong",
         description: errorMessage,
@@ -142,19 +143,22 @@ export default function ContactSection() {
     <section id="contact" className="py-20 md:py-32">
       {/* Simple background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/20"></div>
-      
+
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
           {/* Clean heading */}
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+            Contact
+          </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Let's <span className="text-gradient">Connect</span>
           </h2>
-          
+
           {/* Simple description */}
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
             Have a project in mind or want to collaborate? I'd love to hear from you and discuss how we can work together to bring your ideas to life.
           </p>
-          
+
           {/* Status indicator */}
           <div className="flex items-center justify-center gap-8 mb-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -188,8 +192,8 @@ export default function ContactSection() {
                       </div>
                       <div className="flex-1">
                         <h4 className="font-semibold mb-1">Email Address</h4>
-                        <a 
-                          href={`mailto:${profileData?.email || 'contact@karthiklal.in'}`} 
+                        <a
+                          href={`mailto:${profileData?.email || 'contact@karthiklal.in'}`}
                           className="text-sm text-muted-foreground hover:text-primary transition-colors"
                         >
                           {profileData?.email || 'Loading...'}
@@ -219,7 +223,7 @@ export default function ContactSection() {
             {/* Social Links */}
             <div className="space-y-6">
               <h4 className="text-lg font-semibold">Connect With Me</h4>
-              
+
               {/* Social usernames display */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {socials.map((social) => (
@@ -283,7 +287,7 @@ export default function ContactSection() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="subject" className="text-sm font-medium">Subject *</Label>
                     <Input
@@ -295,7 +299,7 @@ export default function ContactSection() {
                       className="h-11"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="message" className="text-sm font-medium">Message *</Label>
                     <Textarea
@@ -308,7 +312,7 @@ export default function ContactSection() {
                       className="resize-none"
                     />
                   </div>
-                  
+
                   <Button
                     type="submit"
                     size="lg"
@@ -328,7 +332,7 @@ export default function ContactSection() {
       </div>
 
       {/* Success Modal */}
-      <ContactSuccessModal 
+      <ContactSuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
         name={senderName}
