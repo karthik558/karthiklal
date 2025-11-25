@@ -16,8 +16,8 @@ interface Project {
   description: string
   image: string
   category: string
-  link: string
-  github: string
+  link?: string
+  github?: string
   technologies: string[]
   featured: boolean
 }
