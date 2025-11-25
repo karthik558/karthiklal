@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
-import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone, ArrowRight } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent, SheetTrigger } from "./sheet"
@@ -88,7 +88,7 @@ function NavHeader() {
   return (
     <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
       {/* Logo */}
-      <Link href="/" className="flex items-center group">
+      <Link href="/" className={cn("flex items-center group transition-opacity duration-300", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
           <Image
             src="/logo-light.png"
@@ -139,7 +139,7 @@ function NavHeader() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300",
+                  "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300 z-50",
                   isOpen && "opacity-0 pointer-events-none"
                 )}
               >
@@ -149,23 +149,44 @@ function NavHeader() {
 
             <SheetContent
               side="right"
-              className="w-[min(320px,_85vw)] rounded-l-3xl border-l border-primary/10 pr-0 bg-background/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+              className="w-full sm:w-[400px] p-0 border-l border-white/10 bg-background/80 backdrop-blur-3xl shadow-2xl overflow-hidden"
             >
-              <div className="flex h-full flex-col">
+              {/* Animated Background Elements */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-primary/10 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
+              </div>
+
+              <div className="relative flex h-full flex-col z-10">
+                {/* Header */}
+                <div className="flex items-center justify-between p-6 border-b border-white/5">
+                  <span className="text-sm font-medium text-muted-foreground tracking-widest uppercase">Menu</span>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setIsOpen(false)}
+                    className="hover:bg-white/10 rounded-full -mr-2"
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
+
                 {/* Navigation Menu */}
-                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-                  <div className="p-6 space-y-2 pt-12">
-                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
-                      Menu
-                    </h4>
+                <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col justify-center">
+                  <nav className="space-y-2">
                     {currentPageItems.map((item, index) => {
                       const Icon = item.icon
                       return (
                         <motion.div
                           key={item.href}
-                          initial={{ opacity: 0, x: 20 }}
+                          initial={{ opacity: 0, x: 50 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.08 }}
+                          transition={{ 
+                            delay: 0.1 + index * 0.05,
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30
+                          }}
                         >
                           <MenuItem
                             href={item.href}
@@ -178,66 +199,50 @@ function NavHeader() {
                         </motion.div>
                       )
                     })}
-                  </div>
-
-                  <Separator className="mx-6 bg-primary/10" />
-
-                  {/* Theme Toggle Section */}
-                  <div className="p-6 pb-4">
-                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
-                      Appearance
-                    </h4>
-                    <div className="flex justify-center">
-                      <ThemeToggleAnimated />
-                    </div>
-                  </div>
-
-                  <Separator className="mx-6 bg-primary/10" />
-
-                  {/* Social Links */}
-                  <div className="p-6 pb-4">
-                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
-                      Connect
-                    </h4>
-                    <div className="flex flex-wrap gap-3 justify-center">
-                      {activeSocials.map((social, index) => {
-                        const Icon = iconMap[social.icon]
-                        return (
-                          <motion.div
-                            key={social.id}
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              delay: 0.1 + index * 0.05,
-                              type: "spring",
-                              stiffness: 300,
-                              damping: 20
-                            }}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <a
-                              href={social.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group relative w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10 hover:border-primary/40 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 overflow-hidden"
-                              onClick={() => setIsOpen(false)}
-                              title={`${social.name} - ${social.username}`}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                              <Icon className="w-5 h-5 text-primary relative z-10 transition-transform duration-200 group-hover:scale-110" />
-                            </a>
-                          </motion.div>
-                        )
-                      })}
-                    </div>
-                  </div>
+                  </nav>
                 </div>
 
-                {/* Footer */}
-                <div className="p-6 pt-4 border-t border-primary/10 flex-shrink-0 bg-primary/5">
-                  <div className="text-center">
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                {/* Footer Section */}
+                <div className="p-6 border-t border-white/5 bg-background/20 backdrop-blur-md">
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</span>
+                    <ThemeToggleAnimated />
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {activeSocials.map((social, index) => {
+                      const Icon = iconMap[social.icon]
+                      return (
+                        <motion.div
+                          key={social.id}
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            delay: 0.3 + index * 0.05,
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 20
+                          }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <a
+                            href={social.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300 group"
+                            onClick={() => setIsOpen(false)}
+                            title={`${social.name}`}
+                          >
+                            <Icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                          </a>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">
                       © 2025 Karthik Lal
                     </p>
                   </div>
@@ -276,29 +281,50 @@ const MenuItem = ({
     href={href}
     onClick={onClick}
     className={cn(
-      "group relative flex items-center gap-4 rounded-2xl p-4 transition-all duration-300",
+      "group relative flex items-center gap-5 px-6 py-5 transition-all duration-500",
       active
-        ? "bg-primary/10 text-primary shadow-sm"
-        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+        ? "text-primary"
+        : "text-muted-foreground hover:text-foreground"
     )}
   >
-    {Icon && (
-      <div className={cn(
-        "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
-        active
-          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-          : "bg-background border border-border text-muted-foreground group-hover:border-primary/30 group-hover:text-primary"
-      )}>
-        <Icon className="w-5 h-5 transition-colors" />
-      </div>
-    )}
-    <span className="relative z-10 font-medium text-lg">{children}</span>
+    {/* Hover Background */}
+    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    
+    {/* Active Indicator Line */}
     {active && (
       <motion.div
-        layoutId="activeMobileItem"
-        className="absolute right-4 w-2 h-2 rounded-full bg-primary"
+        layoutId="activeMenuLine"
+        className="absolute left-0 top-0 bottom-0 w-1 bg-primary shadow-[0_0_10px_rgba(116,38,26,0.5)]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
       />
     )}
+
+    {/* Icon */}
+    {Icon && (
+      <div className={cn(
+        "relative z-10 p-2 rounded-lg transition-all duration-300 group-hover:scale-110",
+        active ? "bg-primary/10 text-primary" : "bg-white/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+      )}>
+        <Icon className="w-6 h-6" />
+      </div>
+    )}
+    
+    {/* Text */}
+    <div className="relative z-10 flex flex-col">
+      <span className={cn(
+        "text-2xl font-light tracking-tight transition-all duration-300 group-hover:translate-x-1",
+        active ? "font-normal" : ""
+      )}>
+        {children}
+      </span>
+    </div>
+    
+    {/* Arrow */}
+    <div className="ml-auto opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary">
+      <ArrowRight className="w-5 h-5" />
+    </div>
   </SmoothLink>
 )
 
