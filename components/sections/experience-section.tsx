@@ -193,7 +193,7 @@ function TimelineItem({ item, index, type }: { item: any, index: number, type: '
           ${isEven ? 'md:mr-12 md:text-right' : 'md:ml-12 md:text-left'}
         `}>
           {/* Gradient Glow on Hover */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
           <div className={`flex flex-col gap-4 relative z-10 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
             <div className="space-y-2">

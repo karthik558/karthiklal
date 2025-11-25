@@ -55,7 +55,7 @@ function SkillCard({ category, index }: { category: SkillCategory, index: number
       className="group relative h-full"
       onMouseMove={handleMouseMove}
     >
-      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-purple-500/50 opacity-0 transition duration-300 group-hover:opacity-100" />
+      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-primary/50 opacity-0 transition duration-300 group-hover:opacity-100" />
       <Card className="relative h-full border border-border/50 bg-card/90 backdrop-blur-sm transition-all duration-300 overflow-hidden">
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"

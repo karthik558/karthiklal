@@ -43,6 +43,8 @@ function NavHeader() {
     left: 0,
     width: 0,
     opacity: 0,
+    height: 0,
+    top: 0,
   })
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useIsMobile()
@@ -86,35 +88,39 @@ function NavHeader() {
   return (
     <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
       {/* Logo */}
-      <Link href="/" className="flex items-center">
-        <Image
-          src="/logo-light.png"
-          alt="Logo"
-          width={40}
-          height={40}
-          className="dark:hidden"
-        />
-        <Image
-          src="/logo-dark.png"
-          alt="Logo"
-          width={40}
-          height={40}
-          className="hidden dark:block"
-        />
+      <Link href="/" className="flex items-center group">
+        <div className="relative transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+          <Image
+            src="/logo-light.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="dark:hidden drop-shadow-lg"
+          />
+          <Image
+            src="/logo-dark.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+          />
+        </div>
       </Link>
 
       {/* Desktop Navigation */}
       <ul
-        className="relative mx-auto hidden md:flex w-fit rounded-full border border-primary/20 bg-background/40 backdrop-blur-md p-1"
+        className="relative mx-auto hidden md:flex w-fit rounded-full border border-primary/10 bg-secondary/20 backdrop-blur-md p-1"
         onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
       >
         {currentPageItems.map((item) => (
           <Tab key={item.href} setPosition={setPosition}>
-            <SmoothLink 
+            <SmoothLink
               href={item.href}
               className={cn(
-                "transition-colors relative z-10",
-                pathname === item.href && "text-primary"
+                "transition-all duration-300 relative z-10 px-2",
+                pathname === item.href
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {item.label}
@@ -129,28 +135,28 @@ function NavHeader() {
         <div className="flex items-center gap-2">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className={cn(
-                  "relative md:hidden hover:bg-primary/10 transition-colors",
+                  "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300",
                   isOpen && "opacity-0 pointer-events-none"
                 )}
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            
-            <SheetContent 
-              side="right" 
-              className="w-[min(320px,_85vw)] rounded-l-2xl border-l-0 pr-0 bg-background border border-border overflow-hidden"
+
+            <SheetContent
+              side="right"
+              className="w-[min(320px,_85vw)] rounded-l-3xl border-l border-primary/10 pr-0 bg-background/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
             >
               <div className="flex h-full flex-col">
                 {/* Navigation Menu */}
                 <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
                   <div className="p-6 space-y-2 pt-12">
-                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
-                      Navigation
+                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
+                      Menu
                     </h4>
                     {currentPageItems.map((item, index) => {
                       const Icon = item.icon
@@ -161,8 +167,8 @@ function NavHeader() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.08 }}
                         >
-                          <MenuItem 
-                            href={item.href} 
+                          <MenuItem
+                            href={item.href}
                             onClick={() => setIsOpen(false)}
                             active={pathname === item.href}
                             icon={Icon}
@@ -174,23 +180,23 @@ function NavHeader() {
                     })}
                   </div>
 
-                  <Separator className="mx-6" />
+                  <Separator className="mx-6 bg-primary/10" />
 
                   {/* Theme Toggle Section */}
                   <div className="p-6 pb-4">
-                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
-                      Theme
+                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
+                      Appearance
                     </h4>
                     <div className="flex justify-center">
                       <ThemeToggleAnimated />
                     </div>
                   </div>
 
-                  <Separator className="mx-6" />
+                  <Separator className="mx-6 bg-primary/10" />
 
                   {/* Social Links */}
                   <div className="p-6 pb-4">
-                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                    <h4 className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-6 ml-2">
                       Connect
                     </h4>
                     <div className="flex flex-wrap gap-3 justify-center">
@@ -201,7 +207,7 @@ function NavHeader() {
                             key={social.id}
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ 
+                            transition={{
                               delay: 0.1 + index * 0.05,
                               type: "spring",
                               stiffness: 300,
@@ -214,7 +220,7 @@ function NavHeader() {
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group relative w-12 h-12 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 border border-border hover:border-primary/40 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 overflow-hidden"
+                              className="group relative w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10 hover:border-primary/40 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 overflow-hidden"
                               onClick={() => setIsOpen(false)}
                               title={`${social.name} - ${social.username}`}
                             >
@@ -229,10 +235,10 @@ function NavHeader() {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 pt-4 border-t border-border flex-shrink-0">
+                <div className="p-6 pt-4 border-t border-primary/10 flex-shrink-0 bg-primary/5">
                   <div className="text-center">
-                    <p className="text-xs text-muted-foreground">
-                      © 2025 Karthik Lal. All rights reserved.
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                      © 2025 Karthik Lal
                     </p>
                   </div>
                 </div>
@@ -253,13 +259,13 @@ function NavHeader() {
 }
 
 // Helper component for mobile menu items
-const MenuItem = ({ 
-  children, 
-  href, 
+const MenuItem = ({
+  children,
+  href,
   onClick,
   active,
   icon: Icon
-}: { 
+}: {
   children: React.ReactNode
   href: string
   onClick?: () => void
@@ -270,33 +276,29 @@ const MenuItem = ({
     href={href}
     onClick={onClick}
     className={cn(
-      "group relative flex items-center gap-3 rounded-xl p-3 transition-all hover:bg-muted/50",
-      active 
-        ? "text-primary bg-primary/10 dark:bg-primary/10" 
-        : "text-foreground hover:text-foreground"
+      "group relative flex items-center gap-4 rounded-2xl p-4 transition-all duration-300",
+      active
+        ? "bg-primary/10 text-primary shadow-sm"
+        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
     )}
   >
     {Icon && (
       <div className={cn(
-        "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-        active 
-          ? "bg-primary/20 text-primary" 
-          : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+        "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
+        active
+          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+          : "bg-background border border-border text-muted-foreground group-hover:border-primary/30 group-hover:text-primary"
       )}>
-        <Icon className="w-4 h-4 transition-colors" />
+        <Icon className="w-5 h-5 transition-colors" />
       </div>
     )}
-    <span className="relative z-10 font-medium">{children}</span>
-    <motion.div
-      initial={false}
-      className="absolute inset-0 z-0 rounded-xl"
-      transition={{
-        type: "spring",
-        stiffness: 500,
-        damping: 30,
-      }}
-      whileTap={{ scale: 0.95 }}
-    />
+    <span className="relative z-10 font-medium text-lg">{children}</span>
+    {active && (
+      <motion.div
+        layoutId="activeMobileItem"
+        className="absolute right-4 w-2 h-2 rounded-full bg-primary"
+      />
+    )}
   </SmoothLink>
 )
 
@@ -309,6 +311,8 @@ const Tab = ({
     left: number
     width: number
     opacity: number
+    height: number
+    top: number
   }>>
 }) => {
   const ref = useRef<HTMLLIElement>(null)
@@ -317,11 +321,12 @@ const Tab = ({
       ref={ref}
       onMouseEnter={() => {
         if (!ref.current) return
-        const { width } = ref.current.getBoundingClientRect()
         setPosition({
-          width,
+          width: ref.current.offsetWidth,
+          height: ref.current.offsetHeight,
           opacity: 1,
           left: ref.current.offsetLeft,
+          top: ref.current.offsetTop,
         })
       }}
       className="relative z-10 block cursor-pointer px-3 py-1.5 text-xs font-medium normal-case md:px-4 md:py-2 md:text-sm"
@@ -334,12 +339,17 @@ const Tab = ({
 const Cursor = ({
   position,
 }: {
-  position: { left: number; width: number; opacity: number }
+  position: { left: number; width: number; opacity: number; height: number; top: number }
 }) => {
   return (
     <motion.li
       animate={position}
-      className="absolute z-0 h-7 rounded-full bg-primary/10 backdrop-blur-sm md:h-9"
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 30
+      }}
+      className="absolute z-0 rounded-full bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] backdrop-blur-sm"
     />
   )
 }
