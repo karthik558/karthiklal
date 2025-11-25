@@ -119,7 +119,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Website**: [karthiklal.in](https://karthiklal.in)
 - **LinkedIn**: [linkedin.com/in/karthiklal](https://linkedin.com/in/karthiklal)
 - **GitHub**: [github.com/karthik558](https://github.com/karthik558)
-- **Twitter**: [@_karthiklal](https://twitter.com/karthiklal_in)
+- **Twitter**: [@_karthiklal](https://twitter.com/_karthiklal.in)
 
 ---
 

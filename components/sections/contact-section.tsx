@@ -7,9 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ContactSuccessModal } from "@/components/ui/contact-success-modal"
-import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette } from "lucide-react"
-import { useState, useEffect } from "react"
+import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette, ArrowRight, Sparkles } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
 import { useToast } from "@/components/ui/use-toast"
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -140,198 +142,187 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 md:py-32">
-      {/* Simple background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/20"></div>
+    <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] animate-pulse delay-1000" />
+      </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          {/* Clean heading */}
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
-            Contact
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let's <span className="text-gradient">Connect</span>
-          </h2>
-
-          {/* Simple description */}
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
-            Have a project in mind or want to collaborate? I'd love to hear from you and discuss how we can work together to bring your ideas to life.
-          </p>
-
-          {/* Status indicator */}
-          <div className="flex items-center justify-center gap-8 mb-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Available for new projects</span>
-            </div>
-          </div>
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary rounded-full text-sm font-medium">
+              Get in Touch
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+              Let's Work <span className="text-gradient">Together</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Have a project in mind? I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                  <MessageCircle className="h-7 w-7 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold">Let's Talk</h3>
-                  <p className="text-sm text-muted-foreground">Ready to bring your ideas to life</p>
-                </div>
-              </div>
-
-              {/* Contact Cards */}
-              <div className="space-y-4">
-                <Card className="hover:shadow-md transition-shadow border-l-4 border-l-primary/20">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <Mail className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold mb-1">Email Address</h4>
-                        <a
-                          href={`mailto:${profileData?.email || 'contact@karthiklal.in'}`}
-                          className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                        >
-                          {profileData?.email || 'Loading...'}
-                        </a>
-                      </div>
-                      <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="hover:shadow-md transition-shadow border-l-4 border-l-primary/20">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <MapPin className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold mb-1">Location</h4>
-                        <p className="text-sm text-muted-foreground">{profileData?.location || 'Loading...'}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Contact Info Side */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-10"
+          >
+            <div className="relative">
+              <h3 className="text-3xl font-bold mb-4">Contact Information</h3>
+              <p className="text-muted-foreground text-lg">
+                Fill out the form and I will get back to you within 24 hours.
+              </p>
             </div>
 
-            {/* Social Links */}
             <div className="space-y-6">
-              <h4 className="text-lg font-semibold">Connect With Me</h4>
+              <SpotlightCard>
+                <div className="p-6 flex items-start gap-6">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">Chat to me</h4>
+                    <p className="text-muted-foreground mb-3">Our friendly team is here to help.</p>
+                    <a href={`mailto:${profileData?.email}`} className="text-primary font-medium hover:underline">
+                      {profileData?.email || 'loading...'}
+                    </a>
+                  </div>
+                </div>
+              </SpotlightCard>
 
-              {/* Social usernames display */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {socials.map((social) => (
-                  <a
-                    key={social.id}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      {(() => {
-                        const IconComponent = iconMap[social.icon]
-                        return <IconComponent className="h-4 w-4 text-primary" />
-                      })()}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">{social.name}</p>
-                      <p className="text-xs text-muted-foreground">{social.username}</p>
-                    </div>
-                  </a>
-                ))}
+              <SpotlightCard>
+                <div className="p-6 flex items-start gap-6">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">Visit me</h4>
+                    <p className="text-muted-foreground mb-3">Come say hello at our office HQ.</p>
+                    <p className="text-primary font-medium">
+                      {profileData?.location || 'loading...'}
+                    </p>
+                  </div>
+                </div>
+              </SpotlightCard>
+            </div>
+
+            <div className="pt-8 border-t border-white/10">
+              <h4 className="text-lg font-semibold mb-6">Follow my socials</h4>
+              <div className="flex flex-wrap gap-4">
+                {socials.map((social, index) => {
+                  const Icon = iconMap[social.icon]
+                  return (
+                    <motion.a
+                      key={social.id}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                    >
+                      <Icon className="w-5 h-5" />
+                    </motion.a>
+                  )
+                })}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Contact Form */}
-          <div>
-            <Card className="border border-border shadow-lg">
-              <CardContent className="p-8">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold mb-2">Send Me a Message</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Fill out the form below and I'll get back to you as soon as possible.
-                  </p>
-                </div>
-
+          {/* Form Side */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+              <CardContent className="p-8 md:p-10 relative">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-sm font-medium">Name *</Label>
+                      <Label htmlFor="name">Name</Label>
                       <Input
                         id="name"
                         name="name"
-                        placeholder="Your full name"
+                        placeholder="John Doe"
                         required
                         disabled={isLoading}
-                        className="h-11"
+                        className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-sm font-medium">Email *</Label>
+                      <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
                         name="email"
                         type="email"
-                        placeholder="your.email@example.com"
+                        placeholder="john@example.com"
                         required
                         disabled={isLoading}
-                        className="h-11"
+                        className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-sm font-medium">Subject *</Label>
+                    <Label htmlFor="subject">Subject</Label>
                     <Input
                       id="subject"
                       name="subject"
-                      placeholder="What's this about?"
+                      placeholder="Project Inquiry"
                       required
                       disabled={isLoading}
-                      className="h-11"
+                      className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="text-sm font-medium">Message *</Label>
+                    <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
                       name="message"
-                      rows={5}
-                      placeholder="Tell me about your project or how I can help you..."
+                      rows={6}
+                      placeholder="Tell me about your project..."
                       required
                       disabled={isLoading}
-                      className="resize-none"
+                      className="bg-white/5 border-white/10 focus:border-primary/50 resize-none"
                     />
                   </div>
 
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full h-12 rounded-xl"
+                    className="w-full h-14 text-lg font-medium relative overflow-hidden group"
                     disabled={isLoading}
                   >
-                    <span className="flex items-center gap-2">
-                      {isLoading ? "Sending Message..." : "Send Message"}
-                      <Send className="h-4 w-4" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[length:200%_auto] animate-gradient" />
+                    <span className="relative flex items-center justify-center gap-2">
+                      {isLoading ? "Sending..." : "Send Message"}
+                      {!isLoading && <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
                     </span>
                   </Button>
                 </form>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Success Modal */}
       <ContactSuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
@@ -339,5 +330,40 @@ export default function ContactSection() {
       />
     </section>
   )
+}
+
+function SpotlightCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <div
+      className={cn(
+        "group relative border border-white/10 bg-white/5 overflow-hidden rounded-xl",
+        className
+      )}
+      onMouseMove={handleMouseMove}
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(116, 38, 26, 0.15),
+              transparent 80%
+            )
+          `,
+        }}
+      />
+      <div className="relative h-full">{children}</div>
+    </div>
+  );
 }
 
