@@ -167,7 +167,7 @@ export default function ProjectsPage() {
               >
                 <Card className={`group h-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 ${viewMode === "list" ? "flex flex-col md:flex-row" : ""}`}>
                   {/* Image Section */}
-                  <div className={`relative overflow-hidden ${viewMode === "grid" ? "h-52" : "h-52 md:h-full md:w-72"}`}>
+                  <div className={`relative overflow-hidden shrink-0 ${viewMode === "grid" ? "h-52" : "h-52 md:h-auto md:w-72"}`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <Image
                       src={project.image}
