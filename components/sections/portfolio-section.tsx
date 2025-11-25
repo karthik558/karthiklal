@@ -86,31 +86,7 @@ export default function PortfolioSection() {
 
   return (
     <section id="portfolio" className="py-20 md:py-32 bg-background relative overflow-hidden">
-      {/* Enhanced background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
 
-      {/* Animated blobs */}
-      <motion.div
-        className="absolute top-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
-        animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"
-        animate={{
-          x: [0, -50, 0],
-          y: [0, -30, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      />
-
-      <div className="absolute top-0 left-1/4 w-1 h-1 bg-primary/30 rounded-full animate-ping"></div>
-      <div className="absolute bottom-0 right-1/4 w-2 h-2 bg-secondary/30 rounded-full animate-pulse"></div>
 
       <div className="container relative z-10">
 

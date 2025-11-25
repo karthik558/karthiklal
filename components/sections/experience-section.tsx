@@ -71,11 +71,7 @@ export default function ExperienceSection() {
 
   return (
     <section id="experience" className="py-24 md:py-32 bg-secondary/5 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[-5%] w-[300px] h-[300px] rounded-full bg-primary/5 blur-3xl"></div>
-        <div className="absolute bottom-[10%] right-[-5%] w-[300px] h-[300px] rounded-full bg-purple-500/5 blur-3xl"></div>
-      </div>
+
 
       <div className="container max-w-6xl mx-auto relative z-10">
         <motion.div
