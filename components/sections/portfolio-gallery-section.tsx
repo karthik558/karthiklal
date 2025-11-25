@@ -118,7 +118,7 @@ const PortfolioGallerySection = () => {
             Design Portfolio
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">
-            <span className="text-gradient">Featured Works</span>
+            Featured <span className="text-gradient">Works</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto animate-item">
             Explore my creative journey through various design projects, from web development

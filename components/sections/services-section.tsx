@@ -79,7 +79,7 @@ export default function ServicesSection() {
           <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
             Services
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Expert Solutions</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Expert <span className="text-gradient">Solutions</span></h2>
           <p className="text-muted-foreground">
             Specialized services tailored to elevate your digital presence with security, performance, and design excellence.
           </p>
