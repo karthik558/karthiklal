@@ -227,6 +227,7 @@ export const StaggerTestimonials: React.FC = () => {
   const [cardSize, setCardSize] = useState(365);
   const [testimonialsList, setTestimonialsList] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     // Load testimonials from JSON
@@ -250,22 +251,35 @@ export const StaggerTestimonials: React.FC = () => {
   }, []);
 
   const handleMove = (steps: number) => {
-    const newList = [...testimonialsList];
-    if (steps > 0) {
-      for (let i = steps; i > 0; i--) {
-        const item = newList.shift();
-        if (!item) return;
-        newList.push({ ...item, tempId: Math.random() });
+    setTestimonialsList((prevList) => {
+      const newList = [...prevList];
+      if (steps > 0) {
+        for (let i = steps; i > 0; i--) {
+          const item = newList.shift();
+          if (!item) return prevList;
+          newList.push({ ...item, tempId: Math.random() });
+        }
+      } else {
+        for (let i = steps; i < 0; i++) {
+          const item = newList.pop();
+          if (!item) return prevList;
+          newList.unshift({ ...item, tempId: Math.random() });
+        }
       }
-    } else {
-      for (let i = steps; i < 0; i++) {
-        const item = newList.pop();
-        if (!item) return;
-        newList.unshift({ ...item, tempId: Math.random() });
-      }
-    }
-    setTestimonialsList(newList);
+      return newList;
+    });
   };
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (isLoading || testimonialsList.length === 0 || isPaused) return;
+
+    const interval = setInterval(() => {
+      handleMove(1);
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isLoading, testimonialsList.length, isPaused]);
 
   useEffect(() => {
     const updateSize = () => {
@@ -290,6 +304,8 @@ export const StaggerTestimonials: React.FC = () => {
     <div
       className="relative w-full overflow-hidden bg-transparent mx-auto"
       style={{ height: 600, maxWidth: '1200px' }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       {isLoading ? (
         <div className="flex items-center justify-center h-full">
