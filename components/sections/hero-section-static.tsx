@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { motion, HTMLMotionProps, Variants, useScroll, useTransform } from "framer-motion"
+import { motion, HTMLMotionProps, Variants, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
@@ -151,7 +152,37 @@ export default function HeroSectionStatic() {
 
     fetchProfile()
   }, [])
+
+  // Mouse movement for 3D tilt effect
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - left) / width - 0.5
+    const y = (e.clientY - top) / height - 0.5
+    mouseX.set(x)
+    mouseY.set(y)
+  }
+
+  const handleMouseLeave = () => {
+    mouseX.set(0)
+    mouseY.set(0)
+  }
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), { stiffness: 150, damping: 20 })
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { stiffness: 150, damping: 20 })
   
+  // Parallax movement
+  const moveX1 = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), { stiffness: 150, damping: 20 })
+  const moveY1 = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), { stiffness: 150, damping: 20 })
+  
+  const moveX2 = useSpring(useTransform(mouseX, [-0.5, 0.5], [20, -20]), { stiffness: 150, damping: 20 })
+  const moveY2 = useSpring(useTransform(mouseY, [-0.5, 0.5], [20, -20]), { stiffness: 150, damping: 20 })
+
+  // Glare effect
+  const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])
+
   const images = [
     { src: "/user/3.jpg", alt: "Portfolio Image 1" },
     { src: "/user/2.jpg", alt: "Portfolio Image 2" },
@@ -201,21 +232,67 @@ export default function HeroSectionStatic() {
               </div>
             </div>
 
-            <div className="hidden lg:block" data-speed="1.1">
-              {/* Gallery Grid */}
-              <ContainerStagger className="max-w-lg mx-auto">
-                <GalleryGrid>
-                  {images.map((image, index) => (
-                    <GalleryGridCell key={index} index={index}>
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        className="w-full h-full object-cover"
-                      />
-                    </GalleryGridCell>
-                  ))}
-                </GalleryGrid>
-              </ContainerStagger>
+            <div 
+              className="hidden lg:flex items-center justify-center perspective-1000" 
+              data-speed="1.1"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <motion.div 
+                className="relative w-[500px] h-[600px]"
+                style={{
+                  rotateX,
+                  rotateY,
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                {/* Animated Background Blob */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#74261a]/40 via-[#963e30]/30 to-[#b55242]/40 blur-[100px] animate-pulse" />
+
+                {/* Main Hero Card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1, 
+                    y: [0, -10, 0] 
+                  }}
+                  transition={{ 
+                    opacity: { duration: 1, delay: 0.2 },
+                    scale: { duration: 1, delay: 0.2 },
+                    y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                  style={{
+                    x: moveX1,
+                    y: moveY1,
+                    z: 50,
+                  }}
+                  whileHover={{ scale: 1.02, z: 80 }}
+                  className="absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl shadow-[#74261a]/30 border border-white/10 bg-background/5 backdrop-blur-sm group"
+                >
+                  <Image src="/user/hero.jpg" alt="Hero art" fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority />
+                  
+                  {/* Glare Overlay */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.2) 25%, transparent 30%)",
+                      backgroundSize: "200% 100%",
+                      backgroundPositionX: glareX
+                    }}
+                  />
+                </motion.div>
+
+                {/* Decorative Elements - Clean & Minimal */}
+                <motion.div 
+                  style={{ x: moveX2, y: moveY2, z: 20 }}
+                  className="absolute -top-10 -right-10 w-32 h-32 rounded-full border border-white/10 bg-[#74261a]/10 backdrop-blur-md"
+                />
+                <motion.div 
+                  style={{ x: moveX1, y: moveY1, z: 30 }}
+                  className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-[#963e30]/20 blur-2xl"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
