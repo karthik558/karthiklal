@@ -2,6 +2,38 @@
   "projects": [
     {
       "id": 1,
+      "title": "SAMS",
+      "description": "SAMS streamlines the full lifecycle of physical assets across properties and departments. It helps teams register, track, audit, and label assets with efficient QR-based workflows, clear ownership, and strong accountability.",
+      "image": "/project/samsproject.jpg",
+      "category": "Web Development",
+      "link": "https://samsproject.in",
+      "github": "https://github.com/karthik558/SAMS",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Tailwind",
+        "Supabase",
+        "Cloudflare"
+      ],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "MorphAgent",
+      "description": "MorphAgent: Instantly spoof user agent & touch points in Firefox. 70+ profiles, per-site rules, privacy-focused.",
+      "image": "/project/morphagent.jpeg",
+      "category": "Extension Development",
+      "link": "https://addons.mozilla.org/en-US/firefox/addon/morphagent/",
+      "github": "https://github.com/karthik558/MorphAgent",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "featured": true
+    },
+    {
+      "id": 3,
       "title": "Guest-IT Portal",
       "description": "A Modern, Feature-Rich Guest IT Portal Application built with React, TypeScript, and Supabase. Escalation tool for Hotel/Resorts for getting guest request directly on Portal.",
       "image": "/project/guest-wifi.jpg",
@@ -15,10 +47,10 @@
         "Supabase",
         "Cloudflare"
       ],
-      "featured": true
+      "featured": false
     },
     {
-      "id": 2,
+      "id": 4,
       "title": "RustPing",
       "description": "A fast, Rust-powered network monitoring tool inspired by PRTG. Monitor network health, track live logs, and detect failures in real-time. Lightweight, efficient, and built for reliability.",
       "image": "/project/rust-ping.jpg",
@@ -34,7 +66,7 @@
       "featured": true
     },
     {
-      "id": 3,
+      "id": 5,
       "title": "Rust-Crypt",
       "description": "A simple yet powerful file encryption tool built with Rust. Securely encrypt and decrypt files using AES-256-GCM encryption with password-based key derivation.",
       "image": "/project/rust-crypt.jpg",
@@ -47,7 +79,7 @@
       "featured": false
     },
     {
-      "id": 4,
+      "id": 6,
       "title": "GPM-DarkMode",
       "description": "Unofficial dark mode support for GPM Software (Supports Firefox and Chromium based browsers). This tool enables dark mode, enhancing UI accessibility.",
       "image": "/project/gpm.jpg",
@@ -62,7 +94,7 @@
       "featured": false
     },
     {
-      "id": 5,
+      "id": 7,
       "title": "LogAnalyzerPro",
       "description": "LogAnalyzerPro is a versatile tool for analyzing log files with features like filtering, search, and export, ideal for developers and sysadmins.",
       "image": "/project/log-analyzer.jpg",
@@ -75,7 +107,7 @@
       "featured": false
     },
     {
-      "id": 6,
+      "id": 8,
       "title": "InRoomDining",
       "description": "This project is a modern web application designed to enhance the dining experience for hotel guests by enabling them to order meals and services directly from their room.",
       "image": "/project/lilac-ird.jpg",
@@ -90,7 +122,7 @@
       "featured": true
     },
     {
-      "id": 7,
+      "id": 9,
       "title": "euclidOS",
       "description": "Customize your phone with euclidOS: a beautiful, open-source Android skin. Built with modern web technologies for a stunning user experience.",
       "image": "/project/euclidos.jpg",
@@ -105,7 +137,7 @@
       "featured": false
     },
     {
-      "id": 8,
+      "id": 10,
       "title": "namashivalaya.org",
       "description": "Official Website of Shivalaya Arunachala Hotels and Resort, Built with HTML, CSS, JS, BOOTSTRAP, SaSS",
       "image": "/project/namashivalaya_web.jpg",
@@ -122,7 +154,7 @@
       "featured": false
     },
     {
-      "id": 9,
+      "id": 11,
       "title": "CyberKeyGen",
       "description": "CyberKeyGen is a secure React & TypeScript-based password generator with a sleek, responsive UI, real-time strength analysis, and advanced security features.",
       "image": "/project/password-generator.jpg",
@@ -137,7 +169,7 @@
       "featured": false
     },
     {
-      "id": 10,
+      "id": 12,
       "title": "CherishOS",
       "description": "Customize your phone with CherishOS: a beautiful, open-source Android skin. Modern design meets functionality.",
       "image": "/project/cherishos.jpg",
@@ -152,7 +184,7 @@
       "featured": false
     },
     {
-      "id": 11,
+      "id": 13,
       "title": "CodeLogger",
       "description": "A Python script that captures key events of Windows, Mac or Linux machines and outputs the log as code.txt on the script file directory. Educational purpose only.",
       "image": "/project/codelogger.jpg",
@@ -165,7 +197,7 @@
       "featured": false
     },
     {
-      "id": 12,
+      "id": 14,
       "title": "DDOS-ATTACK",
       "description": "This educational script simulates a DDoS attack to help users understand its mechanics, but should not be used for malicious purposes.",
       "image": "/project/ddos.jpg",
@@ -178,7 +210,7 @@
       "featured": false
     },
     {
-      "id": 13,
+      "id": 15,
       "title": "CleanWindowsPro",
       "description": "Optimize Windows system performance and stability with this script designed to clean junk files and repair corrupted system files. Achieve better efficiency with ease.",
       "image": "/project/cleanwindowspro.jpg",
@@ -191,7 +223,7 @@
       "featured": false
     },
     {
-      "id": 14,
+      "id": 16,
       "title": "Ace Redirect",
       "description": "This app is designed to offer a seamless user experience and provide easy access to all of the services offered by Ace Financials Software.",
       "image": "/project/ace-financial.jpg",
@@ -205,7 +237,7 @@
       "featured": false
     },
     {
-      "id": 15,
+      "id": 17,
       "title": "24Online-Server Portal",
       "description": "Customizable website template for 24Online-Server clients and administrators, designed specifically for Paul John Hotels and Resorts.",
       "image": "/project/24online_web.jpg",
@@ -220,6 +252,22 @@
         "Sass"
       ],
       "featured": false
+    },
+    {
+      "id": 18,
+      "title": "Pixel-Pulse",
+      "description": "Pixel Pulse keeps chosen browser sessions active with customizable heartbeats while offering a sleek, theme-aware popup interface.",
+      "image": "/project/pixelpulse.jpg",
+      "category": "Extension Development",
+      "github": "https://github.com/karthik558/Pixel-Pulse",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Bootstrap",
+        "Sass"
+      ],
+      "featured": true
     }
   ]
 }
