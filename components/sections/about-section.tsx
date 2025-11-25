@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Download, ExternalLink } from "lucide-react"
+import { Download, ExternalLink, ArrowUpRight, Mail, MapPin, User, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 interface PersonalInfo {
   name: string
@@ -30,17 +32,15 @@ interface ProfileData {
 
 export default function AboutSection() {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-
-  // Array of images to cycle through
-  const images = [
-    "/user/1.jpg",
-    "/user/2.jpg",
-    "/user/3.jpg",
-    "/user/4.jpg",
-    "/user/5.jpg"
-  ]
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+  
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0, 1, 1, 0])
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -56,140 +56,138 @@ export default function AboutSection() {
     fetchProfile()
   }, [])
 
-  // Auto-rotate images every 3.5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true)
-      setTimeout(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
-        setIsTransitioning(false)
-      }, 300) // Transition duration
-    }, 3500) // Change every 3.5 seconds
-
-    return () => clearInterval(interval)
-  }, [images.length])
-
   if (!profileData) {
-    return <div>Loading...</div>
+    return null
   }
+
   return (
-    <section id="about" className="py-16 md:py-24 bg-secondary/10 relative z-10">
-      <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Image column */}
-          <div className="relative mx-auto lg:mx-0 w-full max-w-sm lg:max-w-md" data-speed="1.1">
-            <div className="relative group">
-              {/* Elegant image container with glow effect */}
-              <div className="relative">
-                {/* Glow effect background */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-purple-500/20 to-primary/30 rounded-2xl blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                {/* Main image container */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border/20 bg-background">
-                  {/* Image carousel */}
-                  <div className="relative w-full aspect-[3/4]">
-                    {images.map((image, index) => (
-                      <img
-                        key={image}
-                        src={image}
-                        alt={`${profileData.personalInfo.name} - About Picture ${index + 1}`}
-                        width={400}
-                        height={500}
-                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${index === currentImageIndex
-                          ? 'opacity-100 scale-100'
-                          : 'opacity-0 scale-105'
-                          } ${isTransitioning && index === currentImageIndex
-                            ? 'animate-pulse'
-                            : ''
-                          }`}
-                        style={{
-                          transform: index === currentImageIndex
-                            ? 'scale(1)'
-                            : 'scale(1.05)',
-                          filter: index === currentImageIndex
-                            ? 'brightness(1)'
-                            : 'brightness(0.8)'
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-
-                  {/* Decorative corner accents */}
-                  <div className="absolute top-4 left-4 w-3 h-3 border-t-2 border-l-2 border-primary/60 rounded-tl-lg z-10"></div>
-                  <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-primary/60 rounded-tr-lg z-10"></div>
-                  <div className="absolute bottom-4 left-4 w-3 h-3 border-b-2 border-l-2 border-primary/60 rounded-bl-lg z-10"></div>
-                  <div className="absolute bottom-4 right-4 w-3 h-3 border-b-2 border-r-2 border-primary/60 rounded-br-lg z-10"></div>
-                </div>
+    <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background/50">
+      <div className="container px-4 md:px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Image Side - GSAP Style Reveal */}
+          <div className="relative group order-2 lg:order-1">
+            <motion.div 
+              style={{ y }}
+              initial={{ opacity: 0, clipPath: "inset(100% 0 0 0)" }}
+              whileInView={{ opacity: 1, clipPath: "inset(0% 0 0 0)" }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} // Custom bezier for smooth "GSAP-like" feel
+              viewport={{ once: true, margin: "-10%" }}
+              className="relative z-10"
+            >
+              <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-[#74261a]/10 border border-white/10 bg-muted">
+                <Image 
+                  src="/user/about.jpg" 
+                  alt={profileData.personalInfo.name}
+                  fill 
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+                  priority
+                />
+                {/* Subtle Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#74261a]/20 to-transparent opacity-40 mix-blend-overlay" />
               </div>
-            </div>
+            </motion.div>
+            
+            {/* Decorative Elements */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#74261a]/10 rounded-full blur-3xl -z-10" 
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl -z-10" 
+            />
           </div>
 
-          {/* Content column */}
-          <div className="space-y-6" data-speed="0.95">
-            <div className="space-y-3">
-              <Badge variant="outline" className="mb-2 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+          {/* Content Side */}
+          <div className="space-y-8 order-1 lg:order-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary rounded-full text-sm font-medium">
                 About Me
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold leading-tight animate-item">
-                <span className="text-gradient">Hey there!</span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                My <span className="text-gradient">Journey</span>
               </h2>
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed animate-item">
-                {profileData.personalInfo.bio}
-              </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="space-y-6 text-muted-foreground leading-relaxed"
+            >
+              <p>{profileData.personalInfo.bio}</p>
+              <p>{profileData.personalInfo.professionalSummary}</p>
+            </motion.div>
 
-              <p className="text-muted-foreground leading-relaxed animate-item">
-                {profileData.personalInfo.professionalSummary}
-              </p>
-            </div>
-
-            {/* Personal details cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 animate-item">
-              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
-                <p className="text-xs text-muted-foreground mb-1">Name</p>
-                <p className="font-semibold text-foreground">{profileData.personalInfo.name}</p>
+            {/* Info Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2"
+            >
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 border border-border/50 hover:bg-secondary/50 transition-colors">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Location</p>
+                  <p className="font-medium">{profileData.personalInfo.location}</p>
+                </div>
               </div>
-              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
-                <p className="text-xs text-muted-foreground mb-1">Email</p>
-                <a href={`mailto:${profileData.personalInfo.email}`} className="font-semibold text-primary hover:underline transition-colors text-sm">{profileData.personalInfo.email}</a>
+              
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 border border-border/50 hover:bg-secondary/50 transition-colors">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Email</p>
+                  <a href={`mailto:${profileData.personalInfo.email}`} className="font-medium hover:text-primary transition-colors truncate max-w-[180px] block">
+                    {profileData.personalInfo.email}
+                  </a>
+                </div>
               </div>
-              <div className="p-3 rounded-lg bg-background/50 border border-border/50 backdrop-blur-sm hover:bg-background/80 transition-colors col-span-1 sm:col-span-2">
-                <p className="text-xs text-muted-foreground mb-1">Location</p>
-                <p className="font-semibold text-foreground">{profileData.personalInfo.location}</p>
-              </div>
-            </div>
+            </motion.div>
 
-            {/* Signature */}
-            <div className="flex justify-start animate-item pt-2">
-              <div className="relative p-3 rounded-lg bg-background/30 border border-border/30 backdrop-blur-sm">
-                <Image
-                  src="/hero_name.svg"
-                  alt={`${profileData.personalInfo.name} Signature`}
-                  width={200}
-                  height={60}
-                  className="h-8 w-auto opacity-80 dark:invert"
-                />
-              </div>
-            </div>
-
-            {/* Buttons */}
-            <div className="flex flex-wrap gap-3 pt-4 animate-item">
-              <Button asChild size="lg" className="interactive rounded-full button bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300">
+            {/* Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              viewport={{ once: true }}
+              className="flex flex-wrap gap-4 pt-4"
+            >
+              <Button asChild size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 h-12 px-8 text-base">
                 <Link href="/contact">
-                  Let's Talk
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  Let's Work Together
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-            </div>
+              
+              <Button asChild variant="outline" size="lg" className="rounded-full border-primary/20 hover:bg-primary/5 hover:text-primary h-12 px-8 text-base transition-colors">
+                <a href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u">
+                  Download CV
+                  <Download className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </motion.div>
           </div>
         </div>
       </div>
-    </section >
+    </section>
   )
 }
 
