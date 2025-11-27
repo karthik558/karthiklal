@@ -38,7 +38,10 @@ export function scrollToTop() {
     // @ts-ignore
     if (window.lenis) {
       // @ts-ignore
-      window.lenis.scrollTo(0)
+      window.lenis.scrollTo(0, {
+        duration: 2.5,
+        easing: (t: number) => 1 - Math.pow(1 - t, 4)
+      })
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
