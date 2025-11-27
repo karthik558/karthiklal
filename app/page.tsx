@@ -30,8 +30,8 @@ const structuredData = {
   "sameAs": [
     "https://linkedin.com/in/karthiklal",
     "https://github.com/karthik558",
-    "https://twitter.com/_karthiklal.in",
-    "https://instagram.com/karthiklal_in"
+    "https://x.com/_karthiklal",
+    "https://instagram.com/_karthiklal"
   ],
   "jobTitle": [
     "IT Manager",
