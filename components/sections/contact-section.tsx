@@ -7,19 +7,20 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ContactSuccessModal } from "@/components/ui/contact-success-modal"
-import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Twitter, Instagram, Facebook, Youtube, Globe, Palette, ArrowRight, Sparkles } from "lucide-react"
+import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Instagram, Facebook, Youtube, Globe, Palette, ArrowRight, Sparkles } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { XIcon } from "@/components/ui/icons"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
   Github,
   Linkedin,
   Mail,
-  Twitter,
+  Twitter: XIcon,
   Instagram,
   Facebook,
   Youtube,
@@ -194,7 +195,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Chat to me</h4>
-                    <p className="text-muted-foreground mb-3">Our friendly team is here to help.</p>
+                    <p className="text-muted-foreground mb-3">I am here to help.</p>
                     <a href={`mailto:${profileData?.email}`} className="text-primary font-medium hover:underline">
                       {profileData?.email || 'loading...'}
                     </a>
@@ -208,8 +209,8 @@ export default function ContactSection() {
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold mb-2">Visit me</h4>
-                    <p className="text-muted-foreground mb-3">Come say hello at our office HQ.</p>
+                    <h4 className="text-lg font-semibold mb-2">Location</h4>
+                    <p className="text-muted-foreground mb-3">Currently based in.</p>
                     <p className="text-primary font-medium">
                       {profileData?.location || 'loading...'}
                     </p>
@@ -260,7 +261,7 @@ export default function ContactSection() {
                       <Input
                         id="name"
                         name="name"
-                        placeholder="John Doe"
+                        placeholder="Name"
                         required
                         disabled={isLoading}
                         className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
@@ -272,7 +273,7 @@ export default function ContactSection() {
                         id="email"
                         name="email"
                         type="email"
-                        placeholder="john@example.com"
+                        placeholder="name@example.com"
                         required
                         disabled={isLoading}
                         className="bg-white/5 border-white/10 focus:border-primary/50 h-12"

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
-import { Menu, X, Github, Linkedin, Mail, Twitter, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone, ArrowRight } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone, ArrowRight } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent, SheetTrigger } from "./sheet"
@@ -14,13 +14,14 @@ import { usePathname } from 'next/navigation'
 import { Separator } from "./separator"
 import SmoothLink from "@/components/smooth-link"
 import { SOCIALS_DATA } from "@/lib/static-data"
+import { XIcon } from "@/components/ui/icons"
 
 // Icon mapping for social links
 const iconMap = {
   Github,
   Linkedin,
   Mail,
-  Twitter,
+  Twitter: XIcon,
   Instagram,
   Facebook,
   Youtube,

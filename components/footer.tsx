@@ -2,17 +2,18 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Github, Linkedin, Mail, MapPin, Twitter, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
+import { Github, Linkedin, Mail, MapPin, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import SmoothLink from "@/components/smooth-link"
+import { XIcon } from "@/components/ui/icons"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
   Github,
   Linkedin,
   Mail,
-  Twitter,
+  Twitter: XIcon,
   Instagram,
   Facebook,
   Youtube,
