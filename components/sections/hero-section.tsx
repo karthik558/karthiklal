@@ -166,23 +166,22 @@ export default function HeroSection() {
             className="space-y-6"
           >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative inline-block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex items-center gap-2"
             >
-              <Badge variant="outline" className="glass text-primary px-6 py-2 border-primary/20 bg-primary/5">
-                {profileData?.title || "Loading..."}
-              </Badge>
+              <span className="text-sm md:text-base font-semibold tracking-[0.2em] text-primary uppercase">
+                Hi there, I&apos;m
+              </span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold flex flex-wrap items-center gap-x-3"
             >
-              <span>Hi, I'm</span>
               <Image
                 src="/hero_name.svg"
                 alt="Karthik Lal"
@@ -192,6 +191,17 @@ export default function HeroSection() {
                 priority
               />
             </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="flex items-center gap-2 text-lg md:text-xl font-mono text-muted-foreground"
+            >
+              <span className="text-primary">&gt;</span>
+              {profileData?.title || "Loading..."}
+              <span className="animate-pulse text-primary">_</span>
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}

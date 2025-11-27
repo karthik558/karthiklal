@@ -202,14 +202,33 @@ export default function HeroSectionStatic() {
         <div className="container relative z-10 px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
             <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold animate-item">
-                <span className="text-xl text-muted-foreground block mb-2 font-medium">Hi there, I'm</span>
-                <span className="text-6xl md:text-7xl lg:text-8xl hero-name block">{profileData?.name || "Loading..."}</span>
-              </h1>
+              <div className="animate-item flex flex-col items-center lg:items-start">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex items-center gap-2 mb-2"
+                >
+                  <span className="text-sm md:text-base font-semibold tracking-[0.2em] text-primary uppercase">
+                    Hi there, I&apos;m
+                  </span>
+                </motion.div>
 
-              <p className="text-xl text-muted-foreground max-w-xl animate-item mx-auto lg:mx-0 font-medium">
-                {profileData?.title || "Loading..."}
-              </p>
+                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold hero-name mb-6 tracking-tight">
+                  {profileData?.name || "Loading..."}
+                </h1>
+
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="flex items-center gap-2 text-lg md:text-xl font-mono text-muted-foreground"
+                >
+                  <span className="text-primary">&gt;</span>
+                  {profileData?.title || "Loading..."}
+                  <span className="animate-pulse text-primary">_</span>
+                </motion.div>
+              </div>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
                 <Button asChild size="lg" className="rounded-full glass hover:shadow-primary/20 hover:shadow-lg">
