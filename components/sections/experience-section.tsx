@@ -84,7 +84,7 @@ export default function ExperienceSection() {
           <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
             Career Path
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
             Experience & <span className="text-gradient">Education</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
