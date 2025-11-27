@@ -12,6 +12,7 @@ import { useState, useEffect, useRef } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -304,18 +305,15 @@ export default function ContactSection() {
                     />
                   </div>
 
-                  <Button
+                  <AnimatedButton
                     type="submit"
-                    size="lg"
-                    className="w-full h-14 text-lg font-medium relative overflow-hidden group"
+                    variant="primary"
+                    className="w-full h-14 text-lg"
                     disabled={isLoading}
+                    icon={isLoading ? null : <Send className="w-5 h-5" />}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[length:200%_auto] animate-gradient" />
-                    <span className="relative flex items-center justify-center gap-2">
-                      {isLoading ? "Sending..." : "Send Message"}
-                      {!isLoading && <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
-                    </span>
-                  </Button>
+                    {isLoading ? "Sending..." : "Send Message"}
+                  </AnimatedButton>
                 </form>
               </CardContent>
             </Card>

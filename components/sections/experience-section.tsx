@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp, Calendar, Building2 } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 export default function ExperienceSection() {
   const [showAllWork, setShowAllWork] = useState(false)
@@ -225,21 +226,13 @@ function ShowMoreButton({ onClick, isShowingAll, count, label }: { onClick: () =
       viewport={{ once: true }}
       className="flex justify-center mt-16 relative z-10"
     >
-      <Button
+      <AnimatedButton
         onClick={onClick}
         variant="outline"
-        size="lg"
-        className="rounded-full px-8 py-6 border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all duration-300 group shadow-lg hover:shadow-primary/25"
+        icon={isShowingAll ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
       >
-        <span className="mr-2 font-medium">
-          {isShowingAll ? 'Show Less' : `Show ${count} More ${label}`}
-        </span>
-        {isShowingAll ? (
-          <ChevronUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
-        ) : (
-          <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-        )}
-      </Button>
+        {isShowingAll ? 'Show Less' : `Show ${count} More ${label}`}
+      </AnimatedButton>
     </motion.div>
   )
 }

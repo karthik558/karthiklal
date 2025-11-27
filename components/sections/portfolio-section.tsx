@@ -8,6 +8,7 @@ import { ArrowRight, FolderOpen, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import projectsData from "@/public/data/projects.json"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 // Define the project type based on the JSON structure
 interface Project {
@@ -139,36 +140,10 @@ export default function PortfolioSection() {
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <div className="relative group">
-            {/* Enhanced animated background */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-purple-500 to-primary rounded-full blur opacity-70 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110 animate-gradient-x"></div>
-
-            {/* Button */}
-            <Button
-              asChild
-              size="lg"
-              className="relative bg-background hover:bg-background/90 text-foreground border border-primary/20 rounded-full px-8 py-6 font-semibold transition-all duration-300 group-hover:scale-105 shadow-xl"
-            >
-              <Link href="/projects" className="flex items-center gap-3">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <FolderOpen className="h-5 w-5 text-primary" />
-                </motion.div>
-                <span>View All Projects</span>
-                <div className="flex items-center">
-                  <span className="text-sm text-muted-foreground ml-1 mr-2">({projectsData.projects.length})</span>
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <ArrowRight className="h-4 w-4 text-primary" />
-                  </motion.div>
-                </div>
-              </Link>
-            </Button>
-          </div>
+          <AnimatedButton href="/projects" variant="primary">
+            <FolderOpen className="h-5 w-5 mr-2" />
+            View All Projects <span className="text-sm opacity-80 ml-1">({projectsData.projects.length})</span>
+          </AnimatedButton>
         </motion.div>
       </div>
     </section>

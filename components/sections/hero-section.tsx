@@ -13,6 +13,7 @@ import Image from "next/image"
 import SmoothLink from "@/components/smooth-link"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 interface PersonalInfo {
   name: string
@@ -218,23 +219,16 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 1.0 }}
               className="flex flex-wrap gap-4 pt-4"
             >
-              <Button asChild size="lg" className="rounded-full glass hover:shadow-primary/20 hover:shadow-lg">
-                <SmoothLink href="/#portfolio-gallery">
-                  View Design Portfolio
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </SmoothLink>
-              </Button>
+              <AnimatedButton href="/#portfolio-gallery" variant="primary" icon={<ExternalLink className="h-4 w-4" />}>
+                View Design Portfolio
+              </AnimatedButton>
 
               {/* Download CV Popover */}
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-                    <span className="relative z-10 flex items-center">
-                      <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                      Download CV
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                  </Button>
+                  <AnimatedButton variant="outline" icon={<Download className="h-4 w-4" />}>
+                    Download CV
+                  </AnimatedButton>
                 </PopoverTrigger>
                 <PopoverContent
                   className="w-56 p-3 z-50 bg-popover border border-border shadow-lg rounded-lg"

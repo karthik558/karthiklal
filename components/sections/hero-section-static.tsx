@@ -9,6 +9,7 @@ import { ArrowDown, Download, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import SmoothLink from "@/components/smooth-link"
 import { cn } from "@/lib/utils"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 interface PersonalInfo {
   name: string
@@ -231,23 +232,18 @@ export default function HeroSectionStatic() {
               </div>
 
               <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
-                <Button asChild size="lg" className="rounded-full glass hover:shadow-primary/20 hover:shadow-lg">
-                  <SmoothLink href="/#portfolio-gallery">
-                    View Portfolio
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </SmoothLink>
-                </Button>
+                <AnimatedButton href="/#portfolio-gallery" variant="primary" icon={<ExternalLink className="h-4 w-4" />}>
+                  View Portfolio
+                </AnimatedButton>
 
                 {/* Download CV Button */}
-                <Button asChild variant="outline" size="lg" className="group relative rounded-full glass border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 overflow-hidden">
-                  <a href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u">
-                    <span className="relative z-10 flex items-center">
-                      <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                      Download CV
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                  </a>
-                </Button>
+                <AnimatedButton 
+                  href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
+                  variant="outline" 
+                  icon={<Download className="h-4 w-4" />}
+                >
+                  Download CV
+                </AnimatedButton>
               </div>
             </div>
 

@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react"
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { AnimatedButton } from "@/components/ui/animated-button"
 import { Badge } from "@/components/ui/badge"
 import { Download, ExternalLink, ArrowUpRight, Mail, MapPin, User, Calendar } from "lucide-react"
 import Link from "next/link"
@@ -170,19 +171,17 @@ export default function AboutSection() {
               viewport={{ once: true }}
               className="flex flex-wrap gap-4 pt-4"
             >
-              <Button asChild size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 h-12 px-8 text-base">
-                <Link href="/contact">
-                  Let's Work Together
-                  <ArrowUpRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <AnimatedButton href="/contact" variant="primary" icon={<ArrowUpRight className="h-4 w-4" />}>
+                Let's Work Together
+              </AnimatedButton>
               
-              <Button asChild variant="outline" size="lg" className="rounded-full border-primary/20 hover:bg-primary/5 hover:text-primary h-12 px-8 text-base transition-colors">
-                <a href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u">
-                  Download CV
-                  <Download className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
+              <AnimatedButton 
+                href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
+                variant="outline" 
+                icon={<Download className="h-4 w-4" />}
+              >
+                Download CV
+              </AnimatedButton>
             </motion.div>
           </div>
         </div>
