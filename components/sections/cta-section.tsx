@@ -50,7 +50,7 @@ export default function CtaSection() {
         mouseX.set(0)
         mouseY.set(0)
       }}
-      className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-20"
+      className="relative min-h-[50vh] flex items-center justify-center overflow-hidden py-20"
     >
       {/* Animated Background Gradient */}
       <div className="absolute inset-0 bg-background">
