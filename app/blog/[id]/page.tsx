@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { toast } from "sonner"
 
 // Add Edge Runtime configuration for Cloudflare Pages compatibility
 export const runtime = 'edge'
@@ -45,7 +46,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
   const [blog, setBlog] = useState<BlogPost | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  
+
   // Unwrap the params Promise using React.use()
   const resolvedParams = use(params)
 
@@ -56,10 +57,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
         if (!response.ok) {
           throw new Error('Failed to fetch blogs')
         }
-        
+
         const data: BlogData = await response.json()
         const foundBlog = data.blogs?.find(b => b?.id === resolvedParams.id)
-        
+
         if (!foundBlog) {
           setError('Blog post not found')
         } else {
@@ -78,6 +79,32 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
     }
   }, [resolvedParams.id])
 
+  const handleShare = async () => {
+    if (!blog) return
+
+    const shareData = {
+      title: blog.title,
+      text: blog.excerpt,
+      url: window.location.href,
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData)
+        toast.success("Shared successfully!")
+      } else {
+        await navigator.clipboard.writeText(window.location.href)
+        toast.success("Link copied to clipboard!")
+      }
+    } catch (err) {
+      console.error("Error sharing:", err)
+      // Don't show error toast if user cancelled share
+      if (err instanceof Error && err.name !== "AbortError") {
+        toast.error("Failed to share")
+      }
+    }
+  }
+
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
       case 'paragraph':
@@ -86,7 +113,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
             {block.text}
           </p>
         )
-      
+
       case 'heading':
         const headingClasses = {
           1: "text-3xl md:text-4xl font-bold mb-6 mt-8",
@@ -95,7 +122,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
           4: "text-lg md:text-xl font-semibold mb-3 mt-6"
         }
         const className = headingClasses[block.level as keyof typeof headingClasses] || headingClasses[2]
-        
+
         if (block.level === 1) {
           return <h1 key={index} className={className}>{block.text}</h1>
         } else if (block.level === 3) {
@@ -105,7 +132,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
         } else {
           return <h2 key={index} className={className}>{block.text}</h2>
         }
-      
+
       case 'image':
         return (
           <div key={index} className="my-8">
@@ -125,7 +152,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
             )}
           </div>
         )
-      
+
       case 'code':
         return (
           <div key={index} className="my-6">
@@ -136,7 +163,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
             </pre>
           </div>
         )
-      
+
       case 'list':
         return (
           <ul key={index} className="list-disc list-inside space-y-2 mb-6 text-muted-foreground">
@@ -145,14 +172,14 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
             ))}
           </ul>
         )
-      
+
       case 'quote':
         return (
           <blockquote key={index} className="border-l-4 border-primary pl-6 py-4 my-6 bg-primary/5 rounded-r-lg">
             <p className="text-foreground italic text-lg">"{block.text}"</p>
           </blockquote>
         )
-      
+
       default:
         return null
     }
@@ -187,7 +214,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
               {error === 'Blog post not found' ? 'Blog Post Not Found' : 'Error Loading Blog'}
             </h1>
             <p className="text-muted-foreground">
-              {error === 'Blog post not found' 
+              {error === 'Blog post not found'
                 ? 'The blog post you\'re looking for doesn\'t exist or has been removed.'
                 : 'There was an error loading the blog post. Please try again later.'
               }
@@ -236,10 +263,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{new Date(blog.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                <span>{new Date(blog.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -275,18 +302,18 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
             <div className="text-xl text-muted-foreground mb-8 p-6 bg-secondary/30 rounded-lg border-l-4 border-primary">
               {blog.excerpt}
             </div>
-            
+
             {blog.content.map((block, index) => renderContentBlock(block, index))}
           </div>
 
           {/* Share and Navigation */}
           <footer className="border-t pt-8 mt-12">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2" onClick={handleShare}>
                 <Share2 className="h-4 w-4" />
                 Share Article
               </Button>
-              
+
               <Button asChild>
                 <Link href="/blog">View All Posts</Link>
               </Button>
