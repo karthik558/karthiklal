@@ -34,12 +34,12 @@ interface ProfileData {
 export default function AboutSection() {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   })
-  
+
   const y = useTransform(scrollYProgress, [0, 1], [100, -100])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0, 1, 1, 0])
 
@@ -67,7 +67,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image Side - GSAP Style Reveal */}
           <div className="relative group order-2 lg:order-1">
-            <motion.div 
+            <motion.div
               style={{ y }}
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -76,32 +76,32 @@ export default function AboutSection() {
               className="relative z-10"
             >
               <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-[#74261a]/10 border border-white/10 bg-muted">
-                <Image 
-                  src="/user/about.jpg" 
+                <Image
+                  src="/user/about.jpg"
                   alt={profileData.personalInfo.name}
-                  fill 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
                   priority
                 />
                 {/* Subtle Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#74261a]/20 to-transparent opacity-40 mix-blend-overlay" />
               </div>
             </motion.div>
-            
+
             {/* Decorative Elements */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#74261a]/10 rounded-full blur-3xl -z-10" 
+              className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#74261a]/10 rounded-full blur-3xl -z-10"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl -z-10" 
+              className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl -z-10"
             />
           </div>
 
@@ -126,10 +126,17 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
-              className="space-y-6 text-muted-foreground leading-relaxed"
+              className="space-y-6 text-foreground/80 leading-relaxed"
             >
-              <p>{profileData.personalInfo.bio}</p>
-              <p>{profileData.personalInfo.professionalSummary}</p>
+              <p>
+                I'm <span className="text-foreground font-semibold">Karthik Lal</span>, <span className="text-foreground font-semibold">25</span>, a <span className="text-foreground font-semibold">Creative Technologist</span> and <span className="text-foreground font-semibold">IT Manager</span> with <span className="text-foreground font-semibold">6.8+ years of experience</span> across <span className="text-foreground font-semibold">cybersecurity</span>, <span className="text-foreground font-semibold">Linux</span>, and <span className="text-foreground font-semibold">full stack web development</span>. I currently manage <span className="text-foreground font-semibold">IT infrastructure</span> for <span className="text-foreground font-semibold">IHCL</span> in Lakshadweep, focusing on <span className="text-foreground font-semibold">secure networks</span>, <span className="text-foreground font-semibold">guest connectivity</span>, and <span className="text-foreground font-semibold">reliable in-room technology</span> for <span className="text-foreground font-semibold">modern hospitality operations</span>.
+              </p>
+              <p>
+                I love building <span className="text-foreground font-semibold">secure, scalable systems</span> and <span className="text-foreground font-semibold">clean, user-friendly web applications</span> that solve real problems. My work spans <span className="text-foreground font-semibold">network security</span>, <span className="text-foreground font-semibold">cloud hosting</span>, <span className="text-foreground font-semibold">browser extensions</span>, and <span className="text-foreground font-semibold">custom web tools</span> like <span className="text-foreground font-semibold">asset management platforms</span> and <span className="text-foreground font-semibold">in-room dining solutions</span>. I enjoy taking projects from <span className="text-foreground font-semibold">concept to deployment</span>, with equal attention on <span className="text-foreground font-semibold">performance</span>, <span className="text-foreground font-semibold">usability</span>, and <span className="text-foreground font-semibold">design</span>.
+              </p>
+              <p>
+                Over the years, I have worked in <span className="text-foreground font-semibold">lead IT roles</span> for resorts, contributed to <span className="text-foreground font-semibold">Android ROM communities</span>, and shipped tools trusted by teams for daily operations. I hold certifications in <span className="text-foreground font-semibold">ethical hacking</span>, <span className="text-foreground font-semibold">Linux kernel development</span>, <span className="text-foreground font-semibold">Git</span>, and <span className="text-foreground font-semibold">C/C++</span>, and I continue to sharpen my skills while pursuing my <span className="text-foreground font-semibold">MCA</span>. Outside of work, I enjoy <span className="text-foreground font-semibold">photography</span> and creating visuals that reflect the same clarity and detail I aim for in my code and systems.
+              </p>
             </motion.div>
 
             {/* Info Grid */}
@@ -149,7 +156,7 @@ export default function AboutSection() {
                   <p className="font-medium">{profileData.personalInfo.location}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 border border-border/50 hover:bg-secondary/50 transition-colors">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <Mail className="h-5 w-5" />
@@ -174,10 +181,10 @@ export default function AboutSection() {
               <AnimatedButton href="/contact" variant="primary" icon={<ArrowUpRight className="h-4 w-4" />}>
                 Let's Work Together
               </AnimatedButton>
-              
-              <AnimatedButton 
-                href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
-                variant="outline" 
+
+              <AnimatedButton
+                href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u"
+                variant="outline"
                 icon={<Download className="h-4 w-4" />}
               >
                 Download CV
