@@ -58,7 +58,13 @@
       "author": "Karthik Lal",
       "date": "2025-05-25",
       "category": "System Programming",
-      "tags": ["kernel", "linux", "system-programming", "operating-systems", "low-level"],
+      "tags": [
+        "kernel",
+        "linux",
+        "system-programming",
+        "operating-systems",
+        "low-level"
+      ],
       "image": "/blog/1/kernel-2.png",
       "readTime": "8 min read",
       "featured": true
@@ -133,10 +139,206 @@
       "author": "Karthik Lal",
       "date": "2025-05-02",
       "category": "DevOps",
-      "tags": ["virtualization", "vmware", "virtualbox", "parallels", "development-tools"],
+      "tags": [
+        "virtualization",
+        "vmware",
+        "virtualbox",
+        "parallels",
+        "development-tools"
+      ],
       "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop&crop=center&auto=format&q=80",
       "readTime": "6 min read",
       "featured": true
+    },
+    {
+      "id": "building-sams-asset-management",
+      "title": "Building a Smart Asset Management System with React and Supabase",
+      "excerpt": "How I built SAMS to streamline asset tracking across departments using modern web technologies.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Managing physical assets across multiple properties can be a logistical nightmare. That's why I built SAMS (Smart Asset Management System) – to bring efficiency and accountability to asset tracking."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Problem"
+        },
+        {
+          "type": "paragraph",
+          "text": "Traditional asset tracking often involves spreadsheets, manual entry, and a lot of human error. I wanted to create a solution that was automated, easy to use, and accessible from anywhere."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Tech Stack"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**React & TypeScript** for a robust and type-safe frontend",
+            "**Supabase** for the backend database and authentication",
+            "**Tailwind CSS** for rapid and responsive UI development",
+            "**Cloudflare** for performance and security"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Key Features"
+        },
+        {
+          "type": "list",
+          "items": [
+            "QR-code based asset tagging for instant lookup",
+            "Real-time tracking of asset location and ownership",
+            "Audit workflows to ensure data accuracy"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "SAMS isn't just a database; it's a workflow improver that saves hours of manual work every week."
+        },
+        {
+          "type": "image",
+          "src": "/project/samsproject.jpg",
+          "alt": "SAMS Dashboard Interface",
+          "caption": "The SAMS dashboard providing a high-level overview of asset status."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2025-06-15",
+      "category": "Web Development",
+      "tags": [
+        "react",
+        "supabase",
+        "asset-management",
+        "full-stack",
+        "typescript"
+      ],
+      "image": "/project/samsproject.jpg",
+      "readTime": "5 min read",
+      "featured": false
+    },
+    {
+      "id": "morphagent-browser-privacy",
+      "title": "Enhancing Browser Privacy: The Story Behind MorphAgent",
+      "excerpt": "Take control of your digital fingerprint. MorphAgent allows you to instantly spoof your user agent and touch points.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Privacy on the web is becoming increasingly difficult to maintain. Browser fingerprinting is a common technique used to track users across sites. MorphAgent was born out of the need for a simple, effective tool to counter this."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "What is MorphAgent?"
+        },
+        {
+          "type": "paragraph",
+          "text": "MorphAgent is a Firefox extension that lets you spoof your User Agent string and touch capability settings. This makes your browser appear as a different device or browser to websites."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Under the Hood"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**70+ Profiles**: Choose from a wide range of device and browser profiles",
+            "**Per-Site Rules**: Customize settings for specific websites",
+            "**Privacy Focused**: Runs locally with no data collection"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Privacy shouldn't be complicated. MorphAgent puts control back in the user's hands with a single click."
+        },
+        {
+          "type": "paragraph",
+          "text": "Building a browser extension comes with its own set of challenges, particularly around ensuring compatibility and performance without breaking web pages. MorphAgent addresses this by being lightweight and user-configurable."
+        },
+        {
+          "type": "image",
+          "src": "/project/morphagent.jpeg",
+          "alt": "MorphAgent Extension Interface",
+          "caption": "MorphAgent's clean interface for selecting user agent profiles."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2025-07-10",
+      "category": "Extension Development",
+      "tags": [
+        "privacy",
+        "firefox-extension",
+        "javascript",
+        "security",
+        "open-source"
+      ],
+      "image": "/project/morphagent.jpeg",
+      "readTime": "4 min read",
+      "featured": false
+    },
+    {
+      "id": "rustping-network-monitoring",
+      "title": "Why Rust is Perfect for Network Monitoring Tools",
+      "excerpt": "Exploring the development of RustPing, a high-performance network monitoring tool inspired by PRTG.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "When it comes to network monitoring, speed and reliability are non-negotiable. That's why I chose Rust to build RustPing, a modern alternative to traditional monitoring tools."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Why Rust?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rust's memory safety guarantees and zero-cost abstractions make it an ideal choice for system-level programming. It allows RustPing to handle high-throughput network tasks with minimal resource usage."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "RustPing Features"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Real-time Monitoring**: Track network health with live updates",
+            "**Low Latency**: Optimized for speed and efficiency",
+            "**Modern UI**: Built with React and Vite for a smooth user experience"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Rust allows us to write code that is both safe and incredibly fast, a perfect combination for network tools."
+        },
+        {
+          "type": "paragraph",
+          "text": "Combining a Rust backend with a modern React frontend provides the best of both worlds: raw performance where it counts and a responsive, interactive interface for the user."
+        },
+        {
+          "type": "image",
+          "src": "/project/rust-ping.jpg",
+          "alt": "RustPing Dashboard",
+          "caption": "Monitoring network status in real-time with RustPing."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2025-08-05",
+      "category": "Software Development",
+      "tags": [
+        "rust",
+        "network-monitoring",
+        "react",
+        "performance",
+        "system-programming"
+      ],
+      "image": "/project/rust-ping.jpg",
+      "readTime": "6 min read",
+      "featured": false
     }
   ]
 }
