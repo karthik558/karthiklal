@@ -64,15 +64,7 @@ export default function HeroSectionStatic() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="space-y-4">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm"
-              >
-                <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-                Available for new opportunities
-              </motion.div>
+              
               
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
                 <span className="block text-foreground">Hi, I'm</span>
