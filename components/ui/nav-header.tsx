@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
@@ -8,10 +8,8 @@ import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 import { Menu, X, Github, Linkedin, Mail, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone, ArrowRight } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Sheet, SheetContent, SheetTrigger } from "./sheet"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
-import { Separator } from "./separator"
 import SmoothLink from "@/components/smooth-link"
 import { SOCIALS_DATA } from "@/lib/static-data"
 import { XIcon } from "@/components/ui/icons"
@@ -134,123 +132,155 @@ function NavHeader() {
       {/* Mobile Navigation */}
       {isMobile && (
         <div className="flex items-center gap-2">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300 z-50",
-                  isOpen && "opacity-0 pointer-events-none"
-                )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(true)}
+            className={cn(
+              "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300 z-50",
+              isOpen && "opacity-0 pointer-events-none"
+            )}
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="fixed inset-0 z-[10000] flex flex-col bg-background/95 backdrop-blur-3xl overflow-hidden"
               >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
+                {/* Animated Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <div className="absolute top-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-primary/10 rounded-full blur-[120px] animate-pulse-soft" />
+                  <div className="absolute bottom-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-orange-500/10 rounded-full blur-[120px] animate-pulse-soft" style={{ animationDelay: "1s" }} />
+                </div>
 
-            <SheetContent
-              side="right"
-              className="w-full sm:w-[400px] p-0 border-l border-white/10 bg-background/80 backdrop-blur-3xl shadow-2xl overflow-hidden"
-            >
-              {/* Animated Background Elements */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-primary/10 rounded-full blur-[100px]" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
-              </div>
+                <div className="relative flex h-full flex-col z-10">
+                  {/* Header */}
+                  <div className="flex items-center justify-between p-6">
+                    <motion.span 
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="text-sm font-medium text-muted-foreground tracking-widest uppercase"
+                    >
+                      Navigation
+                    </motion.span>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setIsOpen(false)}
+                        className="hover:bg-white/10 rounded-full bg-white/5 border border-white/10"
+                      >
+                        <X className="w-5 h-5" />
+                      </Button>
+                    </motion.div>
+                  </div>
 
-              <div className="relative flex h-full flex-col z-10">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/5">
-                  <span className="text-sm font-medium text-muted-foreground tracking-widest uppercase">Menu</span>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setIsOpen(false)}
-                    className="hover:bg-white/10 rounded-full -mr-2"
+                  {/* Navigation Menu */}
+                  <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col justify-center">
+                    <nav className="space-y-6">
+                      {currentPageItems.map((item, index) => {
+                        const Icon = item.icon
+                        return (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            transition={{ 
+                              delay: 0.1 + index * 0.1,
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30
+                            }}
+                          >
+                            <SmoothLink
+                              href={item.href}
+                              onClick={() => setIsOpen(false)}
+                              className={cn(
+                                "group flex items-center gap-6 transition-all duration-500",
+                                pathname === item.href
+                                  ? "text-primary"
+                                  : "text-muted-foreground hover:text-foreground"
+                              )}
+                            >
+                              <div className={cn(
+                                "p-3 rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
+                                pathname === item.href ? "bg-primary/20 text-primary" : "bg-white/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                              )}>
+                                <Icon className="w-8 h-8" />
+                              </div>
+                              <span className={cn(
+                                "text-4xl sm:text-5xl font-bold tracking-tight transition-all duration-500 group-hover:translate-x-2",
+                                pathname === item.href ? "text-foreground" : ""
+                              )}>
+                                {item.label}
+                              </span>
+                            </SmoothLink>
+                          </motion.div>
+                        )
+                      })}
+                    </nav>
+                  </div>
+
+                  {/* Footer Section */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="p-8 border-t border-white/5 bg-background/40 backdrop-blur-xl"
                   >
-                    <X className="w-5 h-5" />
-                  </Button>
-                </div>
-
-                {/* Navigation Menu */}
-                <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col justify-center">
-                  <nav className="space-y-2">
-                    {currentPageItems.map((item, index) => {
-                      const Icon = item.icon
-                      return (
-                        <motion.div
-                          key={item.href}
-                          initial={{ opacity: 0, x: 50 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ 
-                            delay: 0.1 + index * 0.05,
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 30
-                          }}
-                        >
-                          <MenuItem
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            active={pathname === item.href}
-                            icon={Icon}
+                    <div className="flex items-center justify-between mb-8">
+                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</span>
+                      <ThemeToggleAnimated />
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-4 justify-center">
+                      {activeSocials.map((social, index) => {
+                        const Icon = iconMap[social.icon]
+                        return (
+                          <motion.div
+                            key={social.id}
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              delay: 0.7 + index * 0.05,
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 20
+                            }}
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
                           >
-                            {item.label}
-                          </MenuItem>
-                        </motion.div>
-                      )
-                    })}
-                  </nav>
+                            <a
+                              href={social.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-12 h-12 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300 group shadow-lg"
+                              onClick={() => setIsOpen(false)}
+                              title={`${social.name}`}
+                            >
+                              <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                            </a>
+                          </motion.div>
+                        )
+                      })}
+                    </div>
+                  </motion.div>
                 </div>
-
-                {/* Footer Section */}
-                <div className="p-6 border-t border-white/5 bg-background/20 backdrop-blur-md">
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</span>
-                    <ThemeToggleAnimated />
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-3 justify-center">
-                    {activeSocials.map((social, index) => {
-                      const Icon = iconMap[social.icon]
-                      return (
-                        <motion.div
-                          key={social.id}
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            delay: 0.3 + index * 0.05,
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 20
-                          }}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <a
-                            href={social.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300 group"
-                            onClick={() => setIsOpen(false)}
-                            title={`${social.name}`}
-                          >
-                            <Icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                          </a>
-                        </motion.div>
-                      )
-                    })}
-                  </div>
-                  
-                  <div className="mt-6 text-center">
-                    <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-                      © 2025 Karthik Lal
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 
@@ -263,71 +293,6 @@ function NavHeader() {
     </div>
   )
 }
-
-// Helper component for mobile menu items
-const MenuItem = ({
-  children,
-  href,
-  onClick,
-  active,
-  icon: Icon
-}: {
-  children: React.ReactNode
-  href: string
-  onClick?: () => void
-  active?: boolean
-  icon?: React.ComponentType<{ className?: string }>
-}) => (
-  <SmoothLink
-    href={href}
-    onClick={onClick}
-    className={cn(
-      "group relative flex items-center gap-5 px-6 py-5 transition-all duration-500",
-      active
-        ? "text-primary"
-        : "text-muted-foreground hover:text-foreground"
-    )}
-  >
-    {/* Hover Background */}
-    <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    
-    {/* Active Indicator Line */}
-    {active && (
-      <motion.div
-        layoutId="activeMenuLine"
-        className="absolute left-0 top-0 bottom-0 w-1 bg-primary shadow-[0_0_10px_rgba(116,38,26,0.5)]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-    )}
-
-    {/* Icon */}
-    {Icon && (
-      <div className={cn(
-        "relative z-10 p-2 rounded-lg transition-all duration-300 group-hover:scale-110",
-        active ? "bg-primary/10 text-primary" : "bg-white/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
-      )}>
-        <Icon className="w-6 h-6" />
-      </div>
-    )}
-    
-    {/* Text */}
-    <div className="relative z-10 flex flex-col">
-      <span className={cn(
-        "text-2xl font-light tracking-tight transition-all duration-300 group-hover:translate-x-1",
-        active ? "font-normal" : ""
-      )}>
-        {children}
-      </span>
-    </div>
-    
-    {/* Arrow */}
-    <div className="ml-auto opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary">
-      <ArrowRight className="w-5 h-5" />
-    </div>
-  </SmoothLink>
-)
 
 const Tab = ({
   children,
