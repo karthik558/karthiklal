@@ -58,54 +58,58 @@ export default function HeroSectionStatic() {
           
           {/* Text Content */}
           <motion.div 
-            className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8"
+            className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="space-y-4">
+            <div className="space-y-4 md:space-y-6">
               
+              <div className="space-y-2">
+                <motion.h2 
+                  className="text-base sm:text-lg md:text-xl font-medium text-muted-foreground tracking-wide uppercase"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
+                  Hello, I am
+                </motion.h2>
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.1]">
+                  <span className="block text-foreground drop-shadow-sm">
+                    {profileData?.name || "Karthik Lal"}
+                  </span>
+                </h1>
+              </div>
               
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
-                <span className="block text-foreground">Hi, I'm</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-500 to-primary bg-[length:200%_auto] animate-gradient pb-2">
-                  {profileData?.name || "Karthik Lal"}
-                </span>
-              </h1>
-              
-              <motion.p 
-                className="text-xl md:text-2xl text-muted-foreground max-w-[600px] font-medium leading-relaxed"
+              <motion.div 
+                className="flex flex-col space-y-3"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
-                {profileData?.title || "IT Manager & Full Stack Developer"}
-              </motion.p>
-              
-              <motion.p 
-                className="text-base md:text-lg text-muted-foreground/80 max-w-[500px] leading-relaxed"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                {profileData?.bio || "Crafting secure, scalable, and intuitive digital experiences with a focus on performance and user-centric design."}
-              </motion.p>
+                <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground/80 tracking-tight">
+                  {profileData?.title || "IT Manager & Full Stack Developer"}
+                </p>
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-[550px] leading-relaxed font-light">
+                  {profileData?.bio || "Crafting secure, scalable, and intuitive digital experiences with a focus on performance and user-centric design."}
+                </p>
+              </motion.div>
             </div>
 
             <motion.div 
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
-              <AnimatedButton href="/#portfolio-gallery" variant="primary" className="h-12 px-8 text-base rounded-full">
+              <AnimatedButton href="/#portfolio-gallery" variant="primary" className="h-12 px-6 text-base rounded-full shadow-lg shadow-primary/20">
                 View My Work <ExternalLink className="ml-2 h-4 w-4" />
               </AnimatedButton>
 
               <AnimatedButton 
                 href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
                 variant="outline" 
-                className="h-12 px-8 text-base rounded-full border-primary/20 hover:bg-primary/10"
+                className="h-12 px-6 text-base rounded-full border-foreground/10 hover:bg-foreground/5 backdrop-blur-md"
               >
                 Download CV <Download className="ml-2 h-4 w-4" />
               </AnimatedButton>
@@ -113,7 +117,7 @@ export default function HeroSectionStatic() {
 
             {/* Social Links */}
             <motion.div 
-              className="flex items-center gap-5 pt-6"
+              className="flex items-center gap-4 pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.5 }}
@@ -129,9 +133,9 @@ export default function HeroSectionStatic() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300 hover:scale-110 transform"
+                  className="p-2.5 rounded-full bg-foreground/5 border border-foreground/10 text-muted-foreground hover:text-foreground hover:bg-foreground/10 hover:scale-110 transition-all duration-300 transform shadow-sm"
                 >
-                  <social.icon className="h-6 w-6" />
+                  <social.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </a>
               ))}
             </motion.div>
