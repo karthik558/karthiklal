@@ -94,6 +94,14 @@ const config = {
         marquee: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(calc(-50% - var(--gap)/2))' }
+        },
+        gradient: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "scroll-down": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(200%)" },
         }
       },
       animation: {
@@ -102,7 +110,9 @@ const config = {
         float: "float 6s ease-in-out infinite",
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
         "rotate-slow": "rotate-slow 12s linear infinite",
-        "marquee": "marquee var(--duration) linear infinite"
+        "marquee": "marquee var(--duration) linear infinite",
+        "gradient": "gradient 8s ease infinite",
+        "scroll-down": "scroll-down 2s ease-in-out infinite"
       },
     },
   },

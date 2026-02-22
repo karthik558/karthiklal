@@ -2,13 +2,10 @@
 
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { motion, HTMLMotionProps, Variants, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ArrowDown, Download, ExternalLink } from "lucide-react"
-import Link from "next/link"
+import { Download, ExternalLink, Github, Linkedin, Mail, Twitter } from "lucide-react"
 import SmoothLink from "@/components/smooth-link"
-import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
 
 interface PersonalInfo {
@@ -21,123 +18,10 @@ interface ProfileData {
   personalInfo: PersonalInfo
 }
 
-// Add Google Fonts for Dancing Script
-if (typeof window !== 'undefined') {
-  const link = document.createElement('link');
-  link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap';
-  link.rel = 'stylesheet';
-  document.head.appendChild(link);
-}
-
-interface GalleryGridCellProps extends HTMLMotionProps<"div"> {
-  index: number
-}
-
-const SPRING_TRANSITION_CONFIG = {
-  type: "spring" as const,
-  stiffness: 100,
-  damping: 16,
-  mass: 0.75,
-  restDelta: 0.005,
-}
-
-const filterVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    filter: "blur(10px)",
-  },
-  visible: {
-    opacity: 1,
-    filter: "blur(0px)",
-  },
-}
-
-const areaClasses = [
-  "col-start-2 col-end-3 row-start-1 row-end-3", // .div1
-  "col-start-1 col-end-2 row-start-2 row-end-4", // .div2
-  "col-start-1 col-end-2 row-start-4 row-end-6", // .div3
-  "col-start-2 col-end-3 row-start-3 row-end-5", // .div4
-]
-
-export const ContainerStagger = React.forwardRef<
-  HTMLDivElement,
-  HTMLMotionProps<"div">
->(({ transition, ...props }, ref) => {
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate="visible"
-      transition={{
-        staggerChildren: 0.2,
-        delayChildren: 0.2,
-        duration: 0.3,
-      }}
-      {...props}
-    />
-  )
-})
-ContainerStagger.displayName = "ContainerStagger"
-
-export const ContainerAnimated = React.forwardRef<
-  HTMLDivElement,
-  HTMLMotionProps<"div">
->(({ transition, ...props }, ref) => {
-  return (
-    <motion.div
-      ref={ref}
-      variants={filterVariants}
-      transition={{
-        duration: 0.3,
-      }}
-      {...props}
-    />
-  )
-})
-ContainerAnimated.displayName = "ContainerAnimated"
-
-export const GalleryGrid = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "grid grid-cols-2 grid-rows-[80px_200px_80px_200px_80px] gap-6",
-        className
-      )}
-      {...props}
-    />
-  )
-})
-GalleryGrid.displayName = "GalleryGrid"
-
-export const GalleryGridCell = React.forwardRef<
-  HTMLDivElement,
-  GalleryGridCellProps
->(({ className, index, children, ...props }, ref) => {
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{
-        duration: 0.3,
-        delay: index * 0.2,
-      }}
-      className={`relative overflow-hidden rounded-xl shadow-xl border-2 border-primary/60 ${areaClasses[index]}`}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  )
-})
-GalleryGridCell.displayName = "GalleryGridCell"
-
 export default function HeroSectionStatic() {
   const { scrollYProgress } = useScroll()
-  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
 
   useEffect(() => {
@@ -154,176 +38,171 @@ export default function HeroSectionStatic() {
     fetchProfile()
   }, [])
 
-  // Mouse movement for 3D tilt effect
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
-    const x = (e.clientX - left) / width - 0.5
-    const y = (e.clientY - top) / height - 0.5
-    mouseX.set(x)
-    mouseY.set(y)
-  }
-
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-  }
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), { stiffness: 150, damping: 20 })
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { stiffness: 150, damping: 20 })
-  
-  // Parallax movement
-  const moveX1 = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), { stiffness: 150, damping: 20 })
-  const moveY1 = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), { stiffness: 150, damping: 20 })
-  
-  const moveX2 = useSpring(useTransform(mouseX, [-0.5, 0.5], [20, -20]), { stiffness: 150, damping: 20 })
-  const moveY2 = useSpring(useTransform(mouseY, [-0.5, 0.5], [20, -20]), { stiffness: 150, damping: 20 })
-
-  // Glare effect
-  const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])
-
-  const images = [
-    { src: "/user/3.jpg", alt: "Portfolio Image 1" },
-    { src: "/user/2.jpg", alt: "Portfolio Image 2" },
-    { src: "/user/4.jpg", alt: "Portfolio Image 3" },
-    { src: "/user/5.jpg", alt: "Portfolio Image 4" },
-  ]
-
   return (
-    <div className="relative">
-      {/* Extended background that covers hero and bleeds into next section */}
-      <div className="absolute inset-0 h-[120vh] bg-gradient-to-br from-primary/5 via-primary/2 to-background" data-speed="0.8"></div>
-      {/* Additional subtle radial gradient for depth */}
-      <div className="absolute inset-0 h-[120vh] bg-gradient-radial from-primary/3 via-transparent to-transparent opacity-60"></div>
-      
-      <section className="relative min-h-screen flex items-center justify-center pt-20">
-        {/* Content */}
-        <div className="container relative z-10 px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh] lg:min-h-0">
-            <div className="space-y-6 text-center lg:text-left flex flex-col justify-center" data-speed="0.9">
-              <div className="animate-item flex flex-col items-center lg:items-start">
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex items-center gap-2 mb-2"
-                >
-                  <span className="text-sm md:text-base font-semibold tracking-[0.2em] text-primary uppercase">
-                    Hi there, I&apos;m
-                  </span>
-                </motion.div>
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-20 pb-10">
+      {/* Awesome Background Effects */}
+      <div 
+        className="absolute inset-0 w-full h-full opacity-[0.02] dark:opacity-[0.03]" 
+        style={{ 
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%239C92AC' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")` 
+        }} 
+      />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[30rem] h-[30rem] bg-primary/10 rounded-full blur-[100px] opacity-40 animate-pulse-soft" />
+      </div>
+      <div className="absolute top-1/4 left-1/4 w-[15rem] h-[15rem] bg-orange-500/5 rounded-full blur-[80px] opacity-30 mix-blend-screen pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[20rem] h-[20rem] bg-red-500/5 rounded-full blur-[100px] opacity-30 mix-blend-screen pointer-events-none" />
 
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold hero-name mb-6 tracking-tight">
-                  {profileData?.name || "Loading..."}
-                </h1>
-
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="flex items-center gap-2 text-lg md:text-xl font-mono text-muted-foreground"
-                >
-                  <span className="text-primary">&gt;</span>
-                  {profileData?.title || "Loading..."}
-                  <span className="animate-pulse text-primary">_</span>
-                </motion.div>
-              </div>
-
-              <div className="flex flex-wrap gap-4 pt-4 animate-item justify-center lg:justify-start">
-                <AnimatedButton href="/#portfolio-gallery" variant="primary" icon={<ExternalLink className="h-4 w-4" />}>
-                  View Portfolio
-                </AnimatedButton>
-
-                {/* Download CV Button */}
-                <AnimatedButton 
-                  href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
-                  variant="outline" 
-                  icon={<Download className="h-4 w-4" />}
-                >
-                  Download CV
-                </AnimatedButton>
-              </div>
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Text Content */}
+          <motion.div 
+            className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="space-y-4">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm"
+              >
+                <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
+                Available for new opportunities
+              </motion.div>
+              
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
+                <span className="block text-foreground">Hi, I'm</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-500 to-primary bg-[length:200%_auto] animate-gradient pb-2">
+                  {profileData?.name || "Karthik Lal"}
+                </span>
+              </h1>
+              
+              <motion.p 
+                className="text-xl md:text-2xl text-muted-foreground max-w-[600px] font-medium leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                {profileData?.title || "IT Manager & Full Stack Developer"}
+              </motion.p>
+              
+              <motion.p 
+                className="text-base md:text-lg text-muted-foreground/80 max-w-[500px] leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+              >
+                {profileData?.bio || "Crafting secure, scalable, and intuitive digital experiences with a focus on performance and user-centric design."}
+              </motion.p>
             </div>
 
-            <div 
-              className="hidden lg:flex items-center justify-center perspective-1000" 
-              data-speed="1.1"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
+            <motion.div 
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
-              <motion.div 
-                className="relative w-[500px] h-[600px]"
-                style={{
-                  rotateX,
-                  rotateY,
-                  transformStyle: "preserve-3d",
-                }}
+              <AnimatedButton href="/#portfolio-gallery" variant="primary" className="h-12 px-8 text-base rounded-full">
+                View My Work <ExternalLink className="ml-2 h-4 w-4" />
+              </AnimatedButton>
+
+              <AnimatedButton 
+                href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u" 
+                variant="outline" 
+                className="h-12 px-8 text-base rounded-full border-primary/20 hover:bg-primary/10"
               >
-                {/* Animated Background Blob */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#74261a]/40 via-[#963e30]/30 to-[#b55242]/40 blur-[100px] animate-pulse" />
+                Download CV <Download className="ml-2 h-4 w-4" />
+              </AnimatedButton>
+            </motion.div>
 
-                {/* Main Hero Card */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: 1, 
-                    y: [0, -10, 0] 
-                  }}
-                  transition={{ 
-                    opacity: { duration: 1, delay: 0.2 },
-                    scale: { duration: 1, delay: 0.2 },
-                    y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  style={{
-                    x: moveX1,
-                    y: moveY1,
-                    z: 50,
-                  }}
-                  whileHover={{ scale: 1.02, z: 80 }}
-                  className="absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl shadow-[#74261a]/30 border border-white/10 bg-background/5 backdrop-blur-sm group"
+            {/* Social Links */}
+            <motion.div 
+              className="flex items-center gap-5 pt-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              {[
+                { icon: Github, href: "https://github.com/karthik558" },
+                { icon: Linkedin, href: "https://linkedin.com/in/karthiklal" },
+                { icon: Twitter, href: "https://x.com/_karthiklal" },
+                { icon: Mail, href: "mailto:dev@karthiklal.in" }
+              ].map((social, index) => (
+                <a 
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 hover:scale-110 transform"
                 >
-                  <Image src="/user/hero.jpg" alt="Hero art" fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority />
-                  
-                  {/* Glare Overlay */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.2) 25%, transparent 30%)",
-                      backgroundSize: "200% 100%",
-                      backgroundPositionX: glareX
-                    }}
-                  />
-                </motion.div>
+                  <social.icon className="h-6 w-6" />
+                </a>
+              ))}
+            </motion.div>
+          </motion.div>
 
-                {/* Decorative Elements - Clean & Minimal */}
-                <motion.div 
-                  style={{ x: moveX2, y: moveY2, z: 20 }}
-                  className="absolute -top-10 -right-10 w-32 h-32 rounded-full border border-white/10 bg-[#74261a]/10 backdrop-blur-md"
+          {/* Image Content */}
+          <motion.div 
+            className="lg:col-span-5 relative hidden lg:flex justify-center items-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            style={{ y }}
+          >
+            <div className="relative w-[450px] h-[550px]">
+              {/* Decorative elements behind image */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 to-transparent transform rotate-3 scale-105 border border-primary/5 backdrop-blur-sm" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-bl from-orange-500/10 to-transparent transform -rotate-3 scale-105 border border-orange-500/5 backdrop-blur-sm" />
+              
+              {/* Main Image Container */}
+              <div className="absolute inset-0 rounded-3xl overflow-hidden border border-white/5 shadow-2xl bg-background/50 backdrop-blur-md group">
+                <Image 
+                  src="/user/hero.jpg" 
+                  alt="Karthik Lal" 
+                  fill 
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700" 
+                  priority 
                 />
-                <motion.div 
-                  style={{ x: moveX1, y: moveY1, z: 30 }}
-                  className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-[#963e30]/20 blur-2xl"
-                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40" />
+              </div>
+
+              {/* Floating Badges */}
+              <motion.div 
+                className="absolute -right-8 top-12 bg-background/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                    6+
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-foreground">Years</p>
+                    <p className="text-xs text-muted-foreground">Experience</p>
+                  </div>
+                </div>
               </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
+      </div>
 
-        {/* Scroll indicator - positioned at bottom center */}
-        <motion.div 
-          style={{ opacity: scrollIndicatorOpacity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-          data-speed="1.0"
-        >
-          <SmoothLink href="#about" className="block group">
-            <ArrowDown className="h-6 w-6 text-primary/70 group-hover:text-primary animate-bounce transition-colors duration-300" />
-          </SmoothLink>
-        </motion.div>
-      </section>
-    </div>
+      {/* Scroll indicator */}
+      <motion.div 
+        style={{ opacity: scrollIndicatorOpacity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+      >
+        <SmoothLink href="#about" className="flex flex-col items-center gap-2 group">
+          <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase group-hover:text-primary transition-colors">Scroll</span>
+          <div className="w-[1px] h-12 bg-muted-foreground/30 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-primary animate-scroll-down" />
+          </div>
+        </SmoothLink>
+      </motion.div>
+    </section>
   )
 }
-

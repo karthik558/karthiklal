@@ -36,14 +36,11 @@ export const AnimatedButton = ({
     <>
       {/* Gradient overlay for primary */}
       {isPrimary && (
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
       )}
       
       <span className="relative z-10 flex items-center gap-2">
         {children}
-        <span className="transition-transform duration-300 group-hover:translate-x-1">
-          {icon === undefined ? <ArrowRight className="h-4 w-4" /> : icon}
-        </span>
       </span>
     </>
   );
