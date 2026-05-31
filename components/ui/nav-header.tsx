@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { createPortal } from "react-dom"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
@@ -46,6 +47,12 @@ function NavHeader() {
     top: 0,
   })
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const isMobile = useIsMobile()
   const pathname = usePathname()
   const socialLinks = ((SOCIALS_DATA.socials ?? []) as Social[]).sort(
@@ -88,27 +95,11 @@ function NavHeader() {
     if (!isMobile) return
 
     if (isOpen) {
-      const scrollY = window.scrollY
       const originalOverflow = document.body.style.overflow
-      const originalTouchAction = document.body.style.touchAction
-      const originalPosition = document.body.style.position
-      const originalTop = document.body.style.top
-      const originalWidth = document.body.style.width
-
       document.body.style.overflow = "hidden"
-      document.body.style.touchAction = "none"
-      document.body.style.position = "fixed"
-      document.body.style.top = `-${scrollY}px`
-      document.body.style.width = "100%"
 
       return () => {
         document.body.style.overflow = originalOverflow
-        document.body.style.touchAction = originalTouchAction
-        document.body.style.position = originalPosition
-        document.body.style.top = originalTop
-        document.body.style.width = originalWidth
-        const restoredY = Math.abs(parseInt(document.body.style.top || "0", 10))
-        window.scrollTo(0, restoredY)
       }
     }
   }, [isOpen, isMobile])
@@ -173,9 +164,11 @@ function NavHeader() {
             <Menu className="h-6 w-6" />
           </Button>
 
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
+          {mounted && createPortal(
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  key="mobile-menu"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -308,9 +301,11 @@ function NavHeader() {
                     </div>
                   </motion.div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </motion.div>
+              )}
+            </AnimatePresence>,
+            document.body
+          )}
         </div>
       )}
 

@@ -21,7 +21,7 @@ export default function CtaSection() {
           >
             {/* The Main Text */}
             <motion.h2 
-              className="text-6xl md:text-9xl lg:text-[12rem] font-display font-black tracking-[-0.04em] bg-gradient-to-r from-red-500 via-rose-500 to-red-600 bg-clip-text text-transparent transition-all duration-500 group-hover:from-red-400 group-hover:via-rose-400 group-hover:to-red-500"
+              className="text-6xl md:text-9xl lg:text-[12rem] font-display font-black tracking-[-0.04em] text-primary transition-colors duration-500 group-hover:text-primary/80"
               animate={{ y: [-10, 10, -10], scale: [1, 1.02, 1] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
