@@ -166,9 +166,6 @@ export default function CertificationsSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Professional <span className="text-gradient">Achievements</span>
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            A digital portfolio of my verified certifications, technical milestones, and ongoing commitment to mastery.
-          </p>
         </motion.div>
 
         {/* Bento Grid Layout */}

@@ -50,9 +50,6 @@ export default function ExperienceSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Experience & <span className="text-gradient">Education</span>
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            My professional journey and academic milestones that have shaped my skills and expertise in the tech industry.
-          </p>
         </motion.div>
 
         {/* Mobile Toggle */}

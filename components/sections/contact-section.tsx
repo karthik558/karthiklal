@@ -155,9 +155,6 @@ export default function ContactSection() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
               Contact <span className="text-gradient">Me</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Have a project in mind? I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
-            </p>
           </motion.div>
         </div>
 

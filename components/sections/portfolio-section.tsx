@@ -145,9 +145,6 @@ export default function PortfolioSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-xl text-muted-foreground">
-            A curated selection of my recent technical endeavors and creative solutions.
-          </p>
         </motion.div>
 
         {/* Bento Grid Layout */}

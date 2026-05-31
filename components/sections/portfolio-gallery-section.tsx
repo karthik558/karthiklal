@@ -44,10 +44,6 @@ export default function PortfolioGallerySection() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
               Featured <span className="text-gradient">Designs</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Explore my creative journey through various design projects.
-              Each piece represents innovation, aesthetic precision, and attention to detail.
-            </p>
           </div>
           <AnimatedButton href={behanceUrl} variant="outline" className="shrink-0 bg-background/50 backdrop-blur-sm border-border">
             View Behance <ExternalLink className="ml-2 w-4 h-4" />

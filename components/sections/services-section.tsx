@@ -82,9 +82,6 @@ export default function ServicesSection() {
             Services
           </Badge>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">Expert <span className="text-gradient">Solutions</span></h2>
-          <p className="text-muted-foreground">
-            Specialized services tailored to elevate your digital presence with security, performance, and design excellence.
-          </p>
         </motion.div>
 
         <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-2 lg:gap-4 xl:max-h-[34rem]">

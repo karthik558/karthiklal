@@ -146,9 +146,6 @@ export default function SkillsSection() {
             Skills & Expertise
           </Badge>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">Technical <span className="text-gradient">Proficiency</span></h2>
-          <p className="text-muted-foreground">
-            A comprehensive overview of my technical skills and areas of expertise across various domains of software development.
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -27,9 +27,6 @@ export default function TestimonialsSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             What Clients <span className="text-gradient">Say</span>
           </h2>
-          <p className="text-muted-foreground">
-            Feedback from clients and collaborators I've worked with on various projects.
-          </p>
         </motion.div>
 
         <div className="flex w-full justify-center items-center">
