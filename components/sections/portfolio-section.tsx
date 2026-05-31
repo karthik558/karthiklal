@@ -44,42 +44,42 @@ const ProjectCard = ({ project, className, index }: { project: Project, classNam
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-transparent opacity-95" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 transition-opacity duration-500 group-hover:opacity-90" />
       </div>
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
         <div className="transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
           <div className="flex justify-between items-start mb-2">
-            <Badge variant="secondary" className="bg-background/70 backdrop-blur-md border-foreground/10">
+            <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 backdrop-blur-md border-white/10">
               {project.category}
             </Badge>
 
             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               {project.github && (
-                <Link href={project.github} target="_blank" className="p-2 rounded-full bg-background/70 hover:bg-background text-foreground transition-colors">
+                <Link href={project.github} target="_blank" className="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md border border-white/10 transition-all">
                   <Github className="h-4 w-4" />
                 </Link>
               )}
               {project.link && (
-                <Link href={project.link} target="_blank" className="p-2 rounded-full bg-background/70 hover:bg-background text-foreground transition-colors">
+                <Link href={project.link} target="_blank" className="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md border border-white/10 transition-all">
                   <ExternalLink className="h-4 w-4" />
                 </Link>
               )}
             </div>
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 leading-tight text-foreground">
+          <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 leading-tight text-white drop-shadow-md">
             {project.title}
           </h3>
 
-          <p className="text-muted-foreground line-clamp-2 mb-4 text-sm md:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+          <p className="text-white/80 line-clamp-2 mb-4 text-sm md:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
             {project.description}
           </p>
 
           <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
             {project.technologies.slice(0, 3).map((tech) => (
-              <Badge key={tech} variant="outline" className="text-xs bg-background/70">
+              <Badge key={tech} variant="outline" className="text-xs bg-black/40 text-white/90 border-white/20 backdrop-blur-sm">
                 {tech}
               </Badge>
             ))}
