@@ -1,122 +1,165 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useAnimationFrame, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { Quote, ExternalLink, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const SQRT_5000 = Math.sqrt(5000);
+import testimonialsData from '@/public/data/testimonials.json';
 
 interface Testimonial {
-  tempId: number;
-  testimonial: string;
-  by: string;
-  imgSrc: string;
+  id: number;
+  content: string;
+  name: string;
+  company: string;
+  position: string;
+  avatar: string;
+  rating: number;
+  website?: string;
 }
 
-interface TestimonialCardProps {
-  position: number;
-  testimonial: Testimonial;
-  handleMove: (steps: number) => void;
-  cardSize: number;
+const TestimonialCard = ({ testimonial, isHovered, onHover, onLeave, onClick }: { testimonial: Testimonial, isHovered: boolean, onHover: () => void, onLeave: () => void, onClick: () => void }) => {
+  return (
+    <div
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      onClick={onClick}
+      className={cn(
+        "relative w-[350px] md:w-[450px] shrink-0 rounded-3xl border border-border bg-card p-6 md:p-8 transition-all duration-500 overflow-hidden group whitespace-normal cursor-pointer",
+        isHovered ? "shadow-xl border-primary/30 bg-card/80 scale-[1.02] z-10" : "shadow-sm scale-100 z-0 opacity-70 hover:opacity-100"
+      )}
+    >
+      {/* Decorative gradient blob */}
+      <div className="absolute -right-12 -top-12 w-32 h-32 bg-primary/10 rounded-full blur-[30px] group-hover:bg-primary/20 transition-colors duration-500" />
+      
+      <div className="relative z-10 flex flex-col h-full justify-between gap-6">
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex gap-1">
+              {[...Array(testimonial.rating || 5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+              ))}
+            </div>
+            <Quote className="w-8 h-8 text-primary/20 group-hover:text-primary/40 transition-colors duration-500" />
+          </div>
+          <p className="text-foreground/90 text-sm md:text-base leading-relaxed italic line-clamp-3">
+            "{testimonial.content}"
+          </p>
+        </div>
+        
+        <div className="flex items-center justify-between pt-4 border-t border-border/50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex items-center justify-center font-bold text-lg text-primary shadow-inner">
+              {testimonial.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h4 className="font-semibold text-foreground text-sm">{testimonial.name}</h4>
+              <p className="text-xs text-muted-foreground">{testimonial.position}, {testimonial.company}</p>
+            </div>
+          </div>
+          {testimonial.website && (
+            <a 
+              href={testimonial.website} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 }
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({ 
-  position, 
-  testimonial, 
-  handleMove, 
-  cardSize 
-}) => {
-  const isCenter = position === 0;
-  const [showModal, setShowModal] = useState(false);
+const MarqueeRow = ({ items, direction = 1, speed = 40, onSelect }: { items: Testimonial[], direction?: number, speed?: number, onSelect: (t: Testimonial) => void }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const baseX = useMotionValue(0);
   
-  // Calculate spacing based on card size for better responsive design
-  const spacing = cardSize * 0.65;
+  // Create a spring to handle velocity smoothly when pausing on hover
+  const springVelocity = useSpring(direction * speed, {
+    damping: 50,
+    stiffness: 400
+  });
+
+  // Calculate the total width of the content once it's mounted
+  const [contentWidth, setContentWidth] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      // Approximate width based on card size + gap. 
+      // 350px (mobile) to 450px (desktop) + 24px gap. We'll use a conservative estimate.
+      const isMobile = window.innerWidth < 768;
+      const cardWidth = isMobile ? 350 : 450;
+      const gap = 24; // gap-6
+      setContentWidth((cardWidth + gap) * items.length);
+    }
+  }, [items]);
+
+  useAnimationFrame((time, delta) => {
+    // If hovering, slow down to 0 smoothly. Otherwise, speed up to target speed.
+    const targetVelocity = hoveredId !== null ? 0 : direction * speed;
+    springVelocity.set(targetVelocity);
+    
+    let moveBy = springVelocity.get() * (delta / 1000);
+    
+    // Move the base X value
+    let newX = baseX.get() + moveBy;
+    
+    // Wrap around logic using the measured content width
+    if (contentWidth > 0) {
+      if (direction === -1 && newX <= -contentWidth) {
+        newX = 0;
+      } else if (direction === 1 && newX >= 0) {
+        newX = -contentWidth;
+      }
+    }
+
+    baseX.set(newX);
+  });
+
+  const x = useTransform(baseX, (v) => `${v}px`);
+
+  return (
+    <div className="relative flex overflow-hidden py-4" ref={containerRef}>
+      <motion.div className="flex gap-6 whitespace-nowrap px-3" style={{ x }}>
+        {/* We render the items multiple times to ensure seamless infinite looping */}
+        {[...items, ...items, ...items, ...items].map((testimonial, i) => (
+          <TestimonialCard 
+            key={`${testimonial.id}-${i}`} 
+            testimonial={testimonial} 
+            isHovered={hoveredId === i}
+            onHover={() => setHoveredId(i)}
+            onLeave={() => setHoveredId(null)}
+            onClick={() => onSelect(testimonial)}
+          />
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
+export const StaggerTestimonials: React.FC = () => {
+  const testimonials = testimonialsData.testimonials as Testimonial[];
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+  
+  if (!testimonials || testimonials.length === 0) return null;
+
+  // Split testimonials for two rows, or reverse the second row for a nice effect
+  const row1 = [...testimonials];
+  const row2 = [...testimonials].reverse();
 
   return (
     <>
-      <div
-        onClick={() => handleMove(position)}
-        className={cn(
-          "absolute left-1/2 top-1/2 cursor-pointer border-2 p-8 transition-all duration-500 ease-in-out",
-          isCenter 
-            ? "z-10 bg-primary text-primary-foreground border-primary" 
-            : "z-0 bg-card text-card-foreground border-border hover:border-primary/50"
-        )}
-        style={{
-          width: cardSize,
-          height: cardSize,
-          clipPath: `polygon(50px 0%, calc(100% - 50px) 0%, 100% 50px, 100% 100%, calc(100% - 50px) 100%, 50px 100%, 0 100%, 0 0)`,
-          transform: `
-            translate(-50%, -50%) 
-            translateX(${spacing * position}px)
-            translateY(${isCenter ? -65 : position % 2 ? (cardSize < 320 ? 25 : 15) : (cardSize < 320 ? -25 : -15)}px)
-            rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
-          `,
-          boxShadow: isCenter ? "0px 8px 0px 4px hsl(var(--border))" : "0px 0px 0px 0px transparent"
-        }}
-      >
-        <span
-          className="absolute block origin-top-right rotate-45 bg-border"
-          style={{
-            right: -2,
-            top: 48,
-            width: SQRT_5000,
-            height: 2
-          }}
-        />
-        <div
-          className={cn(
-            "mb-4 h-14 w-12 flex items-center justify-center font-bold text-lg",
-            isCenter 
-              ? "bg-white/20 text-white dark:bg-primary-foreground/20 dark:text-primary-foreground" 
-              : "bg-muted text-foreground"
-          )}
-          style={{
-            boxShadow: "3px 3px 0px hsl(var(--background))"
-          }}
-        >
-          {testimonial.by.charAt(0).toUpperCase()}
-        </div>
-        <h3 className={cn(
-          "text-base sm:text-lg font-medium overflow-hidden",
-          isCenter ? "text-white dark:text-primary-foreground" : "text-foreground"
-        )}
-        style={{
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical',
-          lineHeight: '1.4em',
-          height: '4.2em'
-        }}>
-          "{testimonial.testimonial}"
-        </h3>
-        
-        {/* Read Full Button - only show on center card */}
-        {isCenter && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowModal(true);
-            }}
-            className="absolute bottom-14 right-8 w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 dark:bg-primary-foreground/20 dark:hover:bg-primary-foreground/30 flex items-center justify-center transition-all duration-200 group"
-            aria-label="Read full testimonial"
-          >
-            <span className="text-xs font-bold text-white dark:text-primary-foreground group-hover:scale-110 transition-transform">⋯</span>
-          </button>
-        )}
-        
-        <p className={cn(
-          "absolute bottom-8 left-8 right-8 mt-2 text-sm italic",
-          isCenter ? "text-white/90 dark:text-primary-foreground/80" : "text-muted-foreground"
-        )}>
-          - {testimonial.by}
-        </p>
+      <div className="relative w-full overflow-hidden mx-auto flex flex-col gap-4 py-8">
+        {/* Marquee Rows */}
+        <MarqueeRow items={row1} direction={-1} speed={40} onSelect={setSelectedTestimonial} />
+        <MarqueeRow items={row2} direction={1} speed={30} onSelect={setSelectedTestimonial} />
       </div>
 
-      {/* Modal for full testimonial */}
       <AnimatePresence>
-        {showModal && (
+        {selectedTestimonial && (
           <motion.div 
             className="fixed inset-0 z-[200] flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
@@ -126,43 +169,25 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           >
             {/* Backdrop */}
             <motion.div 
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm cursor-pointer"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={() => setShowModal(false)}
+              onClick={() => setSelectedTestimonial(null)}
             />
             
             {/* Modal content */}
             <motion.div 
-              className="relative bg-card border border-border/50 rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto"
-              initial={{ 
-                opacity: 0, 
-                scale: 0.9, 
-                y: 20 
-              }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1, 
-                y: 0 
-              }}
-              exit={{ 
-                opacity: 0, 
-                scale: 0.9, 
-                y: 20 
-              }}
-              transition={{ 
-                duration: 0.3, 
-                ease: "easeOut",
-                type: "spring",
-                stiffness: 300,
-                damping: 30
-              }}
+              className="relative bg-card border border-border/50 rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12 max-h-[90vh] overflow-y-auto z-10"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut", type: "spring", stiffness: 300, damping: 30 }}
             >
               {/* Close button */}
               <motion.button
-                onClick={() => setShowModal(false)}
+                onClick={() => setSelectedTestimonial(null)}
                 className="absolute top-6 right-6 w-10 h-10 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-all duration-200 group"
                 aria-label="Close"
                 whileHover={{ scale: 1.1 }}
@@ -171,198 +196,64 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
                 <span className="text-muted-foreground group-hover:text-foreground text-xl font-light">×</span>
               </motion.button>
               
-              <div className="pr-8">
+              <div className="pr-8 md:pr-0">
                 {/* Header */}
                 <motion.div 
-                  className="flex items-center gap-4 mb-6"
+                  className="flex items-center gap-4 mb-8"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex items-center justify-center font-bold text-lg text-primary">
-                    {testimonial.by.charAt(0).toUpperCase()}
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex items-center justify-center font-bold text-2xl text-primary shadow-inner">
+                    {selectedTestimonial.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground text-lg">{testimonial.by}</h3>
-                    <p className="text-sm text-muted-foreground">Client Testimonial</p>
+                    <h3 className="font-semibold text-foreground text-xl">{selectedTestimonial.name}</h3>
+                    <p className="text-sm text-muted-foreground">{selectedTestimonial.position}, {selectedTestimonial.company}</p>
+                    <div className="flex gap-1 mt-2">
+                      {[...Array(selectedTestimonial.rating || 5)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
                 
                 {/* Quote */}
                 <motion.div 
-                  className="relative mb-6"
+                  className="relative mb-8"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.3 }}
                 >
-                  <div className="absolute -top-2 -left-2 text-4xl text-primary/30 font-serif">"</div>
-                  <blockquote className="text-foreground leading-relaxed text-base pl-6 pr-4">
-                    {testimonial.testimonial}
+                  <Quote className="absolute -top-4 -left-4 w-12 h-12 text-primary/10" />
+                  <blockquote className="text-foreground/90 leading-relaxed text-lg md:text-xl italic font-serif relative z-10 pl-6">
+                    "{selectedTestimonial.content}"
                   </blockquote>
-                  <div className="absolute -bottom-2 -right-2 text-4xl text-primary/30 font-serif">"</div>
                 </motion.div>
                 
-                {/* Attribution */}
-                <motion.div 
-                  className="text-right"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.3 }}
-                >
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full">
-                    <span className="text-sm text-muted-foreground">—</span>
-                    <span className="text-sm font-medium text-foreground">{testimonial.by}</span>
-                  </div>
-                </motion.div>
+                {/* Footer/Link */}
+                {selectedTestimonial.website && (
+                  <motion.div 
+                    className="flex justify-end pt-6 border-t border-border/50"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.3 }}
+                  >
+                    <a 
+                      href={selectedTestimonial.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all duration-300 font-medium"
+                    >
+                      Visit Project <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
-  );
-};
-
-export const StaggerTestimonials: React.FC = () => {
-  const [cardSize, setCardSize] = useState(365);
-  const [testimonialsList, setTestimonialsList] = useState<Testimonial[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    // Load testimonials from JSON
-    fetch('/data/testimonials.json')
-      .then(res => res.json())
-      .then(data => {
-        const formattedTestimonials: Testimonial[] = data.testimonials.map((item: any, index: number) => ({
-          tempId: Date.now() + index, // Use timestamp to avoid conflicts
-          testimonial: item.content,
-          by: item.name,
-          imgSrc: item.avatar
-        }));
-        setTestimonialsList(formattedTestimonials);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log('Failed to load testimonials:', error);
-        setIsLoading(false);
-        // Show error state instead of fallback
-      });
-  }, []);
-
-  const handleMove = (steps: number) => {
-    setTestimonialsList((prevList) => {
-      const newList = [...prevList];
-      if (steps > 0) {
-        for (let i = steps; i > 0; i--) {
-          const item = newList.shift();
-          if (!item) return prevList;
-          newList.push({ ...item, tempId: Math.random() });
-        }
-      } else {
-        for (let i = steps; i < 0; i++) {
-          const item = newList.pop();
-          if (!item) return prevList;
-          newList.unshift({ ...item, tempId: Math.random() });
-        }
-      }
-      return newList;
-    });
-  };
-
-  // Auto-scroll effect
-  useEffect(() => {
-    if (isLoading || testimonialsList.length === 0 || isPaused) return;
-
-    const interval = setInterval(() => {
-      handleMove(1);
-    }, 4000); // Change every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [isLoading, testimonialsList.length, isPaused]);
-
-  useEffect(() => {
-    const updateSize = () => {
-      const { matches: isSm } = window.matchMedia("(min-width: 640px)");
-      const { matches: isLg } = window.matchMedia("(min-width: 1024px)");
-      
-      if (isLg) {
-        setCardSize(365);
-      } else if (isSm) {
-        setCardSize(320);
-      } else {
-        setCardSize(280);
-      }
-    };
-
-    updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
-
-  return (
-    <div
-      className="relative w-full overflow-hidden bg-transparent mx-auto"
-      style={{ height: 600, maxWidth: '1200px' }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {isLoading ? (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-muted-foreground">Loading testimonials...</div>
-        </div>
-      ) : testimonialsList.length === 0 ? (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-muted-foreground">No testimonials available</div>
-        </div>
-      ) : (
-        <>
-          {testimonialsList.map((testimonial, index) => {
-            // Calculate position relative to center for proper centering
-            const centerIndex = Math.floor(testimonialsList.length / 2);
-            const position = index - centerIndex;
-            
-            // Only show visible cards to improve performance
-            const isVisible = Math.abs(position) <= 2;
-            
-            if (!isVisible) return null;
-            
-            return (
-              <TestimonialCard
-                key={testimonial.tempId}
-                testimonial={testimonial}
-                handleMove={handleMove}
-                position={position}
-                cardSize={cardSize}
-              />
-            );
-          })}
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-            <button
-              onClick={() => handleMove(-1)}
-              className={cn(
-                "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-                "bg-background border-2 border-border hover:bg-primary hover:text-primary-foreground",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              )}
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft />
-            </button>
-            <button
-              onClick={() => handleMove(1)}
-              className={cn(
-                "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-                "bg-background border-2 border-border hover:bg-primary hover:text-primary-foreground",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              )}
-              aria-label="Next testimonial"
-            >
-              <ChevronRight />
-            </button>
-          </div>
-        </>
-      )}
-    </div>
   );
 };

@@ -28,10 +28,10 @@ export default function TestimonialsSection() {
             What Clients <span className="text-gradient">Say</span>
           </h2>
         </motion.div>
+      </div>
 
-        <div className="flex w-full justify-center items-center">
-          <StaggerTestimonials />
-        </div>
+      <div className="relative z-10 w-full overflow-hidden">
+        <StaggerTestimonials />
       </div>
     </section>
   )
