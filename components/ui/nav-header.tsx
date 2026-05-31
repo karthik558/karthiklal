@@ -84,6 +84,35 @@ function NavHeader() {
   // Filter active social links
   const activeSocials = socialLinks.filter(social => social.active)
 
+  useEffect(() => {
+    if (!isMobile) return
+
+    if (isOpen) {
+      const scrollY = window.scrollY
+      const originalOverflow = document.body.style.overflow
+      const originalTouchAction = document.body.style.touchAction
+      const originalPosition = document.body.style.position
+      const originalTop = document.body.style.top
+      const originalWidth = document.body.style.width
+
+      document.body.style.overflow = "hidden"
+      document.body.style.touchAction = "none"
+      document.body.style.position = "fixed"
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = "100%"
+
+      return () => {
+        document.body.style.overflow = originalOverflow
+        document.body.style.touchAction = originalTouchAction
+        document.body.style.position = originalPosition
+        document.body.style.top = originalTop
+        document.body.style.width = originalWidth
+        const restoredY = Math.abs(parseInt(document.body.style.top || "0", 10))
+        window.scrollTo(0, restoredY)
+      }
+    }
+  }, [isOpen, isMobile])
+
   return (
     <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
       {/* Logo */}
@@ -151,13 +180,14 @@ function NavHeader() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="fixed inset-0 z-[10000] flex flex-col bg-background/95 backdrop-blur-3xl overflow-hidden"
+                className="fixed inset-0 z-[10000] flex flex-col bg-background/96 backdrop-blur-2xl overflow-hidden"
               >
                 {/* Animated Background Elements */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute top-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-primary/10 rounded-full blur-[120px] animate-pulse-soft" />
-                  <div className="absolute bottom-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-orange-500/10 rounded-full blur-[120px] animate-pulse-soft" style={{ animationDelay: "1s" }} />
+                  <div className="absolute top-[-10%] right-[-10%] w-[32rem] h-[32rem] bg-primary/8 rounded-full blur-[140px]" />
+                  <div className="absolute bottom-[-10%] left-[-10%] w-[32rem] h-[32rem] bg-primary/6 rounded-full blur-[140px]" />
                 </div>
+                <div className="absolute inset-0 bg-noise opacity-12 pointer-events-none" />
 
                 <div className="relative flex h-full flex-col z-10">
                   {/* Header */}
@@ -166,9 +196,9 @@ function NavHeader() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="text-sm font-medium text-muted-foreground tracking-widest uppercase"
+                      className="text-xs font-semibold text-muted-foreground tracking-[0.3em] uppercase"
                     >
-                      Navigation
+                      Menu
                     </motion.span>
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -179,7 +209,7 @@ function NavHeader() {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => setIsOpen(false)}
-                        className="hover:bg-white/10 rounded-full bg-white/5 border border-white/10"
+                        className="hover:bg-foreground/10 rounded-full bg-foreground/5 border border-foreground/10"
                       >
                         <X className="w-5 h-5" />
                       </Button>
@@ -187,8 +217,8 @@ function NavHeader() {
                   </div>
 
                   {/* Navigation Menu */}
-                  <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col justify-center">
-                    <nav className="space-y-6">
+                  <div className="flex-1 overflow-y-auto py-6 px-6">
+                    <nav className="grid gap-4">
                       {currentPageItems.map((item, index) => {
                         const Icon = item.icon
                         return (
@@ -208,20 +238,20 @@ function NavHeader() {
                               href={item.href}
                               onClick={() => setIsOpen(false)}
                               className={cn(
-                                "group flex items-center gap-6 transition-all duration-500",
+                                "group flex items-center gap-4 rounded-2xl border border-foreground/10 bg-card/70 px-4 py-4 backdrop-blur-md transition-all duration-300",
                                 pathname === item.href
-                                  ? "text-primary"
-                                  : "text-muted-foreground hover:text-foreground"
+                                  ? "text-primary border-primary/30 bg-primary/10"
+                                  : "text-muted-foreground hover:text-foreground hover:border-foreground/20"
                               )}
                             >
                               <div className={cn(
-                                "p-3 rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
-                                pathname === item.href ? "bg-primary/20 text-primary" : "bg-white/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                                "p-2.5 rounded-xl transition-all duration-300 group-hover:scale-105",
+                                pathname === item.href ? "bg-primary/20 text-primary" : "bg-foreground/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                               )}>
-                                <Icon className="w-8 h-8" />
+                                <Icon className="w-6 h-6" />
                               </div>
                               <span className={cn(
-                                "text-4xl sm:text-5xl font-bold tracking-tight transition-all duration-500 group-hover:translate-x-2",
+                                "text-2xl sm:text-3xl font-display font-semibold tracking-tight transition-all duration-300 group-hover:translate-x-1",
                                 pathname === item.href ? "text-foreground" : ""
                               )}>
                                 {item.label}
@@ -238,10 +268,10 @@ function NavHeader() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="p-8 border-t border-white/5 bg-background/40 backdrop-blur-xl"
+                    className="p-6 border-t border-foreground/10 bg-background/60 backdrop-blur-xl"
                   >
                     <div className="flex items-center justify-between mb-8">
-                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</span>
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Theme</span>
                       <ThemeToggleAnimated />
                     </div>
                     
