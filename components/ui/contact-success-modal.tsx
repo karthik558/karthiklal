@@ -51,7 +51,7 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md rounded-[2rem] border border-foreground/5 bg-secondary/20 backdrop-blur-2xl p-8 shadow-2xl overflow-hidden"
           >
             {/* Subtle glow behind the icon */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
@@ -107,7 +107,7 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="w-full space-y-4 mb-8 bg-muted/50 rounded-2xl p-4 border border-border"
+                className="w-full space-y-4 mb-8 bg-background/50 rounded-2xl p-4 border border-foreground/5 shadow-sm"
               >
                 <div className="flex items-center gap-3 text-sm text-foreground/80">
                   <Mail className="h-4 w-4 text-primary" />

@@ -134,46 +134,57 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative overflow-hidden bg-background">
-      {/* Immersive Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] animate-pulse delay-700" />
+    <div className="min-h-screen pt-24 pb-32 relative overflow-hidden bg-background selection:bg-primary/30">
+      {/* Immersive Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-primary/5 via-background to-background" />
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]"
+        />
       </div>
 
       <div className="container max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 pt-8 flex flex-col items-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center"
           >
-            <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-[0.2em]">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
               Get in Touch
             </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
               Contact <span className="text-gradient">Me</span>
-            </h2>
+            </h1>
           </motion.div>
         </div>
 
         {/* Clean Split-pane Layout */}
-        <div className="relative rounded-3xl border border-border bg-card/50 backdrop-blur-xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-5">
+        <div className="relative rounded-[2rem] border border-foreground/5 bg-secondary/20 backdrop-blur-xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-5">
           
           {/* Left Pane (Info & Socials) */}
-          <div className="lg:col-span-2 p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-border relative overflow-hidden flex flex-col justify-between">
+          <div className="lg:col-span-2 p-8 md:p-12 relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+            
             <div className="relative z-10 space-y-10">
               <div>
-                <h3 className="text-2xl font-bold mb-2 text-foreground">Contact Information</h3>
-                <p className="text-muted-foreground">Fill out the form and I will get back to you within 24 hours.</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Contact Information</h3>
+                <p className="text-muted-foreground leading-relaxed">Fill out the form and I will get back to you within 24 hours.</p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Clean Contact Card: Email */}
-                <div className="flex items-center gap-5 p-4 rounded-2xl bg-background/50 border border-border transition-all hover:border-primary/50 hover:shadow-sm">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                    <Mail className="w-6 h-6 text-primary" />
+                <div className="flex items-center gap-5 p-5 rounded-2xl bg-background/40 border border-foreground/5 transition-all hover:border-primary/30 group">
+                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground font-semibold mb-1">Email Me</p>
@@ -184,9 +195,9 @@ export default function ContactSection() {
                 </div>
 
                 {/* Clean Contact Card: Location */}
-                <div className="flex items-center gap-5 p-4 rounded-2xl bg-background/50 border border-border transition-all hover:border-blue-500/50 hover:shadow-sm">
-                  <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
-                    <MapPin className="w-6 h-6 text-blue-500" />
+                <div className="flex items-center gap-5 p-5 rounded-2xl bg-background/40 border border-foreground/5 transition-all hover:border-blue-500/30 group">
+                  <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                    <MapPin className="w-6 h-6 text-blue-500 group-hover:text-white transition-colors" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground font-semibold mb-1">Location</p>
@@ -198,7 +209,7 @@ export default function ContactSection() {
               </div>
             </div>
 
-            <div className="relative z-10 mt-12 pt-8 border-t border-border">
+            <div className="relative z-10 mt-12 pt-8 border-t border-foreground/5">
               <p className="text-sm text-muted-foreground font-semibold mb-6">Follow My Socials</p>
               <div className="flex flex-wrap gap-4">
                 {socials.map((social, index) => {
@@ -213,7 +224,7 @@ export default function ContactSection() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.1 }}
                       whileHover={{ scale: 1.1, y: -2 }}
-                      className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 shadow-sm"
+                      className="w-12 h-12 rounded-full bg-background/50 border border-foreground/5 flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 shadow-sm backdrop-blur-sm"
                     >
                       <Icon className="w-5 h-5 transition-colors" />
                     </motion.a>
@@ -224,7 +235,7 @@ export default function ContactSection() {
           </div>
 
           {/* Right Pane (Form) */}
-          <div className="lg:col-span-3 p-8 md:p-12 relative z-10 bg-card">
+          <div className="lg:col-span-3 p-8 md:p-12 relative z-10 bg-background/50 backdrop-blur-md">
             <h3 className="text-2xl font-bold mb-8 text-foreground">Send me a message</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -236,7 +247,7 @@ export default function ContactSection() {
                     placeholder="Name"
                     required
                     disabled={isLoading}
-                    className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                    className="bg-background/80 border-foreground/5 focus:border-primary/50 h-14 pl-4 rounded-xl transition-all shadow-sm"
                   />
                 </div>
                 
@@ -249,7 +260,7 @@ export default function ContactSection() {
                     placeholder="name@domain.com"
                     required
                     disabled={isLoading}
-                    className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                    className="bg-background/80 border-foreground/5 focus:border-primary/50 h-14 pl-4 rounded-xl transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -259,10 +270,10 @@ export default function ContactSection() {
                 <Input
                   id="subject"
                   name="subject"
-                  placeholder="Subject"
+                  placeholder="How can I help you?"
                   required
                   disabled={isLoading}
-                  className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                  className="bg-background/80 border-foreground/5 focus:border-primary/50 h-14 pl-4 rounded-xl transition-all shadow-sm"
                 />
               </div>
 
@@ -271,11 +282,11 @@ export default function ContactSection() {
                 <Textarea
                   id="message"
                   name="message"
-                  rows={5}
-                  placeholder="Message..."
+                  placeholder="Tell me about your project..."
+                  rows={6}
                   required
                   disabled={isLoading}
-                  className="bg-background border-border focus:border-primary p-4 rounded-xl resize-none transition-all"
+                  className="bg-background/80 border-foreground/5 focus:border-primary/50 p-4 rounded-xl resize-none transition-all shadow-sm"
                 />
               </div>
 
@@ -298,6 +309,6 @@ export default function ContactSection() {
         onClose={() => setShowSuccessModal(false)}
         name={senderName}
       />
-    </section>
+    </div>
   )
 }
