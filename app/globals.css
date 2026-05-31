@@ -25,48 +25,50 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 36 33% 97%;
+    --foreground: 222 30% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 222 30% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 6 74% 29%;
+    --popover-foreground: 222 30% 12%;
+    --primary: 6 70% 32%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 6 74% 29%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 30 22% 92%;
+    --secondary-foreground: 222 20% 20%;
+    --muted: 30 18% 90%;
+    --muted-foreground: 222 10% 40%;
+    --accent: 12 78% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 74% 52%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 6 74% 29%;
-    --radius: 0.75rem;
+    --border: 30 12% 84%;
+    --input: 30 12% 84%;
+    --ring: 6 70% 32%;
+    --primary-rgb: 138 45 35;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 0 0% 13%; /* #212121 */
-    --foreground: 0 0% 98%;
-    --card: 0 0% 15%; /* #262626 */
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 15%; /* #262626 */
-    --popover-foreground: 0 0% 98%;
-    --primary: 6 74% 29%; /* Dark red primary */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 25%; /* #404040 */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 20%; /* #333333 */
-    --muted-foreground: 0 0% 64%;
-    --accent: 6 74% 29%; /* Dark red accent */
+    --background: 222 30% 8%;
+    --foreground: 0 0% 96%;
+    --card: 222 22% 11%;
+    --card-foreground: 0 0% 96%;
+    --popover: 222 22% 11%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 6 72% 52%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 222 18% 18%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 222 16% 16%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 12 78% 58%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 84% 55%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 25%; /* #404040 */
-    --input: 0 0% 25%; /* #404040 */
-    --ring: 6 74% 29%; /* Dark red ring */
+    --border: 222 14% 22%;
+    --input: 222 14% 22%;
+    --ring: 6 72% 52%;
+    --primary-rgb: 214 72 63;
   }
 }
 
@@ -149,17 +151,28 @@ html {
 
 /* Text gradient - always visible in both modes */
 .text-gradient {
-  color: hsl(var(--primary)) !important;
-  background: none !important;
-  background-clip: unset !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
+  background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
   font-weight: 700 !important;
 }
 
 .dark .text-gradient {
-  color: hsl(0 0% 100%) !important;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--primary)) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/* Subtle noise overlay helper */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: soft-light;
 }
 
 /* Glass effect */
@@ -377,19 +390,6 @@ body {
   }
 }
 
-.text-gradient {
-  color: hsl(var(--primary)) !important;
-  background: none !important;
-  background-clip: unset !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
-  font-weight: 700 !important;
-}
-
-.dark .text-gradient {
-  color: hsl(0 0% 100%) !important;
-}
-
 /* Improved focus states for accessibility */
 *:focus-visible {
   outline: 2px solid hsl(var(--primary));
@@ -418,6 +418,12 @@ body {
   /* Custom gradient utilities */
   .bg-gradient-radial {
     background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, hsl(var(--foreground) / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
   
   /* Custom scrollbar styles */

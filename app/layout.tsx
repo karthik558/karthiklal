@@ -1,15 +1,20 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Mona_Sans as FontSans } from "next/font/google"
+import { Plus_Jakarta_Sans, Bricolage_Grotesque } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 import AppWrapper from "@/components/app-wrapper"
 import { Toaster } from "@/components/ui/sonner"
 
-const fontSans = FontSans({
+const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+})
+
+const fontDisplay = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
 })
 
 export const metadata: Metadata = {
@@ -135,6 +140,7 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-sans antialiased transition-colors duration-300",
           fontSans.variable,
+          fontDisplay.variable,
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>

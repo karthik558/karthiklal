@@ -37,8 +37,8 @@ function AchievementCard({ certification, index }: { certification: Certificatio
       className="group relative h-full"
       onMouseMove={handleMouseMove}
     >
-      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-primary/50 opacity-0 transition duration-300 group-hover:opacity-100" />
-      <Card className="relative h-full border border-border/50 bg-card/90 backdrop-blur-sm transition-all duration-300 overflow-hidden">
+      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-accent/50 opacity-0 transition duration-300 group-hover:opacity-100" />
+      <Card className="relative h-full border border-foreground/10 bg-card/80 backdrop-blur-sm transition-all duration-300 overflow-hidden">
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
           style={{
@@ -60,7 +60,7 @@ function AchievementCard({ certification, index }: { certification: Certificatio
             <Badge 
               variant="outline" 
               className={cn(
-                "px-3 py-1 border-primary/20 bg-primary/5",
+                "px-3 py-1 border-primary/30 bg-primary/10",
                 certification.status === 'active' ? "text-green-600 dark:text-green-400" : "text-orange-600 dark:text-orange-400"
               )}
             >
@@ -117,8 +117,10 @@ export default function CertificationsSection() {
   if (loading) return null
 
   return (
-    <section id="certifications" className="py-20 md:py-32 bg-secondary/10">
-      <div className="container">
+    <section id="certifications" className="py-20 md:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_15%_30%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_85%_70%,hsl(var(--accent)/0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -126,10 +128,10 @@ export default function CertificationsSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Certifications
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional <span className="text-gradient">Achievements</span></h2>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Professional <span className="text-gradient">Achievements</span></h2>
           <p className="text-muted-foreground">
             Continuous learning is essential in tech. Here are some of my professional certifications and achievements.
           </p>

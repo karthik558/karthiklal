@@ -50,7 +50,7 @@ export default function CtaSection() {
         mouseX.set(0)
         mouseY.set(0)
       }}
-      className="relative min-h-[30vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden py-12 md:py-20"
+      className="relative min-h-[30vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden py-16 md:py-24"
     >
       {/* Animated Background Gradient */}
       <div className="absolute inset-0 bg-background">
@@ -58,12 +58,13 @@ export default function CtaSection() {
           style={{ x: bgX, y: bgY }}
           className="absolute inset-0 opacity-30"
         >
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px] mix-blend-screen animate-pulse delay-1000" />
+          <div className="absolute top-1/4 left-1/4 w-[520px] h-[520px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-accent/20 rounded-full blur-[120px] mix-blend-screen animate-pulse delay-1000" />
         </motion.div>
 
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--foreground)/0.06)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.06)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
       </div>
 
       <div className="container relative z-10 flex flex-col items-center justify-center text-center">
@@ -80,7 +81,7 @@ export default function CtaSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className="text-5xl md:text-[10vw] font-black leading-[0.9] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 select-none group-hover:from-primary group-hover:to-primary/50 transition-all duration-500 max-w-[90vw] mx-auto"
+              className="text-5xl md:text-[10vw] font-display font-black leading-[0.9] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/60 select-none group-hover:from-primary group-hover:to-accent transition-all duration-500 max-w-[90vw] mx-auto"
             >
               Let's Talk
             </motion.h2>

@@ -115,9 +115,10 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-background border-t border-border/40 relative overflow-hidden">
+    <footer className="bg-background border-t border-foreground/10 relative overflow-hidden">
       {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_20%_0%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_80%_100%,hsl(var(--accent)/0.12),transparent_60%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       
       <motion.div 
         variants={container}
@@ -136,13 +137,13 @@ export default function Footer() {
               alt="Karthik Lal"
               width={200}
               height={60}
-              className="h-10 w-auto object-contain dark:invert relative z-10 opacity-90 group-hover:opacity-100 transition-opacity"
+              className="h-10 w-auto object-contain relative z-10 opacity-90 group-hover:opacity-100 transition-opacity dark:invert"
               priority
             />
           </motion.div>
 
           {/* Navigation Links */}
-          <motion.nav variants={item} className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium text-muted-foreground">
+          <motion.nav variants={item} className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground">
             {[
               { name: "About", href: "/#about", isSmooth: true },
               { name: "Services", href: "/#services", isSmooth: true },
@@ -193,7 +194,7 @@ export default function Footer() {
                       href={social.url}
                       target={social.name !== 'Email' ? "_blank" : undefined}
                       rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                      className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-primary hover:text-primary-foreground border border-border/50 hover:border-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
+                      className="w-10 h-10 rounded-full bg-secondary/60 hover:bg-primary hover:text-primary-foreground border border-foreground/10 hover:border-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
                       title={social.name}
                     >
                       <IconComponent className="h-4 w-4" />

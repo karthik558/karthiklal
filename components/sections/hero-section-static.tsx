@@ -27,11 +27,11 @@ export default function HeroSectionStatic() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('/data/profile.json')
+        const response = await fetch("/data/profile.json")
         const data: ProfileData = await response.json()
         setProfileData(data.personalInfo)
       } catch (error) {
-        console.error('Failed to fetch profile:', error)
+        console.error("Failed to fetch profile:", error)
       }
     }
 
@@ -39,20 +39,11 @@ export default function HeroSectionStatic() {
   }, [])
 
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-20 pb-10">
-      {/* Awesome Background Effects */}
-      <div 
-        className="absolute inset-0 w-full h-full opacity-[0.02] dark:opacity-[0.03]" 
-        style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%239C92AC' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")` 
-        }} 
-      />
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[30rem] h-[30rem] bg-primary/10 rounded-full blur-[100px] opacity-40 animate-pulse-soft" />
-      </div>
-      <div className="absolute top-1/4 left-1/4 w-[15rem] h-[15rem] bg-orange-500/5 rounded-full blur-[80px] opacity-30 mix-blend-screen pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[20rem] h-[20rem] bg-red-500/5 rounded-full blur-[100px] opacity-30 mix-blend-screen pointer-events-none" />
-
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">
+      {/* New Background Atmosphere */}
+      <div className="absolute inset-0 bg-[radial-gradient(1200px_circle_at_20%_20%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(1000px_circle_at_80%_30%,hsl(var(--primary)/0.18),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_10%_80%,hsl(var(--primary)/0.12),transparent_65%),radial-gradient(700px_circle_at_90%_80%,hsl(var(--accent)/0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
       <div className="container relative z-10 px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
@@ -63,18 +54,18 @@ export default function HeroSectionStatic() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="space-y-4 md:space-y-6">
+            <div className="space-y-5 md:space-y-7">
               
               <div className="space-y-2">
                 <motion.h2 
-                  className="text-base sm:text-lg md:text-xl font-medium text-muted-foreground tracking-wide uppercase"
+                  className="text-xs sm:text-sm md:text-base font-semibold text-muted-foreground tracking-[0.4em] uppercase"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
                   Hello, I am
                 </motion.h2>
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.1]">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-[-0.04em] leading-[0.95]">
                   <span className="block text-foreground drop-shadow-sm">
                     {profileData?.name || "Karthik Lal"}
                   </span>
@@ -90,7 +81,7 @@ export default function HeroSectionStatic() {
                 <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground/80 tracking-tight">
                   {profileData?.title || "IT Manager & Full Stack Developer"}
                 </p>
-                <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-[550px] leading-relaxed font-light">
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-[560px] leading-relaxed font-light">
                   {profileData?.bio || "Crafting secure, scalable, and intuitive digital experiences with a focus on performance and user-centric design."}
                 </p>
               </motion.div>
@@ -149,13 +140,13 @@ export default function HeroSectionStatic() {
             transition={{ duration: 1, ease: "easeOut" }}
             style={{ y }}
           >
-            <div className="relative w-[450px] h-[550px]">
+            <div className="relative w-[440px] h-[560px]">
               {/* Decorative elements behind image */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 to-transparent transform rotate-3 scale-105 border border-primary/5 backdrop-blur-sm" />
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-bl from-orange-500/10 to-transparent transform -rotate-3 scale-105 border border-orange-500/5 backdrop-blur-sm" />
+              <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-primary/20 via-transparent to-accent/20 blur-2xl opacity-70" />
+              <div className="absolute inset-0 rounded-[2.5rem] border border-foreground/10 bg-background/40 backdrop-blur-md" />
               
               {/* Main Image Container */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden border border-white/5 shadow-2xl bg-background/50 backdrop-blur-md group">
+              <div className="absolute inset-0 m-3 rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-background/50 backdrop-blur-md group">
                 <Image 
                   src="/user/hero.jpg" 
                   alt="Karthik Lal" 
@@ -163,7 +154,7 @@ export default function HeroSectionStatic() {
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-700" 
                   priority 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-70" />
               </div>
 
               {/* Floating Badges */}
@@ -193,7 +184,7 @@ export default function HeroSectionStatic() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
       >
         <SmoothLink href="#about" className="flex flex-col items-center gap-2 group">
-          <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase group-hover:text-primary transition-colors">Scroll</span>
+          <span className="text-[10px] font-semibold tracking-[0.35em] text-muted-foreground uppercase group-hover:text-primary transition-colors">Scroll</span>
           <div className="w-[1px] h-12 bg-muted-foreground/30 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full bg-primary animate-scroll-down" />
           </div>

@@ -111,14 +111,16 @@ const PortfolioGallerySection = () => {
 	return (
 		<section
 			id="portfolio-gallery"
-			className="py-20 md:py-32 bg-background relative z-10"
+			className="py-20 md:py-32 bg-background relative z-10 overflow-hidden"
 		>
-			<div className="container">
+			<div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_15%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(900px_circle_at_80%_80%,hsl(var(--primary)/0.12),transparent_60%)]" />
+			<div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+			<div className="container relative z-10">
 				<div className="text-center mb-16">
-					<Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary animate-item">
+					<Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase animate-item">
 						Design Portfolio
 					</Badge>
-					<h2 className="text-3xl md:text-4xl font-bold mb-4 animate-item">
+					<h2 className="text-3xl md:text-4xl font-display font-bold mb-4 animate-item">
 						Featured <span className="text-gradient">Works</span>
 					</h2>
 					<p className="text-muted-foreground max-w-2xl mx-auto animate-item">
@@ -130,10 +132,10 @@ const PortfolioGallerySection = () => {
 				<div className="flex w-full h-[80vh] justify-center items-center">
 					<div
 						ref={galleryRef}
-						className="w-full max-w-screen-xl mx-auto h-full overflow-hidden relative border-none shadow-none"
+							className="w-full max-w-screen-xl mx-auto h-full overflow-hidden relative border border-foreground/10 rounded-[2rem] bg-background/60 backdrop-blur-md shadow-2xl"
 					>
 						{!shouldRenderGallery && (
-							<div className="flex h-full w-full items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/10">
+								<div className="flex h-full w-full items-center justify-center rounded-[2rem] border border-dashed border-foreground/20 bg-muted/10">
 								<p className="text-muted-foreground text-sm md:text-base">
 									Preparing interactive gallery…
 								</p>
@@ -146,7 +148,7 @@ const PortfolioGallerySection = () => {
 									{fallbackItems.map((item, index) => (
 										<div
 											key={`${item.image}-${index}`}
-											className="relative flex-shrink-0 w-[85vw] md:w-[45vw] aspect-[3/4] overflow-hidden rounded-2xl border border-border/50 bg-background shadow-lg snap-center transform transition-transform duration-300"
+											className="relative flex-shrink-0 w-[85vw] md:w-[45vw] aspect-[3/4] overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-lg snap-center transform transition-transform duration-300"
 										>
 											<img
 												src={item.image}
@@ -167,7 +169,7 @@ const PortfolioGallerySection = () => {
 									bend={1.5}
 									textColor="#ffffff"
 									borderRadius={0.08}
-									font="bold 28px DM Sans"
+									font="bold 28px Bricolage Grotesque"
 								/>
 							)
 

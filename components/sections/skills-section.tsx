@@ -55,8 +55,8 @@ function SkillCard({ category, index }: { category: SkillCategory, index: number
       className="group relative h-full"
       onMouseMove={handleMouseMove}
     >
-      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-primary/50 opacity-0 transition duration-300 group-hover:opacity-100" />
-      <Card className="relative h-full border border-border/50 bg-card/90 backdrop-blur-sm transition-all duration-300 overflow-hidden">
+      <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-primary/50 to-accent/50 opacity-0 transition duration-300 group-hover:opacity-100" />
+      <Card className="relative h-full border border-foreground/10 bg-card/80 backdrop-blur-sm transition-all duration-300 overflow-hidden">
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
           style={{
@@ -71,11 +71,11 @@ function SkillCard({ category, index }: { category: SkillCategory, index: number
         />
         <CardHeader className="pb-4 relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110 transition-transform`}>
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110 transition-transform">
               <IconComponent className={`h-6 w-6 text-primary`} />
             </div>
             <div>
-              <CardTitle className="text-lg group-hover:text-primary transition-colors">{category.name}</CardTitle>
+              <CardTitle className="text-lg font-display group-hover:text-primary transition-colors">{category.name}</CardTitle>
               <p className="text-sm text-muted-foreground">{category.skills.length} skills</p>
             </div>
           </div>
@@ -131,8 +131,10 @@ export default function SkillsSection() {
   }, [])
 
   return (
-    <section id="skills" className="py-20 md:py-32 bg-secondary/10">
-      <div className="container">
+    <section id="skills" className="py-20 md:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_10%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(700px_circle_at_10%_90%,hsl(var(--primary)/0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="container relative z-10">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -140,10 +142,10 @@ export default function SkillsSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Skills & Expertise
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical <span className="text-gradient">Proficiency</span></h2>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Technical <span className="text-gradient">Proficiency</span></h2>
           <p className="text-muted-foreground">
             A comprehensive overview of my technical skills and areas of expertise across various domains of software development.
           </p>

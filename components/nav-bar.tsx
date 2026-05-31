@@ -47,7 +47,7 @@ export default function NavBar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-in-out ${isScrolled
-        ? "py-2 bg-background/60 backdrop-blur-3xl border-b border-primary/5 shadow-sm supports-[backdrop-filter]:bg-background/60"
+        ? "py-2 bg-background/70 backdrop-blur-2xl border-b border-foreground/10 shadow-sm supports-[backdrop-filter]:bg-background/70"
         : "py-4 bg-transparent"
         }`}
       style={{ position: 'fixed' }}

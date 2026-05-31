@@ -33,7 +33,7 @@ const ServiceItem = ({ area, icon, title, description, delay, isInView }: Servic
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, delay }}
     >
-      <div className="relative h-full rounded-[1.25rem] border-[0.75px] border-border p-2 md:rounded-[1.5rem] md:p-3">
+      <div className="relative h-full rounded-[1.5rem] border border-foreground/10 bg-card/40 p-2 md:rounded-[1.75rem] md:p-3">
         <GlowingEffect
           spread={40}
           glow={true}
@@ -42,13 +42,13 @@ const ServiceItem = ({ area, icon, title, description, delay, isInView }: Servic
           inactiveZone={0.01}
           borderWidth={3}
         />
-        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-[0.75px] bg-background p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)] md:p-6">
+        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-[1.25rem] border border-foreground/10 bg-background/80 p-6 shadow-sm md:p-6">
           <div className="relative flex flex-1 flex-col justify-between gap-3">
-            <div className="w-fit rounded-lg border-[0.75px] border-border bg-muted p-2">
+            <div className="w-fit rounded-lg border border-foreground/10 bg-muted/60 p-2">
               {icon}
             </div>
             <div className="space-y-3">
-              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-semibold font-sans tracking-[-0.04em] md:text-2xl md:leading-[1.875rem] text-balance text-foreground">
+              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-display font-semibold tracking-[-0.03em] md:text-2xl md:leading-[1.875rem] text-balance text-foreground">
                 {title}
               </h3>
               <p className="[&_b]:md:font-semibold [&_strong]:md:font-semibold font-sans text-sm leading-[1.125rem] md:text-base md:leading-[1.375rem] text-muted-foreground">
@@ -67,8 +67,10 @@ export default function ServicesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-secondary/10">
-      <div className="container">
+    <section id="services" className="py-20 md:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_10%_10%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_90%_90%,hsl(var(--accent)/0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none" />
+      <div className="container relative z-10">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -76,10 +78,10 @@ export default function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Services
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Expert <span className="text-gradient">Solutions</span></h2>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Expert <span className="text-gradient">Solutions</span></h2>
           <p className="text-muted-foreground">
             Specialized services tailored to elevate your digital presence with security, performance, and design excellence.
           </p>

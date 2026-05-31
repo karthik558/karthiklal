@@ -71,7 +71,9 @@ export default function ExperienceSection() {
   }
 
   return (
-    <section id="experience" className="py-24 md:py-32 bg-secondary/5 relative overflow-hidden">
+    <section id="experience" className="py-24 md:py-32 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_20%_20%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(800px_circle_at_80%_80%,hsl(var(--accent)/0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
 
 
       <div className="container max-w-6xl mx-auto relative z-10">
@@ -82,10 +84,10 @@ export default function ExperienceSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-20"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
+          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Career Path
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 tracking-tight">
             Experience & <span className="text-gradient">Education</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -95,7 +97,7 @@ export default function ExperienceSection() {
 
         <Tabs defaultValue="experience" className="w-full">
           <div className="flex justify-center mb-16">
-            <TabsList className="grid w-full max-w-md grid-cols-2 h-14 p-1 bg-secondary/50 backdrop-blur-xl border border-border/40 rounded-full shadow-lg">
+            <TabsList className="grid w-full max-w-md grid-cols-2 h-14 p-1 bg-card/70 backdrop-blur-xl border border-foreground/10 rounded-full shadow-lg">
               <TabsTrigger
                 value="experience"
                 className="rounded-full h-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all duration-300 font-medium text-base"
@@ -180,7 +182,7 @@ function TimelineItem({ item, index, type }: { item: any, index: number, type: '
       <div className="hidden md:block flex-1" />
 
       {/* Center Dot */}
-      <div className="absolute left-8 md:left-1/2 top-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-background border-4 border-primary/20 flex items-center justify-center transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]">
+      <div className="absolute left-8 md:left-1/2 top-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-background border-4 border-primary/20 flex items-center justify-center transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(var(--primary-rgb),0.25)]">
         <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-primary animate-pulse"></div>
       </div>
 
@@ -188,20 +190,20 @@ function TimelineItem({ item, index, type }: { item: any, index: number, type: '
       <div className="flex-1 pl-20 md:pl-0">
         <div className={`
           relative p-6 md:p-8 rounded-2xl 
-          bg-card/40 backdrop-blur-md border border-white/10 dark:border-white/5 
-          shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] 
+          bg-card/70 backdrop-blur-md border border-foreground/10 
+          shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_32px_rgba(0,0,0,0.1)] 
           transition-all duration-300 group
           ${isEven ? 'md:mr-12 md:text-right' : 'md:ml-12 md:text-left'}
         `}>
           {/* Gradient Glow on Hover */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
           <div className={`flex flex-col gap-4 relative z-10 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
             <div className="space-y-2">
               <Badge variant="secondary" className="mb-2 bg-primary/10 text-primary hover:bg-primary/20 border-0">
                 {item.duration}
               </Badge>
-              <h3 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+              <h3 className="text-xl md:text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
                 {item.title}
               </h3>
               <div className={`flex items-center gap-2 text-muted-foreground ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>

@@ -44,7 +44,7 @@ function ParticleField() {
   return (
     <points ref={particlesRef}>
       <sphereGeometry args={[3, 64, 64]} />
-      <pointsMaterial size={0.015} color="#4466ff" sizeAttenuation transparent opacity={0.6} />
+      <pointsMaterial size={0.015} color="#2fb7a5" sizeAttenuation transparent opacity={0.6} />
     </points>
   )
 }
@@ -70,7 +70,7 @@ function ProfileSphere() {
     <mesh ref={meshRef} position={[0, 0, 0]}>
       <sphereGeometry args={[1.5, 64, 64]} />
       <MeshDistortMaterial
-        color="#4466ff"
+        color="#2fb7a5"
         roughness={0.3}
         metalness={0.8}
         distort={0.4}
@@ -134,7 +134,8 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(1200px_circle_at_15%_20%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(900px_circle_at_85%_20%,hsl(var(--primary)/0.18),transparent_60%)] z-0" />
+      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
 
       {/* Animated background particles */}
       <div className="absolute inset-0 z-0">
@@ -270,7 +271,7 @@ export default function HeroSection() {
               }}
             >
               {/* Animated Background Blob */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#74261a]/40 via-[#963e30]/30 to-[#b55242]/40 blur-[100px] animate-pulse" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/30 via-accent/20 to-primary/20 blur-[100px] animate-pulse" />
 
               {/* Main Hero Card */}
               <motion.div
@@ -291,7 +292,7 @@ export default function HeroSection() {
                   z: 50,
                 }}
                 whileHover={{ scale: 1.02, z: 80 }}
-                className="absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl shadow-[#74261a]/30 border border-white/10 bg-background/5 backdrop-blur-sm group"
+                className="absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl shadow-primary/20 border border-white/10 bg-background/5 backdrop-blur-sm group"
               >
                 <Image src="/user/hero1.png" alt="Hero art" fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority />
                 
@@ -309,11 +310,11 @@ export default function HeroSection() {
               {/* Decorative Elements - Clean & Minimal */}
               <motion.div 
                 style={{ x: moveX2, y: moveY2, z: 20 }}
-                className="absolute -top-10 -right-10 w-32 h-32 rounded-full border border-white/10 bg-[#74261a]/10 backdrop-blur-md"
+                className="absolute -top-10 -right-10 w-32 h-32 rounded-full border border-white/10 bg-primary/10 backdrop-blur-md"
               />
               <motion.div 
                 style={{ x: moveX1, y: moveY1, z: 30 }}
-                className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-[#963e30]/20 blur-2xl"
+                className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-accent/20 blur-2xl"
               />
             </motion.div>
           </div>

@@ -62,7 +62,9 @@ export default function AboutSection() {
   }
 
   return (
-    <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background/50">
+    <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(700px_circle_at_10%_70%,hsl(var(--primary)/0.16),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none" />
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image Side - GSAP Style Reveal */}
@@ -75,7 +77,7 @@ export default function AboutSection() {
               viewport={{ once: true, amount: 0.2 }}
               className="relative z-10 w-full max-w-[450px] lg:max-w-[550px]"
             >
-              <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-[#74261a]/10 border border-white/10 bg-muted">
+              <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-primary/10 border border-foreground/10 bg-muted">
                 <Image
                   src="/user/about.jpg"
                   alt={profileData.personalInfo.name}
@@ -84,7 +86,7 @@ export default function AboutSection() {
                   priority
                 />
                 {/* Subtle Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#74261a]/20 to-transparent opacity-40 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-70" />
               </div>
             </motion.div>
 
@@ -94,14 +96,14 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#74261a]/10 rounded-full blur-3xl -z-10"
+              className="absolute -bottom-12 -left-12 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl -z-10"
+              className="absolute -top-12 -right-12 w-48 h-48 bg-accent/20 rounded-full blur-3xl -z-10"
             />
           </div>
 
@@ -113,10 +115,10 @@ export default function AboutSection() {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary rounded-full text-sm font-medium">
+              <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary rounded-full text-xs font-semibold tracking-[0.2em] uppercase">
                 About Me
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-4">
                 My <span className="text-gradient">Journey</span>
               </h2>
             </motion.div>
@@ -147,7 +149,7 @@ export default function AboutSection() {
               viewport={{ once: true }}
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2"
             >
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 border border-border/50 hover:bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-card/70 border border-foreground/10 shadow-sm hover:shadow-md transition-shadow">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <MapPin className="h-5 w-5" />
                 </div>
@@ -157,7 +159,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 border border-border/50 hover:bg-secondary/50 transition-colors">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-card/70 border border-foreground/10 shadow-sm hover:shadow-md transition-shadow">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   <Mail className="h-5 w-5" />
                 </div>
