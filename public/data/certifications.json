@@ -2,47 +2,113 @@
   "certifications": [
     {
       "id": 1,
-      "title": "Git Certified Specialist - Version Control & Collaboration",
-      "issuer": "GitKraken",
-      "date": "Apr 2023",
+      "title": "Incident Response and Systems Forensics",
+      "issuer": "IBM",
+      "date": "Apr 2026",
       "expiryDate": "No Expiry",
-      "credentialId": "GK-GIT-2023",
+      "credentialId": "d3c733b4-28db-4285-a6be-c9fe4ec97278",
       "status": "active",
-      "description": "Professional certification in Git version control systems, covering advanced Git workflows, branching strategies, collaboration techniques, and distributed version control best practices.",
-      "link": "https://www.gitkraken.com/"
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
     },
     {
       "id": 2,
+      "title": "Security Operations and Management",
+      "issuer": "IBM",
+      "date": "Apr 2026",
+      "expiryDate": "No Expiry",
+      "credentialId": "4109c53f-5740-444a-97d5-73ec4575710f",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 3,
+      "title": "Cloud Security",
+      "issuer": "IBM",
+      "date": "Apr 2026",
+      "expiryDate": "No Expiry",
+      "credentialId": "157ea49b-e14b-458d-9d06-0862993a7848",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 4,
+      "title": "System and Network Security",
+      "issuer": "IBM",
+      "date": "Apr 2026",
+      "expiryDate": "No Expiry",
+      "credentialId": "a46e31d0-cb99-4334-93fb-ebaa4d1ff92b",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 5,
+      "title": "Vulnerability Management",
+      "issuer": "IBM",
+      "date": "Apr 2026",
+      "expiryDate": "No Expiry",
+      "credentialId": "ff39a796-bbee-4ce3-8817-eb4686abb10a",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 6,
+      "title": "Governance, Risk, Compliance, and Data Privacy",
+      "issuer": "IBM",
+      "date": "Dec 2025",
+      "expiryDate": "No Expiry",
+      "credentialId": "fa4e61d2-9b07-4994-af47-09a9853d8146",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 7,
+      "title": "Git Certified Specialist by GitKraken",
+      "issuer": "GitKraken",
+      "date": "Apr 2023",
+      "expiryDate": "No Expiry",
+      "credentialId": "me50iujngh",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 8,
       "title": "LFD103: A Beginner's Guide to Linux Kernel Development",
       "issuer": "The Linux Foundation",
       "date": "Feb 2023",
       "expiryDate": "No Expiry",
-      "credentialId": "LF-LKD-2023",
+      "credentialId": "LF-rc2q5mmvm6",
       "status": "active",
-      "description": "Comprehensive course on Linux kernel development fundamentals, covering kernel architecture, development practices, and system-level programming concepts.",
-      "link": "https://www.linuxfoundation.org/"
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
     },
     {
-      "id": 3,
-      "title": "Programming in C & Object Oriented Programming using C++",
+      "id": 9,
+      "title": "Diploma in Web Designing and Animation (DWA)",
+      "issuer": "G-Tec Computer Education",
+      "date": "Aug 2019",
+      "expiryDate": "No Expiry",
+      "credentialId": "Not Available",
+      "status": "active",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
+    },
+    {
+      "id": 10,
+      "title": "Programming in C and Object Oriented Programming using C++",
       "issuer": "NIST Computer Education Center",
       "date": "Dec 2021",
       "expiryDate": "No Expiry",
-      "credentialId": "NIST-CPP-2021",
+      "credentialId": "Not Available",
       "status": "active",
-      "description": "Advanced programming certification covering C fundamentals and object-oriented programming concepts in C++.",
-      "link": "https://nist.edu/"
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
     },
     {
-      "id": 4,
-      "title": "CEH - Certified Ethical Hacking (Certified Ethical Hacker)",
+      "id": 11,
+      "title": "Certified Ethical Hacker (CEH)",
       "issuer": "EC-Council",
       "date": "Jun 2021",
       "expiryDate": "Jun 2024",
-      "credentialId": "CEH-2021",
-      "status": "active",
-      "description": "Comprehensive ethical hacking certification covering penetration testing, vulnerability assessment, and cybersecurity best practices.",
-      "link": "https://www.eccouncil.org/"
+      "credentialId": "ECC7205489631",
+      "status": "expired",
+      "link": "https://www.linkedin.com/in/karthiklal/details/certifications/"
     }
   ]
 }
