@@ -45,6 +45,9 @@ export const AnimatedButton = ({
     </>
   );
 
+  // Check if it's an external link
+  const isExternal = href?.startsWith("http");
+
   if (href) {
     if (href.startsWith("/#")) {
       return (
@@ -53,8 +56,16 @@ export const AnimatedButton = ({
         </SmoothLink>
       );
     }
+    if (isExternal) {
+      // Use standard anchor tag for external links to support target="_blank"
+      return (
+        <a href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...(props as any)}>
+          {content}
+        </a>
+      );
+    }
     return (
-      <Link href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+      <Link href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...(props as any)}>
         {content}
       </Link>
     );

@@ -1,11 +1,12 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
+import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Award, CheckCircle, Clock, ExternalLink, Calendar } from "lucide-react"
+import { Award, CheckCircle, Clock, ExternalLink, Calendar, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 interface Certification {
   id: number
@@ -30,10 +31,6 @@ function AchievementCard({ certification, index }: { certification: Certificatio
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative h-full"
       onMouseMove={handleMouseMove}
     >
@@ -100,6 +97,7 @@ function AchievementCard({ certification, index }: { certification: Certificatio
 export default function CertificationsSection() {
   const [certifications, setCertifications] = useState<Certification[]>([])
   const [loading, setLoading] = useState(true)
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     fetch('/data/certifications.json')
@@ -137,13 +135,48 @@ export default function CertificationsSection() {
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-6">
-          {certifications.map((cert, index) => (
-            <div key={cert.id} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
-              <AchievementCard certification={cert} index={index} />
-            </div>
-          ))}
-        </div>
+        <motion.div 
+          layout 
+          className="flex flex-wrap justify-center gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <AnimatePresence mode="popLayout">
+            {(showAll ? certifications : certifications.slice(0, 6)).map((cert, index) => (
+              <motion.div 
+                key={cert.id}
+                layout
+                variants={{
+                  hidden: { opacity: 0, y: 20, scale: 0.9 },
+                  visible: { opacity: 1, y: 0, scale: 1 }
+                }}
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, scale: 0.9, y: 20, transition: { delay: 0, duration: 0.2 } }}
+                transition={{ duration: 0.4, delay: (index % 6) * 0.1, type: "spring", bounce: 0.3 }}
+                className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+              >
+                <AchievementCard certification={cert} index={index} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {certifications.length > 6 && (
+          <motion.div 
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12 flex justify-center"
+          >
+            <AnimatedButton onClick={() => setShowAll(!showAll)} variant="outline">
+              {showAll ? "Show Less" : "Show All Certifications"}
+              {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+            </AnimatedButton>
+          </motion.div>
+        )}
       </div>
     </section>
   )

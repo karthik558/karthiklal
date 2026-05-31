@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { AnimatedButton } from "@/components/ui/animated-button"
 import { ExternalLink, Github } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -172,22 +173,28 @@ export function FeatureSteps({
 
                   {/* Action Buttons */}
                   {(features[currentFeature].github || features[currentFeature].link) && (
-                    <div className="flex flex-wrap gap-3 md:gap-4">
+                    <div className="flex flex-wrap gap-3 md:gap-4 mt-6">
                       {features[currentFeature].github && (
-                        <a href={features[currentFeature].github} target="_blank" rel="noreferrer" className="flex-1 md:flex-none">
-                          <Button size="default" variant="outline" className="w-full md:w-auto rounded-full px-4 md:px-6 hover:bg-muted/50 transition-all duration-300 border-primary/20 hover:border-primary/50 group">
-                            <Github className="h-4 w-4 md:h-5 md:w-5 mr-2 group-hover:scale-110 transition-transform" />
-                            <span className="text-sm md:text-base">View Code</span>
-                          </Button>
-                        </a>
+                        <AnimatedButton
+                          href={features[currentFeature].github}
+                          target="_blank"
+                          rel="noreferrer"
+                          variant="outline"
+                        >
+                          <Github className="h-4 w-4 md:h-5 md:w-5" />
+                          <span>View Code</span>
+                        </AnimatedButton>
                       )}
                       {features[currentFeature].link && (
-                        <a href={features[currentFeature].link} target="_blank" rel="noreferrer" className="flex-1 md:flex-none">
-                          <Button size="default" className="w-full md:w-auto rounded-full px-4 md:px-6 bg-primary hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/20 group">
-                            <ExternalLink className="h-4 w-4 md:h-5 md:w-5 mr-2 group-hover:scale-110 transition-transform" />
-                            <span className="text-sm md:text-base">Live Demo</span>
-                          </Button>
-                        </a>
+                        <AnimatedButton
+                          href={features[currentFeature].link}
+                          target="_blank"
+                          rel="noreferrer"
+                          variant="primary"
+                        >
+                          <ExternalLink className="h-4 w-4 md:h-5 md:w-5" />
+                          <span>Live Demo</span>
+                        </AnimatedButton>
                       )}
                     </div>
                   )}

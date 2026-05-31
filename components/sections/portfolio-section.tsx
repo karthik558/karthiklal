@@ -186,11 +186,9 @@ export default function PortfolioSection() {
               <p className="text-muted-foreground mb-6 max-w-[200px] mx-auto">
                 Explore the full archive of my work and experiments.
               </p>
-              <Button asChild className="rounded-full">
-                <Link href="/projects">
-                  Open Portfolio <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <AnimatedButton href="/projects">
+                Open Portfolio <ArrowRight className="ml-2 h-4 w-4" />
+              </AnimatedButton>
             </div>
           </motion.div>
         </div>
