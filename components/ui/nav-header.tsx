@@ -59,7 +59,7 @@ function NavHeader() {
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
     { label: 'Blog', href: '/blog', icon: User },
     { label: 'Testimonials', href: '/#testimonials', icon: MessageCircle },
-    { label: 'Contact', href: '/#contact', icon: Phone }
+    { label: 'Contact', href: '/contact', icon: Phone }
   ]
 
   // Filter navigation items based on current page

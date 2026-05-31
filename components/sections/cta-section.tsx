@@ -1,118 +1,65 @@
 "use client"
 
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from "framer-motion"
-import { useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 export default function CtaSection() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [isHovered, setIsHovered] = useState(false)
-
-  // Mouse position for parallax
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  // Smooth mouse movement
-  const springConfig = { damping: 25, stiffness: 150 }
-  const springX = useSpring(mouseX, springConfig)
-  const springY = useSpring(mouseY, springConfig)
-
-  // Parallax transforms
-  const textX = useTransform(springX, [-0.5, 0.5], [-50, 50])
-  const textY = useTransform(springY, [-0.5, 0.5], [-50, 50])
-
-  const bgX = useTransform(springX, [-0.5, 0.5], [20, -20])
-  const bgY = useTransform(springY, [-0.5, 0.5], [20, -20])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY, currentTarget } = e
-    const { width, height, left, top } = currentTarget.getBoundingClientRect()
-
-    // Calculate normalized mouse position (-0.5 to 0.5)
-    const x = (clientX - left) / width - 0.5
-    const y = (clientY - top) / height - 0.5
-
-    mouseX.set(x)
-    mouseY.set(y)
-  }
-
   return (
-    <section
-      id="contact"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false)
-        mouseX.set(0)
-        mouseY.set(0)
-      }}
-      className="relative min-h-[30vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden py-16 md:py-24"
-    >
-      {/* Animated Background Gradient */}
-      <div className="absolute inset-0 bg-background">
-        <motion.div
-          style={{ x: bgX, y: bgY }}
-          className="absolute inset-0 opacity-20"
-        >
-          <div className="absolute top-1/4 left-1/4 w-[520px] h-[520px] bg-primary/16 rounded-full blur-[140px]" />
-        </motion.div>
-
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--foreground)/0.06)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.06)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-noise opacity-18 pointer-events-none" />
+    <section id="cta" className="relative min-h-[40vh] md:min-h-[60vh] flex items-center justify-center py-24 overflow-hidden bg-background">
+      {/* Subtle Background Effects */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.05),transparent_70%)]" />
+        <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       </div>
-
-      <div className="container relative z-10 flex flex-col items-center justify-center text-center">
-        {/* Main Title with Parallax - Clickable */}
-        <Link href="/contact" className="group relative cursor-pointer">
-          <motion.div
-            style={{ x: textX, y: textY }}
-            className="relative mb-12"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+      
+      <div className="container relative z-10 flex justify-center text-center">
+        <Link href="/contact" className="focus:outline-none">
+          <motion.div 
+            className="group relative inline-flex overflow-hidden cursor-pointer p-4"
+            whileHover="hover"
+            initial="initial"
           >
-            <motion.h2
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              className="text-5xl md:text-[10vw] font-display font-black leading-[0.9] tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/60 select-none group-hover:from-primary group-hover:to-accent transition-all duration-500 max-w-[90vw] mx-auto"
+            {/* The Main Text */}
+            <motion.h2 
+              className="text-6xl md:text-9xl lg:text-[12rem] font-display font-black tracking-[-0.04em] bg-gradient-to-r from-red-500 via-rose-500 to-red-600 bg-clip-text text-transparent transition-all duration-500 group-hover:from-red-400 group-hover:via-rose-400 group-hover:to-red-500"
+              animate={{ y: [-10, 10, -10], scale: [1, 1.02, 1] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               Let's Talk
             </motion.h2>
-
-            {/* Floating Elements */}
+            
+            {/* The Glitter Slice Effect */}
             <motion.div
-              animate={{
-                y: [0, -20, 0],
-                rotate: [0, 5, 0]
+              className="absolute top-0 bottom-0 w-[150%] md:w-[80%] bg-gradient-to-r from-transparent via-primary/60 to-transparent -skew-x-12 pointer-events-none mix-blend-screen"
+              variants={{
+                initial: { x: "-150%" },
+                hover: { 
+                  x: "200%",
+                  transition: { 
+                    duration: 0.7, 
+                    ease: "easeInOut",
+                  }
+                }
               }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut"
+            />
+            
+            {/* Secondary Shimmer for extra "glitter" */}
+            <motion.div
+              className="absolute top-0 bottom-0 w-[50%] md:w-[30%] bg-gradient-to-r from-transparent via-white/80 to-transparent -skew-x-12 pointer-events-none mix-blend-overlay"
+              variants={{
+                initial: { x: "-200%" },
+                hover: { 
+                  x: "400%",
+                  transition: { 
+                    duration: 0.7, 
+                    ease: "easeInOut",
+                    delay: 0.1
+                  }
+                }
               }}
-              className="absolute -top-8 -right-8 md:-top-12 md:-right-12 w-16 h-16 md:w-24 md:h-24 bg-primary/10 rounded-full backdrop-blur-xl border border-primary/20 flex items-center justify-center group-hover:scale-125 group-hover:bg-primary group-hover:text-white transition-all duration-500"
-            >
-              <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12 text-primary group-hover:text-white transition-colors duration-500" />
-            </motion.div>
+            />
           </motion.div>
         </Link>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-lg mb-12 leading-relaxed pointer-events-none"
-        >
-          Have a project in mind? Click above to create something extraordinary together.
-        </motion.p>
       </div>
     </section>
   )
