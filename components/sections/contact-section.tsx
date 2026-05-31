@@ -8,9 +8,9 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ContactSuccessModal } from "@/components/ui/contact-success-modal"
 import { Mail, MapPin, Send, Github, Linkedin, ExternalLink, MessageCircle, Instagram, Facebook, Youtube, Globe, Palette, ArrowRight, Sparkles } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion"
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { XIcon } from "@/components/ui/icons"
@@ -42,10 +42,6 @@ interface Social {
 interface PersonalInfo {
   email: string
   location: string
-}
-
-interface ProfileData {
-  personalInfo: PersonalInfo
 }
 
 export default function ContactSection() {
@@ -88,9 +84,6 @@ export default function ContactSection() {
         message: formData.get('message') as string,
       }
 
-      // Validate data before sending
-      console.log('Form data:', data)
-
       // Check for empty fields
       if (!data.name?.trim() || !data.email?.trim() || !data.subject?.trim() || !data.message?.trim()) {
         throw new Error('All fields are required')
@@ -102,7 +95,6 @@ export default function ContactSection() {
         throw new Error('Please enter a valid email address')
       }
 
-      console.log('Sending request to /api/contact...')
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -111,9 +103,7 @@ export default function ContactSection() {
         body: JSON.stringify(data),
       })
 
-      console.log('Response status:', response.status)
       const responseData = await response.json()
-      console.log('Response data:', responseData)
 
       if (response.ok) {
         // Store the sender's name for the modal
@@ -144,83 +134,75 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
-      {/* Animated Background */}
+    <section id="contact" className="py-20 md:py-32 relative overflow-hidden bg-background">
+      {/* Immersive Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] animate-pulse delay-700" />
       </div>
 
-      <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-20">
+      <div className="container max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary rounded-full text-sm font-medium">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-[0.2em]">
               Get in Touch
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-              Let's Work <span className="text-gradient">Together</span>
+            <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tight">
+              Contact <span className="text-gradient">Me</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Have a project in mind? I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Contact Info Side */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-10"
-          >
-            <div className="relative">
-              <h3 className="text-3xl font-bold mb-4">Contact Information</h3>
-              <p className="text-muted-foreground text-lg">
-                Fill out the form and I will get back to you within 24 hours.
-              </p>
-            </div>
+        {/* Clean Split-pane Layout */}
+        <div className="relative rounded-3xl border border-border bg-card/50 backdrop-blur-xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-5">
+          
+          {/* Left Pane (Info & Socials) */}
+          <div className="lg:col-span-2 p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-border relative overflow-hidden flex flex-col justify-between">
+            <div className="relative z-10 space-y-10">
+              <div>
+                <h3 className="text-2xl font-bold mb-2 text-foreground">Contact Information</h3>
+                <p className="text-muted-foreground">Fill out the form and I will get back to you within 24 hours.</p>
+              </div>
 
-            <div className="space-y-6">
-              <SpotlightCard>
-                <div className="p-6 flex items-start gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                    <Mail className="w-6 h-6" />
+              <div className="space-y-6">
+                {/* Clean Contact Card: Email */}
+                <div className="flex items-center gap-5 p-4 rounded-2xl bg-background/50 border border-border transition-all hover:border-primary/50 hover:shadow-sm">
+                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                    <Mail className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold mb-2">Chat to me</h4>
-                    <p className="text-muted-foreground mb-3">I am here to help.</p>
-                    <a href={`mailto:${profileData?.email}`} className="text-primary font-medium hover:underline">
+                    <p className="text-sm text-muted-foreground font-semibold mb-1">Email Me</p>
+                    <a href={`mailto:${profileData?.email}`} className="text-lg font-medium text-foreground hover:text-primary transition-colors">
                       {profileData?.email || 'loading...'}
                     </a>
                   </div>
                 </div>
-              </SpotlightCard>
 
-              <SpotlightCard>
-                <div className="p-6 flex items-start gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                    <MapPin className="w-6 h-6" />
+                {/* Clean Contact Card: Location */}
+                <div className="flex items-center gap-5 p-4 rounded-2xl bg-background/50 border border-border transition-all hover:border-blue-500/50 hover:shadow-sm">
+                  <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
+                    <MapPin className="w-6 h-6 text-blue-500" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold mb-2">Location</h4>
-                    <p className="text-muted-foreground mb-3">Currently based in.</p>
-                    <p className="text-primary font-medium">
+                    <p className="text-sm text-muted-foreground font-semibold mb-1">Location</p>
+                    <p className="text-lg font-medium text-foreground">
                       {profileData?.location || 'loading...'}
                     </p>
                   </div>
                 </div>
-              </SpotlightCard>
+              </div>
             </div>
 
-            <div className="pt-8 border-t border-white/10">
-              <h4 className="text-lg font-semibold mb-6">Follow my socials</h4>
+            <div className="relative z-10 mt-12 pt-8 border-t border-border">
+              <p className="text-sm text-muted-foreground font-semibold mb-6">Follow My Socials</p>
               <div className="flex flex-wrap gap-4">
                 {socials.map((social, index) => {
                   const Icon = iconMap[social.icon]
@@ -233,92 +215,84 @@ export default function ContactSection() {
                       initial={{ opacity: 0, scale: 0.5 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.1 }}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 shadow-sm"
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-5 h-5 transition-colors" />
                     </motion.a>
                   )
                 })}
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Form Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card className="border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
-              <CardContent className="p-8 md:p-10 relative">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        required
-                        disabled={isLoading}
-                        className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="name@example.com"
-                        required
-                        disabled={isLoading}
-                        className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
-                    <Input
-                      id="subject"
-                      name="subject"
-                      placeholder="Project Inquiry"
-                      required
-                      disabled={isLoading}
-                      className="bg-white/5 border-white/10 focus:border-primary/50 h-12"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      rows={6}
-                      placeholder="Tell me about your project..."
-                      required
-                      disabled={isLoading}
-                      className="bg-white/5 border-white/10 focus:border-primary/50 resize-none"
-                    />
-                  </div>
-
-                  <AnimatedButton
-                    type="submit"
-                    variant="primary"
-                    className="w-full h-14 text-lg"
+          {/* Right Pane (Form) */}
+          <div className="lg:col-span-3 p-8 md:p-12 relative z-10 bg-card">
+            <h3 className="text-2xl font-bold mb-8 text-foreground">Send me a message</h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2 group">
+                  <Label htmlFor="name" className="text-muted-foreground group-focus-within:text-primary transition-colors">Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    required
                     disabled={isLoading}
-                    icon={isLoading ? null : <Send className="w-5 h-5" />}
-                  >
-                    {isLoading ? "Sending..." : "Send Message"}
-                  </AnimatedButton>
-                </form>
-              </CardContent>
-            </Card>
-          </motion.div>
+                    className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                  />
+                </div>
+                
+                <div className="space-y-2 group">
+                  <Label htmlFor="email" className="text-muted-foreground group-focus-within:text-primary transition-colors">Email Address</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="name@domain.com"
+                    required
+                    disabled={isLoading}
+                    className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2 group">
+                <Label htmlFor="subject" className="text-muted-foreground group-focus-within:text-primary transition-colors">Subject</Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  placeholder="Subject"
+                  required
+                  disabled={isLoading}
+                  className="bg-background border-border focus:border-primary h-14 pl-4 rounded-xl transition-all"
+                />
+              </div>
+
+              <div className="space-y-2 group">
+                <Label htmlFor="message" className="text-muted-foreground group-focus-within:text-primary transition-colors">Message</Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  placeholder="Message..."
+                  required
+                  disabled={isLoading}
+                  className="bg-background border-border focus:border-primary p-4 rounded-xl resize-none transition-all"
+                />
+              </div>
+
+              <AnimatedButton
+                type="submit"
+                variant="primary"
+                className="w-full h-14 text-lg rounded-xl"
+                disabled={isLoading}
+                icon={isLoading ? null : <Send className="w-5 h-5" />}
+              >
+                {isLoading ? "Sending Message..." : "Send Message"}
+              </AnimatedButton>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -330,39 +304,3 @@ export default function ContactSection() {
     </section>
   )
 }
-
-function SpotlightCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    let { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  return (
-    <div
-      className={cn(
-        "group relative border border-white/10 bg-white/5 overflow-hidden rounded-xl",
-        className
-      )}
-      onMouseMove={handleMouseMove}
-    >
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              rgba(116, 38, 26, 0.15),
-              transparent 80%
-            )
-          `,
-        }}
-      />
-      <div className="relative h-full">{children}</div>
-    </div>
-  );
-}
-
