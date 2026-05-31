@@ -142,7 +142,7 @@ export default function PortfolioSection() {
           <div className="inline-flex items-center justify-center px-4 py-2 bg-primary/10 rounded-full mb-6">
             <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary">Selected Works</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-xl text-muted-foreground">

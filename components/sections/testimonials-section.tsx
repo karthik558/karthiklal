@@ -21,10 +21,10 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
+          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Testimonials
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             What Clients <span className="text-gradient">Say</span>
           </h2>
           <p className="text-muted-foreground">

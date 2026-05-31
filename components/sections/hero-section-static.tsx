@@ -151,21 +151,7 @@ export default function HeroSectionStatic() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-70" />
               </div>
 
-              <motion.div
-                className="absolute -right-8 top-12 bg-background/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                    6+
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-foreground">Years</p>
-                    <p className="text-xs text-muted-foreground">Experience</p>
-                  </div>
-                </div>
-              </motion.div>
+
             </div>
           </motion.div>
         </div>

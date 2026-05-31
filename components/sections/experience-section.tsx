@@ -44,10 +44,10 @@ export default function ExperienceSection() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
         >
-          <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
+          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Career Path
           </Badge>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Experience & <span className="text-gradient">Education</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">

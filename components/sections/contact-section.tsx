@@ -152,7 +152,7 @@ export default function ContactSection() {
             <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-[0.2em]">
               Get in Touch
             </Badge>
-            <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
               Contact <span className="text-gradient">Me</span>
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">

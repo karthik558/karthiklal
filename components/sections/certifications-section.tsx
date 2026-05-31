@@ -163,7 +163,7 @@ export default function CertificationsSection() {
           <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
             <span className="text-xs font-bold tracking-[0.2em] text-primary uppercase">Credentials</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
             Professional <span className="text-gradient">Achievements</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
