@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useAnimationFrame, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { Quote, ExternalLink, Star } from 'lucide-react';
+import { Quote, ExternalLink, Star, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import testimonialsData from '@/public/data/testimonials.json';
 
@@ -179,77 +179,74 @@ export const StaggerTestimonials: React.FC = () => {
             
             {/* Modal content */}
             <motion.div 
-              className="relative bg-card border border-border/50 rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12 max-h-[90vh] overflow-y-auto z-10"
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative bg-background/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden z-10 flex flex-col"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.3, ease: "easeOut", type: "spring", stiffness: 300, damping: 30 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.4, ease: "easeOut", type: "spring", stiffness: 300, damping: 30 }}
             >
-              {/* Close button */}
-              <motion.button
-                onClick={() => setSelectedTestimonial(null)}
-                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-all duration-200 group"
-                aria-label="Close"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="text-muted-foreground group-hover:text-foreground text-xl font-light">×</span>
-              </motion.button>
-              
-              <div className="pr-8 md:pr-0">
-                {/* Header */}
-                <motion.div 
-                  className="flex items-center gap-4 mb-8"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1, duration: 0.3 }}
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex items-center justify-center font-bold text-2xl text-primary shadow-inner">
+              {/* Header with Close Button */}
+              <div className="flex items-start justify-between p-6 md:p-8 border-b border-border/40 bg-secondary/20">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center font-bold text-xl md:text-2xl text-primary shadow-inner">
                     {selectedTestimonial.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground text-xl">{selectedTestimonial.name}</h3>
-                    <p className="text-sm text-muted-foreground">{selectedTestimonial.position}, {selectedTestimonial.company}</p>
-                    <div className="flex gap-1 mt-2">
+                    <h3 className="font-semibold text-foreground text-lg md:text-xl">{selectedTestimonial.name}</h3>
+                    <p className="text-xs md:text-sm text-muted-foreground">{selectedTestimonial.position}, {selectedTestimonial.company}</p>
+                    <div className="flex gap-1 mt-1.5">
                       {[...Array(selectedTestimonial.rating || 5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                        <Star key={i} className="w-3.5 h-3.5 fill-primary text-primary" />
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
                 
-                {/* Quote */}
+                {/* Close button - Fixed in header, won't scroll */}
+                <motion.button
+                  onClick={() => setSelectedTestimonial(null)}
+                  className="w-10 h-10 rounded-full bg-background border border-border/50 hover:bg-secondary flex items-center justify-center transition-colors duration-200 text-muted-foreground hover:text-foreground shrink-0 shadow-sm"
+                  aria-label="Close"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <X className="w-5 h-5" />
+                </motion.button>
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="p-6 md:p-10 overflow-y-auto">
                 <motion.div 
-                  className="relative mb-8"
+                  className="relative"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
+                  transition={{ delay: 0.1, duration: 0.4 }}
                 >
-                  <Quote className="absolute -top-4 -left-4 w-12 h-12 text-primary/10" />
-                  <blockquote className="text-foreground/90 leading-relaxed text-lg md:text-xl italic font-serif relative z-10 pl-6">
+                  <Quote className="absolute -top-6 -left-4 w-12 h-12 text-primary/10 rotate-180" />
+                  <blockquote className="text-foreground/90 leading-relaxed text-base md:text-lg italic font-serif relative z-10 pl-6 border-l-2 border-primary/20">
                     "{selectedTestimonial.content}"
                   </blockquote>
                 </motion.div>
-                
-                {/* Footer/Link */}
-                {selectedTestimonial.website && (
-                  <motion.div 
-                    className="flex justify-end pt-6 border-t border-border/50"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.3 }}
-                  >
-                    <a 
-                      href={selectedTestimonial.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all duration-300 font-medium"
-                    >
-                      Visit Project <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </motion.div>
-                )}
               </div>
+              
+              {/* Footer/Link (if available) */}
+              {selectedTestimonial.website && (
+                <motion.div 
+                  className="p-6 bg-secondary/10 border-t border-border/40 flex justify-end"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                >
+                  <a 
+                    href={selectedTestimonial.website} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all duration-300 font-medium text-sm shadow-md hover:shadow-primary/20"
+                  >
+                    Visit Project <ExternalLink className="w-4 h-4" />
+                  </a>
+                </motion.div>
+              )}
             </motion.div>
           </motion.div>
         )}
