@@ -172,15 +172,6 @@ export default function ExperienceSection() {
 }
 
 function TimelineCard({ item, type, align }: { item: any, type: 'work' | 'education', align: 'left' | 'right' }) {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect()
-    mouseX.set(clientX - left)
-    mouseY.set(clientY - top)
-  }
-
   // Mobile always aligns left for content, but we keep the visual desktop alignment logic
   const isRightAligned = align === 'right'
 
@@ -191,7 +182,7 @@ function TimelineCard({ item, type, align }: { item: any, type: 'work' | 'educat
     )}>
       {/* Node Point */}
       <div className={cn(
-        "absolute top-8 w-5 h-5 rounded-full bg-background border-4 border-primary z-20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] transition-transform duration-300 group-hover:scale-150 transform -translate-y-1/2",
+        "absolute top-8 w-5 h-5 rounded-full bg-background border-4 border-primary z-20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] transition-transform duration-300 group-hover:scale-125 transform -translate-y-1/2",
         "left-[15px] md:left-auto",
         isRightAligned ? "md:-right-[10px]" : "md:-left-[10px]"
       )}>
@@ -205,15 +196,14 @@ function TimelineCard({ item, type, align }: { item: any, type: 'work' | 'educat
       )} />
 
       <motion.div
-        onMouseMove={handleMouseMove}
-        whileHover={{ y: -5 }}
+        whileHover={{ y: -4 }}
         className="relative w-full max-w-[500px]"
       >
         {/* Glow behind the card */}
         <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-primary/50 via-transparent to-accent/50 opacity-0 transition duration-500 group-hover:opacity-100 blur-sm pointer-events-none" />
         
         <div className={cn(
-          "relative p-6 md:p-8 rounded-3xl bg-card/60 backdrop-blur-xl border border-white/10 overflow-hidden h-full",
+          "relative p-6 md:p-8 rounded-3xl bg-card/60 backdrop-blur-md border border-white/10 overflow-hidden h-full",
           "shadow-[0_8px_30px_rgba(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(var(--primary-rgb),0.15)] transition-all duration-500"
         )}>
           {/* Glassmorphic Shine Effect */}
