@@ -63,8 +63,8 @@ export default function AboutSection() {
 
   return (
     <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(700px_circle_at_10%_70%,hsl(var(--primary)/0.16),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Image Side - GSAP Style Reveal */}

@@ -72,8 +72,8 @@ export default function ExperienceSection() {
 
   return (
     <section id="experience" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_20%_20%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(800px_circle_at_80%_80%,hsl(var(--accent)/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_20%_20%,hsl(var(--primary)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
 
 
       <div className="container max-w-6xl mx-auto relative z-10">

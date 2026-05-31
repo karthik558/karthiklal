@@ -41,9 +41,8 @@ export default function HeroSectionStatic() {
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">
       {/* New Background Atmosphere */}
-      <div className="absolute inset-0 bg-[radial-gradient(1200px_circle_at_20%_20%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(1000px_circle_at_80%_30%,hsl(var(--primary)/0.18),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_10%_80%,hsl(var(--primary)/0.12),transparent_65%),radial-gradient(700px_circle_at_90%_80%,hsl(var(--accent)/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_20%,hsl(var(--accent)/0.08),transparent_65%),radial-gradient(900px_circle_at_80%_20%,hsl(var(--primary)/0.12),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       <div className="container relative z-10 px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           

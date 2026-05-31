@@ -132,8 +132,8 @@ export default function SkillsSection() {
 
   return (
     <section id="skills" className="py-20 md:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_10%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(700px_circle_at_10%_90%,hsl(var(--primary)/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_10%,hsl(var(--accent)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       <div className="container relative z-10">
         <motion.div
           ref={ref}

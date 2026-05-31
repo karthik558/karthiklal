@@ -11,8 +11,8 @@ export default function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="py-20 md:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_15%_25%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_85%_75%,hsl(var(--accent)/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_15%_25%,hsl(var(--primary)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-18 pointer-events-none" />
       <div className="container relative z-10">
         <motion.div
           ref={ref}

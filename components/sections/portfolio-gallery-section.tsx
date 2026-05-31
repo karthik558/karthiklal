@@ -113,8 +113,8 @@ const PortfolioGallerySection = () => {
 			id="portfolio-gallery"
 			className="py-20 md:py-32 bg-background relative z-10 overflow-hidden"
 		>
-			<div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_15%,hsl(var(--accent)/0.12),transparent_60%),radial-gradient(900px_circle_at_80%_80%,hsl(var(--primary)/0.12),transparent_60%)]" />
-			<div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+			<div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_15%,hsl(var(--accent)/0.08),transparent_65%)]" />
+			<div className="absolute inset-0 bg-noise opacity-15 pointer-events-none" />
 			<div className="container relative z-10">
 				<div className="text-center mb-16">
 					<Badge variant="outline" className="mb-4 px-4 py-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase animate-item">

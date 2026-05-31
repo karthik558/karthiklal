@@ -56,15 +56,14 @@ export default function CtaSection() {
       <div className="absolute inset-0 bg-background">
         <motion.div
           style={{ x: bgX, y: bgY }}
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
         >
-          <div className="absolute top-1/4 left-1/4 w-[520px] h-[520px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-accent/20 rounded-full blur-[120px] mix-blend-screen animate-pulse delay-1000" />
+          <div className="absolute top-1/4 left-1/4 w-[520px] h-[520px] bg-primary/16 rounded-full blur-[140px]" />
         </motion.div>
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--foreground)/0.06)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--foreground)/0.06)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+        <div className="absolute inset-0 bg-noise opacity-18 pointer-events-none" />
       </div>
 
       <div className="container relative z-10 flex flex-col items-center justify-center text-center">

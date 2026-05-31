@@ -10,13 +10,13 @@ interface PersonalInfo {
 export default function MarqueeSection() {
   const profileData: PersonalInfo = PROFILE_DATA.personalInfo as PersonalInfo
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-secondary/10 to-background">
+    <section className="relative py-20 overflow-hidden bg-background">
       {/* Background decoration with parallax effect */}
       <div className="absolute inset-0 opacity-20" data-speed="0.8">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse" data-speed="0.9"></div>
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} data-speed="1.1"></div>
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" data-speed="0.9"></div>
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-accent/12 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} data-speed="1.1"></div>
       </div>
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-noise opacity-14 pointer-events-none" />
       
       <div className="relative space-y-12" data-speed="0.95">
         {/* First marquee - tilted left, main skills */}

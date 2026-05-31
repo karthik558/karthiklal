@@ -118,8 +118,8 @@ export default function CertificationsSection() {
 
   return (
     <section id="certifications" className="py-20 md:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_15%_30%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_85%_70%,hsl(var(--accent)/0.12),transparent_60%)]" />
-      <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_15%_30%,hsl(var(--primary)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
