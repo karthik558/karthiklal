@@ -9,6 +9,8 @@ import SmoothLink from "@/components/smooth-link";
 interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   href?: string;
+  target?: string;
+  rel?: string;
   variant?: "primary" | "outline";
   className?: string;
   icon?: React.ReactNode;
