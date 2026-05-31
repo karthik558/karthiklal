@@ -152,12 +152,11 @@ export default function PortfolioSection() {
 
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
-          {featuredProjects.map((project, index) => {
+          {featuredProjects.slice(0, 3).map((project, index) => {
             // Logic for Bento Grid sizing
             // First item spans 2 cols and 1 row
-            // Fourth item spans 2 cols and 1 row
             // Others are 1x1
-            const isLarge = index === 0 || index === 3
+            const isLarge = index === 0
             const spanClass = isLarge ? "md:col-span-2" : "md:col-span-1"
 
             return (
@@ -175,8 +174,8 @@ export default function PortfolioSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: featuredProjects.length * 0.1 }}
-            className="flex flex-col items-center justify-center rounded-3xl bg-card/60 border border-dashed border-foreground/20 hover:bg-secondary/30 transition-colors cursor-pointer group"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="md:col-span-2 flex flex-col items-center justify-center rounded-3xl bg-card/60 border border-dashed border-foreground/20 hover:bg-secondary/30 transition-colors cursor-pointer group"
           >
             <div className="text-center p-8">
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-background flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
