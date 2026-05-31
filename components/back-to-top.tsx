@@ -79,60 +79,53 @@ export default function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5, y: 20 }}
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.5, y: 20 }}
-          transition={{ 
-            type: "spring",
-            stiffness: 400,
-            damping: 25
-          }}
+          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+          whileHover={{ y: -4, scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
           onClick={handleScrollToTop}
-          className="fixed right-6 bottom-6 z-[9998] group"
+          className="fixed right-6 bottom-6 z-[9998] group flex items-center justify-center h-14 w-14 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
           aria-label="Scroll to top"
         >
-          {/* Main button with progress ring */}
-          <div className="relative w-14 h-14">
-            {/* Progress circle background */}
-            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 56 56">
-              {/* Background circle */}
-              <circle
-                cx="28"
-                cy="28"
-                r="26"
-                fill="none"
-                stroke="hsl(var(--border))"
-                strokeWidth="2"
-                opacity="0.2"
-              />
-              {/* Progress circle */}
-              <motion.circle
-                cx="28"
-                cy="28"
-                r="26"
-                fill="none"
-                stroke="hsl(var(--primary))"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray={163.36} // 2 * π * 26
-                strokeDashoffset={163.36 - (163.36 * scrollProgress) / 100}
-                className="drop-shadow-sm"
-                transition={{ duration: 0.1 }}
-              />
-            </svg>
+          {/* Ambient Glow */}
+          <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-            {/* Button content */}
-            <div className="absolute inset-1 bg-gradient-to-br from-background to-background/95 rounded-full border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group-hover:scale-105 group-active:scale-95">
-              <motion.div
-                whileHover={{ y: -1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <ArrowUp className="h-5 w-5 text-primary" strokeWidth={2.5} />
-              </motion.div>
-            </div>
+          {/* Progress squircle background */}
+          <svg className="absolute inset-0 h-full w-full -rotate-90 pointer-events-none" viewBox="0 0 56 56">
+            <rect
+              x="2"
+              y="2"
+              width="52"
+              height="52"
+              rx="16"
+              fill="none"
+              className="stroke-muted/20"
+              strokeWidth="2"
+            />
+            {/* Active Progress squircle */}
+            <motion.rect
+              x="2"
+              y="2"
+              width="52"
+              height="52"
+              rx="16"
+              fill="none"
+              className="stroke-primary"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeDasharray={180.53} // Perimeter: 4*(52 - 32) + 2*PI*16 = 80 + 100.53 = 180.53
+              strokeDashoffset={180.53 - (180.53 * scrollProgress) / 100}
+              transition={{ duration: 0.1, ease: "easeOut" }}
+            />
+          </svg>
 
-            {/* Subtle glow on hover */}
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+          {/* Inner Button Content */}
+          <div className="absolute inset-1.5 flex items-center justify-center rounded-[12px] bg-background/80 backdrop-blur-md border border-border/50 shadow-sm transition-all duration-300 group-hover:bg-primary group-hover:border-primary">
+            <ArrowUp 
+              className="h-5 w-5 text-foreground/80 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:text-primary-foreground" 
+              strokeWidth={2.5} 
+            />
           </div>
         </motion.button>
       )}
