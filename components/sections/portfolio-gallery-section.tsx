@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import { getBehanceUrl } from "@/lib/static-data"
 import { AnimatedButton } from "@/components/ui/animated-button"
 
@@ -36,19 +37,26 @@ export default function PortfolioGallerySection() {
       <div className="absolute inset-0 bg-noise opacity-15 pointer-events-none" />
 
       <div className="container relative z-10 w-full mb-12 md:mb-16">
-        <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-          Design Portfolio
-        </Badge>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-              Featured <span className="text-gradient">Designs</span>
-            </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
+            Design Portfolio
+          </Badge>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
+                Featured <span className="text-gradient">Designs</span>
+              </h2>
+            </div>
+            <AnimatedButton href={behanceUrl} variant="outline" className="shrink-0 bg-background/50 backdrop-blur-sm border-border">
+              View Behance <ExternalLink className="ml-2 w-4 h-4" />
+            </AnimatedButton>
           </div>
-          <AnimatedButton href={behanceUrl} variant="outline" className="shrink-0 bg-background/50 backdrop-blur-sm border-border">
-            View Behance <ExternalLink className="ml-2 w-4 h-4" />
-          </AnimatedButton>
-        </div>
+        </motion.div>
       </div>
 
       {/* Native CSS Horizontal Scroll Container */}
@@ -59,8 +67,12 @@ export default function PortfolioGallerySection() {
             const isTall = index % 3 === 0
             
             return (
-              <div 
+              <motion.div 
                 key={index} 
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
                 className={`relative shrink-0 group rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-xl snap-center transition-transform duration-500 hover:-translate-y-2
                   ${isTall ? 'w-[75vw] md:w-[45vw] lg:w-[30vw] aspect-[3/4]' : 'w-[85vw] md:w-[55vw] lg:w-[40vw] aspect-video'}
                 `}
@@ -78,12 +90,12 @@ export default function PortfolioGallerySection() {
                   <Link 
                     href={behanceUrl} 
                     target="_blank"
-                    className="px-6 py-3 rounded-full bg-background/90 backdrop-blur-md border border-foreground/10 text-foreground font-semibold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 shadow-xl hover:bg-background"
+                    className="px-6 py-3 rounded-full bg-background/90 backdrop-blur-md border border-foreground/10 text-foreground font-semibold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 shadow-xl hover:bg-background hover:scale-105"
                   >
                     View Project <ExternalLink className="w-4 h-4" />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
         </div>
