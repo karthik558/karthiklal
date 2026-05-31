@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation'
 import SmoothLink from "@/components/smooth-link"
 import { SOCIALS_DATA } from "@/lib/static-data"
 import { XIcon } from "@/components/ui/icons"
+import { useActiveSection } from "@/hooks/use-active-section"
 
 // Icon mapping for social links
 const iconMap = {
@@ -38,7 +39,7 @@ interface Social {
   priority: number
 }
 
-function NavHeader() {
+function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   const [position, setPosition] = useState({
     left: 0,
     width: 0,
@@ -60,13 +61,13 @@ function NavHeader() {
   )
   // Navigation items with proper routes and icons - simplified to essential sections
   const allNavItems = [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'About', href: '/#about', icon: User },
-    { label: 'Services', href: '/#services', icon: Briefcase },
-    { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen },
-    { label: 'Blog', href: '/blog', icon: User },
-    { label: 'Testimonials', href: '/#testimonials', icon: MessageCircle },
-    { label: 'Contact', href: '/contact', icon: Phone }
+    { label: 'Home', href: '/', icon: Home, sectionId: '' },
+    { label: 'About', href: '/#about', icon: User, sectionId: 'about' },
+    { label: 'Services', href: '/#services', icon: Briefcase, sectionId: 'services' },
+    { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen, sectionId: 'portfolio' },
+    { label: 'Blog', href: '/blog', icon: User, sectionId: '' },
+    { label: 'Testimonials', href: '/#testimonials', icon: MessageCircle, sectionId: 'testimonials' },
+    { label: 'Contact', href: '/contact', icon: Phone, sectionId: '' }
   ]
 
   // Filter navigation items based on current page
@@ -91,6 +92,19 @@ function NavHeader() {
   // Filter active social links
   const activeSocials = socialLinks.filter(social => social.active)
 
+  // Track active section for anchor links
+  const activeSection = useActiveSection(['about', 'services', 'portfolio', 'testimonials'])
+
+  // Helper to determine if a nav item is active
+  const isItemActive = (item: typeof allNavItems[0]) => {
+    if (pathname === '/') {
+      if (item.sectionId && activeSection === item.sectionId) return true;
+      if (!activeSection && item.href === '/') return true;
+      return false;
+    }
+    return pathname === item.href;
+  }
+
   useEffect(() => {
     if (!isMobile) return
 
@@ -103,6 +117,11 @@ function NavHeader() {
       }
     }
   }, [isOpen, isMobile])
+
+  // Reset desktop animated cursor on route change to prevent "leftover pill" bug
+  useEffect(() => {
+    setPosition(prev => ({ ...prev, opacity: 0 }))
+  }, [pathname])
 
   return (
     <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
@@ -128,7 +147,10 @@ function NavHeader() {
 
       {/* Desktop Navigation */}
       <ul
-        className="relative mx-auto hidden md:flex w-fit rounded-full border border-primary/10 bg-secondary/20 backdrop-blur-md p-1"
+        className={cn(
+          "relative mx-auto hidden md:flex w-fit rounded-full transition-all duration-700",
+          isScrolled ? "bg-transparent p-0" : "bg-secondary/20 backdrop-blur-md border border-primary/10 p-1"
+        )}
         onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
       >
         {currentPageItems.map((item) => (
@@ -136,8 +158,8 @@ function NavHeader() {
             <SmoothLink
               href={item.href}
               className={cn(
-                "transition-all duration-300 relative z-10 px-2",
-                pathname === item.href
+                "transition-all duration-300 relative z-10 px-3",
+                isItemActive(item)
                   ? "text-primary font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
@@ -232,20 +254,20 @@ function NavHeader() {
                               onClick={() => setIsOpen(false)}
                               className={cn(
                                 "group flex items-center gap-4 rounded-2xl border border-foreground/10 bg-card/70 px-4 py-4 backdrop-blur-md transition-all duration-300",
-                                pathname === item.href
+                                isItemActive(item)
                                   ? "text-primary border-primary/30 bg-primary/10"
                                   : "text-muted-foreground hover:text-foreground hover:border-foreground/20"
                               )}
                             >
                               <div className={cn(
                                 "p-2.5 rounded-xl transition-all duration-300 group-hover:scale-105",
-                                pathname === item.href ? "bg-primary/20 text-primary" : "bg-foreground/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                                isItemActive(item) ? "bg-primary/20 text-primary" : "bg-foreground/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                               )}>
                                 <Icon className="w-6 h-6" />
                               </div>
                               <span className={cn(
                                 "text-2xl sm:text-3xl font-display font-semibold tracking-tight transition-all duration-300 group-hover:translate-x-1",
-                                pathname === item.href ? "text-foreground" : ""
+                                isItemActive(item) ? "text-foreground" : ""
                               )}>
                                 {item.label}
                               </span>
