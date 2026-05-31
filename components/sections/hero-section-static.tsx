@@ -3,7 +3,32 @@
 import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2 } from "lucide-react"
+import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
+import { XIcon } from "@/components/ui/icons"
+
+// Icon mapping for dynamic icon rendering
+const iconMap = {
+  Github,
+  Linkedin,
+  Mail,
+  Twitter: XIcon,
+  Instagram,
+  Facebook,
+  Youtube,
+  MessageCircle,
+  Globe,
+  Palette,
+}
+
+interface Social {
+  id: number
+  name: string
+  icon: keyof typeof iconMap
+  url: string
+  username: string
+  active: boolean
+  priority: number
+}
 import SmoothLink from "@/components/smooth-link"
 import { AnimatedButton } from "@/components/ui/animated-button"
 
@@ -22,6 +47,7 @@ export default function HeroSectionStatic() {
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+  const [socials, setSocials] = useState<Social[]>([])
   
   // State for the social hideaway dynamic island
   const [socialHovered, setSocialHovered] = useState(false)
@@ -37,15 +63,22 @@ export default function HeroSectionStatic() {
       }
     }
 
-    fetchProfile()
-  }, [])
+    const fetchSocials = async () => {
+      try {
+        const response = await fetch("/data/socials.json")
+        const data = await response.json()
+        const activeSocials = data.socials
+          .filter((social: Social) => social.active)
+          .sort((a: Social, b: Social) => a.priority - b.priority)
+        setSocials(activeSocials)
+      } catch (error) {
+        console.error("Failed to fetch socials:", error)
+      }
+    }
 
-  const socialLinks = [
-    { icon: Github, href: "https://github.com/karthik558" },
-    { icon: Linkedin, href: "https://linkedin.com/in/karthiklal" },
-    { icon: Twitter, href: "https://x.com/_karthiklal" },
-    { icon: Mail, href: "mailto:dev@karthiklal.in" },
-  ]
+    fetchProfile()
+    fetchSocials()
+  }, [])
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">
@@ -110,7 +143,7 @@ export default function HeroSectionStatic() {
                 <motion.div 
                   className="absolute left-0 top-0 h-14 flex items-center bg-foreground/5 border border-foreground/10 rounded-full cursor-pointer backdrop-blur-md overflow-hidden shadow-xl"
                   animate={{
-                    width: socialHovered ? 240 : 56,
+                    width: socialHovered ? Math.max(56, socials.length * 44 + 16) : 56,
                     backgroundColor: socialHovered ? 'rgba(var(--foreground), 0.1)' : 'rgba(var(--foreground), 0.05)'
                   }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -126,22 +159,31 @@ export default function HeroSectionStatic() {
 
                   {/* Expanded Social Icons (Visible when hovered) */}
                   <motion.div 
-                    className="absolute left-0 top-0 h-14 w-[240px] flex items-center justify-evenly px-2"
+                    className="absolute left-0 top-0 h-14 flex items-center justify-evenly px-2"
                     animate={{ opacity: socialHovered ? 1 : 0, scale: socialHovered ? 1 : 0.8 }}
                     transition={{ duration: 0.3 }}
-                    style={{ pointerEvents: socialHovered ? 'auto' : 'none' }}
+                    style={{ 
+                      width: `${Math.max(56, socials.length * 44 + 16)}px`,
+                      pointerEvents: socialHovered ? 'auto' : 'none' 
+                    }}
                   >
-                    {socialLinks.map((social, index) => (
-                      <a
-                        key={index}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-background/80 hover:shadow-sm hover:scale-110 transition-all duration-300"
-                      >
-                        <social.icon className="h-5 w-5" />
-                      </a>
-                    ))}
+                    {socials.map((social) => {
+                      const IconComponent = iconMap[social.icon]
+                      if (!IconComponent) return null
+
+                      return (
+                        <a
+                          key={social.id}
+                          href={social.url}
+                          target={social.name !== 'Email' ? "_blank" : undefined}
+                          rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-background/80 hover:shadow-sm hover:scale-110 transition-all duration-300"
+                          title={social.name}
+                        >
+                          <IconComponent className="h-5 w-5" />
+                        </a>
+                      )
+                    })}
                   </motion.div>
                 </motion.div>
               </div>

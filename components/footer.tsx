@@ -115,115 +115,136 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-background border-t border-foreground/10 relative overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_20%_0%,hsl(var(--primary)/0.12),transparent_60%),radial-gradient(700px_circle_at_80%_100%,hsl(var(--accent)/0.12),transparent_60%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-      
-      <motion.div 
+    <div className="px-4 md:px-8 pb-4 md:pb-8 pt-20">
+      <motion.footer 
         variants={container}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, margin: "-100px" }}
-        className="container py-16 md:py-20 relative z-10"
+        viewport={{ once: true, margin: "-50px" }}
+        className="relative bg-secondary/20 backdrop-blur-3xl border border-white/5 dark:border-white/10 rounded-[2rem] overflow-hidden shadow-2xl"
       >
-        <div className="flex flex-col items-center text-center space-y-10">
-          
-          {/* Brand Signature */}
-          <motion.div variants={item} className="relative group">
-            <div className="absolute -inset-4 bg-primary/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Image
-              src="/hero_name.svg"
-              alt="Karthik Lal"
-              width={200}
-              height={60}
-              className="h-10 w-auto object-contain relative z-10 opacity-90 group-hover:opacity-100 transition-opacity dark:invert"
-              priority
-            />
-          </motion.div>
+        {/* Ambient background glow within the card */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
 
-          {/* Navigation Links */}
-          <motion.nav variants={item} className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground">
-            {[
-              { name: "About", href: "/#about", isSmooth: true },
-              { name: "Services", href: "/#services", isSmooth: true },
-              { name: "Portfolio", href: "/#portfolio", isSmooth: true },
-              { name: "Blog", href: "/blog", isSmooth: false },
-              { name: "Contact", href: "/contact", isSmooth: true },
-            ].map((link) => (
-              link.isSmooth ? (
-                <SmoothLink 
-                  key={link.name} 
-                  href={link.href} 
-                  className="hover:text-primary transition-colors relative group"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                </SmoothLink>
-              ) : (
-                <Link 
-                  key={link.name} 
-                  href={link.href} 
-                  className="hover:text-primary transition-colors relative group"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                </Link>
-              )
-            ))}
-          </motion.nav>
+        <div className="relative z-10 px-6 py-12 md:px-12 md:py-16">
+          {/* Top Section: Logo & Status */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-border/40 pb-10">
+            <motion.div variants={item}>
+              <Link href="/" className="inline-block relative group">
+                <div className="absolute -inset-4 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Image
+                  src="/hero_name.svg"
+                  alt="Karthik Lal"
+                  width={160}
+                  height={45}
+                  className="h-8 w-auto object-contain relative z-10 opacity-90 group-hover:opacity-100 transition-opacity dark:invert"
+                  priority
+                />
+              </Link>
+            </motion.div>
+            
+            <motion.div variants={item} className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-background border border-border/50 text-foreground shadow-sm">
+              <div className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </div>
+              Available for new opportunities
+            </motion.div>
+          </div>
 
-          {/* Social Icons */}
-          <motion.div variants={item} className="flex gap-4">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="w-10 h-10 rounded-full bg-muted animate-pulse" />
-              ))
-            ) : (
-              socials.map((social) => {
-                const IconComponent = iconMap[social.icon]
-                if (!IconComponent) return null
-                
-                return (
-                  <motion.div
-                    key={social.id}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Link
-                      href={social.url}
-                      target={social.name !== 'Email' ? "_blank" : undefined}
-                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                      className="w-10 h-10 rounded-full bg-secondary/60 hover:bg-primary hover:text-primary-foreground border border-foreground/10 hover:border-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
-                      title={social.name}
+          {/* Middle Section: Links Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">
+            <motion.div variants={item} className="flex flex-col space-y-5">
+              <h4 className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Navigation</h4>
+              <nav className="flex flex-col space-y-3 text-sm font-medium">
+                {[
+                  { name: "About", href: "/#about", isSmooth: true },
+                  { name: "Services", href: "/#services", isSmooth: true },
+                  { name: "Portfolio", href: "/#portfolio", isSmooth: true },
+                  { name: "Blog", href: "/blog", isSmooth: false },
+                  { name: "Contact", href: "/contact", isSmooth: true },
+                ].map((link) => {
+                  const LinkComponent = link.isSmooth ? SmoothLink : Link;
+                  return (
+                    <LinkComponent 
+                      key={link.name} 
+                      href={link.href} 
+                      className="hover:text-primary transition-colors w-fit relative group"
                     >
-                      <IconComponent className="h-4 w-4" />
-                      <span className="sr-only">{social.name}</span>
-                    </Link>
-                  </motion.div>
-                )
-              })
-            )}
-          </motion.div>
+                      {link.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+                    </LinkComponent>
+                  )
+                })}
+              </nav>
+            </motion.div>
 
-          {/* Divider */}
-          <motion.div variants={item} className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            <motion.div variants={item} className="flex flex-col space-y-5">
+              <h4 className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Legal</h4>
+              <nav className="flex flex-col space-y-3 text-sm font-medium">
+                <Link href="/privacy-policy" className="hover:text-primary transition-colors w-fit group relative">
+                  Privacy Policy
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+                <Link href="/terms" className="hover:text-primary transition-colors w-fit group relative">
+                  Terms of Service
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+                <Link href="/cookies" className="hover:text-primary transition-colors w-fit group relative">
+                  Cookies Policy
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+              </nav>
+            </motion.div>
 
-          {/* Bottom Section */}
-          <motion.div variants={item} className="flex flex-col md:flex-row justify-between items-center w-full gap-6 text-xs text-muted-foreground max-w-4xl px-4">
-            <div className="flex items-center gap-2">
-              <span>© {currentYear} Karthik Lal. All rights reserved.</span>
-            </div>
+            <motion.div variants={item} className="flex flex-col space-y-5">
+              <h4 className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Connect</h4>
+              <div className="flex flex-wrap gap-3">
+                {loading ? (
+                  Array.from({ length: 4 }).map((_, index) => (
+                    <div key={index} className="w-11 h-11 rounded-[1rem] bg-background animate-pulse" />
+                  ))
+                ) : (
+                  socials.map((social) => {
+                    const IconComponent = iconMap[social.icon]
+                    if (!IconComponent) return null
+                    
+                    return (
+                      <motion.div
+                        key={social.id}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Link
+                          href={social.url}
+                          target={social.name !== 'Email' ? "_blank" : undefined}
+                          rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                          className="w-11 h-11 rounded-[1rem] bg-background border border-border/30 hover:bg-primary hover:border-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300 shadow-sm"
+                          title={social.name}
+                        >
+                          <IconComponent className="h-[18px] w-[18px]" />
+                          <span className="sr-only">{social.name}</span>
+                        </Link>
+                      </motion.div>
+                    )
+                  })
+                )}
+              </div>
+            </motion.div>
+          </div>
 
-            <div className="flex gap-6">
-              <Link href="/privacy-policy" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Privacy</Link>
-              <Link href="/terms" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Terms</Link>
-              <Link href="/cookies" className="hover:text-foreground transition-colors hover:underline underline-offset-4">Cookies</Link>
-            </div>
+          {/* Bottom Section: Copyright */}
+          <motion.div variants={item} className="pt-8 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-xs font-medium text-muted-foreground">
+              © {currentYear} Karthik Lal.
+            </p>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground/50">
+              All rights reserved
+            </p>
           </motion.div>
         </div>
-      </motion.div>
-    </footer>
+      </motion.footer>
+    </div>
   )
 }
-
