@@ -11,7 +11,7 @@ This repository contains the source code for my personal portfolio website. It i
 
 ## About
 
-This portfolio serves as a comprehensive showcase of my 6.8+ years of professional experience as a Certified Ethical Hacker and Full Stack Developer. It highlights my technical skills, key projects, and career milestones. The site is designed to be an immersive and interactive platform for potential employers, collaborators, and fellow developers to learn more about my work.
+This portfolio serves as a comprehensive showcase of my 7.2+ years of professional experience as a Certified Ethical Hacker and Full Stack Developer. It highlights my technical skills, key projects, and career milestones. The site is designed to be an immersive and interactive platform for potential employers, collaborators, and fellow developers to learn more about my work.
 
 ## Key Features
 
