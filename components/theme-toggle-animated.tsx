@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Sun, Moon } from "lucide-react"
 
 export function ThemeToggleAnimated() {
@@ -14,56 +14,42 @@ export function ThemeToggleAnimated() {
   }, [])
 
   if (!mounted) {
-    return <div className="w-10 h-10" />
+    return <div className="w-[72px] h-9" />
   }
 
   const isDark = theme === "dark"
 
   return (
-    <motion.button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className={`relative w-14 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/20 ${isDark ? "bg-muted border border-border" : "bg-muted border border-border"
-        }`}
-      whileTap={{ scale: 0.95 }}
-      aria-label="Toggle theme"
-    >
-      {/* Toggle Handle */}
+    <div className="relative flex items-center p-1 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-md">
+      {/* Animated active background pill */}
       <motion.div
-        className="relative w-6 h-6 rounded-full shadow-sm z-10 flex items-center justify-center overflow-hidden bg-background border border-border"
+        className="absolute w-8 h-7 bg-background rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-foreground/5 z-0"
         initial={false}
         animate={{
-          x: isDark ? 24 : 0,
+          x: isDark ? 32 : 0, 
         }}
-        transition={{
-          type: "spring",
-          stiffness: 400,
-          damping: 30,
-        }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      />
+
+      <button
+        onClick={() => setTheme("light")}
+        aria-label="Light mode"
+        className={`relative z-10 w-8 h-7 flex items-center justify-center rounded-full transition-colors duration-300 ${
+          !isDark ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
       >
-        <AnimatePresence mode="wait">
-          {isDark ? (
-            <motion.div
-              key="moon"
-              initial={{ scale: 0, rotate: 90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: -90 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Moon className="w-3.5 h-3.5 text-foreground" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="sun"
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: 90 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Sun className="w-3.5 h-3.5 text-foreground" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </motion.button>
+        <Sun className="w-4 h-4" />
+      </button>
+
+      <button
+        onClick={() => setTheme("dark")}
+        aria-label="Dark mode"
+        className={`relative z-10 w-8 h-7 flex items-center justify-center rounded-full transition-colors duration-300 ${
+          isDark ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
+      >
+        <Moon className="w-4 h-4" />
+      </button>
+    </div>
   )
 }
