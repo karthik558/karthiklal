@@ -52,8 +52,7 @@ export default function HeroSectionStatic() {
     .filter((social: Social) => social.active)
     .sort((a: Social, b: Social) => a.priority - b.priority)
   
-  // State for the social hideaway dynamic island
-  const [socialHovered, setSocialHovered] = useState(false)
+  // State for the social hideaway dynamic island (removed)
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">
@@ -109,59 +108,35 @@ export default function HeroSectionStatic() {
                 Download CV <Download className="ml-2 h-4 w-4" />
               </AnimatedButton>
 
-              {/* Dynamic Island Social Hideaway */}
-              <div 
-                className="relative h-14 w-14 z-50"
-                onMouseEnter={() => setSocialHovered(true)}
-                onMouseLeave={() => setSocialHovered(false)}
+              {/* Social Links Pill Dock */}
+              <motion.div 
+                className="flex items-center p-1.5 rounded-full bg-background/50 border border-foreground/10 backdrop-blur-lg shadow-xl ml-0 lg:ml-2 mt-4 lg:mt-0"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 25 }}
               >
-                <motion.div 
-                  className="absolute left-0 top-0 h-14 flex items-center bg-foreground/5 border border-foreground/10 rounded-full cursor-pointer backdrop-blur-md overflow-hidden shadow-xl"
-                  animate={{
-                    width: socialHovered ? Math.max(56, socials.length * 44 + 16) : 56,
-                    backgroundColor: socialHovered ? 'rgba(var(--foreground), 0.1)' : 'rgba(var(--foreground), 0.05)'
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                >
-                  {/* Default Icon (Visible when collapsed) */}
-                  <motion.div 
-                    className="absolute left-0 top-0 h-14 w-14 flex items-center justify-center text-foreground"
-                    animate={{ opacity: socialHovered ? 0 : 1, rotate: socialHovered ? -90 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Share2 className="h-5 w-5 text-muted-foreground" />
-                  </motion.div>
+                {socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) return null
 
-                  {/* Expanded Social Icons (Visible when hovered) */}
-                  <motion.div 
-                    className="absolute left-0 top-0 h-14 flex items-center justify-evenly px-2"
-                    animate={{ opacity: socialHovered ? 1 : 0, scale: socialHovered ? 1 : 0.8 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ 
-                      width: `${Math.max(56, socials.length * 44 + 16)}px`,
-                      pointerEvents: socialHovered ? 'auto' : 'none' 
-                    }}
-                  >
-                    {socials.map((social) => {
-                      const IconComponent = iconMap[social.icon]
-                      if (!IconComponent) return null
-
-                      return (
-                        <a
-                          key={social.id}
-                          href={social.url}
-                          target={social.name !== 'Email' ? "_blank" : undefined}
-                          rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-background/80 hover:shadow-sm hover:scale-110 transition-all duration-300"
-                          title={social.name}
-                        >
-                          <IconComponent className="h-5 w-5" />
-                        </a>
-                      )
-                    })}
-                  </motion.div>
-                </motion.div>
-              </div>
+                  return (
+                    <a
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== 'Email' ? "_blank" : undefined}
+                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
+                      className="relative group flex items-center justify-center w-12 h-12 rounded-full text-muted-foreground transition-all duration-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      title={social.name}
+                      aria-label={social.name}
+                    >
+                      {/* Smooth hover background expansion */}
+                      <span className="absolute inset-0 rounded-full bg-primary/10 opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out" />
+                      {/* Icon scale on hover */}
+                      <IconComponent className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                    </a>
+                  )
+                })}
+              </motion.div>
 
             </motion.div>
           </motion.div>
