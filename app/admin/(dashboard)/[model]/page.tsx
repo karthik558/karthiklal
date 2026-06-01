@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import JsonEditor from "@/components/admin/json-editor"
+import VisualEditor from "@/components/admin/visual-editor"
 
 export default function AdminModelPage() {
   const params = useParams()
@@ -72,8 +72,8 @@ export default function AdminModelPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <JsonEditor 
+    <div className="max-w-7xl mx-auto">
+      <VisualEditor 
         initialData={data} 
         onSave={handleSave} 
         modelName={model} 
