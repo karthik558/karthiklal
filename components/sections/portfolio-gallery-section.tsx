@@ -7,22 +7,11 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { getBehanceUrl } from "@/lib/static-data"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import featuredDesignsData from "@/public/data/featured-designs.json"
 
-// Portfolio items showcasing design works
-const portfolioItems = [
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/00634e215516589.67cb14067e350.jpeg", title: "Brand Identity" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/06a1c6198005031.664f4d2c07e1a.png", title: "App Interface" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/2b8ef1198005031.663a25afab140.png", title: "Web Design" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/0300da198005031.663b38c0e793d.png", title: "Dashboard UX" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/bd3b4d174168173.649d2364da5e0.png", title: "Illustration" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/8ca4ef174167957.649d222d7535e.png", title: "Typography" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/94f398149008519.62e286d4a6d9a.png", title: "Product Concept" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/41f9c5149008519.62dfe2d31023a.png", title: "3D Rendering" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/138959140295881.623ef4a205c5d.png", title: "Visual Identity" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/946118139026885.623bf32779298.png", title: "Marketing Assets" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e22062188246697.66a9d29dc9560.png", title: "Social Media" },
-  { image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/a79652134749859.61dbf42a779fb.jpg", title: "Print Design" }
-]
+// Portfolio items showcasing design works from JSON
+const portfolioItems = featuredDesignsData.featuredDesigns
+
 
 export default function PortfolioGallerySection() {
   const behanceUrl = useMemo(() => getBehanceUrl("#"), [])

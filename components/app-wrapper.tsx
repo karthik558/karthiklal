@@ -17,6 +17,7 @@ interface AppWrapperProps {
 export default function AppWrapper({ children }: AppWrapperProps) {
   const [showPreloader, setShowPreloader] = useState(true)
   const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin') ?? false
 
   const handleComplete = useCallback(() => {
     setShowPreloader(false)
@@ -97,15 +98,21 @@ export default function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <>
-      {showPreloader && <Preloader onComplete={handleComplete} />}
-      {!showPreloader && (
+      {showPreloader && !isAdmin && <Preloader onComplete={handleComplete} />}
+      {(!showPreloader || isAdmin) && (
         <>
-          <NavBar />
-          <ContentWrapper>
+          {!isAdmin && <NavBar />}
+          
+          {isAdmin ? (
             <main>{children}</main>
-            <Footer />
-          </ContentWrapper>
-          <BackToTop />
+          ) : (
+            <ContentWrapper>
+              <main>{children}</main>
+              <Footer />
+            </ContentWrapper>
+          )}
+
+          {!isAdmin && <BackToTop />}
           <Analytics />
         </>
       )}
