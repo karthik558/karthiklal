@@ -19,8 +19,8 @@ const fontDisplay = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   title: {
-    default: "Karthik Lal - Certified Ethical Hacker & Full Stack Developer",
-    template: "%s | Karthik Lal"
+    default: "KARTHIK LAL",
+    template: "KARTHIK LAL - %s"
   },
   description: "Karthik Lal is a 25-year-old IT Manager and Certified Ethical Hacker with 7.2+ years of experience in cybersecurity, network management, and full-stack development. Based in Kerala, India. Expert in secure IT solutions, web development, penetration testing, and threat intelligence.",
   keywords: [

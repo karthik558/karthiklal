@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import ContactSection from "@/components/sections/contact-section"
 
 export const metadata: Metadata = {
-  title: "Contact Karthik Lal - Hire IT Manager & Cybersecurity Expert",
+  title: "Contacts",
   description: "Get in touch with Karthik Lal for IT consulting, cybersecurity services, web development projects, or collaboration opportunities. Professional IT Manager and Certified Ethical Hacker based in Kerala, India.",
   keywords: [
     "contact Karthik Lal",

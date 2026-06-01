@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Blog by Karthik Lal - Cybersecurity, Web Development & Tech Insights",
+  title: "Blogs",
   description: "Read Karthik Lal's blog for expert insights on cybersecurity, web development, IT management, and technology trends. Tutorials, tips, and industry analysis from an experienced IT Manager and Certified Ethical Hacker.",
   keywords: [
     "Karthik Lal blog",

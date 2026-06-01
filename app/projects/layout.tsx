@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Projects by Karthik Lal - Portfolio of Web Development & Cybersecurity Projects",
+  title: "Projects",
   description: "Explore Karthik Lal's comprehensive portfolio of web development, cybersecurity, and IT projects. Full-stack applications, security tools, and innovative solutions built with React, Next.js, Python, Rust, and modern technologies.",
   keywords: [
     "Karthik Lal projects",
