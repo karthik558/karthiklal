@@ -20,17 +20,17 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-[100dvh] bg-background flex overflow-hidden">
       {/* Dynamic Collapsible Sidebar */}
       <AdminSidebar models={models} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-muted/10 relative">
+      <div className="flex-1 flex flex-col h-[100dvh] overflow-hidden bg-muted/10 relative">
         {/* Background Gradients */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(var(--primary-rgb),0.05),transparent_50%)] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(var(--primary-rgb),0.05),transparent_50%)] pointer-events-none" />
         
-        <main className="flex-1 overflow-y-auto p-6 md:p-10 relative z-10 scrollbar-hide">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-10 relative z-10 scrollbar-hide">
           <div className="max-w-6xl mx-auto min-h-[calc(100vh-8rem)]">
             {children}
           </div>
@@ -46,4 +46,3 @@ export default async function AdminLayout({
     </div>
   )
 }
-
