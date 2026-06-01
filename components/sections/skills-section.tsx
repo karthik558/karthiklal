@@ -87,7 +87,7 @@ export default function SkillsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section id="skills" className="py-20 md:py-32 bg-background relative border-y border-border">
+    <section id="skills" className="py-20 md:py-32 bg-background relative">
       <div className="container max-w-7xl relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           ref={ref}
