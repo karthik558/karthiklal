@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import Image from "next/image"
-import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
+import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart, Shield, Code2 } from "lucide-react"
 import { XIcon } from "@/components/ui/icons"
 import { PROFILE_DATA, SOCIALS_DATA } from "@/lib/static-data"
 
@@ -51,6 +51,8 @@ export default function HeroSectionStatic() {
   const socials: Social[] = (SOCIALS_DATA.socials as Social[])
     .filter((social: Social) => social.active)
     .sort((a: Social, b: Social) => a.priority - b.priority)
+  
+  // State for the social hideaway dynamic island (removed)
   
   // State for the social hideaway dynamic island (removed)
 
@@ -149,21 +151,42 @@ export default function HeroSectionStatic() {
             transition={{ duration: 1, ease: "easeOut" }}
             style={{ y }}
           >
-            <div className="relative w-[480px] h-[600px]">
-              <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-transparent to-accent/20 blur-3xl opacity-70" />
-              <div className="absolute inset-0 rounded-[3rem] border border-foreground/10 bg-background/40 backdrop-blur-md" />
+            {/* Gentle Floating Animation Container */}
+            <motion.div 
+              className="relative w-[480px] h-[600px] z-10"
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+            >
+              {/* Rotating Gradient Glow Border Effect */}
+              <div className="absolute -inset-1.5 rounded-[3.2rem] overflow-hidden opacity-50 dark:opacity-70">
+                <motion.div 
+                  className="absolute inset-[-50%] w-[200%] h-[200%]"
+                  style={{ 
+                    backgroundImage: 'conic-gradient(from 0deg, transparent 0 280deg, hsl(var(--primary)) 360deg)' 
+                  }}
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
+                />
+              </div>
 
-              <div className="absolute inset-0 m-4 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-background/50 backdrop-blur-md group">
+              {/* Glow Behind */}
+              <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-transparent to-accent/20 blur-3xl opacity-70" />
+              
+              {/* Glass Frame */}
+              <div className="absolute inset-0 rounded-[3rem] border border-foreground/10 bg-background/80 backdrop-blur-md" />
+
+              {/* Inner Image Container */}
+              <div className="absolute inset-0 m-4 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-background/50 group">
                 <Image
                   src="/user/hero.jpg"
                   alt="Karthik Lal"
                   fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/10 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700" />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
