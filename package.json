@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "node scripts/disable-admin.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
