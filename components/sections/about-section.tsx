@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
+import { motion, useScroll } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { Badge } from "@/components/ui/badge"
 import { Download, ArrowUpRight, MapPin, Briefcase, Award } from "lucide-react"
 import Image from "next/image"
+import { PROFILE_DATA } from "@/lib/static-data"
 
 interface PersonalInfo {
   name: string
@@ -29,7 +30,6 @@ interface ProfileData {
 }
 
 export default function AboutSection() {
-  const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -37,26 +37,7 @@ export default function AboutSection() {
     offset: ["start end", "end start"]
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('/data/profile.json')
-        const data: ProfileData = await response.json()
-        setProfileData(data)
-      } catch (error) {
-        console.error('Failed to fetch profile:', error)
-      }
-    }
-
-    fetchProfile()
-  }, [])
-
-  if (!profileData) {
-    return null
-  }
-
+  const profileData = PROFILE_DATA
   const { personalInfo } = profileData
 
   return (

@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion"
 import { Award, CheckCircle, Calendar, ChevronDown, ChevronUp, ShieldCheck, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
 interface Certification {
   id: number
@@ -14,7 +15,8 @@ interface Certification {
   expiryDate: string
   credentialId: string
   status: string
-  description: string
+  description?: string
+  link?: string
 }
 
 function AchievementCard({ certification, index, isLarge }: { certification: Certification, index: number, isLarge: boolean }) {
@@ -127,24 +129,8 @@ function AchievementCard({ certification, index, isLarge }: { certification: Cer
 }
 
 export default function CertificationsSection() {
-  const [certifications, setCertifications] = useState<Certification[]>([])
-  const [loading, setLoading] = useState(true)
+  const certifications: Certification[] = CERTIFICATIONS_DATA.certifications
   const [showAll, setShowAll] = useState(false)
-
-  useEffect(() => {
-    fetch('/data/certifications.json')
-      .then(res => res.json())
-      .then(data => {
-        setCertifications(data.certifications)
-        setLoading(false)
-      })
-      .catch(error => {
-        console.error('Failed to load certifications:', error)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) return null
 
   return (
     <section id="certifications" className="py-24 md:py-32 bg-background relative overflow-hidden">

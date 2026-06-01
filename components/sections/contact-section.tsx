@@ -14,6 +14,7 @@ import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { XIcon } from "@/components/ui/icons"
+import { PROFILE_DATA, SOCIALS_DATA } from "@/lib/static-data"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -46,30 +47,14 @@ interface PersonalInfo {
 
 export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
-  const [socials, setSocials] = useState<Social[]>([])
-  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
+  const profileData: PersonalInfo = PROFILE_DATA.personalInfo
+  const socials: Social[] = (SOCIALS_DATA.socials as Social[])
+    .filter((social: Social) => social.active && social.name !== 'Email')
+    .sort((a: Social, b: Social) => a.priority - b.priority)
+  
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [senderName, setSenderName] = useState('')
   const { toast } = useToast()
-
-  useEffect(() => {
-    // Load socials and profile data from JSON
-    Promise.all([
-      fetch('/data/socials.json').then(res => res.json()),
-      fetch('/data/profile.json').then(res => res.json())
-    ])
-      .then(([socialsData, profileData]) => {
-        // Filter active socials (excluding email) and sort by priority
-        const activeSocials = socialsData.socials
-          .filter((social: Social) => social.active && social.name !== 'Email')
-          .sort((a: Social, b: Social) => a.priority - b.priority)
-        setSocials(activeSocials)
-        setProfileData(profileData.personalInfo)
-      })
-      .catch(error => {
-        console.error('Failed to fetch data:', error)
-      })
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

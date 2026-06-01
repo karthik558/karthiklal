@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart } from "lucide-react"
 import { XIcon } from "@/components/ui/icons"
+import { PROFILE_DATA, SOCIALS_DATA } from "@/lib/static-data"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -35,7 +36,7 @@ import { AnimatedButton } from "@/components/ui/animated-button"
 interface PersonalInfo {
   name: string
   title: string
-  bio: string
+  bio?: string
 }
 
 interface ProfileData {
@@ -46,39 +47,13 @@ export default function HeroSectionStatic() {
   const { scrollYProgress } = useScroll()
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const [profileData, setProfileData] = useState<PersonalInfo | null>(null)
-  const [socials, setSocials] = useState<Social[]>([])
+  const profileData: PersonalInfo = PROFILE_DATA.personalInfo
+  const socials: Social[] = (SOCIALS_DATA.socials as Social[])
+    .filter((social: Social) => social.active)
+    .sort((a: Social, b: Social) => a.priority - b.priority)
   
   // State for the social hideaway dynamic island
   const [socialHovered, setSocialHovered] = useState(false)
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch("/data/profile.json")
-        const data: ProfileData = await response.json()
-        setProfileData(data.personalInfo)
-      } catch (error) {
-        console.error("Failed to fetch profile:", error)
-      }
-    }
-
-    const fetchSocials = async () => {
-      try {
-        const response = await fetch("/data/socials.json")
-        const data = await response.json()
-        const activeSocials = data.socials
-          .filter((social: Social) => social.active)
-          .sort((a: Social, b: Social) => a.priority - b.priority)
-        setSocials(activeSocials)
-      } catch (error) {
-        console.error("Failed to fetch socials:", error)
-      }
-    }
-
-    fetchProfile()
-    fetchSocials()
-  }, [])
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">

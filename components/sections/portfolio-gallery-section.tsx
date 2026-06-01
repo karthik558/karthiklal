@@ -72,7 +72,7 @@ export default function PortfolioGallerySection() {
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
                 className={`relative shrink-0 group rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-muted/20 shadow-xl snap-center transition-transform duration-500 hover:-translate-y-2
                   ${isTall ? 'w-[75vw] md:w-[45vw] lg:w-[30vw] aspect-[3/4]' : 'w-[85vw] md:w-[55vw] lg:w-[40vw] aspect-video'}
                 `}

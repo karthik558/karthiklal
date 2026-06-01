@@ -108,7 +108,7 @@ export default function ExperienceSection() {
                     whileInView={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: index * 0.1, type: "spring", bounce: 0.3 }}
+                    transition={{ duration: 0.5, delay: (index % 3) * 0.1, type: "spring", bounce: 0.3 }}
                   >
                     <TimelineCard item={item} type="work" align="right" />
                   </motion.div>
@@ -143,7 +143,7 @@ export default function ExperienceSection() {
                       whileInView={{ opacity: 1, x: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.5, delay: index * 0.1, type: "spring", bounce: 0.3 }}
+                      transition={{ duration: 0.5, delay: (index % 3) * 0.1, type: "spring", bounce: 0.3 }}
                     >
                       <TimelineCard item={item} type="education" align="left" />
                     </motion.div>

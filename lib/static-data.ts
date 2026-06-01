@@ -1,8 +1,10 @@
 import profileJson from "@/public/data/profile.json"
 import socialsJson from "@/public/data/socials.json"
+import certificationsJson from "@/public/data/certifications.json"
 
 export const PROFILE_DATA = profileJson
 export const SOCIALS_DATA = socialsJson
+export const CERTIFICATIONS_DATA = certificationsJson
 
 export type ProfileData = typeof PROFILE_DATA
 export type SocialsData = typeof SOCIALS_DATA
