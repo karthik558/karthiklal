@@ -55,7 +55,7 @@ function AchievementCard({ certification, index, isLarge }: { certification: Cer
         <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         
         {/* Holographic Watermark / Background Icon */}
-        <div className="absolute -right-10 -bottom-10 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none transform group-hover:scale-110 group-hover:rotate-12">
+        <div className="absolute -right-10 -bottom-10 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:rotate-12">
           <Award className="w-64 h-64 text-primary" />
         </div>
 
