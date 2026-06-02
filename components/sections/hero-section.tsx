@@ -139,7 +139,7 @@ export default function HeroSection() {
 
       {/* Animated background particles */}
       <div className="absolute inset-0 z-0">
-        <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
+        <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 45 }}>
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
           <ProfileSphere />

@@ -25,23 +25,7 @@ import {
 } from "recharts"
 import { getModelIcon } from "@/lib/admin-utils"
 
-// Mock Data for Analytics
-const trafficData = [
-  { name: "Mon", views: 4000, visitors: 2400 },
-  { name: "Tue", views: 3000, visitors: 1398 },
-  { name: "Wed", views: 2000, visitors: 9800 },
-  { name: "Thu", views: 2780, visitors: 3908 },
-  { name: "Fri", views: 1890, visitors: 4800 },
-  { name: "Sat", views: 2390, visitors: 3800 },
-  { name: "Sun", views: 3490, visitors: 4300 },
-]
-
-const sourceData = [
-  { name: "Direct", value: 400, color: "hsl(var(--primary))" },
-  { name: "Social", value: 300, color: "hsl(var(--primary) / 0.6)" },
-  { name: "Referral", value: 300, color: "hsl(var(--primary) / 0.3)" },
-  { name: "Organic", value: 200, color: "hsl(var(--primary) / 0.15)" },
-]
+// We fetch analytics dynamically now
 
 interface DashboardClientProps {
   models: string[]
@@ -50,18 +34,52 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ models, stats }: DashboardClientProps) {
   const [mounted, setMounted] = useState(false)
+  const [analyticsData, setAnalyticsData] = useState<{
+    trafficData: any[]
+    sourceData: any[]
+    statCards: any[]
+    isMock: boolean
+  } | null>(null)
 
   // Prevent hydration errors with Recharts by only rendering charts after mount
   useEffect(() => {
     setMounted(true)
+    
+    // Fetch analytics data
+    const fetchAnalytics = async () => {
+      try {
+        const res = await fetch('/api/admin/analytics')
+        const data = await res.json()
+        setAnalyticsData(data)
+      } catch (error) {
+        console.error("Failed to fetch analytics:", error)
+      }
+    }
+    
+    fetchAnalytics()
   }, [])
 
-  const statCards = [
-    { title: "Total Views", value: "24.8K", change: "+12.5%", icon: Activity },
-    { title: "Unique Visitors", value: "18.2K", change: "+8.2%", icon: Users },
-    { title: "Engagement Rate", value: "64%", change: "+5.4%", icon: MousePointerClick },
-    { title: "Avg. Session", value: "2m 45s", change: "-1.2%", icon: Clock },
+  const defaultStatCards = [
+    { title: "Total Views", value: "...", change: "...", icon: Activity },
+    { title: "Unique Visitors", value: "...", change: "...", icon: Users },
+    { title: "Engagement Rate", value: "...", change: "...", icon: MousePointerClick },
+    { title: "Avg. Session", value: "...", change: "...", icon: Clock },
   ]
+
+  const statCardsData = analyticsData?.statCards || defaultStatCards
+  const chartTrafficData = analyticsData?.trafficData || []
+  const chartSourceData = analyticsData?.sourceData || []
+
+  // Helper to map string icon names to Lucide icons
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Activity': return Activity
+      case 'Users': return Users
+      case 'MousePointerClick': return MousePointerClick
+      case 'Clock': return Clock
+      default: return Activity
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-10">
@@ -74,30 +92,39 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
 
       {/* Top Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        {statCards.map((stat, i) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm relative overflow-hidden group"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                <stat.icon className="w-5 h-5" />
+        {statCardsData.map((stat, i) => {
+          const Icon = getIcon(stat.icon)
+          return (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm relative overflow-hidden group"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${stat.change.startsWith('+') || stat.change === 'Active' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
+                  {stat.change.startsWith('+') || stat.change === 'Active' ? <TrendingUp className="w-3 h-3" /> : <TrendingUp className="w-3 h-3 rotate-180" />}
+                  {stat.change}
+                </div>
               </div>
-              <div className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${stat.change.startsWith('+') ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
-                {stat.change.startsWith('+') ? <TrendingUp className="w-3 h-3" /> : <TrendingUp className="w-3 h-3 rotate-180" />}
-                {stat.change}
+              <div>
+                <h3 className="text-3xl font-bold text-foreground mb-1">{stat.value}</h3>
+                <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
               </div>
-            </div>
-            <div>
-              <h3 className="text-3xl font-bold text-foreground mb-1">{stat.value}</h3>
-              <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          )
+        })}
       </div>
+
+      {analyticsData?.isMock && (
+        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 p-4 rounded-xl text-sm mb-6 flex items-center justify-center">
+          Viewing mock data. To see real data, configure Google Analytics Data API credentials in your environment variables.
+        </div>
+      )}
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -115,9 +142,9 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
           </div>
           
           <div className="h-[300px] w-full">
-            {mounted ? (
+            {mounted && chartTrafficData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={trafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartTrafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
@@ -158,11 +185,11 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
           </div>
           
           <div className="h-[220px] w-full flex-1 flex items-center justify-center relative">
-            {mounted ? (
+            {mounted && chartSourceData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={sourceData}
+                    data={chartSourceData}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
@@ -171,7 +198,7 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
                     dataKey="value"
                     stroke="none"
                   >
-                    {sourceData.map((entry, index) => (
+                    {chartSourceData.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -183,16 +210,20 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
               </ResponsiveContainer>
             ) : null}
             
-            {mounted && (
+            {mounted && chartSourceData.length > 0 && (
               <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                <span className="text-3xl font-bold text-foreground">1.2K</span>
+                <span className="text-3xl font-bold text-foreground">
+                  {chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) > 999 
+                    ? (chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) / 1000).toFixed(1) + 'K' 
+                    : chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0)}
+                </span>
                 <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Total</span>
               </div>
             )}
           </div>
 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            {sourceData.map((source) => (
+            {chartSourceData.map((source: any) => (
               <div key={source.name} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: source.color }} />
                 <span className="text-sm text-muted-foreground font-medium">{source.name}</span>
