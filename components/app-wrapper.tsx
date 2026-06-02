@@ -7,6 +7,7 @@ import ContentWrapper from "@/components/content-wrapper"
 import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
 import BackToTop from "@/components/back-to-top"
+import CustomCursor from "@/components/custom-cursor"
 import { Analytics } from "@/components/analytics"
 import { scrollToElement } from "@/lib/scroll-utils"
 
@@ -113,6 +114,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
           )}
 
           {!isAdmin && <BackToTop />}
+          {!isAdmin && <CustomCursor />}
           <Analytics />
         </>
       )}
