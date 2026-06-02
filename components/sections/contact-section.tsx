@@ -119,7 +119,7 @@ export default function ContactSection() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-32 relative overflow-hidden bg-background selection:bg-primary/30">
+    <div className="min-h-screen pt-24 pb-32 relative overflow-x-hidden bg-background selection:bg-primary/30">
       {/* Immersive Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-primary/5 via-background to-background" />
@@ -198,7 +198,7 @@ export default function ContactSection() {
               <p className="text-sm text-muted-foreground font-semibold mb-6">Follow My Socials</p>
               <div className="flex flex-wrap gap-4">
                 {socials.map((social, index) => {
-                  const Icon = iconMap[social.icon]
+                  const Icon = iconMap[social.icon as keyof typeof iconMap] || Globe
                   return (
                     <motion.a
                       key={social.id}
