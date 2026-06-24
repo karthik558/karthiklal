@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const { username, password } = await request.json()
 
-    if (username === 'admin' && password === 'admin@karthiklal.in') {
+    if (username === 'admin' && password === 'admin') {
       const cookieStore = await cookies()
       cookieStore.set('admin_session', 'authenticated', {
         httpOnly: true,

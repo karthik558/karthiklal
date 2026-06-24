@@ -52,17 +52,28 @@ const TextareaInput = ({ label, value, onChange }: { label: string; value: strin
   </div>
 )
 
-const TextInput = ({ label, value, onChange, type = "text" }: { label: string; value: string | number; onChange: (v: any) => void; type?: string }) => (
-  <div className="space-y-2">
-    <label className="text-sm font-semibold text-foreground capitalize">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
-    <input
-      type={type}
-      className="w-full bg-background border border-border rounded-lg p-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-      value={value}
-      onChange={(e) => onChange(type === 'number' ? Number(e.target.value) : e.target.value)}
-    />
-  </div>
-)
+const TextInput = ({ label, value, onChange, type = "text", options = [] }: { label: string; value: string | number; onChange: (v: any) => void; type?: string; options?: string[] }) => {
+  const listId = options.length > 0 ? `${label.replace(/\s+/g, '-')}-options` : undefined;
+  return (
+    <div className="space-y-2">
+      <label className="text-sm font-semibold text-foreground capitalize">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
+      <input
+        type={type}
+        list={listId}
+        className="w-full bg-background border border-border rounded-lg p-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        value={value}
+        onChange={(e) => onChange(type === 'number' ? Number(e.target.value) : e.target.value)}
+      />
+      {options.length > 0 && (
+        <datalist id={listId}>
+          {options.map((opt, i) => (
+            <option key={i} value={opt} />
+          ))}
+        </datalist>
+      )}
+    </div>
+  )
+}
 
 const ToggleInput = ({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) => (
   <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-card/50">
@@ -79,8 +90,9 @@ const ToggleInput = ({ label, value, onChange }: { label: string; value: boolean
   </div>
 )
 
-const TagsInput = ({ label, value, onChange }: { label: string; value: string[]; onChange: (v: string[]) => void }) => {
+const TagsInput = ({ label, value, onChange, options = [] }: { label: string; value: string[]; onChange: (v: string[]) => void; options?: string[] }) => {
   const [inputValue, setInputValue] = useState("")
+  const listId = options.length > 0 ? `${label.replace(/\s+/g, '-')}-tags-options` : undefined;
   
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputValue.trim()) {
@@ -106,12 +118,20 @@ const TagsInput = ({ label, value, onChange }: { label: string; value: string[];
         ))}
         <input
           type="text"
+          list={listId}
           className="flex-1 bg-transparent min-w-[120px] text-sm focus:outline-none"
           placeholder="Type and press Enter to add..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={addTag}
         />
+        {options.length > 0 && (
+          <datalist id={listId}>
+            {options.map((opt, i) => (
+              <option key={i} value={opt} />
+            ))}
+          </datalist>
+        )}
       </div>
     </div>
   )
@@ -121,7 +141,7 @@ const TagsInput = ({ label, value, onChange }: { label: string; value: string[];
 // Dynamic Object Form Renderer
 // ----------------------------------------------------------------------
 
-const DynamicForm = ({ data, onChange }: { data: any; onChange: (data: any) => void }) => {
+const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: any; onChange: (data: any) => void; optionsMap?: Record<string, string[]> }) => {
   if (!data || typeof data !== 'object') return null
 
   return (
@@ -139,7 +159,7 @@ const DynamicForm = ({ data, onChange }: { data: any; onChange: (data: any) => v
         if (Array.isArray(value)) {
           // Arrays of strings -> Tags Input
           if (value.length === 0 || typeof value[0] === 'string') {
-            return <TagsInput key={key} label={key} value={value} onChange={(v) => onChange({ ...data, [key]: v })} />
+            return <TagsInput key={key} label={key} value={value} onChange={(v) => onChange({ ...data, [key]: v })} options={optionsMap[key]} />
           }
           // Arrays of objects could be handled here recursively, but for standard models this is rare.
           return <div key={key} className="text-muted-foreground text-sm italic">Complex array editing not supported inline.</div>
@@ -160,7 +180,7 @@ const DynamicForm = ({ data, onChange }: { data: any; onChange: (data: any) => v
           if (isLongText) {
             return <TextareaInput key={key} label={key} value={value as string} onChange={(v) => onChange({ ...data, [key]: v })} />
           }
-          return <TextInput key={key} label={key} value={value as string} onChange={(v) => onChange({ ...data, [key]: v })} />
+          return <TextInput key={key} label={key} value={value as string} onChange={(v) => onChange({ ...data, [key]: v })} options={optionsMap[key]} />
         }
 
         return null
@@ -247,10 +267,18 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     if (!arrayData) return
     const newData = [...arrayData]
     if (editingIndex === -1) {
-      newData.push(drawerData)
+      newData.unshift(drawerData)
     } else if (editingIndex !== null) {
       newData[editingIndex] = drawerData
     }
+    
+    // Automatically reassign sequential IDs if objects have numeric ids
+    if (newData.length > 0 && typeof newData[0].id === 'number') {
+      newData.forEach((item, idx) => {
+        item.id = idx + 1
+      })
+    }
+
     setData(wrapperKey ? { [wrapperKey]: newData } : newData)
     setEditingIndex(null)
     setDrawerData(null)
@@ -261,8 +289,23 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     if (confirm("Are you sure you want to delete this item?")) {
       const newData = [...arrayData]
       newData.splice(index, 1)
+
+      // Automatically reassign sequential IDs if objects have numeric ids
+      if (newData.length > 0 && typeof newData[0].id === 'number') {
+        newData.forEach((item, idx) => {
+          item.id = idx + 1
+        })
+      }
+
       setData(wrapperKey ? { [wrapperKey]: newData } : newData)
     }
+  }
+
+  // Compute autocomplete options based on existing arrayData
+  const optionsMap: Record<string, string[]> = {}
+  if (arrayData) {
+    optionsMap['category'] = Array.from(new Set(arrayData.map((item: any) => item.category).filter(Boolean))) as string[]
+    optionsMap['technologies'] = Array.from(new Set(arrayData.flatMap((item: any) => item.technologies || []).filter(Boolean))) as string[]
   }
 
   return (
@@ -379,7 +422,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
       ) : (
         /* Object: Full Page Form View */
         <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm max-w-4xl mx-auto">
-          <DynamicForm data={data} onChange={setData} />
+          <DynamicForm data={data} onChange={setData} optionsMap={optionsMap} />
         </div>
       )}
 
@@ -417,7 +460,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
               </div>
               
               <div className="flex-1 overflow-y-auto p-6 scrollbar-hide">
-                <DynamicForm data={drawerData} onChange={setDrawerData} />
+                <DynamicForm data={drawerData} onChange={setDrawerData} optionsMap={optionsMap} />
               </div>
               
               <div className="p-6 border-t border-border/50 shrink-0 bg-background/50 backdrop-blur-md">

@@ -7,7 +7,6 @@ import { ArrowRight, FolderOpen, Github, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import projectsData from "@/public/data/projects.json"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { cn } from "@/lib/utils"
 
@@ -95,15 +94,20 @@ export default function PortfolioSection() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    try {
-      const filtered = projectsData.projects.filter(project => project.featured)
-      setFeaturedProjects(filtered)
-    } catch (error) {
-      console.error('Error loading projects:', error)
-      setFeaturedProjects([])
-    } finally {
-      setIsLoading(false)
+    const loadProjects = async () => {
+      try {
+        const res = await fetch('/data/projects.json', { cache: 'no-store' })
+        const data = await res.json()
+        const filtered = data.projects.filter((project: Project) => project.featured)
+        setFeaturedProjects(filtered)
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        setFeaturedProjects([])
+      } finally {
+        setIsLoading(false)
+      }
     }
+    loadProjects()
   }, [])
 
   if (isLoading) {
