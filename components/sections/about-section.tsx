@@ -43,7 +43,7 @@ export default function AboutSection() {
   return (
     <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background">
       {/* Background Decor */}
-      <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_65%)] pointer-events-none" />
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_65%)]" />
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       
       <div className="container px-4 md:px-6 relative z-10">

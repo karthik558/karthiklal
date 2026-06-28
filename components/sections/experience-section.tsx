@@ -1,236 +1,205 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { motion, useInView, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
-import { BriefcaseIcon, GraduationCap, ChevronDown, ChevronUp, Building2, Calendar } from "lucide-react"
-import experiencesData from "@/public/data/experiences.json"
+import { AnimatePresence, motion, useInView } from "framer-motion"
+import {
+  BriefcaseBusiness,
+  Building2,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  GraduationCap,
+  Landmark,
+} from "lucide-react"
+
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { Badge } from "@/components/ui/badge"
+import experiencesData from "@/public/data/experiences.json"
 import { cn } from "@/lib/utils"
 
+type ExperienceType = "work" | "education"
+
+type ExperienceItem = {
+  id: number
+  title: string
+  company: string
+  duration: string
+  type: ExperienceType
+}
+
+const INITIAL_ITEMS = 6
+
 export default function ExperienceSection() {
-  const [showAllWork, setShowAllWork] = useState(false)
-  const [showAllEducation, setShowAllEducation] = useState(false)
-  const [activeTab, setActiveTab] = useState<'work' | 'education'>('work')
-  
+  const [showAll, setShowAll] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.05 })
+  const isInView = useInView(containerRef, { once: true, amount: 0.12 })
 
-  // Scroll progress for the animated glowing line
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  })
-
-  // Smooth spring animation for the line
-  const springScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
-  const lineHeight = useTransform(springScroll, [0, 1], ["0%", "100%"])
-
-  const workExperiences = experiencesData.experiences.filter((exp) => exp.type === "work")
-  const educationExperiences = experiencesData.experiences.filter((exp) => exp.type === "education")
-
-  const displayedWorkExperiences = showAllWork ? workExperiences : workExperiences.slice(0, 3)
-  const displayedEducationExperiences = showAllEducation ? educationExperiences : educationExperiences.slice(0, 3)
+  const experiences = experiencesData.experiences as ExperienceItem[]
+  const workCount = experiences.filter((item) => item.type === "work").length
+  const educationCount = experiences.filter((item) => item.type === "education").length
+  const visibleItems = showAll ? experiences : experiences.slice(0, INITIAL_ITEMS)
+  const hiddenCount = experiences.length - visibleItems.length
 
   return (
-    <section id="experience" className="py-24 md:py-32 bg-background relative overflow-hidden" ref={containerRef}>
-      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_20%_20%,hsl(var(--primary)/0.08),transparent_65%)]" />
+    <section id="experience" ref={containerRef} className="relative overflow-hidden bg-background py-24 md:py-32">
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(1200px_circle_at_15%_20%,hsl(var(--primary)/0.08),transparent_65%),radial-gradient(1000px_circle_at_85%_78%,hsl(var(--accent)/0.08),transparent_65%)]" />
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
 
-      <div className="container max-w-7xl mx-auto relative z-10">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
+          className="text-center max-w-3xl mx-auto mb-16 md:mb-20"
         >
           <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
             Career Path
           </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.15]">
             Experience & <span className="text-gradient">Education</span>
           </h2>
         </motion.div>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden flex justify-center mb-12">
-          <div className="relative flex w-full max-w-md p-1 bg-card/50 backdrop-blur-md border border-foreground/10 rounded-full">
-            <div 
-              className={cn(
-                "absolute inset-y-1 w-[calc(50%-4px)] bg-primary rounded-full transition-all duration-300 shadow-lg",
-                activeTab === 'education' ? "left-[calc(50%+2px)]" : "left-1"
-              )} 
-            />
-            <button
-              onClick={() => setActiveTab('work')}
-              className={cn(
-                "relative z-10 flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-colors duration-300 rounded-full",
-                activeTab === 'work' ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <BriefcaseIcon className="w-4 h-4" /> Experience
-            </button>
-            <button
-              onClick={() => setActiveTab('education')}
-              className={cn(
-                "relative z-10 flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-colors duration-300 rounded-full",
-                activeTab === 'education' ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <GraduationCap className="w-4 h-4" /> Education
-            </button>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-3"
+        >
+          <CareerSummary
+            icon={<BriefcaseBusiness className="h-5 w-5" />}
+            value={`${workCount}+`}
+            label="Professional Roles"
+          />
+          <CareerSummary
+            icon={<GraduationCap className="h-5 w-5" />}
+            value={`${educationCount}`}
+            label="Education Milestones"
+          />
+          <CareerSummary
+            icon={<Calendar className="h-5 w-5" />}
+            value="2025"
+            label="Current Growth"
+          />
+        </motion.div>
+
+        <div className="relative">
+          <div className="absolute bottom-10 left-6 top-4 w-px bg-border/70 md:left-1/2 md:-translate-x-1/2" />
+          <div className="absolute left-6 top-4 h-40 w-px bg-gradient-to-b from-primary via-accent to-transparent md:left-1/2 md:-translate-x-1/2" />
+
+          <AnimatePresence mode="popLayout">
+            <motion.div layout className="space-y-8 md:space-y-10">
+              {visibleItems.map((item, index) => (
+                <CareerTimelineItem key={item.id} item={item} index={index} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative w-full">
-          {/* Animated Central Glowing Line */}
-          <div className="absolute left-[24px] md:left-1/2 top-0 bottom-0 w-[2px] bg-border/40 transform md:-translate-x-1/2 rounded-full overflow-hidden z-0">
-            <motion.div 
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary via-primary to-transparent shadow-[0_0_15px_rgba(var(--primary-rgb),0.8)]"
-              style={{ height: lineHeight }}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 w-full relative z-10">
-            
-            {/* Experience Column (Left on Desktop, Conditional on Mobile) */}
-            <div className={cn("flex flex-col gap-8 md:gap-12", activeTab === 'education' && "hidden md:flex")}>
-              <div className="hidden md:flex items-center justify-end gap-3 mb-4 pr-12 lg:pr-16 text-primary font-bold text-2xl opacity-80">
-                Experience <BriefcaseIcon className="w-6 h-6" />
-              </div>
-              <AnimatePresence mode="popLayout">
-                {displayedWorkExperiences.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, x: -50, scale: 0.9 }}
-                    whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: (index % 3) * 0.1, type: "spring", bounce: 0.3 }}
-                  >
-                    <TimelineCard item={item} type="work" align="right" />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-
-              {workExperiences.length > 3 && (
-                <motion.div layout className="flex justify-start pl-16 md:pl-0 md:justify-end mt-4 md:pr-12 lg:pr-16">
-                  <AnimatedButton
-                    onClick={() => setShowAllWork(!showAllWork)}
-                    variant="outline"
-                  >
-                    {showAllWork ? 'Show Less' : `Show ${workExperiences.length - 3} More`}
-                    {showAllWork ? <ChevronUp className="w-4 h-4 ml-2" /> : <ChevronDown className="w-4 h-4 ml-2" />}
-                  </AnimatedButton>
-                </motion.div>
-              )}
-            </div>
-
-            {/* Education Column (Right on Desktop, Conditional on Mobile) */}
-            <div className={cn("flex flex-col gap-8 md:gap-12 mt-12 md:mt-0", activeTab === 'work' && "hidden md:flex")}>
-              <div className="hidden md:flex items-center justify-start gap-3 mb-4 pl-12 lg:pl-16 text-primary font-bold text-2xl opacity-80">
-                <GraduationCap className="w-6 h-6" /> Education
-              </div>
-              <div className="md:pt-16 lg:pt-24 flex flex-col gap-8 md:gap-12">
-                <AnimatePresence mode="popLayout">
-                  {displayedEducationExperiences.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      layout
-                      initial={{ opacity: 0, x: 50, scale: 0.9 }}
-                      whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.5, delay: (index % 3) * 0.1, type: "spring", bounce: 0.3 }}
-                    >
-                      <TimelineCard item={item} type="education" align="left" />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-
-                {educationExperiences.length > 3 && (
-                  <motion.div layout className="flex justify-start pl-16 md:pl-12 lg:pl-16 mt-4">
-                    <AnimatedButton
-                      onClick={() => setShowAllEducation(!showAllEducation)}
-                      variant="outline"
-                    >
-                      {showAllEducation ? 'Show Less' : `Show ${educationExperiences.length - 3} More`}
-                      {showAllEducation ? <ChevronUp className="w-4 h-4 ml-2" /> : <ChevronDown className="w-4 h-4 ml-2" />}
-                    </AnimatedButton>
-                  </motion.div>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </div>
+        {hiddenCount > 0 || showAll ? (
+          <motion.div
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 flex justify-center"
+          >
+            <AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">
+              {showAll ? "Show Less Timeline" : `Show ${hiddenCount} More Milestones`}
+              {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+            </AnimatedButton>
+          </motion.div>
+        ) : null}
       </div>
     </section>
   )
 }
 
-function TimelineCard({ item, type, align }: { item: any, type: 'work' | 'education', align: 'left' | 'right' }) {
-  // Mobile always aligns left for content, but we keep the visual desktop alignment logic
-  const isRightAligned = align === 'right'
+function CareerSummary({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+  return (
+    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card/40 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(var(--primary-rgb),0.12)]">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative z-10 flex items-center gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/20 to-primary/5 text-primary shadow-inner">
+          {icon}
+        </div>
+        <div>
+          <div className="font-display text-3xl font-bold leading-none text-foreground">{value}</div>
+          <p className="mt-1 text-sm font-medium text-muted-foreground">{label}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CareerTimelineItem({ item, index }: { item: ExperienceItem; index: number }) {
+  const isWork = item.type === "work"
+  const isRight = index % 2 === 1
+  const TypeIcon = isWork ? BriefcaseBusiness : GraduationCap
+  const OrgIcon = isWork ? Building2 : Landmark
 
   return (
-    <div className={cn(
-      "relative flex items-center group pl-16 md:pl-0 w-full",
-      isRightAligned ? "md:justify-end md:pr-12 lg:pr-16" : "md:justify-start md:pl-12 lg:pl-16"
-    )}>
-      {/* Node Point */}
-      <div className={cn(
-        "absolute top-8 w-5 h-5 rounded-full bg-background border-4 border-primary z-20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] transition-transform duration-300 group-hover:scale-125 transform -translate-y-1/2",
-        "left-[15px] md:left-auto",
-        isRightAligned ? "md:-right-[10px]" : "md:-left-[10px]"
-      )}>
-        <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20" />
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 28, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 18, scale: 0.96 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.06, 0.3), type: "spring", bounce: 0.25 }}
+      className={cn(
+        "relative grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[minmax(0,1fr)_4rem_minmax(0,1fr)] md:gap-0",
+        isRight ? "md:[&_.career-card]:col-start-3" : "md:[&_.career-card]:col-start-1"
+      )}
+    >
+      <div className="relative z-20 flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/20 bg-background text-primary shadow-[0_0_20px_rgba(var(--primary-rgb),0.25)] md:col-start-2 md:mx-auto">
+        <TypeIcon className="h-5 w-5" />
       </div>
 
-      {/* Connection Line */}
-      <div className={cn(
-        "hidden md:block absolute top-8 h-[2px] bg-border/40 transition-colors duration-300 group-hover:bg-primary/50 transform -translate-y-1/2 z-10",
-        isRightAligned ? "right-0 w-12 lg:w-16" : "left-0 w-12 lg:w-16"
-      )} />
+      <div className="career-card min-w-0 md:row-start-1">
+        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-card/40 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(var(--primary-rgb),0.15)] md:p-8">
+          <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-primary/30 via-transparent to-accent/30 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+          <div className="absolute -right-12 -bottom-12 opacity-[0.03] transition-all duration-700 group-hover:scale-110 group-hover:rotate-12 group-hover:opacity-[0.08] pointer-events-none">
+            <TypeIcon className="h-48 w-48 text-primary" />
+          </div>
 
-      <motion.div
-        whileHover={{ y: -4 }}
-        className="relative w-full max-w-[500px]"
-      >
-        {/* Glow behind the card */}
-        <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-primary/50 via-transparent to-accent/50 opacity-0 transition duration-500 group-hover:opacity-100 blur-sm pointer-events-none" />
-        
-        <div className={cn(
-          "relative p-6 md:p-8 rounded-3xl bg-card/60 backdrop-blur-md border border-white/10 overflow-hidden h-full",
-          "shadow-[0_8px_30px_rgba(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(var(--primary-rgb),0.15)] transition-all duration-500"
-        )}>
-          {/* Glassmorphic Shine Effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          
-          <div className={cn(
-            "flex flex-col gap-4 relative z-10",
-            isRightAligned ? "md:items-end md:text-right" : "md:items-start md:text-left"
-          )}>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 backdrop-blur-md shadow-sm">
-              {item.duration}
-            </Badge>
-            
-            <h3 className="text-xl md:text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+          <div className="relative z-10">
+            <div className="mb-5 flex flex-wrap items-center gap-3">
+              <span
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-[0.14em]",
+                  isWork
+                    ? "border-primary/20 bg-primary/10 text-primary"
+                    : "border-accent/25 bg-accent/10 text-accent"
+                )}
+              >
+                <TypeIcon className="h-3.5 w-3.5" />
+                {isWork ? "Experience" : "Education"}
+              </span>
+              {(item.duration.includes("Present") || item.duration.includes("Pursuing")) && (
+                <span className="rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-600 dark:text-green-400">
+                  Current
+                </span>
+              )}
+            </div>
+
+            <h3 className="mb-4 text-xl font-display font-bold leading-tight text-foreground transition-colors duration-300 group-hover:text-primary md:text-2xl">
               {item.title}
             </h3>
-            
-            <div className={cn(
-              "flex items-center gap-2 text-muted-foreground/80 font-medium text-sm md:text-base",
-              isRightAligned ? "md:justify-end" : "md:justify-start"
-            )}>
-              {type === 'work' ? <Building2 className="w-4 h-4 shrink-0 text-primary/70" /> : <GraduationCap className="w-4 h-4 shrink-0 text-primary/70" />}
-              <span>{item.company}</span>
+
+            <div className="space-y-3 text-sm font-medium leading-relaxed text-muted-foreground md:text-base">
+              <div className="flex items-start gap-2">
+                <OrgIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary/70" />
+                <span>{item.company}</span>
+              </div>
+              <div className="flex items-center gap-2 text-foreground/80">
+                <Calendar className="h-4 w-4 shrink-0 text-primary/70" />
+                <span>{item.duration}</span>
+              </div>
             </div>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.article>
   )
 }

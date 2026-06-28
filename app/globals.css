@@ -155,18 +155,34 @@ html {
   background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
   color: transparent !important;
+  display: inline;
   -webkit-text-fill-color: transparent !important;
   font-weight: 700 !important;
+  line-height: inherit;
+  padding-block: 0.04em 0.1em;
 }
 
 .dark .text-gradient {
   background: linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--primary)) 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
   color: transparent !important;
+  display: inline;
   -webkit-text-fill-color: transparent !important;
+  line-height: inherit;
+  padding-block: 0.04em 0.1em;
   text-shadow: none !important;
+}
+
+.section-gradient-blend {
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
 }
 
 /* Subtle noise overlay helper */
@@ -699,4 +715,3 @@ input, textarea, [contenteditable] {
 .dark .border-primary\/20 {
   border-color: hsl(0 0% 100% / 0.25) !important;
 }
-

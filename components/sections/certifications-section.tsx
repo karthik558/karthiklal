@@ -135,7 +135,7 @@ export default function CertificationsSection() {
   return (
     <section id="certifications" className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(1200px_circle_at_85%_30%,hsl(var(--accent)/0.08),transparent_65%),radial-gradient(1000px_circle_at_15%_70%,hsl(var(--primary)/0.08),transparent_65%)]" />
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(1200px_circle_at_85%_30%,hsl(var(--accent)/0.08),transparent_65%),radial-gradient(1000px_circle_at_15%_70%,hsl(var(--primary)/0.08),transparent_65%)]" />
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       
       <div className="container max-w-7xl mx-auto relative z-10">

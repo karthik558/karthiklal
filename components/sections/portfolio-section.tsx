@@ -248,7 +248,7 @@ export default function PortfolioSection() {
   return (
     <section id="portfolio" className="py-32 bg-background relative overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden section-gradient-blend">
         <div className="absolute top-[15%] right-[-10%] w-[520px] h-[520px] bg-primary/6 rounded-full blur-3xl" />
         <div className="absolute bottom-[10%] left-[-8%] w-[420px] h-[420px] bg-accent/6 rounded-full blur-3xl" />
       </div>

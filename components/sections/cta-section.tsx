@@ -8,7 +8,7 @@ export default function CtaSection() {
     <section id="cta" className="relative min-h-[40vh] md:min-h-[60vh] flex items-center justify-center py-24 overflow-hidden bg-background">
       {/* Subtle Background Effects */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.05),transparent_70%)]" />
+        <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.05),transparent_70%)]" />
         <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
       </div>
       

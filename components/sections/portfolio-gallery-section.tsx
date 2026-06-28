@@ -24,7 +24,7 @@ export default function PortfolioGallerySection() {
   return (
     <section id="portfolio-gallery" className="relative py-24 md:py-32 bg-background overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_15%,hsl(var(--accent)/0.05),transparent_65%)] pointer-events-none" />
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(1100px_circle_at_20%_15%,hsl(var(--accent)/0.05),transparent_65%)]" />
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
 
       <div className="container relative z-10 w-full mb-12 md:mb-20">
