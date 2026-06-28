@@ -13,7 +13,7 @@ import {
 } from "lucide-react"
 
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { Badge } from "@/components/ui/badge"
+import { SectionHeader } from "@/components/ui/section-header"
 import experiencesData from "@/public/data/experiences.json"
 import { cn } from "@/lib/utils"
 
@@ -50,14 +50,9 @@ export default function ExperienceSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16 md:mb-20"
+          className="mb-16 md:mb-20"
         >
-          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-            Career Path
-          </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.15]">
-            Experience & <span className="text-gradient">Education</span>
-          </h2>
+          <SectionHeader eyebrow="Career Path" title="Experience &" highlight="Education" />
         </motion.div>
 
         <motion.div

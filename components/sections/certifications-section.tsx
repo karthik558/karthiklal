@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "fram
 import { Award, CheckCircle, Calendar, ChevronDown, ChevronUp, ShieldCheck, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { SectionHeader } from "@/components/ui/section-header"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
 interface Certification {
@@ -144,14 +145,9 @@ export default function CertificationsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
+          className="mb-16 md:mb-24"
         >
-          <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
-            <span className="text-xs font-bold tracking-[0.2em] text-primary uppercase">Credentials</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-            Professional <span className="text-gradient">Achievements</span>
-          </h2>
+          <SectionHeader eyebrow="Credentials" title="Professional" highlight="Achievements" />
         </motion.div>
 
         {/* Bento Grid Layout */}

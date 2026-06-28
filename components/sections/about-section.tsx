@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, useScroll } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { Badge } from "@/components/ui/badge"
+import { SectionHeader } from "@/components/ui/section-header"
 import { Download, ArrowUpRight, MapPin, Briefcase, Award } from "lucide-react"
 import Image from "next/image"
 import { PROFILE_DATA } from "@/lib/static-data"
@@ -56,12 +56,7 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="mb-16 md:mb-20"
         >
-          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-            About Me
-          </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-            My <span className="text-gradient">Journey</span>
-          </h2>
+          <SectionHeader eyebrow="About Me" title="My" highlight="Journey" />
         </motion.div>
 
         {/* Bento Grid */}

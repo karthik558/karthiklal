@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { StaggerTestimonials } from "@/components/ui/stagger-testimonials"
-import { Badge } from "@/components/ui/badge"
+import { SectionHeader } from "@/components/ui/section-header"
 
 export default function TestimonialsSection() {
   const ref = useRef(null)
@@ -19,14 +19,9 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mb-16"
         >
-          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-            Testimonials
-          </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-            What Clients <span className="text-gradient">Say</span>
-          </h2>
+          <SectionHeader eyebrow="Testimonials" title="What Clients" highlight="Say" />
         </motion.div>
       </div>
 

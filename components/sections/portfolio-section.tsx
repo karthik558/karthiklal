@@ -8,6 +8,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { SectionHeader } from "@/components/ui/section-header"
 import { cn } from "@/lib/utils"
 
 // Define the project type
@@ -259,14 +260,9 @@ export default function PortfolioSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mb-16"
         >
-          <div className="inline-flex items-center justify-center px-4 py-2 bg-primary/10 rounded-full mb-6">
-            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary">Selected Works</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-            Featured <span className="text-gradient">Projects</span>
-          </h2>
+          <SectionHeader eyebrow="Selected Works" title="Featured" highlight="Projects" />
         </motion.div>
 
         {/* Bento Grid Layout */}

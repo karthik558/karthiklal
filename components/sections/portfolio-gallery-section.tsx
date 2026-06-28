@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Badge } from "@/components/ui/badge"
 import { ExternalLink, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { getBehanceUrl } from "@/lib/static-data"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { SectionHeader } from "@/components/ui/section-header"
 import featuredDesignsData from "@/public/data/featured-designs.json"
 
 // Portfolio items showcasing design works from JSON
@@ -35,16 +35,7 @@ export default function PortfolioGallerySection() {
           transition={{ duration: 0.5 }}
           className="text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
-          <div className="max-w-2xl mx-auto md:mx-0">
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-6">
-              <Badge variant="outline" className="px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-                Creative Archive
-              </Badge>
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
-              Featured <span className="text-gradient">Designs</span>
-            </h2>
-          </div>
+          <SectionHeader eyebrow="Creative Archive" title="Featured" highlight="Designs" align="responsive" />
           
           <AnimatedButton href={behanceUrl} variant="outline" target="_blank" className="shrink-0 mx-auto md:mx-0 bg-background/50 backdrop-blur-sm border-border group hidden md:flex">
             Explore Behance <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />

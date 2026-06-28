@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Code2, Shield, Palette, Cloud, ArrowRight } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { SectionHeader } from "@/components/ui/section-header"
 import { cn } from "@/lib/utils"
 import servicesData from "@/public/data/services.json"
 
@@ -70,12 +70,9 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="mb-16"
         >
-          <Badge variant="outline" className="mb-6 px-4 py-1.5 rounded-full bg-primary/5 border-primary/20 text-primary text-xs font-semibold tracking-[0.2em] uppercase">
-            Services
-          </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">Expert <span className="text-gradient">Solutions</span></h2>
+          <SectionHeader eyebrow="Services" title="Expert" highlight="Solutions" />
         </motion.div>
 
         <ul className="grid grid-cols-1 grid-rows-none gap-6 md:grid-cols-12 md:grid-rows-2 lg:gap-8 xl:max-h-[36rem]">
@@ -107,4 +104,3 @@ export default function ServicesSection() {
     </section>
   )
 }
-
