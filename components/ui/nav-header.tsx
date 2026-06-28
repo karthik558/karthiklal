@@ -6,7 +6,7 @@ import { createPortal } from "react-dom"
 import Link from "next/link"
 import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
-import { Menu, X, Github, Linkedin, Mail, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone, ArrowRight } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Instagram, Facebook, Youtube, MessageCircle, Palette, User, Home, Briefcase, FolderOpen, Phone } from "lucide-react"
 import { Button } from "./button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -114,21 +114,21 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   return (
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
       {/* Logo */}
-      <Link href="/" className={cn("group flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
-        <div className="relative transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+      <Link href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
+        <div className="relative transform transition-transform duration-300 group-hover:scale-105">
           <Image
             src="/logo-light.png"
             alt="Logo"
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             className="dark:hidden drop-shadow-lg"
             priority
           />
           <Image
             src="/logo-dark.png"
             alt="Logo"
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             className="hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
             priority
           />
@@ -138,10 +138,10 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
       {/* Desktop Navigation */}
       <ul
         className={cn(
-          "relative isolate mx-auto hidden w-fit items-center gap-1.5 rounded-full border p-1.5 transition-all duration-300 md:flex",
+          "relative isolate mx-auto hidden w-fit items-center gap-1 rounded-xl border border-border/60 bg-background/55 p-1 transition-all duration-300 md:flex",
           isScrolled
-            ? "border-transparent bg-transparent"
-            : "border-foreground/10 bg-background/55 shadow-inner backdrop-blur-md"
+            ? "shadow-none"
+            : "shadow-inner backdrop-blur-md"
         )}
       >
         {currentPageItems.map((item) => (
@@ -149,9 +149,9 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             <SmoothLink
               href={item.href}
               className={cn(
-                "relative z-10 flex h-10 items-center rounded-full px-4 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-5",
+                "relative z-10 flex h-9 items-center rounded-lg px-3.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-4",
                 isItemActive(item)
-                  ? "bg-primary/10 text-primary shadow-sm shadow-primary/10"
+                  ? "bg-primary text-primary-foreground shadow-sm shadow-primary/15"
                   : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
               )}
             >
@@ -169,7 +169,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             size="icon"
             onClick={() => setIsOpen(true)}
             className={cn(
-              "relative md:hidden hover:bg-primary/10 hover:text-primary transition-all duration-300 z-50",
+              "relative z-50 h-10 w-10 rounded-xl border border-border/60 bg-background/60 transition-all duration-300 hover:bg-primary/10 hover:text-primary md:hidden",
               isOpen && "opacity-0 pointer-events-none"
             )}
           >
@@ -189,14 +189,13 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
               >
                 {/* Animated Background Elements */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute top-[-10%] right-[-10%] w-[32rem] h-[32rem] bg-primary/8 rounded-full blur-[140px]" />
-                  <div className="absolute bottom-[-10%] left-[-10%] w-[32rem] h-[32rem] bg-primary/6 rounded-full blur-[140px]" />
+                  <div className="absolute top-[-10%] right-[-10%] w-[28rem] h-[28rem] bg-primary/8 rounded-full blur-[140px]" />
                 </div>
                 <div className="absolute inset-0 bg-noise opacity-12 pointer-events-none" />
 
                 <div className="relative flex h-full flex-col z-10">
                   {/* Header */}
-                  <div className="flex items-center justify-between p-6">
+                  <div className="flex items-center justify-between p-5">
                     <motion.span 
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -214,7 +213,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => setIsOpen(false)}
-                        className="hover:bg-foreground/10 rounded-full bg-foreground/5 border border-foreground/10"
+                        className="rounded-xl border border-border/70 bg-foreground/5 hover:bg-foreground/10"
                       >
                         <X className="w-5 h-5" />
                       </Button>
@@ -222,8 +221,8 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
                   </div>
 
                   {/* Navigation Menu */}
-                  <div className="flex-1 overflow-y-auto py-6 px-6">
-                    <nav className="grid gap-4">
+                  <div className="flex-1 overflow-y-auto px-5 py-4">
+                    <nav className="grid gap-3">
                       {currentPageItems.map((item, index) => {
                         const Icon = item.icon
                         return (
@@ -243,20 +242,20 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
                               href={item.href}
                               onClick={() => setIsOpen(false)}
                               className={cn(
-                                "group flex items-center gap-4 rounded-2xl border border-foreground/10 bg-card/70 px-4 py-4 backdrop-blur-md transition-all duration-300",
+                                "group flex items-center gap-4 rounded-xl border border-border/70 bg-card/70 px-4 py-3.5 backdrop-blur-md transition-all duration-300",
                                 isItemActive(item)
                                   ? "text-primary border-primary/30 bg-primary/10"
                                   : "text-muted-foreground hover:text-foreground hover:border-foreground/20"
                               )}
                             >
                               <div className={cn(
-                                "p-2.5 rounded-xl transition-all duration-300 group-hover:scale-105",
-                                isItemActive(item) ? "bg-primary/20 text-primary" : "bg-foreground/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+                                "p-2 rounded-lg transition-all duration-300 group-hover:scale-105",
+                                isItemActive(item) ? "bg-primary text-primary-foreground" : "bg-foreground/5 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
                               )}>
-                                <Icon className="w-6 h-6" />
+                                <Icon className="w-5 h-5" />
                               </div>
                               <span className={cn(
-                                "text-2xl sm:text-3xl font-display font-semibold tracking-tight transition-all duration-300 group-hover:translate-x-1",
+                                "text-xl sm:text-2xl font-display font-semibold tracking-tight transition-all duration-300 group-hover:translate-x-1",
                                 isItemActive(item) ? "text-foreground" : ""
                               )}>
                                 {item.label}
@@ -273,9 +272,9 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="p-6 border-t border-foreground/10 bg-background/60 backdrop-blur-xl"
+                    className="border-t border-border/70 bg-background/60 p-5 backdrop-blur-xl"
                   >
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="mb-6 flex items-center justify-between">
                       <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Theme</span>
                       <ThemeToggleAnimated />
                     </div>
@@ -301,7 +300,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-12 h-12 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300 group shadow-lg"
+                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/70 bg-foreground/5 transition-all duration-300 hover:border-primary/30 hover:bg-primary/15"
                               onClick={() => setIsOpen(false)}
                               title={`${social.name}`}
                             >

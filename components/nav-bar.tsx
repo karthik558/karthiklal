@@ -53,12 +53,12 @@ export default function NavBar() {
   }, [pathname])
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center px-4 pointer-events-none isolate">
+    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center px-3 pointer-events-none isolate sm:px-4">
       <div 
-        className={`pointer-events-auto mx-auto flex w-full items-center justify-center transition-all duration-500 ease-out ${
+        className={`pointer-events-auto mx-auto flex w-full items-center justify-center border transition-all duration-500 ease-out ${
           isScrolled 
-            ? "mt-4 max-w-5xl rounded-full border border-foreground/10 bg-background/85 px-5 py-2.5 shadow-xl shadow-black/5 backdrop-blur-2xl dark:shadow-black/30" 
-            : "mt-5 max-w-6xl rounded-full border border-foreground/10 bg-background/35 px-4 py-2 shadow-lg shadow-black/5 backdrop-blur-xl"
+            ? "mt-3 max-w-5xl rounded-2xl border-border/70 bg-background/86 px-3 py-2 shadow-lg shadow-black/5 backdrop-blur-2xl dark:shadow-black/25 sm:px-4" 
+            : "mt-4 max-w-6xl rounded-2xl border-border/60 bg-background/58 px-3 py-2 shadow-sm backdrop-blur-xl sm:px-4"
         }`}
       >
         <NavHeader isScrolled={isScrolled} />
