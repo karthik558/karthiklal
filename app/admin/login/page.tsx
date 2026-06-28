@@ -63,8 +63,8 @@ export default function AdminLoginPage() {
           {/* Logo */}
           <div className="flex justify-center mb-8">
             <div className="relative w-16 h-16 transform hover:scale-110 transition-transform duration-500">
-              <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain drop-shadow-md" />
-              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+              <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain drop-shadow-md" priority />
+              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" priority />
             </div>
           </div>
 

@@ -134,6 +134,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             width={40}
             height={40}
             className="dark:hidden drop-shadow-lg"
+            priority
           />
           <Image
             src="/logo-dark.png"
@@ -141,6 +142,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             width={40}
             height={40}
             className="hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+            priority
           />
         </div>
       </Link>
