@@ -24,67 +24,185 @@ interface Project {
 }
 
 const ProjectCard = ({ project, className, index }: { project: Project, className?: string, index: number }) => {
+  const isLarge = className?.includes("md:col-span-2")
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: -40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        type: "spring",
+        stiffness: 80,
+        damping: 15,
+        delay: index * 0.15,
+      }}
       className={cn(
-        "group relative overflow-hidden rounded-3xl bg-card/70 border border-foreground/10 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:border-primary/20",
+        "group relative flex flex-col rounded-3xl bg-card border border-border/80 hover:border-primary/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden h-full",
+        isLarge ? "md:flex-row" : "flex-col",
         className
       )}
     >
-      {/* Image Background with Parallax Effect on Hover */}
-      <div className="absolute inset-0 overflow-hidden">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 transition-opacity duration-500 group-hover:opacity-90" />
-      </div>
+      {isLarge ? (
+        // Side-by-Side Layout for Large Card
+        <>
+          {/* Left: Image / Screenshot */}
+          <div className="relative w-full md:w-3/5 h-48 md:h-full shrink-0 overflow-hidden bg-muted/10 border-r border-border/20">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-102"
+              priority={index === 0}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />
+          </div>
 
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-        <div className="transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
-          <div className="flex justify-between items-start mb-2">
-            <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30 backdrop-blur-md border-white/10">
-              {project.category}
-            </Badge>
+          {/* Right: Browser Window Mock & Content */}
+          <div className="flex flex-col flex-grow h-full">
+            {/* Mock Header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-muted/20 border-b border-border/50 select-none">
+              <div className="flex gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/40 group-hover:bg-red-500/80 transition-colors duration-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/40 group-hover:bg-yellow-500/80 transition-colors duration-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/40 group-hover:bg-green-500/80 transition-colors duration-300" />
+              </div>
+              <span className="text-[10px] font-mono text-muted-foreground/60">
+                {project.title.toLowerCase().replace(/\s+/g, "-")}.dev
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-muted-foreground/40">live</span>
+              </div>
+            </div>
 
-            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              {project.github && (
-                <Link href={project.github} target="_blank" className="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md border border-white/10 transition-all">
-                  <Github className="h-4 w-4" />
-                </Link>
-              )}
-              {project.link && (
-                <Link href={project.link} target="_blank" className="p-2 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md border border-white/10 transition-all">
-                  <ExternalLink className="h-4 w-4" />
-                </Link>
-              )}
+            {/* Content Body */}
+            <div className="flex flex-col justify-between flex-grow p-6 md:p-8">
+              <div>
+                <div className="mb-3">
+                  <Badge variant="secondary" className="bg-primary/10 text-primary border-none text-[10px] font-semibold tracking-wider uppercase px-2.5 py-0.5">
+                    {project.category}
+                  </Badge>
+                </div>
+                <h3 className="text-xl md:text-3xl font-display font-bold text-foreground leading-tight">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-xs md:text-sm mt-3 leading-relaxed md:line-clamp-4 line-clamp-3">
+                  {project.description}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-4 md:mt-0">
+                <div className="flex flex-wrap gap-1.5 max-w-[75%]">
+                  {project.technologies.slice(0, 4).map((tech) => (
+                    <Badge key={tech} variant="outline" className="text-[10px] py-0 px-2 bg-muted/40 text-muted-foreground border-border/40 font-normal">
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  {project.github && (
+                    <Link
+                      href={project.github}
+                      target="_blank"
+                      className="p-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
+                      title="View GitHub"
+                    >
+                      <Github className="h-4 w-4" />
+                    </Link>
+                  )}
+                  {project.link && (
+                    <Link
+                      href={project.link}
+                      target="_blank"
+                      className="p-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
+                      title="Visit Site"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-
-          <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 leading-tight text-white drop-shadow-md">
-            {project.title}
-          </h3>
-
-          <p className="text-white/80 line-clamp-2 mb-4 text-sm md:text-base opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-            {project.description}
-          </p>
-
-          <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-            {project.technologies.slice(0, 3).map((tech) => (
-              <Badge key={tech} variant="outline" className="text-xs bg-black/40 text-white/90 border-white/20 backdrop-blur-sm">
-                {tech}
-              </Badge>
-            ))}
+        </>
+      ) : (
+        // Standard Card Layout
+        <>
+          {/* Mock Header */}
+          <div className="flex items-center justify-between px-4 py-2.5 bg-muted/20 border-b border-border/50 select-none shrink-0">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500/40 group-hover:bg-red-500/80 transition-colors duration-300" />
+              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/40 group-hover:bg-yellow-500/80 transition-colors duration-300" />
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500/40 group-hover:bg-green-500/80 transition-colors duration-300" />
+            </div>
+            <span className="text-[10px] font-mono text-muted-foreground/60">
+              {project.title.toLowerCase().replace(/\s+/g, "-")}.dev
+            </span>
+            <div className="w-8" />
           </div>
-        </div>
-      </div>
+
+          {/* Image Area */}
+          <div className="relative w-full h-44 shrink-0 overflow-hidden bg-muted/10">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-102"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
+          </div>
+
+          {/* Content Body */}
+          <div className="flex flex-col justify-between flex-grow p-5">
+            <div>
+              <div className="mb-2">
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-none text-[9px] font-semibold tracking-wider uppercase px-2 py-0">
+                  {project.category}
+                </Badge>
+              </div>
+              <h3 className="text-lg md:text-xl font-display font-bold text-foreground leading-tight">
+                {project.title}
+              </h3>
+              <p className="text-muted-foreground text-xs leading-relaxed mt-2 line-clamp-3">
+                {project.description}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between pt-3 border-t border-border/50 mt-3">
+              <div className="flex flex-wrap gap-1 max-w-[70%]">
+                {project.technologies.slice(0, 3).map((tech) => (
+                  <Badge key={tech} variant="outline" className="text-[9px] py-0 px-1.5 bg-muted/40 text-muted-foreground/90 border-border/30 font-normal">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+              <div className="flex gap-1.5 shrink-0">
+                {project.github && (
+                  <Link
+                    href={project.github}
+                    target="_blank"
+                    className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
+                    title="View GitHub"
+                  >
+                    <Github className="h-4 w-4" />
+                  </Link>
+                )}
+                {project.link && (
+                  <Link
+                    href={project.link}
+                    target="_blank"
+                    className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
+                    title="Visit Site"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </motion.div>
   )
 }
@@ -118,7 +236,7 @@ export default function PortfolioSection() {
             <div className="h-12 bg-muted rounded w-1/3 mx-auto" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-[400px] bg-muted rounded-3xl" />
+                <div key={i} className="h-[420px] bg-muted rounded-3xl" />
               ))}
             </div>
           </div>
@@ -152,7 +270,7 @@ export default function PortfolioSection() {
         </motion.div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[420px]">
           {featuredProjects.slice(0, 3).map((project, index) => {
             // Logic for Bento Grid sizing
             // First item spans 2 cols and 1 row
@@ -172,18 +290,25 @@ export default function PortfolioSection() {
 
           {/* "See More" Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:col-span-2 flex flex-col items-center justify-center rounded-3xl bg-card/60 border border-dashed border-foreground/20 hover:bg-secondary/30 transition-colors cursor-pointer group"
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: 3 * 0.15,
+            }}
+            className="md:col-span-2 flex flex-col items-center justify-center rounded-3xl bg-card/40 border border-dashed border-foreground/20 hover:border-primary/40 hover:bg-secondary/10 transition-all duration-500 cursor-pointer group relative overflow-hidden"
           >
-            <div className="text-center p-8">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-background flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="absolute inset-0 bg-[radial-gradient(400px_circle_at_var(--x,50%)_var(--y,50%),hsl(var(--primary)/0.05),transparent_80%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+            <div className="text-center p-8 relative z-10">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-background flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-300 shadow-md border border-foreground/5">
                 <FolderOpen className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">View All Projects</h3>
-              <p className="text-muted-foreground mb-6 max-w-[200px] mx-auto">
+              <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">View All Projects</h3>
+              <p className="text-muted-foreground mb-6 max-w-[240px] mx-auto text-sm">
                 Explore the full archive of my work and experiments.
               </p>
               <AnimatedButton href="/projects">
