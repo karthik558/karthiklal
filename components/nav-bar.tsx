@@ -53,13 +53,12 @@ export default function NavBar() {
   }, [pathname])
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[9999] px-4 pointer-events-none flex justify-center">
-      {/* Floating Island Wrapper */}
+    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center px-4 pointer-events-none isolate">
       <div 
-        className={`pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center w-full mx-auto ${
+        className={`pointer-events-auto mx-auto flex w-full items-center justify-center transition-all duration-500 ease-out ${
           isScrolled 
-            ? "max-w-5xl mt-4 px-6 py-3 bg-background/80 backdrop-blur-2xl border border-foreground/10 shadow-2xl rounded-full" 
-            : "max-w-6xl mt-6 px-4 py-2 bg-transparent border-transparent"
+            ? "mt-4 max-w-5xl rounded-full border border-foreground/10 bg-background/85 px-5 py-2.5 shadow-xl shadow-black/5 backdrop-blur-2xl dark:shadow-black/30" 
+            : "mt-5 max-w-6xl rounded-full border border-foreground/10 bg-background/35 px-4 py-2 shadow-lg shadow-black/5 backdrop-blur-xl"
         }`}
       >
         <NavHeader isScrolled={isScrolled} />

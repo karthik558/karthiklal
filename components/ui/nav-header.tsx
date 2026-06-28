@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { createPortal } from "react-dom"
 import Link from "next/link"
@@ -40,13 +40,6 @@ interface Social {
 }
 
 function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
-  const [position, setPosition] = useState({
-    left: 0,
-    width: 0,
-    opacity: 0,
-    height: 0,
-    top: 0,
-  })
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   
@@ -118,15 +111,10 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
     }
   }, [isOpen, isMobile])
 
-  // Reset desktop animated cursor on route change to prevent "leftover pill" bug
-  useEffect(() => {
-    setPosition(prev => ({ ...prev, opacity: 0 }))
-  }, [pathname])
-
   return (
-    <div className="flex items-center justify-between w-full max-w-6xl mx-auto">
+    <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
       {/* Logo */}
-      <Link href="/" className={cn("flex items-center group transition-opacity duration-300", isOpen && "opacity-0 pointer-events-none")}>
+      <Link href="/" className={cn("group flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
           <Image
             src="/logo-light.png"
@@ -150,27 +138,27 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
       {/* Desktop Navigation */}
       <ul
         className={cn(
-          "relative mx-auto hidden md:flex w-fit rounded-full transition-all duration-700",
-          isScrolled ? "bg-transparent p-0" : "bg-secondary/20 backdrop-blur-md border border-primary/10 p-1"
+          "relative isolate mx-auto hidden w-fit items-center gap-1.5 rounded-full border p-1.5 transition-all duration-300 md:flex",
+          isScrolled
+            ? "border-transparent bg-transparent"
+            : "border-foreground/10 bg-background/55 shadow-inner backdrop-blur-md"
         )}
-        onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
       >
         {currentPageItems.map((item) => (
-          <Tab key={item.href} setPosition={setPosition}>
+          <li key={item.href} className="relative z-10">
             <SmoothLink
               href={item.href}
               className={cn(
-                "transition-all duration-300 relative z-10 px-3",
+                "relative z-10 flex h-10 items-center rounded-full px-4 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-5",
                 isItemActive(item)
-                  ? "text-primary font-semibold"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-primary/10 text-primary shadow-sm shadow-primary/10"
+                  : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
               )}
             >
               {item.label}
             </SmoothLink>
-          </Tab>
+          </li>
         ))}
-        <Cursor position={position} />
       </ul>
 
       {/* Mobile Navigation */}
@@ -340,58 +328,6 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
         </div>
       )}
     </div>
-  )
-}
-
-const Tab = ({
-  children,
-  setPosition,
-}: {
-  children: React.ReactNode
-  setPosition: React.Dispatch<React.SetStateAction<{
-    left: number
-    width: number
-    opacity: number
-    height: number
-    top: number
-  }>>
-}) => {
-  const ref = useRef<HTMLLIElement>(null)
-  return (
-    <li
-      ref={ref}
-      onMouseEnter={() => {
-        if (!ref.current) return
-        setPosition({
-          width: ref.current.offsetWidth,
-          height: ref.current.offsetHeight,
-          opacity: 1,
-          left: ref.current.offsetLeft,
-          top: ref.current.offsetTop,
-        })
-      }}
-      className="relative z-10 block cursor-pointer px-3 py-1.5 text-xs font-medium normal-case md:px-4 md:py-2 md:text-sm"
-    >
-      {children}
-    </li>
-  )
-}
-
-const Cursor = ({
-  position,
-}: {
-  position: { left: number; width: number; opacity: number; height: number; top: number }
-}) => {
-  return (
-    <motion.li
-      animate={position}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 30
-      }}
-      className="absolute z-0 rounded-full bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 shadow-[0_0_20px_rgba(var(--primary-rgb),0.15)] backdrop-blur-sm"
-    />
   )
 }
 

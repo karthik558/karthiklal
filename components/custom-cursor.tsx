@@ -20,39 +20,58 @@ export default function CustomCursor() {
   const cursorYSpring = useSpring(cursorY, { damping: 28, stiffness: 250, mass: 0.1 })
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window) {
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches
+
+    if (!hasFinePointer || window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window) {
       setIsTouchDevice(true)
       return
     }
 
-    const moveCursor = (e: MouseEvent) => {
+    const resetHover = () => {
+      setIsHovering(false)
+      setHoverType("default")
+    }
+
+    const updateHoverState = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) {
+        resetHover()
+        return
+      }
+
+      const interactive = target.closest(
+        'a, button, [role="button"], input, textarea, select, summary, [data-cursor="pointer"], [tabindex]:not([tabindex="-1"])'
+      ) as HTMLElement | null
+
+      if (!interactive) {
+        resetHover()
+        return
+      }
+
+      if (interactive instanceof HTMLAnchorElement) {
+        const isExternal =
+          interactive.target === "_blank" ||
+          (interactive.href.startsWith("http") && !interactive.href.includes(window.location.host))
+        setHoverType(isExternal ? "external" : "link")
+      } else {
+        setHoverType("button")
+      }
+
+      setIsHovering(true)
+    }
+
+    const moveCursor = (e: PointerEvent) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
-      if (!isVisible) setIsVisible(true)
+      setIsVisible(true)
+      updateHoverState(e.target)
     }
 
-    const handleMouseEnter = () => setIsVisible(true)
-    const handleMouseLeave = () => setIsVisible(false)
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const link = target.closest('a')
-      const button = target.closest('button')
-      const isClickable = link !== null || button !== null || window.getComputedStyle(target).cursor === 'pointer'
-      
-      if (link) {
-        const isExternal = link.getAttribute('target') === '_blank' || link.href.startsWith('http') && !link.href.includes(window.location.host)
-        setHoverType(isExternal ? 'external' : 'link')
-      } else if (isClickable) {
-        setHoverType('button')
-      } else {
-        setHoverType('default')
-      }
-      
-      setIsHovering(isClickable)
+    const hideCursor = () => {
+      setIsVisible(false)
+      resetHover()
     }
 
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: PointerEvent) => {
       const id = Date.now()
       setRipples(prev => [...prev, { id, x: e.clientX, y: e.clientY }])
       setTimeout(() => {
@@ -60,20 +79,26 @@ export default function CustomCursor() {
       }, 500)
     }
 
-    window.addEventListener("mousemove", moveCursor)
-    window.addEventListener("mouseenter", handleMouseEnter)
-    window.addEventListener("mouseleave", handleMouseLeave)
-    window.addEventListener("mouseover", handleMouseOver)
-    window.addEventListener("mousedown", handleClick)
+    const handleVisibilityChange = () => {
+      if (document.hidden) hideCursor()
+    }
+
+    window.addEventListener("pointermove", moveCursor, { passive: true })
+    window.addEventListener("pointerdown", handleClick, { passive: true })
+    window.addEventListener("pointerleave", hideCursor)
+    window.addEventListener("pointercancel", hideCursor)
+    window.addEventListener("blur", hideCursor)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
 
     return () => {
-      window.removeEventListener("mousemove", moveCursor)
-      window.removeEventListener("mouseenter", handleMouseEnter)
-      window.removeEventListener("mouseleave", handleMouseLeave)
-      window.removeEventListener("mouseover", handleMouseOver)
-      window.removeEventListener("mousedown", handleClick)
+      window.removeEventListener("pointermove", moveCursor)
+      window.removeEventListener("pointerdown", handleClick)
+      window.removeEventListener("pointerleave", hideCursor)
+      window.removeEventListener("pointercancel", hideCursor)
+      window.removeEventListener("blur", hideCursor)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
-  }, [cursorX, cursorY, isVisible])
+  }, [cursorX, cursorY])
 
   if (isTouchDevice) return null
 
@@ -81,14 +106,14 @@ export default function CustomCursor() {
     <>
       <style dangerouslySetInnerHTML={{ __html: `
         @media (pointer: fine) {
-          body, a, button, input, select, textarea {
+          body, a, button, input, select, textarea, summary, [role="button"] {
             cursor: none !important;
           }
         }
       `}} />
       
       {/* Subtle Ripple Effects on Click */}
-      <div className="fixed inset-0 pointer-events-none z-[9998] mix-blend-difference overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none z-[10040] mix-blend-difference overflow-hidden">
         <AnimatePresence>
           {ripples.map(ripple => (
             <motion.div
@@ -104,7 +129,7 @@ export default function CustomCursor() {
         </AnimatePresence>
       </div>
 
-      <div className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference">
+      <div className="fixed top-0 left-0 pointer-events-none z-[10050] mix-blend-difference">
         {/* Single Elegant Trailing Ring & Hover State */}
         <motion.div
           className="absolute top-0 left-0 flex items-center justify-center"
@@ -119,7 +144,7 @@ export default function CustomCursor() {
               y: isHovering ? -32 : -18,
               backgroundColor: isHovering ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.05)',
             }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
             className="rounded-full border border-white/50 backdrop-blur-[2px] flex items-center justify-center relative overflow-hidden shadow-sm shadow-white/10"
           >
             {/* Context Icons Inside Cursor */}
@@ -153,7 +178,7 @@ export default function CustomCursor() {
           <motion.div
             animate={{
               opacity: isVisible ? 1 : 0,
-              scale: isHovering ? 0 : 1, // Hide dot when hovering
+              scale: isHovering ? 0 : 1,
               x: -3, y: -3,
             }}
             transition={{ duration: 0.1 }}
