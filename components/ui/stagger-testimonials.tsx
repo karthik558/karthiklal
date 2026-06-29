@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useRef, useState, type TouchEvent, type WheelEvent } from "react"
+import { useMemo, useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowRight, Quote, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -47,8 +47,6 @@ function ClientMark({ name, className }: { name: string; className?: string }) {
 export const StaggerTestimonials = () => {
   const testimonials = testimonialsData.testimonials as Testimonial[]
   const [activeId, setActiveId] = useState(testimonials[0]?.id)
-  const listRef = useRef<HTMLDivElement>(null)
-  const touchYRef = useRef<number | null>(null)
 
   const activeTestimonial = useMemo(
     () => testimonials.find((testimonial) => testimonial.id === activeId) || testimonials[0],
@@ -57,51 +55,11 @@ export const StaggerTestimonials = () => {
 
   if (!testimonials || testimonials.length === 0) return null
 
-  const scrollList = (deltaY: number) => {
-    const list = listRef.current
-    if (!list) return false
-
-    const canScrollUp = list.scrollTop > 0
-    const canScrollDown = list.scrollTop + list.clientHeight < list.scrollHeight - 1
-    const shouldScroll = (deltaY < 0 && canScrollUp) || (deltaY > 0 && canScrollDown)
-
-    if (shouldScroll) {
-      list.scrollTop += deltaY
-      return true
-    }
-
-    return false
-  }
-
-  const handleListWheel = (event: WheelEvent<HTMLDivElement>) => {
-    if (scrollList(event.deltaY)) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-  }
-
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    touchYRef.current = event.touches[0]?.clientY ?? null
-  }
-
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchYRef.current === null) return
-
-    const nextY = event.touches[0]?.clientY ?? touchYRef.current
-    const deltaY = touchYRef.current - nextY
-    touchYRef.current = nextY
-
-    if (scrollList(deltaY)) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-  }
-
   return (
     <>
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-lg border border-border/70 bg-card/65 p-4 shadow-sm backdrop-blur md:p-6 lg:p-8">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(780px_circle_at_15%_0%,hsl(var(--primary)/0.12),transparent_48%),radial-gradient(620px_circle_at_95%_90%,hsl(var(--accent)/0.10),transparent_52%)]" />
+        <div className="relative overflow-hidden rounded-lg border border-border/70 bg-card/75 p-4 shadow-sm md:p-6 lg:p-8">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--primary)/0.08),transparent_42%,hsl(var(--accent)/0.05))]" />
           <div className="relative z-10 grid gap-5 lg:grid-cols-[0.58fr_0.42fr]">
             <motion.div
               key={activeTestimonial.id}
@@ -111,7 +69,7 @@ export const StaggerTestimonials = () => {
               className="relative min-h-[380px] overflow-hidden rounded-lg border border-border/70 bg-background/75 p-5 text-left shadow-sm md:p-7"
             >
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--primary)/0.14),transparent_42%)]" />
-              <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -right-12 h-40 w-40 rounded-full bg-accent/8 blur-2xl" />
 
               <div className="relative z-10 flex h-full flex-col">
                 <div className="mb-7 flex items-start justify-between gap-5">
@@ -146,11 +104,7 @@ export const StaggerTestimonials = () => {
               </div>
 
               <div
-                ref={listRef}
-                className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent grid max-h-[342px] gap-3 overflow-y-scroll overscroll-contain pr-2 touch-pan-y"
-                onWheel={handleListWheel}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
+                className="scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent grid max-h-[342px] gap-3 overflow-y-auto overscroll-contain pr-2"
               >
                 {testimonials.map((testimonial, index) => {
                   const isActive = testimonial.id === activeTestimonial.id

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, ArrowRight, Pointer } from "lucide-react"
 
@@ -9,13 +9,12 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false)
   const [hoverType, setHoverType] = useState<'default' | 'link' | 'external' | 'button'>('default')
   const [isTouchDevice, setIsTouchDevice] = useState(false)
-  const [ripples, setRipples] = useState<{ id: number, x: number, y: number }[]>([])
+  const visibleRef = useRef(false)
+  const hoverKeyRef = useRef("default:false")
 
-  // Raw coordinates for the instant dot
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
-  // Super smooth physics for the single elegant trailing ring
   const cursorXSpring = useSpring(cursorX, { damping: 28, stiffness: 250, mass: 0.1 })
   const cursorYSpring = useSpring(cursorY, { damping: 28, stiffness: 250, mass: 0.1 })
 
@@ -27,14 +26,18 @@ export default function CustomCursor() {
       return
     }
 
-    const resetHover = () => {
-      setIsHovering(false)
-      setHoverType("default")
+    const setHoverState = (nextHovering: boolean, nextType: typeof hoverType = "default") => {
+      const nextKey = `${nextType}:${nextHovering}`
+      if (hoverKeyRef.current === nextKey) return
+
+      hoverKeyRef.current = nextKey
+      setIsHovering(nextHovering)
+      setHoverType(nextType)
     }
 
     const updateHoverState = (target: EventTarget | null) => {
       if (!(target instanceof Element)) {
-        resetHover()
+        setHoverState(false)
         return
       }
 
@@ -43,7 +46,7 @@ export default function CustomCursor() {
       ) as HTMLElement | null
 
       if (!interactive) {
-        resetHover()
+        setHoverState(false)
         return
       }
 
@@ -51,32 +54,28 @@ export default function CustomCursor() {
         const isExternal =
           interactive.target === "_blank" ||
           (interactive.href.startsWith("http") && !interactive.href.includes(window.location.host))
-        setHoverType(isExternal ? "external" : "link")
+        setHoverState(true, isExternal ? "external" : "link")
       } else {
-        setHoverType("button")
+        setHoverState(true, "button")
       }
-
-      setIsHovering(true)
     }
 
     const moveCursor = (e: PointerEvent) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
-      setIsVisible(true)
+
+      if (!visibleRef.current) {
+        visibleRef.current = true
+        setIsVisible(true)
+      }
+
       updateHoverState(e.target)
     }
 
     const hideCursor = () => {
+      visibleRef.current = false
       setIsVisible(false)
-      resetHover()
-    }
-
-    const handleClick = (e: PointerEvent) => {
-      const id = Date.now()
-      setRipples(prev => [...prev, { id, x: e.clientX, y: e.clientY }])
-      setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== id))
-      }, 500)
+      setHoverState(false)
     }
 
     const handleVisibilityChange = () => {
@@ -84,7 +83,6 @@ export default function CustomCursor() {
     }
 
     window.addEventListener("pointermove", moveCursor, { passive: true })
-    window.addEventListener("pointerdown", handleClick, { passive: true })
     window.addEventListener("pointerleave", hideCursor)
     window.addEventListener("pointercancel", hideCursor)
     window.addEventListener("blur", hideCursor)
@@ -92,7 +90,6 @@ export default function CustomCursor() {
 
     return () => {
       window.removeEventListener("pointermove", moveCursor)
-      window.removeEventListener("pointerdown", handleClick)
       window.removeEventListener("pointerleave", hideCursor)
       window.removeEventListener("pointercancel", hideCursor)
       window.removeEventListener("blur", hideCursor)
@@ -112,23 +109,6 @@ export default function CustomCursor() {
         }
       `}} />
       
-      {/* Subtle Ripple Effects on Click */}
-      <div className="fixed inset-0 pointer-events-none z-[10040] mix-blend-difference overflow-hidden">
-        <AnimatePresence>
-          {ripples.map(ripple => (
-            <motion.div
-              key={ripple.id}
-              initial={{ scale: 0, opacity: 0.5, borderWidth: "2px" }}
-              animate={{ scale: 1.5, opacity: 0, borderWidth: "0px" }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="absolute w-12 h-12 rounded-full border-white"
-              style={{ left: ripple.x - 24, top: ripple.y - 24 }}
-            />
-          ))}
-        </AnimatePresence>
-      </div>
-
       <div className="fixed top-0 left-0 pointer-events-none z-[10050] mix-blend-difference">
         {/* Single Elegant Trailing Ring & Hover State */}
         <motion.div

@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { SectionHeader } from "@/components/ui/section-header"
 import {
@@ -11,12 +11,7 @@ import {
   Briefcase,
   Clock,
   Languages,
-  ShieldCheck,
   Terminal,
-  Code2,
-  Camera,
-  Sparkles,
-  Layers,
 } from "lucide-react"
 import Image from "next/image"
 import { PROFILE_DATA } from "@/lib/static-data"
@@ -76,11 +71,6 @@ export default function AboutSection() {
     }
   }, [statsInView, mounted])
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
   const profileData = PROFILE_DATA
   const { personalInfo } = profileData
   const interests = profileData.interests || []
@@ -88,8 +78,7 @@ export default function AboutSection() {
   return (
     <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background">
       {/* Background Decor */}
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_80%_20%,hsl(var(--accent)/0.05),transparent_65%),radial-gradient(600px_circle_at_15%_80%,hsl(var(--primary)/0.03),transparent_65%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-noise opacity-15 pointer-events-none" />
+      <div className="absolute inset-0 section-gradient-blend bg-[linear-gradient(135deg,hsl(var(--accent)/0.04),transparent_45%,hsl(var(--primary)/0.03))] pointer-events-none" />
 
       <div className="container max-w-7xl relative z-10 mx-auto px-4 md:px-6">
         {/* Section Header */}
@@ -112,7 +101,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden border border-foreground/10 bg-card/45 backdrop-blur-xl shadow-lg hover:shadow-primary/5 hover:shadow-2xl transition-all duration-500 min-h-[400px] md:min-h-full group hover:border-primary/30"
+            className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden border border-foreground/10 bg-card/70 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 min-h-[400px] md:min-h-full group hover:border-primary/30"
           >
             <div className="absolute inset-0 z-0">
               <Image
@@ -143,9 +132,9 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             viewport={{ once: true }}
-            className="md:col-span-2 rounded-3xl border border-foreground/10 bg-card/45 backdrop-blur-xl p-8 md:p-10 shadow-lg hover:shadow-primary/5 hover:shadow-2xl transition-all duration-500 group hover:border-primary/30 relative overflow-hidden"
+            className="md:col-span-2 rounded-3xl border border-foreground/10 bg-card/70 p-8 md:p-10 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-primary/8 rounded-full blur-3xl group-hover:bg-primary/12 transition-all duration-500 pointer-events-none" />
+            <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-2xl transition-opacity duration-300 pointer-events-none" />
             
             <div className="flex flex-col justify-between h-full relative z-10">
               <div>
@@ -185,7 +174,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/45 backdrop-blur-xl p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-2xl transition-all duration-500 group hover:border-primary/30 relative overflow-hidden"
+            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/70 p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
           >
             <div className="absolute bottom-0 right-0 -mr-12 -mb-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500 pointer-events-none" />
 
@@ -236,7 +225,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
             viewport={{ once: true }}
-            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/45 backdrop-blur-xl p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-2xl transition-all duration-500 group hover:border-primary/30 relative overflow-hidden"
+            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/70 p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 -mr-12 -mt-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500 pointer-events-none" />
 
