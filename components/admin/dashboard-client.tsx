@@ -81,38 +81,73 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
     }
   }
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-card/90 backdrop-blur-md border border-border/80 rounded-xl p-3.5 shadow-xl text-xs space-y-1 z-50">
+          <p className="font-semibold text-muted-foreground">{label}</p>
+          {payload.map((item: any, i: number) => (
+            <p key={i} className="font-semibold" style={{ color: item.stroke || item.color }}>
+              <span className="capitalize">{item.name}</span>: <span className="text-foreground">{item.value}</span>
+            </p>
+          ))}
+        </div>
+      )
+    }
+    return null
+  }
+
+  const CustomPieTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const item = payload[0];
+      return (
+        <div className="bg-card/90 backdrop-blur-md border border-border/80 rounded-xl p-3.5 shadow-xl text-xs z-50">
+          <p className="font-bold" style={{ color: item.payload.color }}>
+            {item.name}: <span className="text-foreground">{item.value}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-10">
+    <div className="max-w-7xl mx-auto space-y-10 pb-12">
       
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-foreground mb-2">Overview Analytics</h1>
-        <p className="text-muted-foreground">Monitor your website's traffic and performance metrics.</p>
+        <h1 className="text-4xl font-display font-bold tracking-tight text-foreground mb-2">Overview Analytics</h1>
+        <p className="text-muted-foreground">Monitor your portfolio website's real-time traffic and performance metrics.</p>
       </div>
 
       {/* Top Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCardsData.map((stat, i) => {
           const Icon = getIcon(stat.icon)
+          const isPositive = stat.change.startsWith('+') || stat.change === 'Active'
           return (
             <motion.div
               key={stat.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm relative overflow-hidden group"
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/65 p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.08)] group"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+              {/* Card Hover Radial Glow & Top Border */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(350px_circle_at_20%_0%,hsl(var(--primary)/0.08),transparent_42%)] opacity-0 transition duration-500 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
+
+              <div className="flex justify-between items-start mb-4 relative z-10">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary shadow-inner transition group-hover:bg-primary group-hover:text-primary-foreground duration-300">
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${stat.change.startsWith('+') || stat.change === 'Active' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
-                  {stat.change.startsWith('+') || stat.change === 'Active' ? <TrendingUp className="w-3 h-3" /> : <TrendingUp className="w-3 h-3 rotate-180" />}
+                <div className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md border ${isPositive ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
+                  {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingUp className="w-3 h-3 rotate-180" />}
                   {stat.change}
                 </div>
               </div>
-              <div>
-                <h3 className="text-3xl font-bold text-foreground mb-1">{stat.value}</h3>
+              <div className="relative z-10">
+                <h3 className="text-3xl font-display font-extrabold text-foreground mb-1">{stat.value}</h3>
                 <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
               </div>
             </motion.div>
@@ -121,8 +156,9 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
       </div>
 
       {analyticsData?.isMock && (
-        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 p-4 rounded-xl text-sm mb-6 flex items-center justify-center">
-          Viewing mock data. To see real data, configure Google Analytics Data API credentials in your environment variables.
+        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 p-4 rounded-2xl text-sm relative overflow-hidden flex items-center justify-center backdrop-blur-sm">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/55 to-transparent" />
+          <span>Viewing demo analytics. To view active production data, connect Google Analytics inside your server configuration.</span>
         </div>
       )}
 
@@ -133,41 +169,41 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="lg:col-span-2 p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm"
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="relative overflow-hidden lg:col-span-2 p-6 rounded-2xl border border-border/70 bg-card/65 shadow-sm backdrop-blur"
         >
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-foreground">Traffic Overview</h3>
-            <p className="text-sm text-muted-foreground">Page views vs Unique visitors over 7 days</p>
+          {/* Card Border glow */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+          
+          <div className="mb-6 relative z-10">
+            <h3 className="text-lg font-display font-bold text-foreground">Traffic Overview</h3>
+            <p className="text-sm text-muted-foreground">Page views vs Unique visitors over the last 7 days</p>
           </div>
           
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full relative z-10">
             {mounted && chartTrafficData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartTrafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
                       <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                     </linearGradient>
                     <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--foreground))" stopOpacity={0.1}/>
-                      <stop offset="95%" stopColor="hsl(var(--foreground))" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="hsl(var(--accent))" stopOpacity={0.15}/>
+                      <stop offset="95%" stopColor="hsl(var(--accent))" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: '1px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
-                    itemStyle={{ color: 'hsl(var(--foreground))' }}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border)/40)" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <Tooltip content={<CustomTooltip />} />
                   <Area type="monotone" dataKey="views" stroke="hsl(var(--primary))" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
-                  <Area type="monotone" dataKey="visitors" stroke="hsl(var(--foreground))" strokeWidth={2} strokeDasharray="5 5" fillOpacity={1} fill="url(#colorVisitors)" />
+                  <Area type="monotone" dataKey="visitors" stroke="hsl(var(--accent))" strokeWidth={2} strokeDasharray="4 4" fillOpacity={1} fill="url(#colorVisitors)" />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground/50">Loading chart...</div>
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground/40">Loading chart analytics...</div>
             )}
           </div>
         </motion.div>
@@ -176,15 +212,18 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm flex flex-col"
+          transition={{ duration: 0.5, delay: 0.22 }}
+          className="relative overflow-hidden p-6 rounded-2xl border border-border/70 bg-card/65 shadow-sm backdrop-blur flex flex-col justify-between"
         >
-          <div className="mb-2">
-            <h3 className="text-lg font-bold text-foreground">Traffic Sources</h3>
-            <p className="text-sm text-muted-foreground">Where your users are coming from</p>
+          {/* Card Border glow */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+          
+          <div className="mb-2 relative z-10">
+            <h3 className="text-lg font-display font-bold text-foreground">Traffic Sources</h3>
+            <p className="text-sm text-muted-foreground">Distribution of current visitor sources</p>
           </div>
           
-          <div className="h-[220px] w-full flex-1 flex items-center justify-center relative">
+          <div className="h-[200px] w-full flex-1 flex items-center justify-center relative z-10">
             {mounted && chartSourceData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -192,9 +231,9 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
                     data={chartSourceData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
+                    innerRadius={55}
+                    outerRadius={75}
+                    paddingAngle={4}
                     dataKey="value"
                     stroke="none"
                   >
@@ -202,31 +241,28 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
-                    itemStyle={{ color: 'hsl(var(--foreground))' }}
-                  />
+                  <Tooltip content={<CustomPieTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
             ) : null}
             
             {mounted && chartSourceData.length > 0 && (
               <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                <span className="text-3xl font-bold text-foreground">
+                <span className="text-3xl font-display font-extrabold text-foreground">
                   {chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) > 999 
                     ? (chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) / 1000).toFixed(1) + 'K' 
                     : chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0)}
                 </span>
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Total</span>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-0.5">Total</span>
               </div>
             )}
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-4 grid grid-cols-2 gap-3 relative z-10 pt-2 border-t border-border/40">
             {chartSourceData.map((source: any) => (
               <div key={source.name} className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: source.color }} />
-                <span className="text-sm text-muted-foreground font-medium">{source.name}</span>
+                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: source.color }} />
+                <span className="text-xs text-muted-foreground font-semibold truncate">{source.name}</span>
               </div>
             ))}
           </div>
@@ -235,14 +271,14 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
       </div>
 
       {/* Divider */}
-      <div className="pt-8 pb-4">
+      <div className="pt-4 pb-2">
         <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
       </div>
 
       {/* Content Management Section */}
-      <div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-display font-bold text-foreground mb-1">Content Management</h2>
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-display font-bold text-foreground mb-1">Content Models</h2>
           <p className="text-muted-foreground">Select a database model to modify your live portfolio content.</p>
         </div>
 
@@ -252,31 +288,36 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
             
             return (
               <Link href={`/admin/${model}`} key={model} className="block group">
-                <div className="p-6 rounded-2xl border border-border bg-card hover:bg-card/80 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 relative overflow-hidden h-full flex flex-col justify-between">
-                  
-                  <div className="absolute -right-6 -top-6 text-primary/5 group-hover:text-primary/10 transition-colors transform group-hover:scale-110 duration-500">
+                <div className="relative overflow-hidden rounded-2xl border border-border/75 bg-card/65 p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.1)] group flex flex-col h-full justify-between">
+                  {/* Card Glowing Line and Background Gradient */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_circle_at_20%_0%,hsl(var(--primary)/0.06),transparent_42%)] opacity-0 transition duration-500 group-hover:opacity-100" />
+
+                  <div className="absolute -right-6 -top-6 text-primary/[0.03] group-hover:text-primary/[0.07] transition-all transform group-hover:scale-110 duration-500 pointer-events-none">
                     <Icon className="w-32 h-32" />
                   </div>
 
                   <div className="relative z-10 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary shadow-inner transition group-hover:bg-primary group-hover:text-primary-foreground duration-300 mb-5">
                       <Icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
                     </div>
-                    <h3 className="text-xl font-semibold capitalize text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-display font-bold capitalize text-foreground group-hover:text-primary transition-colors">
                       {model.replace("-", " ")}
                     </h3>
                   </div>
 
-                  <div className="relative z-10 flex items-end justify-between border-t border-border/50 pt-5 mt-auto">
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">
-                        <span className="font-medium text-foreground">{stats[model]?.entries}</span> Items
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        <span className="font-medium text-foreground">{stats[model]?.size}</span> KB
-                      </p>
+                  <div className="relative z-10 flex items-end justify-between border-t border-border/40 pt-4 mt-auto">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-secondary/50 px-2 py-0.5 text-xs font-semibold text-foreground/80">
+                        <span className="text-primary font-bold">{stats[model]?.entries}</span>
+                        <span className="text-muted-foreground text-[10px]">entries</span>
+                      </div>
+                      <div className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-secondary/50 px-2 py-0.5 text-xs font-semibold text-foreground/80">
+                        <span className="text-primary font-bold">{stats[model]?.size}</span>
+                        <span className="text-muted-foreground text-[10px]">KB</span>
+                      </div>
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-background flex items-center justify-center border border-border group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all shadow-sm">
+                    <div className="w-8 h-8 rounded-full bg-secondary/45 flex items-center justify-center border border-border/70 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-300 shadow-sm">
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>

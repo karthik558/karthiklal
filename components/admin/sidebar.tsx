@@ -49,24 +49,26 @@ export default function AdminSidebar({ models }: { models: string[] }) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col h-[100dvh] border-r border-border bg-card/95 backdrop-blur-xl transition-all duration-300 ease-in-out shrink-0 md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex flex-col h-[100dvh] border-r border-border/70 bg-card/65 backdrop-blur-2xl transition-all duration-300 ease-in-out shrink-0 md:relative md:translate-x-0",
           mobileOpen ? "translate-x-0 w-64 shadow-2xl" : "-translate-x-full md:w-64",
           !mobileOpen && collapsed && "md:w-20"
         )}
       >
         {/* Header / Logo */}
-        <div className={cn("flex items-center justify-between p-6 border-b border-border/50", !mobileOpen && collapsed && "md:flex-col md:gap-4")}>
-          <div className={cn("flex items-center gap-3", !mobileOpen && collapsed ? "md:justify-center" : "justify-start")}>
-            <div className="relative w-8 h-8 shrink-0">
+        <div className={cn("flex items-center justify-between p-6 border-b border-border/50 relative overflow-hidden", !mobileOpen && collapsed && "md:flex-col md:gap-4")}>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent pointer-events-none" />
+          
+          <div className={cn("flex items-center gap-3 relative z-10", !mobileOpen && collapsed ? "md:justify-center" : "justify-start")}>
+            <div className="relative w-8 h-8 shrink-0 hover:scale-105 transition-transform duration-300">
               <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain" priority />
-              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain" priority />
+              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain drop-shadow-[0_0_8px_rgba(214,72,63,0.3)]" priority />
             </div>
           </div>
           
           {/* Desktop Collapse Toggle */}
           <button 
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex w-6 h-6 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground rounded-full items-center justify-center transition-all shrink-0"
+            className="hidden md:flex w-6 h-6 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground rounded-full items-center justify-center transition-all shrink-0 relative z-10"
             title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -82,7 +84,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
         </div>
 
         {/* Navigation */}
-        <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-6 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-6 scrollbar-hide relative z-10">
           <div className="px-4">
             {(!collapsed || mobileOpen) && (
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 px-2">
@@ -93,10 +95,10 @@ export default function AdminSidebar({ models }: { models: string[] }) {
               href="/admin"
               title="Main Panel"
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 font-medium text-sm group",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 font-medium text-sm border group",
                 pathname === "/admin" 
-                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" 
-                  : "text-muted-foreground hover:bg-primary/10 hover:text-foreground",
+                  ? "bg-primary text-primary-foreground border-primary/30 shadow-lg shadow-primary/15 font-semibold" 
+                  : "text-muted-foreground hover:bg-primary/5 hover:text-primary border-transparent",
                 (!mobileOpen && collapsed) && "md:justify-center"
               )}
             >
@@ -121,10 +123,10 @@ export default function AdminSidebar({ models }: { models: string[] }) {
                       href={`/admin/${model}`}
                       title={model.replace("-", " ")}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 text-sm capitalize group",
+                        "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 text-sm capitalize border group",
                         isActive 
-                          ? "bg-primary/15 text-primary font-semibold" 
-                          : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                          ? "bg-primary/10 text-primary border-primary/20 font-semibold" 
+                          : "text-muted-foreground hover:bg-muted/80 hover:text-primary border-transparent",
                         (!mobileOpen && collapsed) && "md:justify-center"
                       )}
                     >
@@ -139,7 +141,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
         </div>
 
         {/* Footer / Logout */}
-        <div className="p-4 border-t border-border/50 flex flex-col gap-2">
+        <div className="p-4 border-t border-border/50 flex flex-col gap-2 relative z-10">
           <div className={cn("flex mb-2", (!mobileOpen && collapsed) ? "justify-center" : "justify-start px-2")}>
             <ThemeToggleAnimated />
           </div>
@@ -148,7 +150,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
             href="/"
             title="Back to Website"
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-all duration-300",
+              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-300 border border-transparent",
               (!mobileOpen && collapsed) && "md:justify-center"
             )}
           >
@@ -162,7 +164,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
             }}
             title="Log Out"
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-destructive/80 hover:bg-destructive/10 hover:text-destructive transition-all duration-300 w-full text-left",
+              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-destructive/80 hover:bg-destructive/10 hover:text-destructive transition-all duration-300 w-full text-left border border-transparent",
               (!mobileOpen && collapsed) && "md:justify-center"
             )}
           >
