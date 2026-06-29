@@ -1,50 +1,48 @@
 "use client"
 
 import { MarqueeAnimation } from "@/components/ui/marquee-effect"
-import { PROFILE_DATA } from "@/lib/static-data"
 
-interface PersonalInfo {
-  title: string
+type MarqueeSectionProps = {
+  variant?: "intro" | "closing"
 }
 
-export default function MarqueeSection() {
-  const profileData: PersonalInfo = PROFILE_DATA.personalInfo as PersonalInfo
+const marqueeContent = {
+  intro: {
+    primary: "IT MANAGEMENT • CYBERSECURITY • WEB ARCHITECTURE • LINUX SYSTEMS",
+    secondary: "SECURE NETWORKS • FULL STACK PRODUCTS • CLOUD OPS • DESIGN SYSTEMS",
+  },
+  closing: {
+    primary: "CONSULTING • SECURITY REVIEWS • WEB BUILDS • INFRASTRUCTURE",
+    secondary: "HARDEN SYSTEMS • SHIP INTERFACES • IMPROVE OPERATIONS",
+  },
+}
+
+export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProps) {
+  const content = marqueeContent[variant]
+  const isClosing = variant === "closing"
+
   return (
-    <section className="relative py-20 overflow-hidden bg-background">
-      {/* Background decoration with parallax effect */}
-      <div className="absolute inset-0 opacity-20" data-speed="0.8">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" data-speed="0.9"></div>
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-accent/12 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} data-speed="1.1"></div>
-      </div>
-      <div className="absolute inset-0 bg-noise opacity-14 pointer-events-none" />
-      
-      <div className="relative space-y-12" data-speed="0.95">
-        {/* First marquee - tilted left, main skills */}
-        <div className="transform -rotate-3 origin-center" data-speed="0.98">
+    <section className="relative -my-2 w-full max-w-full overflow-hidden bg-transparent py-4 md:-my-4 md:py-8">
+      <div className="relative z-10 space-y-5 md:space-y-8">
+        <div className="origin-center -rotate-[1.5deg] md:-rotate-[2.4deg]">
           <MarqueeAnimation
             direction="left"
-            baseVelocity={2}
-            className="bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 text-primary font-display font-black py-6 tracking-[0.2em] text-2xl md:text-4xl lg:text-5xl backdrop-blur-md border-y border-primary/30 shadow-lg"
+            baseVelocity={isClosing ? 1.8 : 2}
+            className="border-y border-primary/25 bg-primary/10 py-5 font-display text-3xl font-black text-primary shadow-[0_18px_54px_hsl(var(--primary)/0.08)] backdrop-blur-sm sm:text-4xl md:py-8 md:text-6xl lg:text-7xl"
           >
-            {profileData.title.toUpperCase().replace(/,/g, ' •')}
+            {content.primary}
           </MarqueeAnimation>
         </div>
 
-        {/* Second marquee - tilted right, technical skills */}
-        <div className="transform rotate-3 origin-center" data-speed="1.02">
+        <div className="origin-center rotate-[1.5deg] md:rotate-[2.4deg]">
           <MarqueeAnimation
             direction="right"
-            baseVelocity={1.8}
-            className="bg-gradient-to-l from-foreground/10 via-foreground/8 to-foreground/5 text-foreground font-display font-black py-6 tracking-[0.2em] text-2xl md:text-4xl lg:text-5xl backdrop-blur-md border-y border-border shadow-lg"
+            baseVelocity={isClosing ? 2.1 : 1.8}
+            className="border-y border-border/70 bg-background/25 py-5 font-display text-3xl font-black text-foreground shadow-[0_18px_54px_rgba(0,0,0,0.08)] backdrop-blur-sm sm:text-4xl md:py-8 md:text-6xl lg:text-7xl"
           >
-            NETWORK SECURITY • WEB DEVELOPMENT • INFRASTRUCTURE MANAGEMENT
+            {content.secondary}
           </MarqueeAnimation>
         </div>
-      </div>
-
-      {/* Subtle grid overlay with slow parallax */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none" data-speed="0.9">
-        <div className="w-full h-full bg-grid-pattern"></div>
       </div>
     </section>
   )

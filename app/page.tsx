@@ -9,6 +9,7 @@ import TestimonialsSection from "@/components/sections/testimonials-section"
 import CtaSection from "@/components/sections/cta-section"
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
+import { FlowerDivider } from "@/components/ui/flower-divider"
 
 // Enhanced Structured Data for SEO - targeting "Karthik Lal" searches
 const structuredData = {
@@ -154,15 +155,22 @@ export default function Home() {
       <HeroSectionStatic />
       <MarqueeSection />
       <AboutSection />
+      <FlowerDivider />
       <PortfolioGallerySection />
+      <FlowerDivider />
       <SkillsSection />
+      <FlowerDivider />
       <ServicesSection />
+      <FlowerDivider />
       <ExperienceSection />
+      <FlowerDivider />
       <CertificationsSection />
+      <FlowerDivider />
       <PortfolioSection />
+      <FlowerDivider />
       <TestimonialsSection />
+      <MarqueeSection variant="closing" />
       <CtaSection />
     </div>
   )
 }
-
