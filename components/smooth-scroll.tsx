@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import type React from "react"
+import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import Lenis from "lenis"
 
@@ -8,47 +9,58 @@ interface SmoothScrollProps {
   children: React.ReactNode
 }
 
-export default function SmoothScroll({ children }: SmoothScrollProps) {
-  const [lenis, setLenis] = useState<Lenis | null>(null)
-  const pathname = usePathname()
+declare global {
+  interface Window {
+    lenis?: Lenis | null
+  }
+}
 
-  useEffect(() => {
-    if (lenis) {
-      lenis.scrollTo(0, { immediate: true })
-    }
-  }, [pathname, lenis])
+export default function SmoothScroll({ children }: SmoothScrollProps) {
+  const pathname = usePathname()
+  const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
     if (typeof window === "undefined") return
 
-    const lenisInstance = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    if (prefersReducedMotion) {
+      window.lenis = null
+      return
+    }
+
+    const lenis = new Lenis({
+      duration: 0.9,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.4,
+      infinite: false,
     })
 
-    setLenis(lenisInstance)
-    // @ts-ignore
-    window.lenis = lenisInstance
-
-    function raf(time: number) {
-      lenisInstance.raf(time)
-      requestAnimationFrame(raf)
+    let frame = 0
+    const raf = (time: number) => {
+      lenis.raf(time)
+      frame = requestAnimationFrame(raf)
     }
 
-    requestAnimationFrame(raf)
+    lenisRef.current = lenis
+    window.lenis = lenis
+    frame = requestAnimationFrame(raf)
 
     return () => {
-      lenisInstance.destroy()
-      setLenis(null)
-      // @ts-ignore
+      cancelAnimationFrame(frame)
+      lenis.destroy()
+      lenisRef.current = null
       window.lenis = null
     }
   }, [])
+
+  useEffect(() => {
+    lenisRef.current?.scrollTo(0, { immediate: true })
+  }, [pathname])
 
   return <>{children}</>
 }
