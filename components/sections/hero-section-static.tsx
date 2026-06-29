@@ -1,13 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
-import { Download, ExternalLink, Github, Linkedin, Mail, Twitter, Share2, Instagram, Facebook, Youtube, MessageCircle, Globe, Palette, Heart, Shield, Code2 } from "lucide-react"
+import {
+  Download,
+  ExternalLink,
+  Facebook,
+  Github,
+  Globe,
+  Instagram,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Palette,
+  Twitter,
+  Youtube,
+} from "lucide-react"
+
+import { AnimatedButton } from "@/components/ui/animated-button"
 import { XIcon } from "@/components/ui/icons"
 import { PROFILE_DATA, SOCIALS_DATA } from "@/lib/static-data"
 
-// Icon mapping for dynamic icon rendering
 const iconMap = {
   Github,
   Linkedin,
@@ -30,179 +43,161 @@ interface Social {
   active: boolean
   priority: number
 }
-import SmoothLink from "@/components/smooth-link"
-import { AnimatedButton } from "@/components/ui/animated-button"
 
 interface PersonalInfo {
   name: string
   title: string
-  bio?: string
-}
-
-interface ProfileData {
-  personalInfo: PersonalInfo
 }
 
 export default function HeroSectionStatic() {
-  const { scrollYProgress } = useScroll()
-  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const { scrollY } = useScroll()
   const profileData: PersonalInfo = PROFILE_DATA.personalInfo
   const socials: Social[] = (SOCIALS_DATA.socials as Social[])
     .filter((social: Social) => social.active)
     .sort((a: Social, b: Social) => a.priority - b.priority)
-  
-  // State for the social hideaway dynamic island (removed)
-  
-  // State for the social hideaway dynamic island (removed)
+
+  const contentY = useTransform(scrollY, [0, 420], ["0px", "-72px"])
+  const imageY = useTransform(scrollY, [0, 480], ["0px", "96px"])
+  const imageScale = useTransform(scrollY, [0, 480], [1.04, 1])
+  const wordY = useTransform(scrollY, [0, 520], ["0px", "-150px"])
+  const heroOpacity = useTransform(scrollY, [0, 360], [1, 0.55])
+  const scrollIndicatorOpacity = useTransform(scrollY, [0, 140], [1, 0])
 
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background pt-24 pb-16">
-      <div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_20%_20%,hsl(var(--accent)/0.08),transparent_65%),radial-gradient(900px_circle_at_80%_20%,hsl(var(--primary)/0.12),transparent_65%)]" />
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-      
-      <div className="container relative z-10 px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          <motion.div
-            className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left"
-            initial={{ opacity: 0, y: 30 }}
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-background pt-24 pb-16">
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 z-0"
+        style={{ y: imageY, scale: imageScale }}
+      >
+        <div className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[58%] lg:[mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_100%)]">
+          <Image
+            src="/user/hero.jpg"
+            alt=""
+            fill
+            className="object-cover object-center opacity-20 saturate-[0.82] lg:opacity-95"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/70 to-background lg:bg-gradient-to-t lg:from-background/90 lg:via-transparent lg:to-background/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/18" />
+        </div>
+      </motion.div>
+
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(900px_circle_at_18%_20%,hsl(var(--primary)/0.12),transparent_58%),radial-gradient(700px_circle_at_84%_18%,hsl(var(--accent)/0.10),transparent_60%)]" />
+      <div className="absolute inset-0 z-0 bg-grid-pattern opacity-[0.12] [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_76%,transparent)]" />
+      <div className="absolute inset-0 z-0 bg-noise opacity-20 pointer-events-none" />
+
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        style={{ y: wordY, opacity: heroOpacity }}
+      >
+        <motion.div
+          className="absolute bottom-[18%] right-[12%] hidden h-px w-80 bg-gradient-to-r from-transparent via-accent/35 to-transparent md:block"
+          animate={{ x: [42, -30, 42], opacity: [0.2, 0.7, 0.2] }}
+          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+        />
+      </motion.div>
+
+      <motion.div
+        className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6"
+        style={{ y: contentY, opacity: heroOpacity }}
+      >
+        <div className="max-w-4xl text-center lg:max-w-3xl lg:text-left">
+          <motion.p
+            className="mb-5 text-sm font-semibold text-primary md:text-base"
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
           >
-            {/* The extremely clean, typography-driven intro (Subtitles Removed) */}
-            <div className="space-y-4 mb-10">
-              <motion.h2
-                className="text-xs sm:text-sm md:text-base font-semibold text-muted-foreground tracking-[0.4em] uppercase ml-1"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                Hello, I am
-              </motion.h2>
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-display font-extrabold tracking-[-0.04em] leading-[0.9]">
-                <span className="block text-foreground drop-shadow-sm bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
-                  {profileData?.name || "Karthik Lal"}
-                </span>
-              </h1>
-            </div>
+            Hello, I&apos;m
+          </motion.p>
 
-            {/* Actions + Dynamic Social Hideaway */}
-            <motion.div
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              <AnimatedButton
-                href="/#portfolio-gallery"
-                variant="primary"
-                className="h-14 px-8 text-base rounded-full shadow-lg shadow-primary/20"
-              >
-                View My Work <ExternalLink className="ml-2 h-4 w-4" />
-              </AnimatedButton>
+          <motion.h1
+            className="font-display text-6xl font-extrabold leading-[0.9] text-foreground sm:text-7xl md:text-8xl lg:text-[8rem]"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.7, ease: "easeOut" }}
+          >
+            {profileData?.name || "Karthik Lal"}
+          </motion.h1>
 
-              <AnimatedButton
-                href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u"
-                variant="outline"
-                className="h-14 px-8 text-base rounded-full border-foreground/10 hover:bg-foreground/5 backdrop-blur-md"
-              >
-                Download CV <Download className="ml-2 h-4 w-4" />
-              </AnimatedButton>
-
-              {/* Social Links Pill Dock */}
-              <motion.div 
-                className="flex items-center p-1.5 rounded-full bg-background/50 border border-foreground/10 backdrop-blur-lg shadow-xl ml-0 lg:ml-2 mt-4 lg:mt-0"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 25 }}
-              >
-                {socials.map((social) => {
-                  const IconComponent = iconMap[social.icon]
-                  if (!IconComponent) return null
-
-                  return (
-                    <a
-                      key={social.id}
-                      href={social.url}
-                      target={social.name !== 'Email' ? "_blank" : undefined}
-                      rel={social.name !== 'Email' ? "noopener noreferrer" : undefined}
-                      className="relative group flex items-center justify-center w-12 h-12 rounded-full text-muted-foreground transition-all duration-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      title={social.name}
-                      aria-label={social.name}
-                    >
-                      {/* Smooth hover background expansion */}
-                      <span className="absolute inset-0 rounded-full bg-primary/10 opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out" />
-                      {/* Icon scale on hover */}
-                      <IconComponent className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
-                    </a>
-                  )
-                })}
-              </motion.div>
-
-            </motion.div>
+          <motion.div
+            className="mt-6 flex flex-col items-center gap-3 text-base font-medium text-muted-foreground sm:text-lg lg:flex-row lg:items-center"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.6, ease: "easeOut" }}
+          >
+            <span className="hidden h-px w-12 bg-primary/55 lg:block" />
+            <span>IT Manager & Full Stack Developer</span>
           </motion.div>
 
-          {/* Hero Image Side */}
           <motion.div
-            className="lg:col-span-5 relative hidden lg:flex justify-end items-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            style={{ y }}
+            className="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.28, duration: 0.55, ease: "easeOut" }}
           >
-            {/* Gentle Floating Animation Container */}
-            <motion.div 
-              className="relative w-[480px] h-[600px] z-10"
-              animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+            <AnimatedButton
+              href="/#portfolio-gallery"
+              variant="primary"
+              className="h-14 px-8 text-base shadow-lg shadow-primary/20"
             >
-              {/* Rotating Gradient Glow Border Effect */}
-              <div className="absolute -inset-1.5 rounded-[3.2rem] overflow-hidden opacity-50 dark:opacity-70">
-                <motion.div 
-                  className="absolute inset-[-50%] w-[200%] h-[200%]"
-                  style={{ 
-                    backgroundImage: 'conic-gradient(from 0deg, transparent 0 280deg, hsl(var(--primary)) 360deg)' 
-                  }}
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
-                />
-              </div>
+              View My Work <ExternalLink className="ml-2 h-4 w-4" />
+            </AnimatedButton>
 
-              {/* Glow Behind */}
-              <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-transparent to-accent/20 blur-3xl opacity-70" />
-              
-              {/* Glass Frame */}
-              <div className="absolute inset-0 rounded-[3rem] border border-foreground/10 bg-background/80 backdrop-blur-md" />
+            <AnimatedButton
+              href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u"
+              variant="outline"
+              className="h-14 px-8 text-base border-foreground/10 bg-background/35 backdrop-blur-md hover:bg-background/55"
+            >
+              Download CV <Download className="ml-2 h-4 w-4" />
+            </AnimatedButton>
+          </motion.div>
 
-              {/* Inner Image Container */}
-              <div className="absolute inset-0 m-4 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-background/50 group">
-                <Image
-                  src="/user/hero.jpg"
-                  alt="Karthik Lal"
-                  fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/10 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700" />
-              </div>
-            </motion.div>
+          <motion.div
+            className="mt-7 flex items-center justify-center gap-2 lg:justify-start"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.38, duration: 0.5, ease: "easeOut" }}
+          >
+            <div className="flex items-center rounded-full border border-foreground/10 bg-background/45 p-1.5 shadow-xl backdrop-blur-xl">
+              {socials.map((social) => {
+                const IconComponent = iconMap[social.icon]
+                if (!IconComponent) return null
+
+                return (
+                  <a
+                    key={social.id}
+                    href={social.url}
+                    target={social.name !== "Email" ? "_blank" : undefined}
+                    rel={social.name !== "Email" ? "noopener noreferrer" : undefined}
+                    className="group relative flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    title={social.name}
+                    aria-label={social.name}
+                  >
+                    <span className="absolute inset-0 rounded-full bg-primary/10 opacity-0 scale-75 transition duration-300 group-hover:scale-100 group-hover:opacity-100" />
+                    <IconComponent className="relative z-10 h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110" />
+                  </a>
+                )
+              })}
+            </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       <motion.div
         style={{ opacity: scrollIndicatorOpacity }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2"
       >
-        <SmoothLink href="#about" className="flex flex-col items-center gap-2 group">
-          <span className="text-[10px] font-semibold tracking-[0.35em] text-muted-foreground uppercase group-hover:text-primary transition-colors">
+        <a href="#about" className="group flex flex-col items-center gap-2">
+          <span className="text-[10px] font-semibold uppercase text-muted-foreground transition-colors group-hover:text-primary">
             Scroll
           </span>
-          <div className="w-[1px] h-12 bg-muted-foreground/30 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-primary animate-scroll-down" />
-          </div>
-        </SmoothLink>
+          <span className="relative h-12 w-px overflow-hidden bg-muted-foreground/30">
+            <span className="absolute left-0 top-0 h-full w-full bg-primary animate-scroll-down" />
+          </span>
+        </a>
       </motion.div>
     </section>
   )
