@@ -1,16 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  useMotionValue,
-  useVelocity,
-  useAnimationFrame,
-} from "framer-motion";
-import { wrap } from "@motionone/utils";
+import React from "react";
 import { cn } from "@/lib/utils";
 
 type MarqueeAnimationProps = {
@@ -25,7 +15,7 @@ function FlowerSeparator() {
     <svg
       aria-hidden="true"
       viewBox="0 0 512 512"
-      className="mx-5 h-[0.62em] w-[0.62em] shrink-0 opacity-70 md:mx-7"
+      className="mx-6 h-[0.7em] w-[0.7em] shrink-0 opacity-80 md:mx-8 lg:mx-10 text-primary/70 dark:text-foreground/70"
       fill="currentColor"
     >
       <path d="M256.004,222.135c-18.702,0-33.868,15.166-33.868,33.868c0,18.694,15.166,33.86,33.868,33.86 c18.695,0,33.86-15.166,33.86-33.86C289.864,237.302,274.698,222.135,256.004,222.135z" />
@@ -38,8 +28,26 @@ function FlowerSeparator() {
       <path d="M223.967,288.032c-6.389-6.382-16.15-7.32-23.552-2.83L86.746,346.061c-4.197,2.455-8.161,5.481-11.765,9.084 c-22.614,22.606-22.614,59.268,0,81.866c22.614,22.615,59.268,22.615,81.874,0c3.596-3.596,6.629-7.552,9.077-11.756l60.866-113.67 C231.28,304.182,230.349,294.428,223.967,288.032z" />
       <path d="M288.047,223.953c6.382,6.396,16.142,7.32,23.537,2.838l113.67-60.851c4.212-2.456,8.161-5.474,11.764-9.085 c22.614-22.606,22.621-59.267,0-81.873c-22.606-22.614-59.267-22.614-81.874,0c-3.611,3.604-6.622,7.568-9.076,11.765 l-60.866,113.669C280.72,207.818,281.651,217.571,288.047,223.953z" />
     </svg>
-  )
+  );
 }
+
+// Injected styling keyframe animations for high-performance left/right compositor marquees
+const marqueeStyles = `
+@keyframes marquee-scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes marquee-scroll-right {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+.animate-marquee-left {
+  animation: marquee-scroll-left var(--duration) linear infinite;
+}
+.animate-marquee-right {
+  animation: marquee-scroll-right var(--duration) linear infinite;
+}
+`;
 
 function MarqueeAnimation({
   children,
@@ -47,62 +55,63 @@ function MarqueeAnimation({
   direction = "left",
   baseVelocity = 10,
 }: MarqueeAnimationProps) {
-  const baseX = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 50,
-    stiffness: 400,
-  });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 0], {
-    clamp: false,
-  });
-
-  const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+  // Extract text items from children split by separator
   const items = children.split("•").map((item) => item.trim()).filter(Boolean);
 
-  const directionFactor = useRef<number>(1);
-  useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-
-    if (direction == "left") {
-      directionFactor.current = 1;
-    } else if (direction == "right") {
-      directionFactor.current = -1;
-    }
-
-    moveBy += directionFactor.current * moveBy * velocityFactor.get();
-
-    baseX.set(baseX.get() + moveBy);
-  });
-
+  // A sequence is a collection of all text items, each followed by a separator icon
   const sequence = (
-    <span className="mr-8 inline-flex items-center md:mr-12 lg:mr-16">
+    <div className="flex flex-row flex-nowrap items-center shrink-0">
       {items.map((item, index) => (
-        <span key={`${item}-${index}`} className="inline-flex items-center">
-          <span>{item}</span>
-          {index < items.length - 1 ? <FlowerSeparator /> : null}
+        <span key={`${item}-${index}`} className="inline-flex items-center shrink-0">
+          <span className="whitespace-nowrap">{item}</span>
+          <FlowerSeparator />
         </span>
       ))}
-    </span>
-  )
+    </div>
+  );
 
+  // Set the duration based on velocity (higher velocity translates to smaller duration)
+  // Paciness is configured here (50 / velocity provides an elegant, smooth scrolling rate)
+  const duration = `${Math.max(5, 50 / Math.abs(baseVelocity))}s`;
+  const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
+  
   return (
-    <div className="overflow-hidden w-full text-nowrap flex-nowrap flex relative">
-      <motion.div
+    <>
+      <style dangerouslySetInnerHTML={{ __html: marqueeStyles }} />
+      <div 
         className={cn(
-          "font-bold uppercase text-4xl md:text-5xl lg:text-6xl flex flex-nowrap text-nowrap whitespace-nowrap",
+          "overflow-hidden w-full text-nowrap flex-nowrap flex relative select-none items-center",
           className
         )}
-        style={{ x }}
+        style={{
+          "--duration": duration,
+        } as React.CSSProperties}
       >
-        {sequence}
-        {sequence}
-        {sequence}
-        {sequence}
-        {sequence}
-      </motion.div>
-    </div>
+        {/* Sibling 1 */}
+        <div
+          className={cn(
+            "flex flex-row flex-nowrap whitespace-nowrap shrink-0 items-center",
+            animationClass
+          )}
+        >
+          {sequence}
+          {sequence}
+          {sequence}
+        </div>
+        {/* Sibling 2 (Duplicate for seamless wrapping) */}
+        <div
+          aria-hidden="true"
+          className={cn(
+            "flex flex-row flex-nowrap whitespace-nowrap shrink-0 items-center",
+            animationClass
+          )}
+        >
+          {sequence}
+          {sequence}
+          {sequence}
+        </div>
+      </div>
+    </>
   );
 }
 
