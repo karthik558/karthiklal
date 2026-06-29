@@ -141,14 +141,14 @@ function TimelineToggle({ value, onChange }: { value: TimelineFilter; onChange: 
   ]
 
   return (
-    <div className="grid grid-cols-3 rounded-md border border-border/70 bg-background/70 p-1">
+    <div className="grid grid-cols-3 gap-1 rounded-md border border-border/70 bg-background/70 p-1">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
           className={cn(
-            "rounded-md px-3 py-2 text-sm font-medium transition",
+            "rounded-md px-3.5 py-2.5 text-sm font-medium transition",
             value === option.value ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted hover:text-foreground"
           )}
         >
