@@ -65,19 +65,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
 
   // Filter navigation items based on current page
   const getNavigationItems = () => {
-    if (pathname === '/') {
-      // Home page: show all items except Home itself
-      return allNavItems.filter(item => item.label !== 'Home')
-    } else if (pathname.startsWith('/blog')) {
-      // Blog page and blog posts: show only Home and Contact
-      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Contact')
-    } else if (pathname === '/contact') {
-      // Contact page: show only Home and Blog
-      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Blog')
-    } else {
-      // Other pages: show only Home and Blog
-      return allNavItems.filter(item => item.label === 'Home' || item.label === 'Blog')
-    }
+    return allNavItems
   }
 
   const currentPageItems = getNavigationItems()
