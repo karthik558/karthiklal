@@ -114,7 +114,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   return (
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
       {/* Logo */}
-      <Link href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
+      <Link href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-300 group-hover:scale-105">
           <Image
             src="/logo-light.png"
@@ -138,7 +138,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
       {/* Desktop Navigation */}
       <ul
         className={cn(
-          "relative isolate mx-auto hidden w-fit items-center gap-1 rounded-xl border border-border/60 bg-background/55 p-1 transition-all duration-300 md:flex",
+          "relative isolate mx-auto hidden w-fit items-center gap-1 rounded-full border border-border/60 bg-background/55 p-1 transition-all duration-300 md:flex",
           isScrolled
             ? "shadow-none"
             : "shadow-inner backdrop-blur-md"
@@ -149,10 +149,10 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             <SmoothLink
               href={item.href}
               className={cn(
-                "relative z-10 flex h-9 items-center rounded-lg px-3.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-4",
+                "relative z-10 flex h-9 items-center rounded-full px-3.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-4",
                 isItemActive(item)
                   ? "bg-primary text-primary-foreground shadow-sm shadow-primary/15"
-                  : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                  : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
               )}
             >
               {item.label}
@@ -169,7 +169,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             size="icon"
             onClick={() => setIsOpen(true)}
             className={cn(
-              "relative z-50 h-10 w-10 rounded-xl border border-border/60 bg-background/60 transition-all duration-300 hover:bg-primary/10 hover:text-primary md:hidden",
+              "relative z-50 h-10 w-10 rounded-full border border-border/60 bg-background/60 transition-all duration-300 hover:bg-primary/10 hover:text-primary md:hidden",
               isOpen && "opacity-0 pointer-events-none"
             )}
           >

@@ -57,8 +57,8 @@ export default function NavBar() {
       <div 
         className={`pointer-events-auto mx-auto flex w-full items-center justify-center border transition-all duration-500 ease-out ${
           isScrolled 
-            ? "mt-3 max-w-5xl rounded-2xl border-border/70 bg-background/86 px-3 py-2 shadow-lg shadow-black/5 backdrop-blur-2xl dark:shadow-black/25 sm:px-4" 
-            : "mt-4 max-w-6xl rounded-2xl border-border/60 bg-background/58 px-3 py-2 shadow-sm backdrop-blur-xl sm:px-4"
+            ? "mt-3 max-w-5xl rounded-full border-border/70 bg-background/86 px-3 py-2 shadow-lg shadow-black/5 backdrop-blur-2xl dark:shadow-black/25 sm:px-4" 
+            : "mt-4 max-w-6xl rounded-full border-border/60 bg-background/58 px-3 py-2 shadow-sm backdrop-blur-xl sm:px-4"
         }`}
       >
         <NavHeader isScrolled={isScrolled} />
