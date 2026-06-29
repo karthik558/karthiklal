@@ -48,7 +48,7 @@ const ProjectCard = ({ project, className, index }: { project: Project, classNam
         // Side-by-Side Layout for Large Card
         <>
           {/* Left: Image / Screenshot */}
-          <div className="relative w-full md:w-3/5 h-48 md:h-full shrink-0 overflow-hidden bg-muted/10 border-r border-border/20">
+          <div className="relative w-full md:w-[42%] h-48 md:h-full shrink-0 overflow-hidden bg-muted/10 border-r border-border/20">
             <Image
               src={project.image}
               alt={project.title}
@@ -60,7 +60,7 @@ const ProjectCard = ({ project, className, index }: { project: Project, classNam
           </div>
 
           {/* Right: Browser Window Mock & Content */}
-          <div className="flex flex-col flex-grow h-full">
+          <div className="flex flex-col flex-grow h-full min-h-0">
             {/* Mock Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-muted/20 border-b border-border/50 select-none">
               <div className="flex gap-1.5">
@@ -78,14 +78,14 @@ const ProjectCard = ({ project, className, index }: { project: Project, classNam
             </div>
 
             {/* Content Body */}
-            <div className="flex flex-col justify-between flex-grow p-6 md:p-8">
-              <div>
+            <div className="flex flex-col justify-between flex-grow p-6 md:p-8 min-h-0">
+              <div className="min-h-0">
                 <div className="mb-3">
                   <Badge variant="secondary" className="bg-primary/10 text-primary border-none text-[10px] font-semibold tracking-wider uppercase px-2.5 py-0.5">
                     {project.category}
                   </Badge>
                 </div>
-                <h3 className="text-xl md:text-3xl font-display font-bold text-foreground leading-tight">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-foreground leading-tight break-all md:break-words">
                   {project.title}
                 </h3>
                 <p className="text-muted-foreground text-xs md:text-sm mt-3 leading-relaxed md:line-clamp-4 line-clamp-3">
