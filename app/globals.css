@@ -621,21 +621,21 @@ body {
 
 /* Custom cursor for entire website */
 * {
-  cursor: url('/cursor/cursor.png'), auto !important;
+  cursor: url('/cursor/cursor.svg') 0 0, auto !important;
 }
 
 /* Specific cursor states for interactive elements */
 a, button, .cursor-pointer, [role="button"] {
-  cursor: url('/cursor/cursor.png'), pointer !important;
+  cursor: url('/cursor/cursor.svg') 0 0, pointer !important;
 }
 
 input, textarea, [contenteditable] {
-  cursor: url('/cursor/cursor.png'), text !important;
+  cursor: url('/cursor/cursor.svg') 0 0, text !important;
 }
 
 /* Fallback for elements that need default cursors */
 .cursor-default {
-  cursor: url('/cursor/cursor.png'), default !important;
+  cursor: url('/cursor/cursor.svg') 0 0, default !important;
 }
 
 /* Enhanced nav header styles for better visibility */
