@@ -1,11 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion"
-import { Award, CheckCircle, Calendar, ChevronDown, ChevronUp, ShieldCheck, Clock } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useMemo, useRef, useState } from "react"
+import { AnimatePresence, motion, useInView } from "framer-motion"
+import {
+  Award,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  ShieldCheck,
+  Clock,
+  Copy,
+  Check,
+  ExternalLink,
+} from "lucide-react"
+
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { SectionHeader } from "@/components/ui/section-header"
+import { cn } from "@/lib/utils"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
 interface Certification {
@@ -20,186 +31,259 @@ interface Certification {
   link?: string
 }
 
-function AchievementCard({ certification, index, isLarge }: { certification: Certification, index: number, isLarge: boolean }) {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
+type TimelineFilter = "all" | "active" | "expired"
 
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect()
-    mouseX.set(clientX - left)
-    mouseY.set(clientY - top)
+const INITIAL_ITEMS = 4
+
+export default function CertificationsSection() {
+  const [showAll, setShowAll] = useState(false)
+  const [filter, setFilter] = useState<TimelineFilter>("all")
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(containerRef, { once: true, amount: 0.12 })
+
+  const certifications: Certification[] = CERTIFICATIONS_DATA.certifications
+  
+  // Sort certifications chronologically (newest first)
+  const parseDateString = (dateStr: string) => {
+    const parts = dateStr.split(" ")
+    if (parts.length < 2) return new Date(0)
+    const [month, year] = parts
+    const months: Record<string, number> = {
+      Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+      Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+    }
+    return new Date(parseInt(year), months[month] ?? 0)
   }
 
-  return (
-    <div
-      className="group relative h-full w-full"
-      onMouseMove={handleMouseMove}
-    >
-      {/* Holographic Border Glow */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-500 group-hover:opacity-100 z-0"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              800px circle at ${mouseX}px ${mouseY}px,
-              rgba(var(--primary-rgb), 0.4),
-              transparent 40%
-            )
-          `,
-        }}
-      />
-      
-      {/* Deep Glassmorphic Card */}
-      <div className="relative h-full w-full rounded-3xl border border-white/10 bg-card/40 backdrop-blur-2xl transition-all duration-500 overflow-hidden flex flex-col z-10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(var(--primary-rgb),0.15)]">
-        
-        {/* Subtle Metallic Sheen on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-        
-        {/* Holographic Watermark / Background Icon */}
-        <div className="absolute -right-10 -bottom-10 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:rotate-12">
-          <Award className="w-64 h-64 text-primary" />
-        </div>
+  const sortedCertifications = useMemo(() => {
+    return [...certifications].sort((a, b) => parseDateString(b.date).getTime() - parseDateString(a.date).getTime())
+  }, [certifications])
 
-        <div className="p-6 md:p-8 flex-1 flex flex-col relative z-20">
-          <div className="flex justify-between items-start mb-6 gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                <Award className="h-7 w-7 text-primary" />
-              </div>
-              {isLarge && (
-                <div className="hidden sm:block">
-                  <p className="text-sm font-semibold tracking-wider text-primary/80 uppercase">Verified Credential</p>
-                  <p className="text-xs text-muted-foreground">{certification.issuer}</p>
-                </div>
-              )}
-            </div>
-            
-            {/* Holographic Status Badge */}
-            <div className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-full border backdrop-blur-md text-xs font-medium shadow-sm",
-              certification.status === 'active' 
-                ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400" 
-                : "bg-orange-500/10 border-orange-500/20 text-orange-600 dark:text-orange-400"
-            )}>
-              {certification.status === 'active' ? (
-                <ShieldCheck className="w-3.5 h-3.5" />
-              ) : (
-                <Clock className="w-3.5 h-3.5" />
-              )}
-              {certification.status === 'active' ? "Active" : "Expiring"}
-            </div>
-          </div>
+  const filteredCertifications = useMemo(() => {
+    if (filter === "all") return sortedCertifications
+    return sortedCertifications.filter((item) => item.status === filter)
+  }, [sortedCertifications, filter])
+
+  const visibleItems = showAll ? filteredCertifications : filteredCertifications.slice(0, INITIAL_ITEMS)
+  const hiddenCount = filteredCertifications.length - visibleItems.length
+
+  const stats = useMemo(() => {
+    const activeCount = certifications.filter((item) => item.status === "active").length
+    const expiredCount = certifications.filter((item) => item.status === "expired").length
+    const uniqueIssuers = new Set(certifications.map((item) => item.issuer)).size
+
+    return [
+      { label: "Active", value: `${activeCount}`, icon: ShieldCheck },
+      { label: "Expired", value: `${expiredCount}`, icon: Clock },
+      { label: "Issuers", value: `${uniqueIssuers}`, icon: Award },
+    ]
+  }, [certifications])
+
+  return (
+    <section id="certifications" ref={containerRef} className="relative overflow-hidden bg-background py-16 md:py-24">
+      {/* Background Gradients & Noise */}
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_16%_20%,hsl(var(--primary)/0.07),transparent_62%),radial-gradient(760px_circle_at_92%_76%,hsl(var(--accent)/0.06),transparent_62%)]" />
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="grid gap-8 lg:grid-cols-[1.18fr_0.82fr] lg:gap-8">
           
-          <h3 className={cn(
-            "font-display font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mb-2",
-            isLarge ? "text-2xl md:text-3xl line-clamp-2" : "text-xl md:text-2xl line-clamp-2"
-          )}>
-            {certification.title}
-          </h3>
-          
-          {!isLarge && (
-            <p className="text-sm font-medium text-primary/80 mb-4">
-              {certification.issuer}
-            </p>
-          )}
-          
-          <p className={cn(
-            "text-muted-foreground/80 leading-relaxed",
-            isLarge ? "text-base line-clamp-3 mb-8" : "text-sm line-clamp-2 mb-6"
-          )}>
-            {certification.description}
-          </p>
-          
-          <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border/40">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium shrink-0">
-              <Calendar className="w-4 h-4 text-primary/60" />
-              <span>{certification.date}</span>
+          {/* Left Column (Toggle & item cards) - desktop: first, mobile: second */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="rounded-lg border border-border/70 bg-card/65 p-3 shadow-sm backdrop-blur order-2 lg:order-1"
+          >
+            <div className="mb-3 flex items-center justify-between gap-3 px-2 py-1">
+              <p className="text-sm font-semibold text-foreground">Timeline</p>
+              <p className="text-xs font-medium text-muted-foreground">{filteredCertifications.length} credentials</p>
             </div>
-            
-            {/* ID Badge with Monospace */}
-            <div className="relative group/id max-w-full">
-              <span className="block text-xs font-mono bg-black/5 dark:bg-white/5 border border-foreground/10 px-2.5 py-1 rounded-md text-muted-foreground group-hover/id:text-foreground transition-colors break-all">
-                ID: {certification.credentialId || "N/A"}
-              </span>
+
+            <TimelineToggle
+              value={filter}
+              onChange={(nextFilter) => {
+                setFilter(nextFilter)
+                setShowAll(false)
+              }}
+            />
+
+            <AnimatePresence mode="popLayout">
+              <motion.div layout className="mt-4 space-y-3">
+                {visibleItems.map((item, index) => (
+                  <CertificationItem key={item.id} item={item} index={index} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+
+            {hiddenCount > 0 || showAll ? (
+              <motion.div layout className="mt-5 flex justify-center border-t border-border/70 pt-4">
+                <AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline" className="h-10">
+                  {showAll ? "Show Less" : `Show ${hiddenCount} More`}
+                  {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                </AnimatedButton>
+              </motion.div>
+            ) : null}
+          </motion.div>
+
+          {/* Right Column (Sticky info & stats card) - desktop: second, mobile: first */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5 }}
+            className="lg:sticky lg:top-28 lg:self-start order-1 lg:order-2"
+          >
+            <SectionHeader
+              eyebrow="Credentials"
+              title="Professional"
+              highlight="Achievements"
+              align="responsive"
+            />
+
+            <div className="mt-7 grid grid-cols-3 overflow-hidden rounded-lg border border-border/70 bg-card/70 shadow-sm backdrop-blur">
+              {stats.map((stat, index) => {
+                const Icon = stat.icon
+
+                return (
+                  <div key={stat.label} className={cn("p-3 text-center md:p-4", index > 0 && "border-l border-border/70")}>
+                    <Icon className="mx-auto mb-2 h-4 w-4 text-primary" />
+                    <div className="font-display text-2xl font-bold leading-none text-foreground">{stat.value}</div>
+                    <p className="mt-1 text-xs font-medium text-muted-foreground">{stat.label}</p>
+                  </div>
+                )
+              })}
             </div>
-          </div>
+          </motion.div>
+
         </div>
       </div>
+    </section>
+  )
+}
+
+function TimelineToggle({ value, onChange }: { value: TimelineFilter; onChange: (value: TimelineFilter) => void }) {
+  const options: Array<{ label: string; value: TimelineFilter }> = [
+    { label: "All", value: "all" },
+    { label: "Active", value: "active" },
+    { label: "Expired", value: "expired" },
+  ]
+
+  return (
+    <div className="grid grid-cols-3 gap-1 rounded-md border border-border/70 bg-background/70 p-1">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onChange(option.value)}
+          className={cn(
+            "rounded-md px-3.5 py-2.5 text-sm font-medium transition",
+            value === option.value ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          )}
+        >
+          {option.label}
+        </button>
+      ))}
     </div>
   )
 }
 
-export default function CertificationsSection() {
-  const certifications: Certification[] = CERTIFICATIONS_DATA.certifications
-  const [showAll, setShowAll] = useState(false)
+function CertificationItem({ item, index }: { item: Certification; index: number }) {
+  const isActive = item.status === "active"
+  const TypeIcon = isActive ? ShieldCheck : Clock
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault() // prevent triggering the card link
+    e.stopPropagation() // prevent bubbling up
+    navigator.clipboard.writeText(item.credentialId)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
-    <section id="certifications" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(1200px_circle_at_85%_30%,hsl(var(--accent)/0.08),transparent_65%),radial-gradient(1000px_circle_at_15%_70%,hsl(var(--primary)/0.08),transparent_65%)]" />
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-      
-      <div className="container max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-16 md:mb-24"
-        >
-          <SectionHeader eyebrow="Credentials" title="Professional" highlight="Achievements" />
-        </motion.div>
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.36, delay: Math.min(index * 0.04, 0.18) }}
+      className="group relative rounded-lg border border-border/70 bg-background/70 p-4 transition hover:border-primary/30 hover:bg-background md:p-5"
+    >
+      <a
+        href={item.link || "#"}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex gap-4"
+      >
+        <div className={cn(
+          "flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-primary/10",
+          isActive ? "border-green-500/20 text-green-500 bg-green-500/10" : "border-primary/20 text-primary"
+        )}>
+          <TypeIcon className="h-5 w-5" />
+        </div>
 
-        {/* Bento Grid Layout */}
-        <motion.div 
-          layout 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <AnimatePresence mode="popLayout">
-            {(showAll ? certifications : certifications.slice(0, 4)).map((cert, index) => {
-              // Bento Grid logic: index 0 and 3 are large (span 2 cols on lg)
-              const isLarge = index === 0 || index === 3;
-              const spanClass = isLarge ? "lg:col-span-2" : "col-span-1";
+        <div className="min-w-0 flex-1">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={cn(
+                  "rounded-md px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]",
+                  isActive ? "bg-green-500/10 text-green-600 dark:text-green-400" : "bg-muted text-muted-foreground"
+                )}
+              >
+                {isActive ? "Active" : "Expired"}
+              </span>
+              
+              <span className="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-semibold text-primary uppercase tracking-[0.12em]">
+                {item.issuer}
+              </span>
+            </div>
 
-              return (
-                <motion.div 
-                  key={cert.id}
-                  layout
-                  variants={{
-                    hidden: { opacity: 0, y: 30, scale: 0.95 },
-                    visible: { opacity: 1, y: 0, scale: 1 }
-                  }}
-                  initial="hidden"
-                  animate="visible"
-                  exit={{ opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}
-                  transition={{ duration: 0.5, delay: (index % 4) * 0.1, type: "spring", bounce: 0.3 }}
-                  className={cn("w-full h-full", spanClass)}
-                >
-                  <AchievementCard certification={cert} index={index} isLarge={isLarge} />
-                </motion.div>
-              )
-            })}
-          </AnimatePresence>
-        </motion.div>
+            {item.credentialId && item.credentialId !== "Not Available" && (
+              <button
+                type="button"
+                onClick={handleCopy}
+                className={cn(
+                  "relative flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border rounded-md transition duration-200 outline-none z-20",
+                  copied
+                    ? "bg-green-500/10 border-green-500/30 text-green-600 dark:text-green-400"
+                    : "bg-background/80 border-border/70 text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+                title="Copy Credential ID"
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-3 w-3" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3 w-3" />
+                    <span className="max-w-[100px] truncate">ID: {item.credentialId}</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
 
-        {certifications.length > 4 && (
-          <motion.div 
-            layout
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 flex justify-center"
-          >
-            <AnimatedButton onClick={() => setShowAll(!showAll)} variant="outline">
-              {showAll ? "Show Less Credentials" : `Show All ${certifications.length} Credentials`}
-              {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
-            </AnimatedButton>
-          </motion.div>
-        )}
-      </div>
-    </section>
+          <h3 className="text-lg font-bold leading-snug text-foreground transition group-hover:text-primary md:text-xl flex items-center gap-1.5">
+            <span className="flex-1">{item.title}</span>
+            <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary shrink-0" />
+          </h3>
+
+          <div className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-[1fr_auto] md:items-center">
+            <div className="flex min-w-0 items-start gap-2">
+              <Award className="mt-1 h-4 w-4 shrink-0 text-primary/70" />
+              <span className="min-w-0">{item.issuer}</span>
+            </div>
+            <div className="flex items-center gap-2 font-medium text-foreground/75">
+              <Calendar className="h-4 w-4 shrink-0 text-primary/70" />
+              <span>{item.date} {item.expiryDate && item.expiryDate !== "No Expiry" && ` - ${item.expiryDate}`}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </motion.article>
   )
 }
