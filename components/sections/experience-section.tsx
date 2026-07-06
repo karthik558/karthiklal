@@ -185,7 +185,7 @@ function CareerItem({ item, index }: { item: ExperienceItem; index: number }) {
             <span
               className={cn(
                 "rounded-md px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]",
-                isWork ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
+                isWork ? "bg-primary/10 text-primary" : "bg-blue-500/10 text-blue-600 dark:text-blue-400"
               )}
             >
               {isWork ? "Work" : "Education"}
