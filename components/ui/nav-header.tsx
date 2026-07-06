@@ -102,7 +102,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   return (
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
       {/* Logo */}
-      <Link href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
+      <SmoothLink href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-300 group-hover:scale-105">
           <Image
             src="/logo-light.png"
@@ -121,7 +121,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             priority
           />
         </div>
-      </Link>
+      </SmoothLink>
 
       {/* Desktop Navigation */}
       <ul

@@ -16,12 +16,24 @@ interface AppWrapperProps {
 }
 
 export default function AppWrapper({ children }: AppWrapperProps) {
+  // Initialize to true for SSR, then check session storage
   const [showPreloader, setShowPreloader] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin') ?? false
 
+  useEffect(() => {
+    setIsMounted(true)
+    if (sessionStorage.getItem('hasSeenPreloader')) {
+      setShowPreloader(false)
+    }
+  }, [])
+
   const handleComplete = useCallback(() => {
     setShowPreloader(false)
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('hasSeenPreloader', 'true')
+    }
   }, [])
 
   // Handle hash navigation for cross-page links

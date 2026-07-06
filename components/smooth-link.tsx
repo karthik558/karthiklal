@@ -19,6 +19,14 @@ export default function SmoothLink({ href, children, className, onClick }: Smoot
     // Always call onClick callback first (for closing mobile menu, etc.)
     if (onClick) onClick()
 
+    // If clicking on a link to the exact same pathname (e.g., Home on Home page, Blog on Blog page)
+    // we should just scroll to top smoothly and prevent default Next.js navigation
+    if (href === pathname || (href === '/' && pathname === '/')) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+
     // Check if it's an anchor link to home page sections
     if (href.startsWith('/#')) {
       const targetId = href.substring(2) // Remove /#
