@@ -57,7 +57,8 @@ export default function ContactSection() {
     setIsLoading(true)
 
     try {
-      const formData = new FormData(event.currentTarget)
+      const form = event.currentTarget
+      const formData = new FormData(form)
       const data = {
         name: formData.get("name") as string,
         email: formData.get("email") as string,
@@ -90,7 +91,7 @@ export default function ContactSection() {
 
       setSenderName(data.name)
       setShowSuccessModal(true)
-      event.currentTarget.reset()
+      form.reset()
     } catch (error) {
       console.error("Error sending message:", error)
 

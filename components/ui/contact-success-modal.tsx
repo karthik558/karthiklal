@@ -1,8 +1,7 @@
 "use client"
 
 import React, { useEffect } from 'react'
-import { X, Mail, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react'
-import { Button } from './button'
+import { X, CheckCircle2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AnimatedButton } from './animated-button'
 
@@ -36,52 +35,40 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Deep Blur Backdrop */}
+          {/* Subtle backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+            className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={onClose}
           />
           
-          {/* Clean Modal Container */}
+          {/* Sleek Modal Container */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md rounded-[2rem] border border-foreground/5 bg-secondary/20 backdrop-blur-2xl p-8 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md rounded-2xl border border-border/40 bg-card p-8 shadow-2xl overflow-hidden"
           >
-            {/* Subtle glow behind the icon */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
-
             <button
               onClick={onClose}
-              className="absolute right-6 top-6 p-2 rounded-full hover:bg-muted transition-colors z-20 text-muted-foreground hover:text-foreground"
+              className="absolute right-5 top-5 p-2 rounded-full hover:bg-muted transition-colors z-20 text-muted-foreground hover:text-foreground"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
 
             <div className="relative z-10 flex flex-col items-center text-center">
-              {/* 3D Success Icon */}
+              {/* Minimal Success Icon */}
               <motion.div 
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: "spring", damping: 15, stiffness: 200, delay: 0.1 }}
-                className="relative mb-8"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", damping: 20, stiffness: 300, delay: 0.1 }}
+                className="relative mb-6"
               >
-                <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
-                <div className="relative w-24 h-24 rounded-full border border-primary/20 bg-background flex items-center justify-center shadow-lg">
-                  <ShieldCheck className="w-12 h-12 text-primary" />
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="absolute -top-2 -right-2"
-                  >
-                    <Sparkles className="w-8 h-8 text-yellow-500 animate-pulse" />
-                  </motion.div>
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <CheckCircle2 className="h-8 w-8" />
                 </div>
               </motion.div>
 
@@ -89,48 +76,32 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-3xl font-display font-bold text-foreground mb-4"
+                className="mb-2 text-xl font-semibold tracking-tight text-foreground"
               >
-                Message <span className="text-gradient">Sent!</span>
+                Message sent successfully
               </motion.h2>
 
               <motion.p 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-muted-foreground mb-8 leading-relaxed"
+                className="mb-8 text-sm leading-relaxed text-muted-foreground"
               >
-                {name ? `Thanks, ${name}!` : 'Thanks for reaching out.'} I've received your message and will get back to you as soon as possible.
+                {name ? `Thanks for reaching out, ${name}!` : 'Thanks for reaching out!'} I've received your message and will get back to you as soon as possible.
               </motion.p>
 
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="w-full space-y-4 mb-8 bg-background/50 rounded-2xl p-4 border border-foreground/5 shadow-sm"
-              >
-                <div className="flex items-center gap-3 text-sm text-foreground/80">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <span>Email confirmation sent</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-foreground/80">
-                  <ArrowRight className="h-4 w-4 text-primary" />
-                  <span>Expect a response within 24 hours</span>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
                 className="w-full"
               >
                 <AnimatedButton 
                   onClick={onClose}
-                  className="w-full h-14 rounded-xl"
+                  className="h-11 w-full rounded-xl text-sm"
                   variant="primary"
                 >
-                  Close
+                  Got it, thanks!
                 </AnimatedButton>
               </motion.div>
             </div>
@@ -140,3 +111,4 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
     </AnimatePresence>
   )
 }
+
