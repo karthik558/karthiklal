@@ -153,7 +153,7 @@ const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: any; onChange:
         }
 
         const type = typeof value
-        const isImage = key.toLowerCase().match(/image|logo|avatar|icon|photo/)
+        const isImage = key.toLowerCase().match(/image|logo|avatar|photo/)
         const isLongText = key.toLowerCase().match(/description|content|summary|bio|text/)
 
         if (Array.isArray(value)) {
@@ -357,7 +357,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
             {arrayData?.map((item: any, idx: number) => {
               // Try to find the best display properties
               const title = item.title || item.name || item.company || item.platform || `Item ${idx + 1}`
-              const image = item.image || item.logo || item.avatar || item.icon
+              const image = item.image || item.logo || item.avatar
               const subtitle = item.category || item.role || item.position || (item.technologies && item.technologies.join(', '))
               
               return (
