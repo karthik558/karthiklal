@@ -54,7 +54,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   )
   // Navigation items with proper routes and icons - simplified to essential sections
   const allNavItems = [
-    { label: 'Home', href: '/', icon: Home, sectionId: '' },
+    { label: 'Home', href: '/', icon: Home, sectionId: 'home' },
     { label: 'About', href: '/#about', icon: User, sectionId: 'about' },
     { label: 'Services', href: '/#services', icon: Briefcase, sectionId: 'services' },
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen, sectionId: 'portfolio' },
@@ -74,7 +74,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   const activeSocials = socialLinks.filter(social => social.active)
 
   // Track active section for anchor links
-  const activeSection = useActiveSection(['about', 'services', 'portfolio', 'testimonials'])
+  const activeSection = useActiveSection(['home', 'about', 'services', 'portfolio', 'testimonials'])
 
   // Helper to determine if a nav item is active
   const isItemActive = (item: typeof allNavItems[0]) => {

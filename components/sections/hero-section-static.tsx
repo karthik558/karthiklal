@@ -64,7 +64,7 @@ export default function HeroSectionStatic() {
   const scrollIndicatorOpacity = useTransform(scrollY, [0, 140], [1, 0])
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-background pt-24 pb-16">
+    <section id="home" className="relative flex min-h-[100svh] items-center overflow-hidden bg-background pt-24 pb-16">
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 z-0"
