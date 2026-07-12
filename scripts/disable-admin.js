@@ -21,6 +21,12 @@ if (process.env.CF_PAGES || process.env.VERCEL) {
     console.log("✅ Disabled /app/api/admin -> /app/api/_admin");
   }
 
+  const proxyFile = path.join(__dirname, '../proxy.ts');
+  if (fs.existsSync(proxyFile)) {
+    fs.renameSync(proxyFile, path.join(__dirname, '../_proxy.ts'));
+    console.log("✅ Disabled proxy.ts -> _proxy.ts");
+  }
+
   console.log("🚀 Admin dashboard successfully removed from production build. Your local CMS is safe!");
 } else {
   console.log("💻 Local development environment detected. Admin dashboard remains active.");
