@@ -59,6 +59,9 @@ export default function CertificationsSection() {
   const filtered = useMemo(() => filter === "all" ? sorted : sorted.filter((item) => item.status === filter), [filter, sorted])
   const visible = showAll ? filtered : filtered.slice(0, INITIAL_ITEMS)
   const hiddenCount = filtered.length - visible.length
+  const activeCount = certifications.filter((item) => item.status === "active").length
+  const expiredCount = certifications.filter((item) => item.status === "expired").length
+  const issuerCount = new Set(certifications.map((item) => item.issuer)).size
 
   return (
     <section id="certifications" className="relative overflow-hidden bg-background py-20 md:py-28 lg:py-32">
@@ -66,15 +69,45 @@ export default function CertificationsSection() {
       <div className="container relative z-10">
         <div className="mb-12 lg:mb-16"><SectionHeader eyebrow="Credentials" title="Professional" highlight="Achievements" align="left" /></div>
 
-        <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Credential index</p><p className="mt-2 text-sm text-muted-foreground">{filtered.length} achievements</p></div>
-          <div className="flex w-full gap-1 rounded-xl border border-border/70 bg-card/50 p-1 sm:w-auto">
-            {(["all", "active", "expired"] as CredentialFilter[]).map((value) => <button key={value} type="button" onClick={() => { setFilter(value); setShowAll(false) }} className={cn("flex-1 rounded-lg px-5 py-2.5 text-xs font-semibold capitalize transition sm:flex-none", filter === value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>{value}</button>)}
+        <div className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-16">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Browse credentials</p>
+            <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
+              {([
+                { label: "All credentials", value: "all" as CredentialFilter, count: certifications.length },
+                { label: "Active", value: "active" as CredentialFilter, count: activeCount },
+                { label: "Expired", value: "expired" as CredentialFilter, count: expiredCount },
+              ]).map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => { setFilter(option.value); setShowAll(false) }}
+                  className={cn(
+                    "flex items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-semibold transition lg:w-full",
+                    filter === option.value
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                  )}
+                >
+                  {option.label}<span className="ml-4 text-xs opacity-60">{option.count}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-7 hidden border-t border-border/70 pt-6 lg:block">
+              <p className="font-display text-4xl font-bold">{issuerCount}</p>
+              <p className="mt-1 text-sm text-muted-foreground">Professional credential issuers</p>
+            </div>
+          </aside>
+
+          <div>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Credential index</p>
+              <p className="text-xs text-muted-foreground">{filtered.length} achievements</p>
+            </div>
+            <AnimatePresence mode="popLayout"><motion.div layout>{visible.map((item, index) => <CredentialRow key={item.id} item={item} index={index} />)}</motion.div></AnimatePresence>
+            {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
           </div>
         </div>
-
-        <AnimatePresence mode="popLayout"><motion.div layout>{visible.map((item, index) => <CredentialRow key={item.id} item={item} index={index} />)}</motion.div></AnimatePresence>
-        {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
       </div>
     </section>
   )
