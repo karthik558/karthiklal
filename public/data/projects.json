@@ -88,7 +88,7 @@
         "Supabase",
         "Cloudflare"
       ],
-      "featured": true
+      "featured": false
     },
     {
       "id": 6,
