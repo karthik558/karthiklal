@@ -97,7 +97,7 @@ function SupportingProject({ project, index }: { project: Project; index: number
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-border/70 bg-card/70 transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_70px_-50px_hsl(var(--primary)/0.4)]"
+      className="interactive-surface group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-border/70 bg-card/70"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         <Image src={project.image} alt={`Preview of ${project.title}`} fill sizes="(min-width: 1024px) 30vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />

@@ -1,171 +1,122 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, ArrowRight, Pointer } from "lucide-react"
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
+
+type HoverType = "default" | "link" | "external" | "button"
 
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const [hoverType, setHoverType] = useState<'default' | 'link' | 'external' | 'button'>('default')
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isPressed, setIsPressed] = useState(false)
+  const [hoverType, setHoverType] = useState<HoverType>("default")
+  const [isFinePointer, setIsFinePointer] = useState(false)
   const visibleRef = useRef(false)
   const hoverKeyRef = useRef("default:false")
-
-  const cursorX = useMotionValue(-100)
-  const cursorY = useMotionValue(-100)
-
-  const cursorXSpring = useSpring(cursorX, { damping: 28, stiffness: 250, mass: 0.1 })
-  const cursorYSpring = useSpring(cursorY, { damping: 28, stiffness: 250, mass: 0.1 })
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const trailingX = useSpring(x, { stiffness: 420, damping: 32, mass: 0.18 })
+  const trailingY = useSpring(y, { stiffness: 420, damping: 32, mass: 0.18 })
 
   useEffect(() => {
-    const hasFinePointer = window.matchMedia("(pointer: fine)").matches
+    const finePointer = window.matchMedia("(pointer: fine) and (hover: hover)").matches
+    if (!finePointer) return
 
-    if (!hasFinePointer || window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window) {
-      setIsTouchDevice(true)
-      return
+    setIsFinePointer(true)
+    document.documentElement.classList.add("has-custom-cursor")
+
+    const setHoverState = (hovering: boolean, type: HoverType = "default") => {
+      const key = `${type}:${hovering}`
+      if (hoverKeyRef.current === key) return
+      hoverKeyRef.current = key
+      setIsHovering(hovering)
+      setHoverType(type)
     }
 
-    const setHoverState = (nextHovering: boolean, nextType: typeof hoverType = "default") => {
-      const nextKey = `${nextType}:${nextHovering}`
-      if (hoverKeyRef.current === nextKey) return
-
-      hoverKeyRef.current = nextKey
-      setIsHovering(nextHovering)
-      setHoverType(nextType)
-    }
-
-    const updateHoverState = (target: EventTarget | null) => {
-      if (!(target instanceof Element)) {
-        setHoverState(false)
-        return
-      }
-
-      const interactive = target.closest(
-        'a, button, [role="button"], input, textarea, select, summary, [data-cursor="pointer"], [tabindex]:not([tabindex="-1"])'
-      ) as HTMLElement | null
-
-      if (!interactive) {
-        setHoverState(false)
-        return
-      }
+    const detectTarget = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) return setHoverState(false)
+      const interactive = target.closest('a, button, [role="button"], input, textarea, select, summary, [data-cursor], [tabindex]:not([tabindex="-1"])') as HTMLElement | null
+      if (!interactive) return setHoverState(false)
 
       if (interactive instanceof HTMLAnchorElement) {
-        const isExternal =
-          interactive.target === "_blank" ||
-          (interactive.href.startsWith("http") && !interactive.href.includes(window.location.host))
-        setHoverState(true, isExternal ? "external" : "link")
-      } else {
-        setHoverState(true, "button")
+        const external = interactive.target === "_blank" || (interactive.href.startsWith("http") && !interactive.href.includes(window.location.host))
+        return setHoverState(true, external ? "external" : "link")
       }
+      setHoverState(true, "button")
     }
 
-    const moveCursor = (e: PointerEvent) => {
-      cursorX.set(e.clientX)
-      cursorY.set(e.clientY)
-
+    const handleMove = (event: PointerEvent) => {
+      x.set(event.clientX)
+      y.set(event.clientY)
+      detectTarget(event.target)
       if (!visibleRef.current) {
         visibleRef.current = true
         setIsVisible(true)
       }
-
-      updateHoverState(e.target)
     }
 
-    const hideCursor = () => {
+    const hide = () => {
       visibleRef.current = false
       setIsVisible(false)
+      setIsPressed(false)
       setHoverState(false)
     }
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) hideCursor()
-    }
+    const press = () => setIsPressed(true)
+    const release = () => setIsPressed(false)
+    const visibility = () => document.hidden && hide()
 
-    window.addEventListener("pointermove", moveCursor, { passive: true })
-    window.addEventListener("pointerleave", hideCursor)
-    window.addEventListener("pointercancel", hideCursor)
-    window.addEventListener("blur", hideCursor)
-    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("pointermove", handleMove, { passive: true })
+    window.addEventListener("pointerdown", press, { passive: true })
+    window.addEventListener("pointerup", release, { passive: true })
+    window.addEventListener("pointerleave", hide)
+    window.addEventListener("pointercancel", hide)
+    window.addEventListener("blur", hide)
+    document.addEventListener("visibilitychange", visibility)
 
     return () => {
-      window.removeEventListener("pointermove", moveCursor)
-      window.removeEventListener("pointerleave", hideCursor)
-      window.removeEventListener("pointercancel", hideCursor)
-      window.removeEventListener("blur", hideCursor)
-      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      document.documentElement.classList.remove("has-custom-cursor")
+      window.removeEventListener("pointermove", handleMove)
+      window.removeEventListener("pointerdown", press)
+      window.removeEventListener("pointerup", release)
+      window.removeEventListener("pointerleave", hide)
+      window.removeEventListener("pointercancel", hide)
+      window.removeEventListener("blur", hide)
+      document.removeEventListener("visibilitychange", visibility)
     }
-  }, [cursorX, cursorY])
+  }, [x, y])
 
-  if (isTouchDevice) return null
+  if (!isFinePointer) return null
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: `
-        @media (pointer: fine) {
-          body, a, button, input, select, textarea, summary, [role="button"] {
-            cursor: none !important;
-          }
-        }
-      `}} />
-      
-      <div className="fixed top-0 left-0 pointer-events-none z-[10050] mix-blend-difference">
-        {/* Single Elegant Trailing Ring & Hover State */}
+    <div className="pointer-events-none fixed inset-0 z-[10050] overflow-hidden" aria-hidden="true">
+      <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x: trailingX, y: trailingY }}>
         <motion.div
-          className="absolute top-0 left-0 flex items-center justify-center"
-          style={{ x: cursorXSpring, y: cursorYSpring }}
+          animate={{
+            width: isHovering ? 48 : 30,
+            height: isHovering ? 48 : 30,
+            x: isHovering ? -24 : -15,
+            y: isHovering ? -24 : -15,
+            opacity: isVisible ? 1 : 0,
+            scale: isPressed ? 0.82 : 1,
+          }}
+          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          className={`grid place-items-center rounded-full border backdrop-blur-sm transition-colors duration-200 ${isHovering ? "border-primary bg-primary text-primary-foreground shadow-[0_8px_30px_hsl(var(--primary)/0.28)]" : "border-primary/60 bg-background/10 text-primary"}`}
         >
-          <motion.div
-            animate={{
-              width: isHovering ? 64 : 36,
-              height: isHovering ? 64 : 36,
-              opacity: isVisible ? (isHovering ? 1 : 0.6) : 0,
-              x: isHovering ? -32 : -18,
-              y: isHovering ? -32 : -18,
-              backgroundColor: isHovering ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.05)',
-            }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-            className="rounded-full border border-white/50 backdrop-blur-[2px] flex items-center justify-center relative overflow-hidden shadow-sm shadow-white/10"
-          >
-            {/* Context Icons Inside Cursor */}
-            <AnimatePresence>
-              {isHovering && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute text-black flex items-center justify-center w-full h-full"
-                >
-                  {hoverType === 'external' ? (
-                    <ArrowUpRight className="w-5 h-5" />
-                  ) : hoverType === 'link' ? (
-                    <ArrowRight className="w-5 h-5" />
-                  ) : (
-                    <Pointer className="w-4 h-4" />
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+          <AnimatePresence mode="wait">
+            {isHovering && (
+              <motion.span key={hoverType} initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.6 }} transition={{ duration: 0.14 }}>
+                {hoverType === "external" ? <ArrowUpRight className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </motion.div>
+      </motion.div>
 
-        {/* Inner Dot (Instant) */}
-        <motion.div
-          className="absolute top-0 left-0"
-          style={{ x: cursorX, y: cursorY }}
-        >
-          <motion.div
-            animate={{
-              opacity: isVisible ? 1 : 0,
-              scale: isHovering ? 0 : 1,
-              x: -3, y: -3,
-            }}
-            transition={{ duration: 0.1 }}
-            className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_white]"
-          />
-        </motion.div>
-      </div>
-    </>
+      <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x, y }}>
+        <motion.span animate={{ opacity: isVisible ? 1 : 0, scale: isHovering || isPressed ? 0 : 1 }} className="block h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary)/0.7)]" />
+      </motion.div>
+    </div>
   )
 }

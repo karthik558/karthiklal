@@ -101,7 +101,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden border border-foreground/10 bg-card/70 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 min-h-[400px] md:min-h-full group hover:border-primary/30"
+            className="interactive-surface group relative min-h-[400px] overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 shadow-lg md:col-span-1 md:row-span-2 md:min-h-full"
           >
             <div className="absolute inset-0 z-0">
               <Image
@@ -132,7 +132,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             viewport={{ once: true }}
-            className="md:col-span-2 rounded-3xl border border-foreground/10 bg-card/70 p-8 md:p-10 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
+            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-8 shadow-lg md:col-span-2 md:p-10"
           >
             <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-2xl transition-opacity duration-300 pointer-events-none" />
             
@@ -174,7 +174,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/70 p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
+            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-6 shadow-lg md:col-span-1 md:p-8"
           >
             <div className="absolute bottom-0 right-0 -mr-12 -mb-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500 pointer-events-none" />
 
@@ -225,7 +225,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
             viewport={{ once: true }}
-            className="md:col-span-1 rounded-3xl border border-foreground/10 bg-card/70 p-6 md:p-8 shadow-lg hover:shadow-primary/5 hover:shadow-xl transition-all duration-300 group hover:border-primary/30 relative overflow-hidden"
+            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-6 shadow-lg md:col-span-1 md:p-8"
           >
             <div className="absolute top-0 right-0 -mr-12 -mt-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500 pointer-events-none" />
 

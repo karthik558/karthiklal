@@ -26,7 +26,7 @@ export const AnimatedButton = ({
 }: AnimatedButtonProps) => {
   const isPrimary = variant === "primary";
 
-  const baseStyles = "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-medium transition-all duration-300 hover:scale-105 active:scale-95";
+  const baseStyles = "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]";
   
   // Primary: Gradient background or solid primary with glow
   const primaryStyles = "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 border border-primary/20";

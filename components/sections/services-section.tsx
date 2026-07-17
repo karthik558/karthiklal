@@ -39,7 +39,7 @@ const ServiceItem = ({ index, icon, title, description, capabilities, delay, isI
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.4, delay }}
     >
-      <div className="relative h-full overflow-hidden rounded-lg border border-border/70 bg-card/75 p-4 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.12)] md:p-5">
+      <div className="interactive-surface relative h-full overflow-hidden rounded-lg border border-border/70 bg-card/75 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_circle_at_20%_0%,hsl(var(--primary)/0.10),transparent_42%)] opacity-0 transition duration-500 group-hover:opacity-100" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
 

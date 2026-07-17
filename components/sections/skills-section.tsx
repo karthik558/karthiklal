@@ -47,7 +47,7 @@ function SkillCard({ category, index }: { category: SkillCategory, index: number
       transition={{ duration: 0.4, delay: index * 0.1 }}
       className="group relative h-full"
     >
-      <div className="relative h-full border border-border bg-card transition-all duration-300 overflow-hidden rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-primary/20">
+      <div className="interactive-surface relative h-full overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm">
 
         <div className="relative z-10 mb-6">
           <div className="flex items-center gap-4">
