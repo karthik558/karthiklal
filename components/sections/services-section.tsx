@@ -82,7 +82,7 @@ export default function ServicesSection() {
 
   return (
     <section id="services" className="relative overflow-hidden bg-background py-16 md:py-24">
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(820px_circle_at_12%_15%,hsl(var(--primary)/0.07),transparent_62%),radial-gradient(700px_circle_at_88%_72%,hsl(var(--accent)/0.06),transparent_62%)]" />
+      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)]" />
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
 
       <div className="container relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
@@ -93,7 +93,7 @@ export default function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <SectionHeader eyebrow="Services" title="Expert" highlight="Solutions" />
+          <SectionHeader eyebrow="Services" title="Expert" highlight="Solutions" align="left" />
         </motion.div>
 
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

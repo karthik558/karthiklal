@@ -8,7 +8,7 @@ export function SectionHeader({
   title,
   highlight,
   description,
-  align = "center",
+  align = "left",
   className,
 }: {
   eyebrow: string
@@ -24,7 +24,7 @@ export function SectionHeader({
         "max-w-3xl",
         align === "center" && "mx-auto text-center",
         align === "left" && "text-left",
-        align === "responsive" && "mx-auto text-center md:mx-0 md:text-left",
+        align === "responsive" && "text-left",
         className
       )}
     >

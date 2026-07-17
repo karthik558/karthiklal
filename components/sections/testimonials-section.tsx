@@ -50,7 +50,6 @@ export default function TestimonialsSection() {
             eyebrow="Client Stories"
             title="What Clients"
             highlight="Say"
-            description="One story at a time from teams I’ve helped design, build, and launch."
             align="responsive"
           />
           <div className="flex items-center gap-3" aria-label="Testimonial controls">

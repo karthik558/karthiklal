@@ -1,289 +1,81 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
-import { AnimatePresence, motion, useInView } from "framer-motion"
-import {
-  Award,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  ShieldCheck,
-  Clock,
-  Copy,
-  Check,
-  ExternalLink,
-} from "lucide-react"
-
+import { useMemo, useState } from "react"
+import Link from "next/link"
+import { AnimatePresence, motion } from "framer-motion"
+import { Check, ChevronDown, ChevronUp, Copy, ExternalLink } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { SectionHeader } from "@/components/ui/section-header"
 import { cn } from "@/lib/utils"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
-interface Certification {
-  id: number
-  title: string
-  issuer: string
-  date: string
-  expiryDate: string
-  credentialId: string
-  status: string
-  description?: string
-  link?: string
+interface Certification { id: number; title: string; issuer: string; date: string; expiryDate: string; credentialId: string; status: string; link?: string }
+type CredentialFilter = "all" | "active" | "expired"
+const INITIAL_ITEMS = 6
+const certifications = CERTIFICATIONS_DATA.certifications as Certification[]
+
+const parseDate = (date: string) => {
+  const [month, year] = date.split(" ")
+  const months: Record<string, number> = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 }
+  return new Date(Number(year), months[month] ?? 0).getTime()
 }
 
-type TimelineFilter = "all" | "active" | "expired"
+function CredentialRow({ item, index }: { item: Certification; index: number }) {
+  const [copied, setCopied] = useState(false)
+  const canCopy = item.credentialId && item.credentialId !== "Not Available"
+  const isActive = item.status === "active"
 
-const INITIAL_ITEMS = 4
-
-export default function CertificationsSection() {
-  const [showAll, setShowAll] = useState(false)
-  const [filter, setFilter] = useState<TimelineFilter>("all")
-  const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.12 })
-
-  const certifications: Certification[] = CERTIFICATIONS_DATA.certifications
-  
-  // Sort certifications chronologically (newest first)
-  const parseDateString = (dateStr: string) => {
-    const parts = dateStr.split(" ")
-    if (parts.length < 2) return new Date(0)
-    const [month, year] = parts
-    const months: Record<string, number> = {
-      Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-      Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
-    }
-    return new Date(parseInt(year), months[month] ?? 0)
+  const copyId = async () => {
+    await navigator.clipboard.writeText(item.credentialId)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1600)
   }
 
-  const sortedCertifications = useMemo(() => {
-    return [...certifications].sort((a, b) => parseDateString(b.date).getTime() - parseDateString(a.date).getTime())
-  }, [certifications])
-
-  const filteredCertifications = useMemo(() => {
-    if (filter === "all") return sortedCertifications
-    return sortedCertifications.filter((item) => item.status === filter)
-  }, [sortedCertifications, filter])
-
-  const visibleItems = showAll ? filteredCertifications : filteredCertifications.slice(0, INITIAL_ITEMS)
-  const hiddenCount = filteredCertifications.length - visibleItems.length
-
-  const stats = useMemo(() => {
-    const activeCount = certifications.filter((item) => item.status === "active").length
-    const expiredCount = certifications.filter((item) => item.status === "expired").length
-    const uniqueIssuers = new Set(certifications.map((item) => item.issuer)).size
-
-    return [
-      { label: "Active", value: `${activeCount}`, icon: ShieldCheck },
-      { label: "Expired", value: `${expiredCount}`, icon: Clock },
-      { label: "Issuers", value: `${uniqueIssuers}`, icon: Award },
-    ]
-  }, [certifications])
-
   return (
-    <section id="certifications" ref={containerRef} className="relative overflow-hidden bg-background py-16 md:py-24">
-      {/* Background Gradients & Noise */}
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_16%_20%,hsl(var(--primary)/0.07),transparent_62%),radial-gradient(760px_circle_at_92%_76%,hsl(var(--accent)/0.06),transparent_62%)]" />
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-8 lg:grid-cols-[1.18fr_0.82fr] lg:gap-8">
-          
-          {/* Left Column (Toggle & item cards) - desktop: first, mobile: second */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-            className="rounded-lg border border-border/70 bg-card/65 p-3 shadow-sm backdrop-blur order-2 lg:order-1"
-          >
-            <div className="mb-3 flex items-center justify-between gap-3 px-2 py-1">
-              <p className="text-sm font-semibold text-foreground">Timeline</p>
-              <p className="text-xs font-medium text-muted-foreground">{filteredCertifications.length} credentials</p>
-            </div>
-
-            <TimelineToggle
-              value={filter}
-              onChange={(nextFilter) => {
-                setFilter(nextFilter)
-                setShowAll(false)
-              }}
-            />
-
-            <AnimatePresence mode="popLayout">
-              <motion.div layout className="mt-4 space-y-3">
-                {visibleItems.map((item, index) => (
-                  <CertificationItem key={item.id} item={item} index={index} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-
-            {hiddenCount > 0 || showAll ? (
-              <motion.div layout className="mt-5 flex justify-center border-t border-border/70 pt-4">
-                <AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline" className="h-10">
-                  {showAll ? "Show Less" : `Show ${hiddenCount} More`}
-                  {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
-                </AnimatedButton>
-              </motion.div>
-            ) : null}
-          </motion.div>
-
-          {/* Right Column (Sticky info & stats card) - desktop: second, mobile: first */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5 }}
-            className="lg:sticky lg:top-28 lg:self-start order-1 lg:order-2"
-          >
-            <SectionHeader
-              eyebrow="Credentials"
-              title="Professional"
-              highlight="Achievements"
-              align="responsive"
-            />
-
-            <div className="mt-7 grid grid-cols-3 overflow-hidden rounded-lg border border-border/70 bg-card/70 shadow-sm backdrop-blur">
-              {stats.map((stat, index) => {
-                const Icon = stat.icon
-
-                return (
-                  <div key={stat.label} className={cn("p-3 text-center md:p-4", index > 0 && "border-l border-border/70")}>
-                    <Icon className="mx-auto mb-2 h-4 w-4 text-primary" />
-                    <div className="font-display text-2xl font-bold leading-none text-foreground">{stat.value}</div>
-                    <p className="mt-1 text-xs font-medium text-muted-foreground">{stat.label}</p>
-                  </div>
-                )
-              })}
-            </div>
-          </motion.div>
-
+    <motion.article layout initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.16) }} className="group grid gap-5 border-b border-border/70 py-7 first:border-t md:grid-cols-[56px_minmax(0,1fr)_150px_120px] md:items-center md:gap-6 md:py-8">
+      <div className="font-display text-2xl font-bold text-muted-foreground/25">{String(index + 1).padStart(2, "0")}</div>
+      <div className="min-w-0">
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{item.issuer}</p>
+        <h3 className="mt-2 font-display text-lg font-bold leading-snug tracking-tight transition-colors group-hover:text-primary md:text-xl">{item.title}</h3>
+        <div className="mt-4 flex flex-wrap items-center gap-3 md:hidden">
+          <span className={cn("rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em]", isActive ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground")}>{item.status}</span>
+          <span className="text-xs text-muted-foreground">Issued {item.date}</span>
         </div>
       </div>
-    </section>
-  )
-}
-
-function TimelineToggle({ value, onChange }: { value: TimelineFilter; onChange: (value: TimelineFilter) => void }) {
-  const options: Array<{ label: string; value: TimelineFilter }> = [
-    { label: "All", value: "all" },
-    { label: "Active", value: "active" },
-    { label: "Expired", value: "expired" },
-  ]
-
-  return (
-    <div className="grid grid-cols-3 gap-1 rounded-md border border-border/70 bg-background/70 p-1">
-      {options.map((option) => (
-        <button
-          key={option.value}
-          type="button"
-          onClick={() => onChange(option.value)}
-          className={cn(
-            "rounded-md px-3.5 py-2.5 text-sm font-medium transition",
-            value === option.value ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-          )}
-        >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  )
-}
-
-function CertificationItem({ item, index }: { item: Certification; index: number }) {
-  const isActive = item.status === "active"
-  const TypeIcon = isActive ? ShieldCheck : Clock
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = (e: React.MouseEvent) => {
-    e.preventDefault() // prevent triggering the card link
-    e.stopPropagation() // prevent bubbling up
-    navigator.clipboard.writeText(item.credentialId)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.36, delay: Math.min(index * 0.04, 0.18) }}
-      className="group relative rounded-lg border border-border/70 bg-background/70 p-4 transition hover:border-primary/30 hover:bg-background md:p-5"
-    >
-      <a
-        href={item.link || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex gap-4"
-      >
-        <div className={cn(
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-primary/10",
-          isActive ? "border-green-500/20 text-green-500 bg-green-500/10" : "border-primary/20 text-primary"
-        )}>
-          <TypeIcon className="h-5 w-5" />
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span
-                className={cn(
-                  "rounded-md px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]",
-                  isActive ? "bg-green-500/10 text-green-600 dark:text-green-400" : "bg-muted text-muted-foreground"
-                )}
-              >
-                {isActive ? "Active" : "Expired"}
-              </span>
-              
-              <span className="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-semibold text-primary uppercase tracking-[0.12em]">
-                {item.issuer}
-              </span>
-            </div>
-
-            {item.credentialId && item.credentialId !== "Not Available" && (
-              <button
-                type="button"
-                onClick={handleCopy}
-                className={cn(
-                  "relative flex items-center gap-1.5 px-2 py-1 text-[10px] font-mono border rounded-md transition duration-200 outline-none z-20",
-                  copied
-                    ? "bg-green-500/10 border-green-500/30 text-green-600 dark:text-green-400"
-                    : "bg-background/80 border-border/70 text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
-                title="Copy Credential ID"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3 w-3" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3 w-3" />
-                    <span className="max-w-[100px] truncate">ID: {item.credentialId}</span>
-                  </>
-                )}
-              </button>
-            )}
-          </div>
-
-          <h3 className="text-lg font-bold leading-snug text-foreground transition group-hover:text-primary md:text-xl flex items-center gap-1.5">
-            <span className="flex-1">{item.title}</span>
-            <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary shrink-0" />
-          </h3>
-
-          <div className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-[1fr_auto] md:items-center">
-            <div className="flex min-w-0 items-start gap-2">
-              <Award className="mt-1 h-4 w-4 shrink-0 text-primary/70" />
-              <span className="min-w-0">{item.issuer}</span>
-            </div>
-            <div className="flex items-center gap-2 font-medium text-foreground/75">
-              <Calendar className="h-4 w-4 shrink-0 text-primary/70" />
-              <span>{item.date} {item.expiryDate && item.expiryDate !== "No Expiry" && ` - ${item.expiryDate}`}</span>
-            </div>
-          </div>
-        </div>
-      </a>
+      <div className="hidden md:block"><p className="text-xs font-semibold text-foreground">{item.date}</p><p className="mt-1 text-[11px] text-muted-foreground">{item.expiryDate === "No Expiry" ? "No expiry" : `Until ${item.expiryDate}`}</p></div>
+      <div className="flex items-center justify-between gap-3 md:justify-end">
+        <span className={cn("hidden rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] md:inline-flex", isActive ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground")}>{item.status}</span>
+        {canCopy && <button type="button" onClick={copyId} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border/70 text-muted-foreground transition hover:border-primary/30 hover:text-primary" aria-label={`Copy credential ID for ${item.title}`}>{copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}</button>}
+        {item.link && <Link href={item.link} target="_blank" rel="noreferrer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border/70 text-muted-foreground transition hover:border-primary/30 hover:text-primary" aria-label={`View ${item.title} credential`}><ExternalLink className="h-3.5 w-3.5" /></Link>}
+      </div>
     </motion.article>
+  )
+}
+
+export default function CertificationsSection() {
+  const [filter, setFilter] = useState<CredentialFilter>("all")
+  const [showAll, setShowAll] = useState(false)
+  const sorted = useMemo(() => [...certifications].sort((a, b) => parseDate(b.date) - parseDate(a.date)), [])
+  const filtered = useMemo(() => filter === "all" ? sorted : sorted.filter((item) => item.status === filter), [filter, sorted])
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL_ITEMS)
+  const hiddenCount = filtered.length - visible.length
+
+  return (
+    <section id="certifications" className="relative overflow-hidden bg-background py-20 md:py-28 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)]" />
+      <div className="container relative z-10">
+        <div className="mb-12 lg:mb-16"><SectionHeader eyebrow="Credentials" title="Professional" highlight="Achievements" align="left" /></div>
+
+        <div className="mb-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Credential index</p><p className="mt-2 text-sm text-muted-foreground">{filtered.length} achievements</p></div>
+          <div className="flex w-full gap-1 rounded-xl border border-border/70 bg-card/50 p-1 sm:w-auto">
+            {(["all", "active", "expired"] as CredentialFilter[]).map((value) => <button key={value} type="button" onClick={() => { setFilter(value); setShowAll(false) }} className={cn("flex-1 rounded-lg px-5 py-2.5 text-xs font-semibold capitalize transition sm:flex-none", filter === value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>{value}</button>)}
+          </div>
+        </div>
+
+        <AnimatePresence mode="popLayout"><motion.div layout>{visible.map((item, index) => <CredentialRow key={item.id} item={item} index={index} />)}</motion.div></AnimatePresence>
+        {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
+      </div>
+    </section>
   )
 }

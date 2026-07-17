@@ -19,7 +19,7 @@ export default function PortfolioGallerySection() {
     <section id="portfolio-gallery" className="relative overflow-hidden bg-background py-20 md:py-28 lg:py-32">
       <div className="container relative z-10">
         <div className="mb-12 grid gap-8 lg:mb-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <SectionHeader eyebrow="Creative Archive" title="Featured" highlight="Designs" description="A horizontal studio reel of selected identities, interfaces, and visual experiments." align="responsive" />
+          <SectionHeader eyebrow="Creative Archive" title="Featured" highlight="Designs" align="responsive" />
           <AnimatedButton href={behanceUrl} variant="outline" target="_blank" className="w-fit shrink-0">Full design archive <ArrowRight className="ml-2 h-4 w-4" /></AnimatedButton>
         </div>
       </div>

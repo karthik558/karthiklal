@@ -88,7 +88,8 @@ export default function SkillsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section id="skills" className="py-20 md:py-32 bg-background relative">
+    <section id="skills" className="relative overflow-hidden bg-background py-20 md:py-32">
+      <div className="pointer-events-none absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)]" />
       <div className="container max-w-7xl relative z-10 mx-auto px-4 sm:px-6">
         <motion.div
           ref={ref}

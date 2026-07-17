@@ -131,10 +131,10 @@ export default function PortfolioSection() {
 
   return (
     <section id="portfolio" className="relative overflow-hidden bg-background py-20 md:py-28 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 section-gradient-blend bg-[radial-gradient(800px_circle_at_90%_4%,hsl(var(--primary)/0.1),transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)]" />
       <div className="container relative z-10">
         <div className="mb-12 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeader eyebrow="Built & Shipped" title="Featured" highlight="Projects" description="The first project marked as featured gets the spotlight, followed by a focused selection of recent work." align="responsive" />
+          <SectionHeader eyebrow="Built & Shipped" title="Featured" highlight="Projects" align="responsive" />
           <AnimatedButton href="/projects" variant="outline" className="w-fit shrink-0">View all projects <ArrowRight className="ml-2 h-4 w-4" /></AnimatedButton>
         </div>
 
