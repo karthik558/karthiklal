@@ -32,7 +32,7 @@ function TimelineRow({ item, index }: { item: ExperienceItem; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.16) }}
-      className="group grid gap-4 border-b border-border/70 py-7 first:border-t sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:items-start sm:gap-7 md:py-9"
+      className="group grid gap-4 rounded-xl border border-border/70 bg-card/25 px-4 py-7 transition-colors duration-300 hover:border-primary/35 hover:bg-primary/[0.045] hover:shadow-[0_14px_36px_-28px_hsl(var(--primary)/0.55)] focus-within:border-primary/35 focus-within:bg-primary/[0.055] dark:hover:bg-primary/[0.08] dark:focus-within:bg-primary/[0.1] sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:items-start sm:gap-7 md:px-5 md:py-9"
     >
       <div>
         <p className="font-display text-lg font-bold text-foreground">{startDate}</p>
@@ -48,7 +48,7 @@ function TimelineRow({ item, index }: { item: ExperienceItem; index: number }) {
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{item.company}</p>
       </div>
 
-      <div className="hidden h-11 w-11 place-items-center rounded-full border border-border/70 text-primary sm:grid">
+      <div className="hidden h-11 w-11 place-items-center rounded-full border border-primary/25 bg-primary/10 text-primary shadow-sm transition-colors duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground sm:grid">
         {isWork ? <BriefcaseBusiness className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
       </div>
     </motion.article>
@@ -77,7 +77,7 @@ export default function ExperienceSection() {
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Browse timeline</p>
             <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
               {filterOptions.map((option) => (
-                <button key={option.value} type="button" onClick={() => { setFilter(option.value); setShowAll(false) }} className={cn("flex items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-semibold transition lg:w-full", filter === option.value ? "border-primary bg-primary text-primary-foreground" : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/30 hover:text-foreground")}>
+                <button key={option.value} type="button" aria-pressed={filter === option.value} onClick={() => { setFilter(option.value); setShowAll(false) }} className={cn("flex items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-semibold transition duration-300 lg:w-full", filter === option.value ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_28px_-18px_hsl(var(--primary)/0.9)] ring-2 ring-primary/20" : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/35 hover:bg-primary/[0.05] hover:text-foreground dark:hover:bg-primary/[0.1]")}>
                   {option.label}<span className="ml-4 text-xs opacity-60">{option.value === "work" ? roleCount : option.value === "education" ? educationCount : experiences.length}</span>
                 </button>
               ))}
@@ -91,7 +91,7 @@ export default function ExperienceSection() {
           <div>
             <div className="mb-3 flex items-center justify-between"><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Chronology</p><p className="text-xs text-muted-foreground">{filtered.length} milestones</p></div>
             <AnimatePresence mode="popLayout">
-              <motion.div layout>{visible.map((item, index) => <TimelineRow key={item.id} item={item} index={index} />)}</motion.div>
+              <motion.div layout className="space-y-3">{visible.map((item, index) => <TimelineRow key={item.id} item={item} index={index} />)}</motion.div>
             </AnimatePresence>
             {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
           </div>
