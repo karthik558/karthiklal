@@ -156,6 +156,8 @@ export default function Home() {
       <MarqueeSection />
       <AboutSection />
       <FlowerDivider />
+      <PortfolioSection />
+      <FlowerDivider />
       <PortfolioGallerySection />
       <FlowerDivider />
       <SkillsSection />
@@ -165,8 +167,6 @@ export default function Home() {
       <ExperienceSection />
       <FlowerDivider />
       <CertificationsSection />
-      <FlowerDivider />
-      <PortfolioSection />
       <FlowerDivider />
       <TestimonialsSection />
       <MarqueeSection variant="closing" />
