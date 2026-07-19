@@ -2,6 +2,25 @@
   "projects": [
     {
       "id": 1,
+      "title": "Devi Project",
+      "description": "Agnividya is a 10-day immersive journey into one of the most ancient and profound sacred fire practices from the Vedic tradition of India. Rooted in the precise rituals of Agnihotra, it is a complete foundation in working with fire, breath, mantra, and the elements — to bring the human system into alignment with the greater rhythms of nature.",
+      "image": "/project/deviproject.png",
+      "category": "Web Development",
+      "link": "https://deviproject.org",
+      "github": "https://github.com/karthik558/DeviProject",
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Tailwind",
+        "Supabase",
+        "Cloudflare",
+        "CSS",
+        "Vite"
+      ],
+      "featured": true
+    },
+    {
+      "id": 2,
       "title": "GreenLandKerala",
       "description": "Kerala taxi and tour booking website for Greenland Holidays — airport transfers, sightseeing packages, and outstation trips across Kerala.",
       "image": "/project/greenland.jpg",
@@ -19,7 +38,7 @@
       "featured": true
     },
     {
-      "id": 2,
+      "id": 3,
       "title": "InvoicelyStudio",
       "description": "Your all-in-one studio for beautiful invoicing. Simplify your billing, impress your clients, and manage your freelance business with a tool designed for modern creators.",
       "image": "/project/invoicely.jpg",
@@ -33,25 +52,6 @@
         "Cloudflare",
         "CSS",
         "NextJS",
-        "Vite"
-      ],
-      "featured": true
-    },
-    {
-      "id": 3,
-      "title": "AgnividyaFoundation",
-      "description": "Agnividya is a 10-day immersive journey into one of the most ancient and profound sacred fire practices from the Vedic tradition of India. Rooted in the precise rituals of Agnihotra, it is a complete foundation in working with fire, breath, mantra, and the elements — to bring the human system into alignment with the greater rhythms of nature.",
-      "image": "/project/agnividhya.jpg",
-      "category": "Web Development",
-      "link": "https://agnividya.vercel.app",
-      "github": "https://github.com/karthik558/AgnividyaFoundation",
-      "technologies": [
-        "React",
-        "TypeScript",
-        "Tailwind",
-        "Supabase",
-        "Cloudflare",
-        "CSS",
         "Vite"
       ],
       "featured": true

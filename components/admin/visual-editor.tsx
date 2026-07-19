@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Save, Plus, Trash2, X, Check, Image as ImageIcon, PlusCircle } from "lucide-react"
+import { Save, Plus, Trash2, X, Check, Image as ImageIcon, PlusCircle, ArrowUp } from "lucide-react"
 
 interface VisualEditorProps {
   initialData: any
@@ -301,6 +301,22 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     }
   }
 
+  const moveToTop = (index: number) => {
+    if (!arrayData || index === 0) return
+    const newData = [...arrayData]
+    const itemToMove = newData.splice(index, 1)[0]
+    newData.unshift(itemToMove)
+
+    // Automatically reassign sequential IDs if objects have numeric ids
+    if (newData.length > 0 && typeof newData[0].id === 'number') {
+      newData.forEach((item, idx) => {
+        item.id = idx + 1
+      })
+    }
+
+    setData(wrapperKey ? { [wrapperKey]: newData } : newData)
+  }
+
   // Compute autocomplete options based on existing arrayData
   const optionsMap: Record<string, string[]> = {}
   if (arrayData) {
@@ -390,6 +406,15 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                     
                     {/* Action Overlay */}
                     <div className="absolute inset-0 bg-background/80 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 z-20">
+                      {idx > 0 && (
+                        <button 
+                          onClick={() => moveToTop(idx)}
+                          className="bg-secondary text-secondary-foreground p-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md"
+                          title="Move to Top"
+                        >
+                          <ArrowUp className="w-4 h-4" />
+                        </button>
+                      )}
                       <button 
                         onClick={() => openDrawer(idx)}
                         className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-md shadow-primary/20"
