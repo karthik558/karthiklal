@@ -78,8 +78,11 @@ export default function HeroSectionStatic() {
             playsInline
             className="h-full w-full object-cover object-center opacity-70 dark:opacity-40 saturate-[0.82]"
           />
-          {/* Subtle gradient overlay to ensure text remains readable */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-background/10 dark:from-background dark:via-background/40 dark:to-background/10" />
+          {/* Top gradient overlay to protect Navbar readability */}
+          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background/95 via-background/50 to-transparent dark:from-background dark:via-background/50 dark:to-transparent" />
+          
+          {/* Bottom gradient overlay to protect Hero text readability */}
+          <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-background via-background/70 to-transparent dark:from-background dark:via-background/60 dark:to-transparent" />
         </div>
       </motion.div>
 
@@ -114,7 +117,7 @@ export default function HeroSectionStatic() {
           </motion.p>
 
           <motion.h1
-            className="font-display text-6xl font-extrabold leading-[0.9] text-foreground sm:text-7xl md:text-8xl lg:text-[8rem]"
+            className="font-display text-5xl font-extrabold leading-[0.9] text-foreground/90 drop-shadow-sm sm:text-6xl md:text-7xl lg:text-8xl"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08, duration: 0.7, ease: "easeOut" }}
