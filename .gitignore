@@ -28,3 +28,6 @@ next-env.d.ts
 
 # Mac
 .DS_Store
+
+# IDEs and Editors
+.vscode/
