@@ -53,12 +53,12 @@ export default function NavBar() {
   }, [pathname])
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center px-3 pointer-events-none isolate sm:px-4">
+    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center pointer-events-none isolate px-0 md:px-3 sm:px-4">
       <div 
-        className={`pointer-events-auto mx-auto flex w-full items-center justify-center border transition-all duration-500 ease-out ${
+        className={`pointer-events-auto mx-auto flex w-full items-center justify-center transition-all duration-500 ease-out ${
           isScrolled 
-            ? "mt-3 max-w-5xl rounded-full border-border/70 bg-background/86 px-3 py-2 shadow-lg shadow-black/5 backdrop-blur-2xl dark:shadow-black/25 sm:px-4" 
-            : "mt-4 max-w-6xl rounded-full border-border/60 bg-background/58 px-3 py-2 shadow-sm backdrop-blur-xl sm:px-4"
+            ? "border-b border-border/40 bg-background/80 px-4 py-2.5 shadow-sm backdrop-blur-xl md:mt-3 md:max-w-5xl md:rounded-full md:border md:border-border/70 md:bg-background/86 md:px-4 md:py-2 md:shadow-lg md:shadow-black/5 dark:md:shadow-black/25" 
+            : "bg-transparent px-4 py-4 md:mt-4 md:max-w-6xl md:rounded-full md:border md:border-border/60 md:bg-background/58 md:px-4 md:py-2 md:shadow-sm md:backdrop-blur-xl"
         }`}
       >
         <NavHeader isScrolled={isScrolled} />

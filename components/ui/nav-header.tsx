@@ -102,14 +102,14 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   return (
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
       {/* Logo */}
-      <SmoothLink href="/" className={cn("group flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5", isOpen && "opacity-0 pointer-events-none")}>
+      <SmoothLink href="/" className={cn("group flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5 md:h-11 md:w-11", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-300 group-hover:scale-105">
           <Image
             src="/logo-light.png"
             alt="Logo"
             width={36}
             height={36}
-            className="dark:hidden drop-shadow-lg"
+            className="h-7 w-7 drop-shadow-lg dark:hidden md:h-9 md:w-9"
             priority
           />
           <Image
@@ -117,7 +117,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             alt="Logo"
             width={36}
             height={36}
-            className="hidden dark:block drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+            className="hidden h-7 w-7 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] dark:block md:h-9 md:w-9"
             priority
           />
         </div>
@@ -157,11 +157,11 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
             size="icon"
             onClick={() => setIsOpen(true)}
             className={cn(
-              "relative z-50 h-10 w-10 rounded-full border border-border/60 bg-background/60 transition-all duration-300 hover:bg-primary/10 hover:text-primary md:hidden",
+              "relative z-50 h-9 w-9 rounded-full border border-border/60 bg-background/60 transition-all duration-300 hover:bg-primary/10 hover:text-primary md:hidden md:h-10 md:w-10",
               isOpen && "opacity-0 pointer-events-none"
             )}
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-5 w-5" />
           </Button>
 
           {mounted && createPortal(
