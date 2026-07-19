@@ -327,10 +327,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Optimized scrollbar - Desktop only */
+/* Optimized minimal scrollbar - Desktop only */
 @media (min-width: 768px) {
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -338,13 +339,12 @@ body {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.3);
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    background: hsl(var(--foreground) / 0.15);
+    border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.6);
+    background: hsl(var(--foreground) / 0.3);
   }
 }
 
@@ -386,27 +386,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Custom scrollbar with smooth animations */
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
 
-*::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 4px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.6));
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, hsl(var(--primary) / 0.6), hsl(var(--primary) / 0.8));
-  transform: scale(1.1);
-}
 
 /* Performance improvements */
 * {
