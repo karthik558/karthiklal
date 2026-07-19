@@ -36,92 +36,97 @@ export async function POST(request: NextRequest) {
     // Create email HTML content
     const htmlContent = `
       <!DOCTYPE html>
-      <html>
+      <html lang="en">
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>New Contact Form Submission</title>
       </head>
-      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background-color: #f8fafc; line-height: 1.6; color: #374151;">
-        <div style="max-width: 600px; margin: 0 auto; background: #ffffff;">
-          
-          <!-- Header -->
-          <div style="background: #7d1e16; padding: 40px 30px; text-align: center;">
-            <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.025em;">
-              New Portfolio Contact
-            </h1>
-            <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 16px;">
-              You have received a new message
-            </p>
-          </div>
+      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #0e121a; -webkit-font-smoothing: antialiased; line-height: 1.5; color: #f8fafc;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0e121a" style="padding: 40px 20px;">
+          <tr>
+            <td align="center">
+              <!-- Main Card -->
+              <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#151b26" style="max-width: 600px; border-radius: 12px; border: 1px solid #1e2638; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+                
+                <!-- Header -->
+                <tr>
+                  <td style="padding: 40px 40px 24px 40px; border-bottom: 1px solid #1e2638;">
+                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #f8fafc; letter-spacing: -0.5px;">New Inquiry Received</h1>
+                    <p style="margin: 8px 0 0 0; font-size: 15px; color: #94a3b8;">Someone reached out via your portfolio contact form.</p>
+                  </td>
+                </tr>
 
-          <!-- Content -->
-          <div style="padding: 40px 30px;">
-            
-            <!-- Contact Information -->
-            <div style="margin-bottom: 32px;">
-              <h2 style="color: #1f2937; margin: 0 0 24px 0; font-size: 18px; font-weight: 600; border-bottom: 2px solid #7d1e16; padding-bottom: 8px;">
-                Contact Details
-              </h2>
+                <!-- Content Area -->
+                <tr>
+                  <td style="padding: 32px 40px;">
+                    <!-- Contact Details Grid -->
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 32px;">
+                      <tr>
+                        <td width="50%" valign="top" style="padding-bottom: 24px;">
+                          <p style="margin: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">Name</p>
+                          <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: 500; color: #f8fafc;">${name}</p>
+                        </td>
+                        <td width="50%" valign="top" style="padding-bottom: 24px;">
+                          <p style="margin: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">Email Address</p>
+                          <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: 500; color: #f8fafc;">
+                            <a href="mailto:${email}" style="color: #60a5fa; text-decoration: none;">${email}</a>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" valign="top">
+                          <p style="margin: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">Subject</p>
+                          <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: 500; color: #f8fafc;">${subject}</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Message Block -->
+                    <p style="margin: 0 0 12px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #64748b;">Message</p>
+                    <div style="background-color: #0b0f15; border: 1px solid #1e2638; border-radius: 8px; padding: 20px;">
+                      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #cbd5e1; white-space: pre-wrap;">${message}</p>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
+                      <tr>
+                        <td align="left">
+                          <a href="mailto:${email}?subject=Re: ${subject}" style="display: inline-block; background-color: #7d1e16; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 14px 28px; border-radius: 8px; border: 1px solid #7d1e16; box-shadow: 0 4px 12px rgba(125, 30, 22, 0.3);">
+                            Reply to ${firstName}
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                  <td bgcolor="#0e121a" style="padding: 24px 40px; border-top: 1px solid #1e2638;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left">
+                          <p style="margin: 0; font-size: 13px; color: #64748b;">Sent securely from your Portfolio</p>
+                        </td>
+                        <td align="right">
+                          <p style="margin: 0; font-size: 13px; color: #64748b;">
+                            ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
               
-              <div style="background: #f9fafb; border-radius: 8px; padding: 24px; border-left: 4px solid #7d1e16;">
-                <div style="margin-bottom: 16px;">
-                  <p style="margin: 0 0 4px 0; font-size: 14px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Name</p>
-                  <p style="margin: 0; font-size: 16px; color: #1f2937; font-weight: 600;">${name}</p>
-                </div>
-                
-                <div style="margin-bottom: 16px;">
-                  <p style="margin: 0 0 4px 0; font-size: 14px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Email</p>
-                  <p style="margin: 0; font-size: 16px; color: #1f2937; font-weight: 600;">${email}</p>
-                </div>
-                
-                <div>
-                  <p style="margin: 0 0 4px 0; font-size: 14px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Subject</p>
-                  <p style="margin: 0; font-size: 16px; color: #1f2937; font-weight: 600;">${subject}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Message Content -->
-            <div style="margin-bottom: 32px;">
-              <h2 style="color: #1f2937; margin: 0 0 16px 0; font-size: 18px; font-weight: 600; border-bottom: 2px solid #7d1e16; padding-bottom: 8px;">
-                Message
-              </h2>
-              <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px;">
-                <div style="font-size: 16px; line-height: 1.7; color: #374151; white-space: pre-wrap;">
-${message}
-                </div>
-              </div>
-            </div>
-
-            <!-- Reply Button -->
-            <div style="text-align: center; margin: 32px 0;">
-              <a href="mailto:${email}?subject=Re: ${subject}" style="display: inline-block; background: #7d1e16; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 16px; transition: background-color 0.2s;">
-                Reply to ${firstName}
-              </a>
-            </div>
-
-          </div>
-
-          <!-- Footer -->
-          <div style="background: #f9fafb; padding: 24px 30px; text-align: center; border-top: 1px solid #e5e7eb;">
-            <p style="color: #6b7280; margin: 0 0 8px 0; font-size: 14px;">
-              Sent from your portfolio contact form
-            </p>
-            <p style="color: #9ca3af; margin: 0; font-size: 12px;">
-              ${new Date().toLocaleString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit',
-                timeZoneName: 'short'
-              })}
-            </p>
-          </div>
-
-        </div>
+              <!-- Bottom Note -->
+              <p style="margin: 24px 0 0 0; font-size: 12px; color: #475569; text-align: center;">
+                This is an automated message. Please do not reply directly to this email address.
+              </p>
+            </td>
+          </tr>
+        </table>
       </body>
       </html>
     `
