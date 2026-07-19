@@ -32,7 +32,7 @@ function TimelineRow({ item, index }: { item: ExperienceItem; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.16) }}
-      className="group grid gap-4 rounded-xl border border-border/70 bg-card/25 px-4 py-7 transition-colors duration-300 hover:border-primary/35 hover:bg-primary/[0.045] hover:shadow-[0_14px_36px_-28px_hsl(var(--primary)/0.55)] focus-within:border-primary/35 focus-within:bg-primary/[0.055] dark:hover:bg-primary/[0.08] dark:focus-within:bg-primary/[0.1] sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:items-start sm:gap-7 md:px-5 md:py-9"
+      className="group grid gap-4 rounded-xl border border-transparent bg-card/25 px-4 py-4 transition-colors duration-300 hover:border-primary/35 hover:bg-primary/[0.045] hover:shadow-[0_14px_36px_-28px_hsl(var(--primary)/0.55)] focus-within:border-primary/35 focus-within:bg-primary/[0.055] dark:hover:bg-primary/[0.08] dark:focus-within:bg-primary/[0.1] sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:items-start sm:gap-6 md:px-5 md:py-5"
     >
       <div>
         <p className="font-display text-lg font-bold text-foreground">{startDate}</p>
@@ -82,16 +82,15 @@ export default function ExperienceSection() {
                 </button>
               ))}
             </div>
-            <div className="mt-7 hidden border-t border-border/70 pt-6 lg:block">
+            <div className="mt-7 hidden lg:block">
               <p className="font-display text-4xl font-bold">7+</p>
               <p className="mt-1 text-sm text-muted-foreground">Years of professional growth</p>
             </div>
           </aside>
 
           <div>
-            <div className="mb-3 flex items-center justify-between"><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Chronology</p><p className="text-xs text-muted-foreground">{filtered.length} milestones</p></div>
             <AnimatePresence mode="popLayout">
-              <motion.div layout className="space-y-3">{visible.map((item, index) => <TimelineRow key={item.id} item={item} index={index} />)}</motion.div>
+              <motion.div layout className="space-y-2">{visible.map((item, index) => <TimelineRow key={item.id} item={item} index={index} />)}</motion.div>
             </AnimatePresence>
             {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
           </div>

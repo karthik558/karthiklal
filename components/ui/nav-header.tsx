@@ -56,8 +56,8 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   const allNavItems = [
     { label: 'Home', href: '/', icon: Home, sectionId: 'home' },
     { label: 'About', href: '/#about', icon: User, sectionId: 'about' },
-    { label: 'Services', href: '/#services', icon: Briefcase, sectionId: 'services' },
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen, sectionId: 'portfolio' },
+    { label: 'Services', href: '/#services', icon: Briefcase, sectionId: 'services' },
     { label: 'Blog', href: '/blog', icon: User, sectionId: '' },
     { label: 'Testimonials', href: '/#testimonials', icon: MessageCircle, sectionId: 'testimonials' },
     { label: 'Contact', href: '/contact', icon: Phone, sectionId: '' }
@@ -74,7 +74,7 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
   const activeSocials = socialLinks.filter(social => social.active)
 
   // Track active section for anchor links
-  const activeSection = useActiveSection(['home', 'about', 'services', 'portfolio', 'testimonials'])
+  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'testimonials'])
 
   // Helper to determine if a nav item is active
   const isItemActive = (item: typeof allNavItems[0]) => {

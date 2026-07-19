@@ -32,7 +32,7 @@ function CredentialRow({ item, index }: { item: Certification; index: number }) 
   }
 
   return (
-    <motion.article layout initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.16) }} className="group grid gap-5 rounded-xl border border-border/70 bg-card/25 px-4 py-7 transition-colors duration-300 hover:border-primary/35 hover:bg-primary/[0.045] hover:shadow-[0_14px_36px_-28px_hsl(var(--primary)/0.55)] focus-within:border-primary/35 focus-within:bg-primary/[0.055] dark:hover:bg-primary/[0.08] dark:focus-within:bg-primary/[0.1] md:grid-cols-[56px_minmax(0,1fr)_150px_120px] md:items-center md:gap-6 md:px-5 md:py-8">
+    <motion.article layout initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.16) }} className="group grid gap-4 rounded-xl border border-transparent bg-card/25 px-4 py-4 transition-colors duration-300 hover:border-primary/35 hover:bg-primary/[0.045] hover:shadow-[0_14px_36px_-28px_hsl(var(--primary)/0.55)] focus-within:border-primary/35 focus-within:bg-primary/[0.055] dark:hover:bg-primary/[0.08] dark:focus-within:bg-primary/[0.1] md:grid-cols-[56px_minmax(0,1fr)_150px_120px] md:items-center md:gap-5 md:px-5 md:py-5">
       <div className="font-display text-2xl font-bold text-muted-foreground/25 transition-colors duration-300 group-hover:text-primary/40">{String(index + 1).padStart(2, "0")}</div>
       <div className="min-w-0">
         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{item.issuer}</p>
@@ -94,18 +94,14 @@ export default function CertificationsSection() {
                 </button>
               ))}
             </div>
-            <div className="mt-7 hidden border-t border-border/70 pt-6 lg:block">
+            <div className="mt-7 hidden lg:block">
               <p className="font-display text-4xl font-bold">{issuerCount}</p>
               <p className="mt-1 text-sm text-muted-foreground">Professional credential issuers</p>
             </div>
           </aside>
 
           <div>
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Credential index</p>
-              <p className="text-xs text-muted-foreground">{filtered.length} achievements</p>
-            </div>
-            <AnimatePresence mode="popLayout"><motion.div layout className="space-y-3">{visible.map((item, index) => <CredentialRow key={item.id} item={item} index={index} />)}</motion.div></AnimatePresence>
+            <AnimatePresence mode="popLayout"><motion.div layout className="space-y-2">{visible.map((item, index) => <CredentialRow key={item.id} item={item} index={index} />)}</motion.div></AnimatePresence>
             {(hiddenCount > 0 || showAll) && <motion.div layout className="mt-8"><AnimatedButton onClick={() => setShowAll((current) => !current)} variant="outline">{showAll ? "Show less" : `Show ${hiddenCount} more`}{showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}</AnimatedButton></motion.div>}
           </div>
         </div>
