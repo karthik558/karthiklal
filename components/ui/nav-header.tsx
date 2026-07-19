@@ -52,14 +52,11 @@ function NavHeader() {
   const socialLinks = ((SOCIALS_DATA.socials ?? []) as Social[]).sort(
     (a, b) => a.priority - b.priority
   )
-  // Navigation items with proper routes and icons - simplified to essential sections
   const allNavItems = [
     { label: 'Home', href: '/', icon: Home, sectionId: 'home' },
     { label: 'About', href: '/#about', icon: User, sectionId: 'about' },
     { label: 'Portfolio', href: '/#portfolio', icon: FolderOpen, sectionId: 'portfolio' },
     { label: 'Services', href: '/#services', icon: Briefcase, sectionId: 'services' },
-    { label: 'Blog', href: '/blog', icon: User, sectionId: '' },
-    { label: 'Testimonials', href: '/#testimonials', icon: MessageCircle, sectionId: 'testimonials' },
     { label: 'Contact', href: '/contact', icon: Phone, sectionId: '' }
   ]
 
@@ -74,7 +71,7 @@ function NavHeader() {
   const activeSocials = socialLinks.filter(social => social.active)
 
   // Track active section for anchor links
-  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'testimonials'])
+  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services'])
 
   // Helper to determine if a nav item is active
   const isItemActive = (item: typeof allNavItems[0]) => {
@@ -100,7 +97,7 @@ function NavHeader() {
   }, [isOpen, isMobile])
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3">
+    <div className="mx-auto flex w-full items-center justify-between gap-4 md:gap-8">
       {/* Logo */}
       <SmoothLink href="/" className={cn("group flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 hover:bg-foreground/5 md:h-11 md:w-11", isOpen && "opacity-0 pointer-events-none")}>
         <div className="relative transform transition-transform duration-300 group-hover:scale-105">
