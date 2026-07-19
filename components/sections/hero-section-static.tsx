@@ -76,10 +76,10 @@ export default function HeroSectionStatic() {
             loop
             muted
             playsInline
-            className="h-full w-full object-cover object-center opacity-40 saturate-[0.82]"
+            className="h-full w-full object-cover object-center opacity-70 dark:opacity-40 saturate-[0.82]"
           />
           {/* Subtle gradient overlay to ensure text remains readable */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-background/10 dark:from-background dark:via-background/40 dark:to-background/10" />
         </div>
       </motion.div>
 
