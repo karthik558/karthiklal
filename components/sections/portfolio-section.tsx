@@ -56,7 +56,7 @@ function TopFeaturedProject({ project }: { project: Project }) {
       <div className="grid md:grid-cols-[minmax(0,0.46fr)_minmax(0,0.54fr)]">
         <div className="relative flex min-w-0 flex-col justify-between p-7 sm:p-9 md:min-h-[520px] md:p-8 lg:min-h-[580px] lg:p-10 xl:min-h-[620px] xl:p-12">
           <div>
-            <div className="inline-flex rounded-full border border-primary/35 bg-primary/15 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+            <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               Top featured project
             </div>
             <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.22em] text-white/45 lg:mt-10 lg:text-xs">{project.category}</p>
