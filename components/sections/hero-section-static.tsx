@@ -1,7 +1,6 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import Image from "next/image"
 import {
   Download,
   ExternalLink,
@@ -70,16 +69,17 @@ export default function HeroSectionStatic() {
         className="absolute inset-0 z-0"
         style={{ y: imageY, scale: imageScale }}
       >
-        <div className="absolute inset-0 lg:left-auto lg:right-0 lg:w-[58%] lg:[mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_100%)]">
-          <Image
-            src="/user/hero.jpg"
-            alt=""
-            fill
-            className="object-cover object-center opacity-20 saturate-[0.82] lg:opacity-95"
-            priority
+        <div className="absolute inset-0">
+          <video
+            src="/user/hero_video.webm"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover object-center opacity-40 saturate-[0.82]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/70 to-background lg:bg-gradient-to-t lg:from-background/90 lg:via-transparent lg:to-background/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/18" />
+          {/* Subtle gradient overlay to ensure text remains readable */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/10" />
         </div>
       </motion.div>
 
