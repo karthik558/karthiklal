@@ -24,7 +24,7 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
   return (
     <section className="relative -my-2 w-full max-w-full overflow-hidden bg-transparent py-4 md:-my-4 md:py-8">
       <div className="relative z-10 space-y-5 md:space-y-8">
-        <div className="origin-center -rotate-[1.5deg] md:-rotate-[2.4deg]">
+        <div className="origin-center -rotate-[1.5deg] md:-rotate-[2.4deg] w-[110vw] -ml-[5vw]">
           <MarqueeAnimation
             direction="left"
             baseVelocity={isClosing ? 1.8 : 2}
@@ -34,7 +34,7 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
           </MarqueeAnimation>
         </div>
 
-        <div className="origin-center rotate-[1.5deg] md:rotate-[2.4deg]">
+        <div className="origin-center rotate-[1.5deg] md:rotate-[2.4deg] w-[110vw] -ml-[5vw]">
           <MarqueeAnimation
             direction="right"
             baseVelocity={isClosing ? 2.1 : 1.8}
