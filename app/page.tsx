@@ -1,15 +1,18 @@
-import AboutSection from "@/components/sections/about-section"
-import PortfolioGallerySection from "@/components/sections/portfolio-gallery-section"
-import PortfolioSection from "@/components/sections/portfolio-section"
-import ServicesSection from "@/components/sections/services-section"
-import ExperienceSection from "@/components/sections/experience-section"
-import CertificationsSection from "@/components/sections/certifications-section"
-import SkillsSection from "@/components/sections/skills-section"
-import TestimonialsSection from "@/components/sections/testimonials-section"
-import CtaSection from "@/components/sections/cta-section"
+import dynamic from 'next/dynamic'
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
-import { FlowerDivider } from "@/components/ui/flower-divider"
+
+// Dynamically import below-the-fold sections to optimize initial load
+const AboutSection = dynamic(() => import("@/components/sections/about-section"))
+const PortfolioGallerySection = dynamic(() => import("@/components/sections/portfolio-gallery-section"))
+const PortfolioSection = dynamic(() => import("@/components/sections/portfolio-section"))
+const ServicesSection = dynamic(() => import("@/components/sections/services-section"))
+const ExperienceSection = dynamic(() => import("@/components/sections/experience-section"))
+const CertificationsSection = dynamic(() => import("@/components/sections/certifications-section"))
+const SkillsSection = dynamic(() => import("@/components/sections/skills-section"))
+const TestimonialsSection = dynamic(() => import("@/components/sections/testimonials-section"))
+const CtaSection = dynamic(() => import("@/components/sections/cta-section"))
+const FlowerDivider = dynamic(() => import("@/components/ui/flower-divider").then(mod => mod.FlowerDivider))
 
 // Enhanced Structured Data for SEO - targeting "Karthik Lal" searches
 const structuredData = {

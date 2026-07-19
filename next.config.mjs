@@ -8,7 +8,12 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mir-s3-cdn-cf.behance.net',
+      },
+    ],
   },
   experimental: {
     webpackBuildWorker: true,

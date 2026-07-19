@@ -76,6 +76,7 @@ export default function HeroSectionStatic() {
             loop
             muted
             playsInline
+            preload="metadata"
             className="h-full w-full object-cover object-center opacity-70 dark:opacity-40 saturate-[0.82]"
           />
           {/* Top gradient overlay to protect Navbar readability */}
