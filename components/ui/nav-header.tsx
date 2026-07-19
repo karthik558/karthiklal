@@ -39,7 +39,7 @@ interface Social {
   priority: number
 }
 
-function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
+function NavHeader() {
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   
@@ -124,23 +124,16 @@ function NavHeader({ isScrolled }: { isScrolled?: boolean }) {
       </SmoothLink>
 
       {/* Desktop Navigation */}
-      <ul
-        className={cn(
-          "relative isolate mx-auto hidden w-fit items-center gap-1 rounded-full border border-border/60 bg-background/55 p-1 transition-all duration-300 md:flex",
-          isScrolled
-            ? "shadow-none"
-            : "shadow-inner backdrop-blur-md"
-        )}
-      >
+      <ul className="hidden md:flex items-center gap-1 mx-auto">
         {currentPageItems.map((item) => (
           <li key={item.href} className="relative z-10">
             <SmoothLink
               href={item.href}
               className={cn(
-                "relative z-10 flex h-9 items-center rounded-full px-3.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:px-4",
+                "relative z-10 flex h-9 items-center rounded-full px-4 text-sm font-medium transition-colors outline-none",
                 isItemActive(item)
-                  ? "bg-primary text-primary-foreground shadow-sm shadow-primary/15"
-                  : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+                  ? "bg-foreground/10 text-foreground font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
               )}
             >
               {item.label}

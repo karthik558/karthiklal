@@ -61,7 +61,7 @@ export default function NavBar() {
             : "bg-transparent px-4 py-4 md:mt-4 md:max-w-6xl md:rounded-full md:border md:border-border/60 md:bg-background/58 md:px-4 md:py-2 md:shadow-sm md:backdrop-blur-xl"
         }`}
       >
-        <NavHeader isScrolled={isScrolled} />
+        <NavHeader />
       </div>
     </nav>
   )
