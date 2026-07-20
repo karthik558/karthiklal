@@ -108,6 +108,7 @@ export default function AboutSection() {
                 src="/user/about.jpg"
                 alt={personalInfo.name}
                 fill
+                sizes="(min-width: 768px) 33vw, 100vw"
                 className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                 priority
               />
