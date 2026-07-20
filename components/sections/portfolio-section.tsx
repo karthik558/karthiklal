@@ -141,8 +141,23 @@ export default function PortfolioSection() {
         <TopFeaturedProject project={topProject} />
 
         {remainingProjects.length > 0 && (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {remainingProjects.slice(0, 3).map((project, index) => <SupportingProject key={project.id} project={project} index={index} />)}
+          <div className="relative mt-4">
+            {remainingProjects.length > 3 && (
+              <div className="mb-4 flex items-center justify-end gap-2 text-sm text-muted-foreground">
+                <span className="animate-pulse">Scroll to explore</span>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            )}
+            <div className="flex gap-6 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory">
+              {remainingProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className="w-[85vw] shrink-0 snap-start sm:w-[380px] md:w-[400px] lg:w-[420px]"
+                >
+                  <SupportingProject project={project} index={index} />
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
