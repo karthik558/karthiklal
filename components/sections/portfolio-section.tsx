@@ -75,14 +75,9 @@ function TopFeaturedProject({ project }: { project: Project }) {
         </div>
 
         <div className="relative min-h-[340px] min-w-0 bg-white/5 p-4 sm:min-h-[400px] sm:p-6 md:min-h-0 md:p-5 lg:p-7 xl:p-8">
-          <div className="relative h-full min-h-[310px] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl sm:min-h-[352px] md:min-h-0">
-            <div className="absolute inset-x-0 top-0 z-10 flex h-11 items-center gap-1.5 border-b border-white/10 bg-zinc-950/90 px-4 backdrop-blur-md">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-              <span className="ml-4 rounded-full bg-white/5 px-4 py-1 font-mono text-[9px] text-white/35">live preview</span>
-            </div>
-            <Image src={project.image} alt={`Preview of ${project.title}`} fill priority sizes="(min-width: 1280px) 54vw, (min-width: 768px) 54vw, 100vw" className="object-cover pt-11" />
+          <div className="group relative h-full min-h-[310px] overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl sm:min-h-[352px] md:min-h-0">
+            <span className="absolute left-4 top-4 z-10 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold tracking-[0.16em] text-white backdrop-blur-md">01</span>
+            <Image src={project.image} alt={`Preview of ${project.title}`} fill priority sizes="(min-width: 1280px) 54vw, (min-width: 768px) 54vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
           </div>
         </div>
       </div>
