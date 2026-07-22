@@ -8,6 +8,9 @@ import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ArrowUpRight, Github, ExternalLink, ShieldCheck, Cpu, Code2 } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
 
+// Cloudflare Pages requires every dynamic route to use the Edge Runtime.
+export const runtime = "edge"
+
 interface Project {
   id: number
   title: string
