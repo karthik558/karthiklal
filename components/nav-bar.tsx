@@ -14,26 +14,22 @@ export default function NavBar() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      // Clear any existing timeout
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
       }
 
-      // Immediate update for significant scroll changes
       if (Math.abs(currentScrollY - lastScrollY.current) > 10) {
-        setIsScrolled(currentScrollY > 50)
+        setIsScrolled(currentScrollY > 40)
         lastScrollY.current = currentScrollY
       } else {
-        // Debounced update for small scroll changes
         scrollTimeoutRef.current = setTimeout(() => {
-          setIsScrolled(currentScrollY > 50)
+          setIsScrolled(currentScrollY > 40)
           lastScrollY.current = currentScrollY
-        }, 50)
+        }, 40)
       }
     }
 
-    // Initial check
-    setIsScrolled(window.scrollY > 50)
+    setIsScrolled(window.scrollY > 40)
     lastScrollY.current = window.scrollY
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -46,23 +42,25 @@ export default function NavBar() {
     }
   }, [])
 
-  // Explicitly check scroll position on route change in case Next.js scroll-to-top bypasses the event
   useEffect(() => {
-    setIsScrolled(window.scrollY > 50)
+    setIsScrolled(window.scrollY > 40)
     lastScrollY.current = window.scrollY
   }, [pathname])
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-[9999] flex justify-center pointer-events-none isolate px-0 md:px-3 sm:px-4">
+    <nav className="fixed left-0 right-0 top-0 z-[9999] w-full isolate pointer-events-none">
       <div 
-        className={`pointer-events-auto mx-auto flex w-full items-center justify-center transition-all duration-500 ease-out md:w-auto ${
+        className={`pointer-events-auto w-full transition-all duration-300 ${
           isScrolled 
-            ? "border-b border-border/40 bg-background/80 px-4 py-2.5 shadow-sm backdrop-blur-xl md:mt-3 md:rounded-full md:border md:border-border/70 md:bg-background/86 md:px-6 md:py-2 md:shadow-lg md:shadow-black/5 dark:md:shadow-black/25" 
-            : "bg-transparent px-4 py-4 md:mt-4 md:rounded-full md:border md:border-border/60 md:bg-background/58 md:px-6 md:py-2 md:shadow-sm md:backdrop-blur-xl"
+            ? "border-b-2 border-border bg-background/90 py-3.5 backdrop-blur-xl shadow-md" 
+            : "bg-transparent py-5"
         }`}
       >
-        <NavHeader />
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <NavHeader />
+        </div>
       </div>
     </nav>
   )
 }
+

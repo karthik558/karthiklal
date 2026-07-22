@@ -9,7 +9,9 @@ import {
   Users, 
   MousePointerClick, 
   Clock,
-  Activity
+  Activity,
+  Database,
+  FileCode
 } from "lucide-react"
 import { 
   AreaChart, 
@@ -25,8 +27,6 @@ import {
 } from "recharts"
 import { getModelIcon } from "@/lib/admin-utils"
 
-// We fetch analytics dynamically now
-
 interface DashboardClientProps {
   models: string[]
   stats: Record<string, { size: number; entries: number | string }>
@@ -41,11 +41,9 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
     isMock: boolean
   } | null>(null)
 
-  // Prevent hydration errors with Recharts by only rendering charts after mount
   useEffect(() => {
     setMounted(true)
     
-    // Fetch analytics data
     const fetchAnalytics = async () => {
       try {
         const res = await fetch('/api/admin/analytics')
@@ -60,17 +58,18 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
   }, [])
 
   const defaultStatCards = [
-    { title: "Total Views", value: "...", change: "...", icon: Activity },
-    { title: "Unique Visitors", value: "...", change: "...", icon: Users },
-    { title: "Engagement Rate", value: "...", change: "...", icon: MousePointerClick },
-    { title: "Avg. Session", value: "...", change: "...", icon: Clock },
+    { title: "TOTAL VIEWS", value: "...", change: "...", icon: Activity },
+    { title: "UNIQUE VISITORS", value: "...", change: "...", icon: Users },
+    { title: "ENGAGEMENT RATE", value: "...", change: "...", icon: MousePointerClick },
+    { title: "AVG. SESSION", value: "...", change: "...", icon: Clock },
   ]
 
   const statCardsData = analyticsData?.statCards || defaultStatCards
   const chartTrafficData = analyticsData?.trafficData || []
-  const chartSourceData = analyticsData?.sourceData || []
 
-  // Helper to map string icon names to Lucide icons
+  // Clean monochrome source colors
+  const monoPieColors = ["#ffffff", "#a1a1aa", "#71717a", "#3f3f46"]
+
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'Activity': return Activity
@@ -84,11 +83,12 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-card/90 backdrop-blur-md border border-border/80 rounded-xl p-3.5 shadow-xl text-xs space-y-1 z-50">
-          <p className="font-semibold text-muted-foreground">{label}</p>
+        <div className="bg-card border-2 border-foreground p-3 shadow-2xl font-mono text-xs uppercase space-y-1 z-50 text-foreground">
+          <p className="font-bold border-b border-border pb-1">{label}</p>
           {payload.map((item: any, i: number) => (
-            <p key={i} className="font-semibold" style={{ color: item.stroke || item.color }}>
-              <span className="capitalize">{item.name}</span>: <span className="text-foreground">{item.value}</span>
+            <p key={i} className="flex items-center justify-between gap-4 font-mono">
+              <span className="text-muted-foreground">{item.name}:</span>
+              <span className="font-bold">{item.value}</span>
             </p>
           ))}
         </div>
@@ -97,68 +97,59 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
     return null
   }
 
-  const CustomPieTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const item = payload[0];
-      return (
-        <div className="bg-card/90 backdrop-blur-md border border-border/80 rounded-xl p-3.5 shadow-xl text-xs z-50">
-          <p className="font-bold" style={{ color: item.payload.color }}>
-            {item.name}: <span className="text-foreground">{item.value}</span>
-          </p>
-        </div>
-      )
-    }
-    return null
-  }
-
   return (
-    <div className="max-w-7xl mx-auto space-y-10 pb-12">
+    <div className="max-w-7xl mx-auto space-y-10 pb-12 font-mono text-xs uppercase">
       
-      {/* Header */}
-      <div>
-        <h1 className="text-4xl font-display font-bold tracking-tight text-foreground mb-2">Overview Analytics</h1>
-        <p className="text-muted-foreground">Monitor your portfolio website's real-time traffic and performance metrics.</p>
+      {/* Page Title Header */}
+      <div className="border-b-2 border-border pb-8">
+        <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
+          SYSTEM METRICS & ANALYTICS // 00
+        </div>
+        <h1 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl">
+          ADMIN DASHBOARD
+        </h1>
+        <p className="mt-2 text-muted-foreground font-sans text-sm">
+          Real-time traffic metrics, server statistics, and content management controls.
+        </p>
       </div>
 
       {/* Top Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCardsData.map((stat, i) => {
           const Icon = getIcon(stat.icon)
-          const isPositive = stat.change.startsWith('+') || stat.change === 'Active'
           return (
             <motion.div
               key={stat.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/65 p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.08)] group"
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              className="border-2 border-border bg-card p-6 hover:border-foreground transition-all duration-300 space-y-4"
             >
-              {/* Card Hover Radial Glow & Top Border */}
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(350px_circle_at_20%_0%,hsl(var(--primary)/0.08),transparent_42%)] opacity-0 transition duration-500 group-hover:opacity-100" />
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary shadow-inner transition group-hover:bg-primary group-hover:text-primary-foreground duration-300">
-                  <Icon className="w-5 h-5" />
+              <div className="flex justify-between items-center border-b border-border pb-3">
+                <div className="flex h-10 w-10 items-center justify-center border border-border bg-background text-foreground">
+                  <Icon className="w-4 h-4" />
                 </div>
-                <div className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md border ${isPositive ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
-                  {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingUp className="w-3 h-3 rotate-180" />}
+                <div className="border border-border bg-background px-2.5 py-1 text-[10px] font-bold text-foreground">
                   {stat.change}
                 </div>
               </div>
-              <div className="relative z-10">
-                <h3 className="text-3xl font-display font-extrabold text-foreground mb-1">{stat.value}</h3>
-                <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+              <div>
+                <div className="font-display text-3xl font-black text-foreground mb-1">
+                  {stat.value}
+                </div>
+                <p className="text-muted-foreground font-bold tracking-wider text-[11px]">
+                  {stat.title}
+                </p>
               </div>
             </motion.div>
           )
         })}
       </div>
 
+      {/* Analytics Info Notification */}
       {analyticsData?.isMock && (
-        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-500 p-4 rounded-2xl text-sm relative overflow-hidden flex items-center justify-center backdrop-blur-sm">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/55 to-transparent" />
-          <span>Viewing demo analytics. To view active production data, connect Google Analytics inside your server configuration.</span>
+        <div className="border-2 border-border bg-card p-4 text-center font-mono text-xs text-muted-foreground uppercase">
+          [ DEMO MODE ] GOOGLE ANALYTICS INTEGRATION ACTIVE ON SERVER ENVIRONMENT.
         </div>
       )}
 
@@ -167,102 +158,75 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
         
         {/* Main Area Chart */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="relative overflow-hidden lg:col-span-2 p-6 rounded-2xl border border-border/70 bg-card/65 shadow-sm backdrop-blur"
+          transition={{ duration: 0.4 }}
+          className="lg:col-span-2 p-6 border-2 border-border bg-card space-y-6"
         >
-          {/* Card Border glow */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-          
-          <div className="mb-6 relative z-10">
-            <h3 className="text-lg font-display font-bold text-foreground">Traffic Overview</h3>
-            <p className="text-sm text-muted-foreground">Page views vs Unique visitors over the last 7 days</p>
+          <div className="border-b border-border pb-4">
+            <h3 className="font-display text-2xl font-black uppercase text-foreground">TRAFFIC OVERVIEW</h3>
+            <p className="text-muted-foreground text-xs font-mono">PAGE VIEWS VS UNIQUE VISITORS (PAST 7 DAYS)</p>
           </div>
           
-          <div className="h-[300px] w-full relative z-10">
+          <div className="h-[280px] w-full">
             {mounted && chartTrafficData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartTrafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--accent))" stopOpacity={0.15}/>
-                      <stop offset="95%" stopColor="hsl(var(--accent))" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border)/40)" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="hsl(var(--border))" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10, fontFamily: 'monospace' }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10, fontFamily: 'monospace' }} />
                   <Tooltip content={<CustomTooltip />} />
-                  <Area type="monotone" dataKey="views" stroke="hsl(var(--primary))" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
-                  <Area type="monotone" dataKey="visitors" stroke="hsl(var(--accent))" strokeWidth={2} strokeDasharray="4 4" fillOpacity={1} fill="url(#colorVisitors)" />
+                  <Area type="monotone" dataKey="views" stroke="hsl(var(--foreground))" strokeWidth={2} fillOpacity={0.15} fill="hsl(var(--foreground))" />
+                  <Area type="monotone" dataKey="visitors" stroke="hsl(var(--muted-foreground))" strokeWidth={2} strokeDasharray="3 3" fillOpacity={0} />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground/40">Loading chart analytics...</div>
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">LOADING TRAFFIC DATA...</div>
             )}
           </div>
         </motion.div>
 
         {/* Donut Chart */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.22 }}
-          className="relative overflow-hidden p-6 rounded-2xl border border-border/70 bg-card/65 shadow-sm backdrop-blur flex flex-col justify-between"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="p-6 border-2 border-border bg-card flex flex-col justify-between space-y-6"
         >
-          {/* Card Border glow */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-          
-          <div className="mb-2 relative z-10">
-            <h3 className="text-lg font-display font-bold text-foreground">Traffic Sources</h3>
-            <p className="text-sm text-muted-foreground">Distribution of current visitor sources</p>
+          <div className="border-b border-border pb-4">
+            <h3 className="font-display text-2xl font-black uppercase text-foreground">TRAFFIC SOURCES</h3>
+            <p className="text-muted-foreground text-xs font-mono">CURRENT VISITOR SOURCES DISTRIBUTION</p>
           </div>
           
-          <div className="h-[200px] w-full flex-1 flex items-center justify-center relative z-10">
-            {mounted && chartSourceData.length > 0 ? (
+          <div className="h-[200px] w-full flex items-center justify-center relative">
+            {mounted && (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={chartSourceData}
+                    data={analyticsData?.sourceData || []}
                     cx="50%"
                     cy="50%"
                     innerRadius={55}
                     outerRadius={75}
-                    paddingAngle={4}
+                    paddingAngle={2}
                     dataKey="value"
                     stroke="none"
                   >
-                    {chartSourceData.map((entry: any, index: number) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    {(analyticsData?.sourceData || []).map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={monoPieColors[index % monoPieColors.length]} />
                     ))}
                   </Pie>
-                  <Tooltip content={<CustomPieTooltip />} />
+                  <Tooltip content={<CustomTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
-            ) : null}
-            
-            {mounted && chartSourceData.length > 0 && (
-              <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                <span className="text-3xl font-display font-extrabold text-foreground">
-                  {chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) > 999 
-                    ? (chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0) / 1000).toFixed(1) + 'K' 
-                    : chartSourceData.reduce((acc: number, curr: any) => acc + curr.value, 0)}
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-0.5">Total</span>
-              </div>
             )}
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3 relative z-10 pt-2 border-t border-border/40">
-            {chartSourceData.map((source: any) => (
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-border font-mono text-[10px]">
+            {(analyticsData?.sourceData || []).map((source: any, i: number) => (
               <div key={source.name} className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: source.color }} />
-                <span className="text-xs text-muted-foreground font-semibold truncate">{source.name}</span>
+                <div className="w-2.5 h-2.5 border border-foreground shrink-0" style={{ backgroundColor: monoPieColors[i % monoPieColors.length] }} />
+                <span className="text-muted-foreground font-bold truncate">{source.name.toUpperCase()}</span>
               </div>
             ))}
           </div>
@@ -270,16 +234,11 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
 
       </div>
 
-      {/* Divider */}
-      <div className="pt-4 pb-2">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
-
-      {/* Content Management Section */}
-      <div className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-display font-bold text-foreground mb-1">Content Models</h2>
-          <p className="text-muted-foreground">Select a database model to modify your live portfolio content.</p>
+      {/* Content Models Grid Header */}
+      <div className="space-y-6 pt-4 border-t-2 border-border">
+        <div className="border-b border-border pb-4">
+          <h2 className="font-display text-3xl font-black uppercase text-foreground">CONTENT DATABASE MODULES</h2>
+          <p className="text-muted-foreground text-xs">SELECT A DATA SOURCE TO MODIFY CONTENT RECORDS IN REAL TIME.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -288,40 +247,30 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
             
             return (
               <Link href={`/admin/${model}`} key={model} className="block group">
-                <div className="relative overflow-hidden rounded-2xl border border-border/75 bg-card/65 p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.1)] group flex flex-col h-full justify-between">
-                  {/* Card Glowing Line and Background Gradient */}
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_circle_at_20%_0%,hsl(var(--primary)/0.06),transparent_42%)] opacity-0 transition duration-500 group-hover:opacity-100" />
-
-                  <div className="absolute -right-6 -top-6 text-primary/[0.03] group-hover:text-primary/[0.07] transition-all transform group-hover:scale-110 duration-500 pointer-events-none">
-                    <Icon className="w-32 h-32" />
-                  </div>
-
-                  <div className="relative z-10 mb-6">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary shadow-inner transition group-hover:bg-primary group-hover:text-primary-foreground duration-300 mb-5">
-                      <Icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                <div className="border-2 border-border bg-card p-6 hover:border-foreground transition-all duration-300 space-y-6 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
+                      <div className="flex h-10 w-10 items-center justify-center border-2 border-border bg-background text-foreground group-hover:bg-foreground group-hover:text-background transition-colors">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-muted-foreground group-hover:text-foreground">
+                        JSON DATA
+                      </span>
                     </div>
-                    <h3 className="text-xl font-display font-bold capitalize text-foreground group-hover:text-primary transition-colors">
+
+                    <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-2">
                       {model.replace("-", " ")}
                     </h3>
                   </div>
 
-                  <div className="relative z-10 flex items-end justify-between border-t border-border/40 pt-4 mt-auto">
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-secondary/50 px-2 py-0.5 text-xs font-semibold text-foreground/80">
-                        <span className="text-primary font-bold">{stats[model]?.entries}</span>
-                        <span className="text-muted-foreground text-[10px]">entries</span>
-                      </div>
-                      <div className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-secondary/50 px-2 py-0.5 text-xs font-semibold text-foreground/80">
-                        <span className="text-primary font-bold">{stats[model]?.size}</span>
-                        <span className="text-muted-foreground text-[10px]">KB</span>
-                      </div>
+                  <div className="pt-4 border-t border-border flex items-center justify-between font-mono text-xs font-bold">
+                    <div className="flex items-center gap-3 text-muted-foreground">
+                      <span>{stats[model]?.entries} RECORDS</span>
+                      <span>//</span>
+                      <span>{stats[model]?.size} KB</span>
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-secondary/45 flex items-center justify-center border border-border/70 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-300 shadow-sm">
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
+                    <ArrowRight className="w-4 h-4 text-foreground transition-transform group-hover:translate-x-1" />
                   </div>
-
                 </div>
               </Link>
             )
@@ -331,3 +280,4 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
     </div>
   )
 }
+

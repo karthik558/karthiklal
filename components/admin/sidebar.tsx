@@ -15,7 +15,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { getModelIcon } from "@/lib/admin-utils"
-
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 
 export default function AdminSidebar({ models }: { models: string[] }) {
@@ -23,19 +22,19 @@ export default function AdminSidebar({ models }: { models: string[] }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
 
-  // Close mobile sidebar on route change
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
 
   return (
     <>
-      {/* Mobile Toggle Button (Visible only on small screens) */}
+      {/* Mobile Toggle Button */}
       <button 
         onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform"
+        className="md:hidden fixed bottom-6 right-6 z-40 p-4 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase shadow-2xl flex items-center gap-2"
       >
-        <Menu className="w-6 h-6" />
+        <Menu className="w-5 h-5" />
+        <span>MENU</span>
       </button>
 
       {/* Mobile Overlay */}
@@ -49,26 +48,29 @@ export default function AdminSidebar({ models }: { models: string[] }) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col h-[100dvh] border-r border-border/70 bg-card/65 backdrop-blur-2xl transition-all duration-300 ease-in-out shrink-0 md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex flex-col h-[100dvh] border-r-2 border-border bg-card transition-all duration-300 font-mono text-xs uppercase shrink-0 md:relative md:translate-x-0",
           mobileOpen ? "translate-x-0 w-64 shadow-2xl" : "-translate-x-full md:w-64",
           !mobileOpen && collapsed && "md:w-20"
         )}
       >
         {/* Header / Logo */}
-        <div className={cn("flex items-center justify-between p-6 border-b border-border/50 relative overflow-hidden", !mobileOpen && collapsed && "md:flex-col md:gap-4")}>
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent pointer-events-none" />
-          
-          <div className={cn("flex items-center gap-3 relative z-10", !mobileOpen && collapsed ? "md:justify-center" : "justify-start")}>
-            <div className="relative w-8 h-8 shrink-0 hover:scale-105 transition-transform duration-300">
+        <div className={cn("flex items-center justify-between p-5 border-b-2 border-border", !mobileOpen && collapsed && "md:flex-col md:gap-4")}>
+          <div className={cn("flex items-center gap-3", !mobileOpen && collapsed ? "md:justify-center" : "justify-start")}>
+            <div className="relative h-7 w-7 shrink-0">
               <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain" priority />
-              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain drop-shadow-[0_0_8px_rgba(214,72,63,0.3)]" priority />
+              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain" priority />
             </div>
+            {(!collapsed || mobileOpen) && (
+              <span className="font-display font-black text-sm tracking-tight text-foreground">
+                ADMIN CONTROL
+              </span>
+            )}
           </div>
           
           {/* Desktop Collapse Toggle */}
           <button 
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex w-6 h-6 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground rounded-full items-center justify-center transition-all shrink-0 relative z-10"
+            className="hidden md:flex p-1.5 border border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors shrink-0"
             title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -77,43 +79,43 @@ export default function AdminSidebar({ models }: { models: string[] }) {
           {/* Mobile Close Toggle */}
           <button 
             onClick={() => setMobileOpen(false)}
-            className="md:hidden flex w-8 h-8 bg-muted text-muted-foreground hover:text-foreground rounded-full items-center justify-center transition-all shrink-0"
+            className="md:hidden flex p-1.5 border border-foreground bg-foreground text-background font-bold shrink-0"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Navigation */}
-        <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-6 scrollbar-hide relative z-10">
+        <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-6 font-mono text-xs uppercase">
           <div className="px-4">
             {(!collapsed || mobileOpen) && (
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 px-2">
-                Overview
+              <p className="font-bold text-muted-foreground tracking-widest mb-3 px-2 text-[10px]">
+                PANEL OVERVIEW
               </p>
             )}
             <Link
               href="/admin"
               title="Main Panel"
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 font-medium text-sm border group",
+                "flex items-center gap-3 px-3.5 py-3 border transition-all font-bold tracking-wider",
                 pathname === "/admin" 
-                  ? "bg-primary text-primary-foreground border-primary/30 shadow-lg shadow-primary/15 font-semibold" 
-                  : "text-muted-foreground hover:bg-primary/5 hover:text-primary border-transparent",
+                  ? "border-foreground bg-foreground text-background" 
+                  : "border-border bg-background text-muted-foreground hover:border-foreground hover:text-foreground",
                 (!mobileOpen && collapsed) && "md:justify-center"
               )}
             >
-              <LayoutDashboard className="w-5 h-5 shrink-0" />
-              {(!collapsed || mobileOpen) && <span>Main Panel</span>}
+              <LayoutDashboard className="w-4 h-4 shrink-0" />
+              {(!collapsed || mobileOpen) && <span>MAIN DASHBOARD</span>}
             </Link>
           </div>
 
           <div className="px-4">
             {(!collapsed || mobileOpen) && (
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 px-2">
-                Content Models
+              <p className="font-bold text-muted-foreground tracking-widest mb-3 px-2 text-[10px]">
+                CONTENT MODULES
               </p>
             )}
-            <ul className="space-y-1">
+            <ul className="space-y-1.5">
               {models.map((model) => {
                 const Icon = getModelIcon(model)
                 const isActive = pathname === `/admin/${model}`
@@ -123,15 +125,15 @@ export default function AdminSidebar({ models }: { models: string[] }) {
                       href={`/admin/${model}`}
                       title={model.replace("-", " ")}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 text-sm capitalize border group",
+                        "flex items-center gap-3 px-3.5 py-2.5 border transition-all font-bold tracking-wider uppercase",
                         isActive 
-                          ? "bg-primary/10 text-primary border-primary/20 font-semibold" 
-                          : "text-muted-foreground hover:bg-muted/80 hover:text-primary border-transparent",
+                          ? "border-foreground bg-foreground text-background" 
+                          : "border-border bg-background text-muted-foreground hover:border-foreground hover:text-foreground",
                         (!mobileOpen && collapsed) && "md:justify-center"
                       )}
                     >
-                      <Icon className={cn("w-5 h-5 shrink-0 transition-colors", isActive ? "text-primary" : "group-hover:text-primary/70")} />
-                      {(!collapsed || mobileOpen) && <span className="whitespace-nowrap overflow-hidden text-ellipsis">{model.replace("-", " ")}</span>}
+                      <Icon className="w-4 h-4 shrink-0" />
+                      {(!collapsed || mobileOpen) && <span className="truncate">{model.replace("-", " ")}</span>}
                     </Link>
                   </li>
                 )
@@ -141,22 +143,23 @@ export default function AdminSidebar({ models }: { models: string[] }) {
         </div>
 
         {/* Footer / Logout */}
-        <div className="p-4 border-t border-border/50 flex flex-col gap-2 relative z-10">
-          <div className={cn("flex mb-2", (!mobileOpen && collapsed) ? "justify-center" : "justify-start px-2")}>
+        <div className="p-4 border-t-2 border-border flex flex-col gap-2 font-mono text-xs uppercase">
+          <div className={cn("flex mb-2", (!mobileOpen && collapsed) ? "justify-center" : "justify-start")}>
             <ThemeToggleAnimated />
           </div>
           
           <Link
             href="/"
-            title="Back to Website"
+            title="Exit Admin"
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-300 border border-transparent",
+              "flex items-center gap-3 px-3.5 py-2.5 border border-border bg-background text-foreground font-bold hover:border-foreground transition-colors",
               (!mobileOpen && collapsed) && "md:justify-center"
             )}
           >
-            <ArrowLeft className="w-5 h-5 shrink-0" />
-            {(!collapsed || mobileOpen) && <span className="whitespace-nowrap overflow-hidden">Exit Admin</span>}
+            <ArrowLeft className="w-4 h-4 shrink-0" />
+            {(!collapsed || mobileOpen) && <span>EXIT ADMIN</span>}
           </Link>
+          
           <button
             onClick={async () => {
               await fetch('/api/admin/logout', { method: 'POST' })
@@ -164,15 +167,16 @@ export default function AdminSidebar({ models }: { models: string[] }) {
             }}
             title="Log Out"
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-destructive/80 hover:bg-destructive/10 hover:text-destructive transition-all duration-300 w-full text-left border border-transparent",
+              "flex items-center gap-3 px-3.5 py-2.5 border border-destructive/50 bg-destructive/10 text-destructive font-bold hover:bg-destructive hover:text-destructive-foreground transition-colors w-full text-left",
               (!mobileOpen && collapsed) && "md:justify-center"
             )}
           >
-            <LogOut className="w-5 h-5 shrink-0" />
-            {(!collapsed || mobileOpen) && <span className="whitespace-nowrap overflow-hidden">Log Out</span>}
+            <LogOut className="w-4 h-4 shrink-0" />
+            {(!collapsed || mobileOpen) && <span>LOG OUT</span>}
           </button>
         </div>
       </aside>
     </>
   )
 }
+

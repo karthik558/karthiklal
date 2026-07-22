@@ -175,8 +175,8 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
 
       case 'quote':
         return (
-          <blockquote key={index} className="border-l-4 border-primary pl-6 py-4 my-6 bg-primary/5 rounded-r-lg">
-            <p className="text-foreground italic text-lg">"{block.text}"</p>
+          <blockquote key={index} className="border-l-4 border-foreground pl-6 py-4 my-8 bg-card border-2 border-border font-mono text-sm">
+            <p className="text-foreground italic text-base">"{block.text}"</p>
           </blockquote>
         )
 
@@ -187,140 +187,109 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
 
   if (isLoading) {
     return (
-      <div className="py-20 md:py-32">
-        <div className="container max-w-4xl">
-          <div className="animate-pulse">
-            <div className="h-8 bg-muted rounded w-32 mb-8"></div>
-            <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
-            <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
-            <div className="h-64 bg-muted rounded mb-8"></div>
-            <div className="space-y-4">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="h-4 bg-muted rounded w-full"></div>
-              ))}
-            </div>
-          </div>
+      <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
+        <div className="container mx-auto max-w-4xl px-4 font-mono text-xs uppercase animate-pulse">
+          <div className="h-10 bg-card border-2 border-border w-36 mb-8" />
+          <div className="h-20 bg-card border-2 border-border w-full mb-6" />
+          <div className="h-96 bg-card border-2 border-border w-full mb-8" />
         </div>
-      </div>
+      </main>
     )
   }
 
   if (error || !blog) {
     return (
-      <div className="py-20 md:py-32">
-        <div className="container max-w-4xl">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">
-              {error === 'Blog post not found' ? 'Blog Post Not Found' : 'Error Loading Blog'}
-            </h1>
-            <p className="text-muted-foreground">
-              {error === 'Blog post not found'
-                ? 'The blog post you\'re looking for doesn\'t exist or has been removed.'
-                : 'There was an error loading the blog post. Please try again later.'
-              }
-            </p>
-            <Button asChild className="mt-6">
-              <Link href="/blog">Back to Blog</Link>
-            </Button>
-          </div>
+      <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border text-center">
+        <div className="container mx-auto max-w-4xl px-4 font-mono">
+          <h1 className="font-display text-4xl font-black uppercase text-foreground mb-4">ARTICLE NOT FOUND</h1>
+          <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-bold text-xs uppercase">
+            <ArrowLeft className="w-4 h-4" /> RETURN TO BLOG
+          </Link>
         </div>
-      </div>
+      </main>
     )
   }
 
   return (
-    <div className="py-20 md:py-32">
-      <div className="container max-w-4xl">
+    <main className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
+      <div className="container mx-auto max-w-5xl px-4 md:px-6">
+        
         {/* Back Navigation */}
-        <Button asChild variant="ghost" className="mb-8 hover:bg-accent">
-          <Link href="/blog" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
+        <div className="mb-8 font-mono text-xs font-bold uppercase">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-4 h-4" /> BACK TO ALL ARTICLES
           </Link>
-        </Button>
+        </div>
 
         {/* Article Header */}
         <article className="space-y-8">
-          <header className="space-y-6">
-            {/* Category and Featured Badge */}
-            <div className="flex items-center gap-3">
-              <Badge variant="secondary">{blog.category}</Badge>
-              {blog.featured && (
-                <Badge className="bg-primary text-primary-foreground">Featured</Badge>
-              )}
+          <header className="border-b-2 border-border pb-10 space-y-6">
+            <div className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase">
+              <span className="bg-foreground text-background font-bold px-3 py-1">
+                {blog.category}
+              </span>
+              <span className="text-muted-foreground">
+                AUTHOR: {blog.author.toUpperCase()}
+              </span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight text-foreground">
               {blog.title}
             </h1>
 
-            {/* Meta Information */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span>{blog.author}</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-6 font-mono text-xs uppercase text-muted-foreground border-t border-border pt-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{new Date(blog.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}</span>
+                <span>{new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>{blog.readTime}</span>
+                <span>READ TIME: {blog.readTime.toUpperCase()}</span>
               </div>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 font-mono text-xs uppercase">
               {blog.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs">
+                <span key={tag} className="border border-border bg-card px-2.5 py-1 text-foreground font-bold">
                   #{tag}
-                </Badge>
+                </span>
               ))}
             </div>
 
-            {/* Featured Image */}
-            <div className="relative rounded-xl overflow-hidden shadow-2xl">
+            <div className="relative border-2 border-foreground bg-card overflow-hidden">
               <Image
                 src={blog.image}
                 alt={blog.title}
                 width={1200}
                 height={600}
-                className="w-full h-64 md:h-96 object-cover"
+                className="w-full h-72 md:h-[480px] object-cover"
                 priority
               />
             </div>
           </header>
 
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            <div className="text-xl text-muted-foreground mb-8 p-6 bg-secondary/30 rounded-lg border-l-4 border-primary">
-              {blog.excerpt}
-            </div>
+          {/* Abstract / Excerpt */}
+          <div className="border-2 border-foreground bg-card p-6 md:p-8 font-sans text-base md:text-lg leading-relaxed text-foreground font-medium">
+            {blog.excerpt}
+          </div>
 
+          {/* Content Blocks */}
+          <div className="font-sans text-base md:text-lg leading-relaxed space-y-6">
             {blog.content.map((block, index) => renderContentBlock(block, index))}
           </div>
 
-          {/* Share and Navigation */}
-          <footer className="border-t pt-8 mt-12">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <Button variant="outline" className="flex items-center gap-2" onClick={handleShare}>
-                <Share2 className="h-4 w-4" />
-                Share Article
-              </Button>
+          {/* Share & Footer */}
+          <footer className="border-t-2 border-border pt-8 mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs uppercase">
+            <Button variant="outline" className="border-2 border-border bg-card hover:border-foreground text-foreground font-bold px-6 py-3" onClick={handleShare}>
+              <Share2 className="h-4 w-4 mr-2" /> SHARE ARTICLE
+            </Button>
 
-              <Button asChild>
-                <Link href="/blog">View All Posts</Link>
-              </Button>
-            </div>
+            <Link href="/blog" className="px-6 py-3 bg-foreground text-background font-bold hover:bg-foreground/90 transition-colors">
+              VIEW ALL ARTICLES
+            </Link>
           </footer>
         </article>
       </div>
-    </div>
+    </main>
   )
 }

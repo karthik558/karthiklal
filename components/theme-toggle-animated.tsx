@@ -14,28 +14,28 @@ export function ThemeToggleAnimated() {
   }, [])
 
   if (!mounted) {
-    return <div className="w-[72px] h-9" />
+    return <div className="w-[76px] h-9 border-2 border-border bg-card" />
   }
 
   const isDark = theme === "dark"
 
   return (
-    <div className="relative flex items-center p-1 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-md">
+    <div className="relative flex items-center h-9 w-[76px] p-0.5 border-2 border-border bg-card">
       {/* Animated active background pill */}
       <motion.div
-        className="absolute w-8 h-7 bg-background rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-foreground/5 z-0"
+        className="absolute h-7 w-[34px] bg-foreground z-0"
         initial={false}
         animate={{
-          x: isDark ? 32 : 0, 
+          x: isDark ? 34 : 0, 
         }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        transition={{ type: "spring", stiffness: 450, damping: 28 }}
       />
 
       <button
         onClick={() => setTheme("light")}
         aria-label="Light mode"
-        className={`relative z-10 w-8 h-7 flex items-center justify-center rounded-full transition-colors duration-300 ${
-          !isDark ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+        className={`relative z-10 w-[34px] h-7 flex items-center justify-center transition-colors duration-200 ${
+          !isDark ? "text-background" : "text-muted-foreground hover:text-foreground"
         }`}
       >
         <Sun className="w-4 h-4" />
@@ -44,8 +44,8 @@ export function ThemeToggleAnimated() {
       <button
         onClick={() => setTheme("dark")}
         aria-label="Dark mode"
-        className={`relative z-10 w-8 h-7 flex items-center justify-center rounded-full transition-colors duration-300 ${
-          isDark ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+        className={`relative z-10 w-[34px] h-7 flex items-center justify-center transition-colors duration-200 ${
+          isDark ? "text-background" : "text-muted-foreground hover:text-foreground"
         }`}
       >
         <Moon className="w-4 h-4" />
@@ -53,3 +53,4 @@ export function ThemeToggleAnimated() {
     </div>
   )
 }
+

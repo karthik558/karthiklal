@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import {
+  ArrowDownRight,
   Download,
   ExternalLink,
   Facebook,
@@ -43,166 +44,167 @@ interface Social {
   priority: number
 }
 
-interface PersonalInfo {
-  name: string
-  title: string
-}
-
 export default function HeroSectionStatic() {
   const { scrollY } = useScroll()
-  const profileData: PersonalInfo = PROFILE_DATA.personalInfo
+
   const socials: Social[] = (SOCIALS_DATA.socials as Social[])
     .filter((social: Social) => social.active)
     .sort((a: Social, b: Social) => a.priority - b.priority)
 
-  const contentY = useTransform(scrollY, [0, 420], ["0px", "-72px"])
-  const imageY = useTransform(scrollY, [0, 480], ["0px", "96px"])
-  const imageScale = useTransform(scrollY, [0, 480], [1.04, 1])
-  const wordY = useTransform(scrollY, [0, 520], ["0px", "-150px"])
-  const heroOpacity = useTransform(scrollY, [0, 360], [1, 0.55])
-  const scrollIndicatorOpacity = useTransform(scrollY, [0, 140], [1, 0])
+  const contentY = useTransform(scrollY, [0, 500], ["0px", "-60px"])
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4])
+
+  const nameString = "KARTHIK LAL"
+  const letterVariants = {
+    hidden: { y: "100%", opacity: 0 },
+    visible: (i: number) => ({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.04,
+        duration: 0.8,
+        ease: "easeOut" as const,
+      },
+    }),
+  }
 
   return (
-    <section id="home" className="relative flex min-h-[100svh] items-center overflow-hidden bg-background pt-24 pb-16">
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0 z-0"
-        style={{ y: imageY, scale: imageScale }}
-      >
-        <div className="absolute inset-0">
-          <video
-            src="/user/hero_video.webm"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover object-center opacity-70 dark:opacity-40 saturate-[0.82]"
-          />
-          {/* Top gradient overlay to protect Navbar readability */}
-          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background/95 via-background/50 to-transparent dark:from-background dark:via-background/50 dark:to-transparent" />
+    <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-24">
+      {/* Clean Background (No clutter or watermark) */}
+      <div className="absolute inset-0 z-0 bg-background" />
+
+      <div className="container relative z-10 mx-auto max-w-6xl px-4 md:px-6 my-auto">
+        <motion.div style={{ y: contentY, opacity: heroOpacity }} className="flex flex-col items-center text-center">
           
-          {/* Bottom gradient overlay to protect Hero text readability */}
-          <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-background via-background/70 to-transparent dark:from-background dark:via-background/60 dark:to-transparent" />
-        </div>
-      </motion.div>
-
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(900px_circle_at_18%_20%,hsl(var(--primary)/0.12),transparent_58%),radial-gradient(700px_circle_at_84%_18%,hsl(var(--accent)/0.10),transparent_60%)]" />
-      <div className="absolute inset-0 z-0 bg-grid-pattern opacity-[0.12] [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_76%,transparent)]" />
-      <div className="absolute inset-0 z-0 bg-noise opacity-20 pointer-events-none" />
-
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-        style={{ y: wordY, opacity: heroOpacity }}
-      >
-        <motion.div
-          className="absolute bottom-[18%] right-[12%] hidden h-px w-80 bg-gradient-to-r from-transparent via-accent/35 to-transparent md:block"
-          animate={{ x: [42, -30, 42], opacity: [0.2, 0.7, 0.2] }}
-          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
-        />
-      </motion.div>
-
-      <motion.div
-        className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6"
-        style={{ y: contentY, opacity: heroOpacity }}
-      >
-        <div className="max-w-4xl text-center lg:max-w-3xl lg:text-left">
-          <motion.p
-            className="mb-5 text-sm font-semibold text-primary md:text-base"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-          >
-            Hello, I&apos;m
-          </motion.p>
-
-          <motion.h1
-            className="font-display text-5xl font-extrabold leading-[0.9] text-foreground/90 drop-shadow-sm sm:text-6xl md:text-7xl lg:text-8xl"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.7, ease: "easeOut" }}
-          >
-            {profileData?.name || "Karthik Lal"}
-          </motion.h1>
-
-          <motion.div
-            className="mt-6 flex flex-col items-center gap-3 text-base font-medium text-muted-foreground sm:text-lg lg:flex-row lg:items-center"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18, duration: 0.6, ease: "easeOut" }}
-          >
-            <span className="hidden h-px w-12 bg-primary/55 lg:block" />
-            <span>IT Manager & Full Stack Developer</span>
-          </motion.div>
-
-          <motion.div
-            className="mt-9 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28, duration: 0.55, ease: "easeOut" }}
-          >
-            <AnimatedButton
-              href="/#portfolio-gallery"
-              variant="primary"
-              className="h-14 px-8 text-base shadow-lg shadow-primary/20"
-            >
-              View My Work <ExternalLink className="ml-2 h-4 w-4" />
-            </AnimatedButton>
-
-            <AnimatedButton
-              href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u"
-              variant="outline"
-              className="h-14 px-8 text-base border-foreground/10 bg-background/35 backdrop-blur-md hover:bg-background/55"
-            >
-              Download CV <Download className="ml-2 h-4 w-4" />
-            </AnimatedButton>
-          </motion.div>
-
-          <motion.div
-            className="mt-7 flex items-center justify-center gap-2 lg:justify-start"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.38, duration: 0.5, ease: "easeOut" }}
-          >
-            <div className="flex items-center rounded-full border border-foreground/10 bg-background/45 p-1.5 shadow-xl backdrop-blur-xl">
-              {socials.map((social) => {
-                const IconComponent = iconMap[social.icon]
-                if (!IconComponent) return null
-
-                return (
-                  <a
-                    key={social.id}
-                    href={social.url}
-                    target={social.name !== "Email" ? "_blank" : undefined}
-                    rel={social.name !== "Email" ? "noopener noreferrer" : undefined}
-                    className="group relative flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    title={social.name}
-                    aria-label={social.name}
+          {/* Main Title - KARTHIK LAL (Single Line, KARTHIK Solid, LAL Stroke) */}
+          <div className="py-4 text-center w-full select-none overflow-hidden">
+            <h1 className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[9vw] sm:text-7xl md:text-9xl lg:text-[11.5rem] font-black uppercase tracking-tighter leading-none">
+              {/* KARTHIK - Solid Bold */}
+              <span className="flex text-foreground">
+                {"KARTHIK".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    custom={index}
+                    variants={letterVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
                   >
-                    <span className="absolute inset-0 rounded-full bg-primary/10 opacity-0 scale-75 transition duration-300 group-hover:scale-100 group-hover:opacity-100" />
-                    <IconComponent className="relative z-10 h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110" />
-                  </a>
-                )
-              })}
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
 
-      <motion.div
-        style={{ opacity: scrollIndicatorOpacity }}
-        className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2"
-      >
-        <a href="#about" className="group flex flex-col items-center gap-2">
-          <span className="text-[10px] font-semibold uppercase text-muted-foreground transition-colors group-hover:text-primary">
-            Scroll
-          </span>
-          <span className="relative h-12 w-px overflow-hidden bg-muted-foreground/30">
-            <span className="absolute left-0 top-0 h-full w-full bg-primary animate-scroll-down" />
-          </span>
+              {/* Space */}
+              <span className="inline-block w-[0.25em]" />
+
+              {/* LAL - Crisp Visible Stroke Outline */}
+              <span
+                className="flex transition-all duration-300 hover:!text-foreground"
+                style={{
+                  WebkitTextStroke: "2px hsl(var(--foreground))",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                }}
+              >
+                {"LAL".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    custom={index + 7}
+                    variants={letterVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </div>
+
+          {/* Subtitle Statement & Tech Domain Pills - Centered */}
+          <div className="mt-6 sm:mt-10 flex flex-col items-center text-center max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="flex flex-col items-center text-center"
+            >
+              <p className="font-sans text-base font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl max-w-3xl">
+                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong> with 7.2+ years of enterprise experience.
+              </p>
+
+              <div className="mt-6 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:text-xs">
+                {["IT MANAGER", "FULL STACK DEVELOPER", "CYBERSECURITY SPECIALIST", "SYSTEMS ARCHITECT", "CEH CERTIFIED"].map((badge, idx) => (
+                  <span key={idx} className="border border-border bg-card px-3 py-1 sm:px-3.5 sm:py-1.5 text-foreground font-medium uppercase tracking-wider">
+                    {badge}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Action Buttons & Social Links - Centered */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-8 sm:mt-10 flex flex-col items-center gap-6"
+            >
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                <AnimatedButton
+                  href="/#portfolio"
+                  variant="primary"
+                  className="h-12 px-6 sm:h-14 sm:px-8 font-mono text-xs sm:text-sm uppercase tracking-wider bg-foreground text-background hover:bg-foreground/90 border border-foreground"
+                >
+                  EXPLORE WORK <ArrowDownRight className="ml-2 h-4 w-4" />
+                </AnimatedButton>
+
+                <AnimatedButton
+                  href="/contact"
+                  variant="outline"
+                  className="h-12 px-6 sm:h-14 sm:px-8 font-mono text-xs sm:text-sm uppercase tracking-wider border border-border bg-background hover:bg-foreground hover:text-background transition-colors"
+                >
+                  GET IN TOUCH <Mail className="ml-2 h-4 w-4" />
+                </AnimatedButton>
+              </div>
+
+              {/* Social Icon Grid - Centered */}
+              <div className="flex items-center justify-center gap-2 pt-2">
+                {socials.map((social) => {
+                  const IconComponent = iconMap[social.icon]
+                  if (!IconComponent) return null
+
+                  return (
+                    <a
+                      key={social.id}
+                      href={social.url}
+                      target={social.name !== "Email" ? "_blank" : undefined}
+                      rel={social.name !== "Email" ? "noopener noreferrer" : undefined}
+                      className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center border border-border bg-card text-foreground transition-all duration-200 hover:bg-foreground hover:text-background"
+                      title={social.name}
+                      aria-label={social.name}
+                    >
+                      <IconComponent className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                    </a>
+                  )
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Hero Bottom Bar */}
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 pt-4 border-t border-border/80 flex items-center justify-between font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
+        <span>01 / 08 SECTIONS</span>
+        <a href="#about" className="flex items-center gap-2 hover:text-foreground transition-colors">
+          <span>SCROLL DOWN</span>
+          <ArrowDownRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-bounce" />
         </a>
-      </motion.div>
+      </div>
     </section>
   )
 }
+
+

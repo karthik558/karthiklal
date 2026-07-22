@@ -39,50 +39,50 @@ body {
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 222 30% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 30% 12%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 30% 12%;
-    --primary: 6 70% 32%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 30 22% 92%;
-    --secondary-foreground: 222 20% 20%;
-    --muted: 30 18% 90%;
-    --muted-foreground: 222 10% 40%;
-    --accent: 12 78% 45%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 74% 52%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 30 12% 84%;
-    --input: 30 12% 84%;
-    --ring: 6 70% 32%;
-    --primary-rgb: 138 45 35;
-    --radius: 1rem;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 9%;
+    --primary-rgb: 24 24 27;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222 30% 8%;
-    --foreground: 0 0% 96%;
-    --card: 222 22% 11%;
-    --card-foreground: 0 0% 96%;
-    --popover: 222 22% 11%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 6 72% 52%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 222 18% 18%;
-    --secondary-foreground: 0 0% 96%;
-    --muted: 222 16% 16%;
-    --muted-foreground: 0 0% 70%;
-    --accent: 12 78% 58%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 70% 55%;
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 90%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 222 14% 22%;
-    --input: 222 14% 22%;
-    --ring: 6 72% 52%;
-    --primary-rgb: 214 72 63;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 0 0% 98%;
+    --primary-rgb: 250 250 250;
   }
 }
 
@@ -93,6 +93,12 @@ body {
   body {
     @apply bg-background text-foreground relative;
   }
+}
+
+.text-stroke {
+  -webkit-text-stroke: 2px hsl(var(--foreground));
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* Remove duplicate scrollbar styles - handled below with responsive design */

@@ -1,52 +1,71 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, AnimatePresence } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { SectionHeader } from "@/components/ui/section-header"
 import {
   Download,
   ArrowUpRight,
+  ShieldCheck,
+  Code2,
+  Network,
+  Cpu,
   MapPin,
-  Briefcase,
-  Clock,
-  Languages,
+  CheckCircle2,
   Terminal,
+  FileCode2,
 } from "lucide-react"
 import Image from "next/image"
 import { PROFILE_DATA } from "@/lib/static-data"
+
+const pillars = [
+  {
+    id: "cybersecurity",
+    num: "01",
+    title: "CYBERSECURITY & DEVSECOPS",
+    subtitle: "Vulnerability Assessments, Threat Mitigation & Defense Strategy",
+    description: "Certified Ethical Hacker (CEH) with deep practical experience conducting penetration tests, network vulnerability audits, DDOS mitigation, and implementing zero-trust security postures across hotel networks and digital systems.",
+    highlights: ["Penetration Testing & Audits", "Threat Analysis & Forensic Mitigation", "Firewall & WAF Configurations", "Employee Security Training & SOPs"]
+  },
+  {
+    id: "fullstack",
+    num: "02",
+    title: "FULL STACK WEB ARCHITECTURE",
+    subtitle: "TypeScript, React, Next.js, Node, Supabase & Cloud Infrastructure",
+    description: "Architecting lightning-fast web applications, creator platforms, and internal tools with modern JavaScript/TypeScript ecosystems, tailored user interfaces, and serverless backend architecture.",
+    highlights: ["Next.js App Router & Server Components", "RESTful & GraphQL API Engineering", "TailwindCSS & Framer Motion UI/UX", "Database Optimization & Cloudflare Workers"]
+  },
+  {
+    id: "infrastructure",
+    num: "03",
+    title: "ENTERPRISE NETWORK SYSTEMS",
+    subtitle: "Linux System Administration, Cisco Networking & Hospitality IT",
+    description: "Managing enterprise IT infrastructure, high-density Wi-Fi networks, server virtualization, and hardware security appliances for premier hospitality brands like IHCL (Indian Hotels Company Limited).",
+    highlights: ["Cisco / Mikrotik Network Deployment", "Linux Server Cluster Management", "High Density Hospitality Wi-Fi Ops", "99.9% Uptime SLA Governance"]
+  },
+  {
+    id: "leadership",
+    num: "04",
+    title: "IT STRATEGY & MANAGEMENT",
+    subtitle: "Budgeting, Vendor Management, Team Leadership & Compliance",
+    description: "Combining technical mastery with business acumen to lead cross-functional IT departments, manage multi-million rupee hardware budgets, and drive digital transformation projects seamlessly.",
+    highlights: ["IT Department Operations & SLA Lead", "Vendor Negotiations & Procurement", "Disaster Recovery & Business Continuity", "Compliance & PCI-DSS Guidelines"]
+  }
+]
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
   const statsInView = useInView(statsRef, { once: true, amount: 0.3 })
 
+  const [activePillar, setActivePillar] = useState<string>("cybersecurity")
   const [mounted, setMounted] = useState(false)
-  const [time, setTime] = useState("")
   const [experienceCount, setExperienceCount] = useState(0)
 
-  // Avoid hydration mismatch by running clock only on client
   useEffect(() => {
     setMounted(true)
-
-    const updateTime = () => {
-      const now = new Date()
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      }
-      setTime(new Intl.DateTimeFormat("en-US", options).format(now))
-    }
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
   }, [])
 
-  // Experience stat counter animation
   useEffect(() => {
     if (statsInView && mounted) {
       let start = 0
@@ -57,11 +76,8 @@ export default function AboutSection() {
       const animate = (now: number) => {
         const elapsed = now - startTime
         const progress = Math.min(elapsed / duration, 1)
-        
-        // Easing out quadratic
         const easeProgress = progress * (2 - progress)
-        const currentCount = Number((easeProgress * end).toFixed(1))
-        setExperienceCount(currentCount)
+        setExperienceCount(Number((easeProgress * end).toFixed(1)))
 
         if (progress < 1) {
           requestAnimationFrame(animate)
@@ -71,206 +87,165 @@ export default function AboutSection() {
     }
   }, [statsInView, mounted])
 
-  const profileData = PROFILE_DATA
-  const { personalInfo } = profileData
-  const interests = profileData.interests || []
+  const currentPillarData = pillars.find((p) => p.id === activePillar) || pillars[0]
 
   return (
-    <section id="about" ref={containerRef} className="py-24 md:py-32 relative overflow-hidden bg-background">
-      {/* Background Decor */}
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)] pointer-events-none" />
-
-      <div className="container max-w-7xl relative z-10 mx-auto px-4 md:px-6">
+    <section id="about" ref={containerRef} className="relative bg-background py-28 md:py-36 border-t border-border">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+        
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mb-16 md:mb-20"
-        >
-          <SectionHeader eyebrow="About Me" title="My" highlight="Journey" />
-        </motion.div>
-
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          
-          {/* Card 1: Portrait Image (Col 1, Row 1-2 on desktop) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="interactive-surface group relative min-h-[400px] overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 shadow-lg md:col-span-1 md:row-span-2 md:min-h-full"
-          >
-            <div className="absolute inset-0 z-0">
-              <Image
-                src="/user/about.jpg"
-                alt={personalInfo.name}
-                fill
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                priority
-              />
-              {/* Vignette overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent transition-opacity duration-500 group-hover:via-background/20 z-10" />
+        <div className="mb-16 border-b border-border pb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              01 // PHILOSOPHY & CAPABILITIES
             </div>
+            <h2 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl">
+              ABOUT & CORE PILLARS
+            </h2>
+          </div>
 
-            <div className="absolute bottom-0 left-0 p-8 w-full z-20">
-              <h3 className="text-2xl font-display font-extrabold text-foreground group-hover:text-primary transition-colors duration-300">
-                {personalInfo.name}
-              </h3>
-              <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                {profileData.availability}
+          <p className="max-w-md font-sans text-base text-muted-foreground font-light leading-relaxed">
+            Bridging bulletproof cyber defense with cutting-edge full stack engineering to build resilient, elegant digital infrastructure.
+          </p>
+        </div>
+
+        {/* Top Editorial Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
+          {/* Portrait Image Block */}
+          <div className="lg:col-span-4 relative group overflow-hidden border-2 border-foreground bg-card min-h-[380px] lg:min-h-full">
+            <Image
+              src="/user/about.jpg"
+              alt="Karthik Lal"
+              fill
+              sizes="(min-width: 1024px) 33vw, 100vw"
+              className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
+            <div className="absolute bottom-0 left-0 p-6 z-10">
+              <span className="inline-block bg-foreground text-background font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest mb-2">
+                IT MANAGER // CEH
+              </span>
+              <h3 className="font-display text-2xl font-black uppercase text-foreground">KARTHIK LAL</h3>
+              <p className="font-mono text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
+                <MapPin className="w-3 h-3 text-foreground" /> KERALA, INDIA
               </p>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Card 2: Minimal Bio Text (Col 2-3, Row 1 on desktop) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            viewport={{ once: true }}
-            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-8 shadow-lg md:col-span-2 md:p-10"
-          >
-            <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-2xl transition-opacity duration-300 pointer-events-none" />
-            
-            <div className="flex flex-col justify-between h-full relative z-10">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-primary">Overview</span>
-                  <div className="h-px flex-1 bg-foreground/10" />
-                </div>
-                
-                <h3 className="text-2xl font-bold font-display text-foreground mb-4 leading-tight">
-                  Engineering secure systems & beautiful interfaces
-                </h3>
-                
-                <p className="text-foreground/80 leading-relaxed text-base md:text-lg">
-                  I am <span className="text-foreground font-bold border-b-2 border-primary/20 pb-0.5">Karthik Lal</span>, an IT Manager and Full-Stack Developer with over <span className="text-foreground font-bold">7 years</span> of experience. I specialize in Linux systems architecture, cybersecurity audits, and modern web applications, currently leading IT operations at <span className="text-foreground font-bold">IHCL</span>, Lakshadweep.
-                </p>
+          {/* Statement & Interactive Tabs */}
+          <div className="lg:col-span-8 border-2 border-border bg-card p-6 md:p-10 flex flex-col justify-between">
+            <div>
+              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">
+                ENGINEERING MANIFESTO
               </div>
+              <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6 uppercase">
+                "Security is not a feature added at the end; it is the fundamental architecture upon which extraordinary products are built."
+              </h3>
+              <p className="font-sans text-muted-foreground text-base leading-relaxed mb-8">
+                With <strong className="text-foreground font-semibold">7.2+ years</strong> of hands-on experience in enterprise IT leadership, penetration testing, and web development, I protect mission-critical operations while engineering high-speed digital solutions.
+              </p>
 
-              <div className="flex flex-wrap gap-4 pt-6 mt-6 border-t border-foreground/5">
-                <AnimatedButton href="/#contact" variant="primary" className="h-10 px-5 text-xs" icon={<ArrowUpRight className="h-3.5 w-3.5" />}>
-                  Let's Connect
-                </AnimatedButton>
-                <AnimatedButton
-                  href="https://drive.google.com/uc?export=download&id=1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u"
-                  variant="outline"
-                  className="h-10 px-5 text-xs border-foreground/10 bg-background/30 hover:border-primary/50"
-                  icon={<Download className="h-3.5 w-3.5" />}
-                >
-                  Download CV
-                </AnimatedButton>
+              {/* Interactive Pillar Selectors */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 border-t border-border pt-6">
+                {pillars.map((pillar) => {
+                  const isActive = activePillar === pillar.id
+                  return (
+                    <button
+                      key={pillar.id}
+                      onClick={() => setActivePillar(pillar.id)}
+                      className={`text-left p-3 border transition-all duration-200 ${
+                        isActive
+                          ? "border-foreground bg-foreground text-background font-bold"
+                          : "border-border bg-background text-muted-foreground hover:border-foreground/50 hover:text-foreground"
+                      }`}
+                    >
+                      <div className="font-mono text-[10px] uppercase opacity-75">{pillar.num}</div>
+                      <div className="font-mono text-xs font-bold uppercase tracking-tight mt-1 truncate">
+                        {pillar.id}
+                      </div>
+                    </button>
+                  )
+                })}
               </div>
             </div>
-          </motion.div>
 
-          {/* Card 3: Metrics & Time Card (Col 2, Row 2 on desktop) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-6 shadow-lg md:col-span-1 md:p-8"
-          >
-            <div className="absolute bottom-0 right-0 -mr-12 -mb-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500 pointer-events-none" />
-
-            <div className="flex flex-col justify-between h-full relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Briefcase className="w-4 h-4 text-primary" />
-                  <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Stats & Time</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            {/* Active Pillar Details Box */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activePillar}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="mt-6 border-2 border-foreground/30 bg-background p-6"
+              >
+                <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
+                  <span className="font-mono text-xs font-bold uppercase tracking-widest text-foreground">
+                    PILLAR {currentPillarData.num} // {currentPillarData.title}
                   </span>
-                  <span className="text-[9px] font-bold text-muted-foreground uppercase">Live</span>
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 items-center divide-x divide-foreground/10 h-full py-2">
-                <div ref={statsRef} className="flex flex-col justify-center">
-                  <div className="flex items-baseline gap-0.5">
-                    <span className="text-4xl md:text-5xl font-extrabold font-display tracking-tight text-foreground">
-                      {mounted ? experienceCount : "7.2"}
-                    </span>
-                    <span className="text-lg font-bold text-primary">+</span>
-                  </div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-0.5">Years Exp</p>
+                <p className="font-mono text-xs font-semibold text-muted-foreground mb-3">
+                  {currentPillarData.subtitle}
+                </p>
+                <p className="font-sans text-sm text-foreground/90 leading-relaxed mb-4">
+                  {currentPillarData.description}
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {currentPillarData.highlights.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2 font-mono text-xs text-foreground">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-foreground shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
-                
-                <div className="flex flex-col justify-center pl-4">
-                  <div className="text-xl font-mono font-bold tracking-tight text-foreground">
-                    {mounted ? time.split(" ")[0] : "00:00:00"}
-                  </div>
-                  <div className="text-[9px] font-semibold text-muted-foreground tracking-wider uppercase mt-1">
-                    {mounted ? time.split(" ")[1] : "AM"} IST
-                  </div>
-                  <p className="text-[9px] text-muted-foreground/75 mt-0.5 flex items-center gap-1">
-                    <MapPin className="w-2.5 h-2.5 text-accent" /> Lakshadweep
-                  </p>
-                </div>
-              </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Stats Grid Bar */}
+        <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="border-2 border-border bg-card p-6 flex flex-col justify-center transition-colors hover:border-foreground">
+            <div className="font-display text-4xl md:text-5xl font-black text-foreground">
+              {mounted ? experienceCount : "7.2"}
+              <span className="text-muted-foreground">+</span>
             </div>
-          </motion.div>
-
-          {/* Card 4: Focus & Languages (Col 3, Row 2 on desktop) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            viewport={{ once: true }}
-            className="interactive-surface group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card/70 p-6 shadow-lg md:col-span-1 md:p-8"
-          >
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-32 h-32 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-all duration-500 pointer-events-none" />
-
-            <div className="flex flex-col justify-between h-full relative z-10">
-              <div className="flex items-center gap-2 mb-4">
-                <Terminal className="w-4 h-4 text-primary" />
-                <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">Focus & Talk</span>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Tech tags */}
-                <div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {interests.slice(0, 4).map((interest) => {
-                      let tagText = interest
-                      if (interest.includes("Development")) tagText = interest.replace(" Development", "")
-                      if (interest.includes("Security")) tagText = interest.replace(" Security", "")
-                      
-                      return (
-                        <span
-                          key={interest}
-                          className="px-2.5 py-1 rounded-lg border border-foreground/5 bg-background/40 text-[10px] font-semibold text-foreground/80 hover:text-primary hover:border-primary/20 transition-colors duration-300 cursor-default"
-                        >
-                          {tagText}
-                        </span>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* Languages */}
-                <div className="border-t border-foreground/5 pt-3 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold">
-                    <Languages className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span>English</span>
-                  </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Malayalam</span>
-                </div>
-              </div>
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mt-2">
+              YEARS ENTERPRISE EXP
             </div>
-          </motion.div>
+          </div>
 
+          <div className="border-2 border-border bg-card p-6 flex flex-col justify-center transition-colors hover:border-foreground">
+            <div className="font-display text-4xl md:text-5xl font-black text-foreground">
+              50<span className="text-muted-foreground">+</span>
+            </div>
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mt-2">
+              SYSTEMS & NODES SECURED
+            </div>
+          </div>
+
+          <div className="border-2 border-border bg-card p-6 flex flex-col justify-center transition-colors hover:border-foreground">
+            <div className="font-display text-4xl md:text-5xl font-black text-foreground">
+              99.9<span className="text-muted-foreground">%</span>
+            </div>
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mt-2">
+              INFRASTRUCTURE UPTIME
+            </div>
+          </div>
+
+          <div className="border-2 border-border bg-card p-6 flex flex-col justify-center transition-colors hover:border-foreground">
+            <div className="font-display text-4xl md:text-5xl font-black text-foreground">
+              CEH
+            </div>
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mt-2">
+              EC-COUNCIL CERTIFIED
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
+

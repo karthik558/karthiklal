@@ -94,15 +94,19 @@ export default function CustomCursor() {
       <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x: trailingX, y: trailingY }}>
         <motion.div
           animate={{
-            width: isHovering ? 48 : 30,
-            height: isHovering ? 48 : 30,
-            x: isHovering ? -24 : -15,
-            y: isHovering ? -24 : -15,
+            width: isHovering ? 48 : 28,
+            height: isHovering ? 48 : 28,
+            x: isHovering ? -24 : -14,
+            y: isHovering ? -24 : -14,
             opacity: isVisible ? 1 : 0,
             scale: isPressed ? 0.82 : 1,
           }}
           transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className={`grid place-items-center rounded-full border backdrop-blur-sm transition-colors duration-200 ${isHovering ? "border-primary bg-primary text-primary-foreground shadow-[0_8px_30px_hsl(var(--primary)/0.28)]" : "border-primary/60 bg-background/10 text-primary"}`}
+          className={`grid place-items-center rounded-full border transition-colors duration-200 ${
+            isHovering
+              ? "border-foreground bg-foreground text-background shadow-lg"
+              : "border-foreground/60 bg-background/20 text-foreground backdrop-blur-sm"
+          }`}
         >
           <AnimatePresence mode="wait">
             {isHovering && (
@@ -115,8 +119,9 @@ export default function CustomCursor() {
       </motion.div>
 
       <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x, y }}>
-        <motion.span animate={{ opacity: isVisible ? 1 : 0, scale: isHovering || isPressed ? 0 : 1 }} className="block h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_12px_hsl(var(--primary)/0.7)]" />
+        <motion.span animate={{ opacity: isVisible ? 1 : 0, scale: isHovering || isPressed ? 0 : 1 }} className="block h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
       </motion.div>
     </div>
   )
 }
+

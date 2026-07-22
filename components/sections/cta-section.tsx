@@ -1,41 +1,56 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Copy, Check, Mail } from "lucide-react"
 import Link from "next/link"
 
 export default function CtaSection() {
+  const [copied, setCopied] = useState(false)
+  const email = "dev@karthiklal.in"
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText(email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
-    <section id="cta" className="relative flex min-h-[34vh] items-center justify-center overflow-hidden bg-background py-16 md:min-h-[42vh] md:py-24">
-      <div className="absolute inset-0 section-gradient-blend bg-[radial-gradient(760px_circle_at_50%_48%,hsl(var(--primary)/0.04),transparent_62%)]" />
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
+    <section id="cta" className="relative bg-background py-28 md:py-36 border-t-2 border-foreground">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+        <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
+          
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
+            INITIATE COLLABORATION // CONTACT
+          </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        className="container relative z-10 mx-auto px-4"
-      >
-        <Link
-          href="/contact"
-          className="group relative mx-auto flex w-fit items-center gap-4 px-2 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background md:gap-6"
-        >
-          <span className="absolute -inset-x-8 top-1/2 h-20 -translate-y-1/2 rounded-full bg-primary/0 blur-3xl transition duration-500 group-hover:scale-110 group-hover:bg-primary/16" />
+          <h2 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-8">
+            HAVE A PROJECT IN MIND?
+          </h2>
 
-          <span className="relative overflow-hidden">
-            <h2 className="font-display text-5xl font-black leading-none tracking-tight text-foreground transition duration-500 group-hover:-translate-y-0.5 sm:text-6xl md:text-8xl lg:text-[8rem]">
-              Let&apos;s <span className="text-primary transition-colors duration-500 group-hover:text-accent">Connect</span>
-            </h2>
-            <span className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 rounded-full bg-primary transition duration-500 group-hover:scale-x-100" />
-          </span>
+          <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg text-muted-foreground font-light leading-relaxed mb-10">
+            Whether you need enterprise IT management, a thorough security audit, or a high-performance web platform — let's work together.
+          </p>
 
-          <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full border border-primary/25 bg-primary/10 text-primary transition duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:bg-primary group-hover:text-primary-foreground md:h-16 md:w-16">
-            <ArrowUpRight className="h-5 w-5 md:h-7 md:w-7" />
-          </span>
-          <span className="sr-only">Open contact page</span>
-        </Link>
-      </motion.div>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background font-mono text-sm font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors"
+            >
+              GET IN TOUCH DIRECTLY <ArrowUpRight className="w-4 h-4" />
+            </Link>
+
+            <button
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border bg-background text-foreground font-mono text-sm font-bold uppercase tracking-wider hover:border-foreground transition-colors"
+            >
+              {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+              <span>{copied ? "EMAIL COPIED!" : "COPY EMAIL"}</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
+

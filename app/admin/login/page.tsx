@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Lock, User, ArrowRight, Loader2 } from "lucide-react"
+import { Lock, User, ArrowRight, Loader2, ShieldCheck } from "lucide-react"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 
 export default function AdminLoginPage() {
@@ -27,25 +27,26 @@ export default function AdminLoginPage() {
       })
 
       if (res.ok) {
-        // Refresh router and redirect to admin dashboard
         router.push("/admin")
         router.refresh()
       } else {
         const data = await res.json()
-        setError(data.error || "Invalid credentials")
+        setError(data.error || "INVALID CREDENTIALS")
       }
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError("AN ERROR OCCURRED. PLEASE RETRY.")
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background relative overflow-hidden p-4">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_15%_15%,hsl(var(--primary)/0.08),transparent_65%),radial-gradient(600px_circle_at_85%_85%,hsl(var(--accent)/0.06),transparent_65%)] pointer-events-none" />
+    <main className="min-h-screen w-full flex items-center justify-center bg-background p-4 relative font-mono text-xs uppercase">
+      {/* Background Stark Grid Pattern */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-background" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8881_1px,transparent_1px),linear-gradient(to_bottom,#8881_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-70 pointer-events-none" />
+      </div>
 
       {/* Theme Toggle in top right */}
       <div className="absolute top-6 right-6 z-50">
@@ -53,94 +54,79 @@ export default function AdminLoginPage() {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[420px] relative z-10"
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md relative z-10"
       >
-        <div className="relative overflow-hidden bg-card/65 backdrop-blur-xl border border-border/80 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-primary/5 group">
-          {/* Neon Top Border Highlight */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(350px_circle_at_50%_0%,hsl(var(--primary)/0.06),transparent_50%)]" />
-
-          {/* Logo */}
-          <div className="flex justify-center mb-8 relative z-10">
-            <div className="relative w-16 h-16 transform hover:scale-110 transition-transform duration-500">
-              <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain drop-shadow-md" priority />
-              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain drop-shadow-[0_0_15px_rgba(214,72,63,0.4)]" priority />
+        <div className="border-2 border-foreground bg-card p-8 sm:p-10 shadow-2xl space-y-6">
+          
+          {/* Header */}
+          <div className="text-center space-y-3 border-b-2 border-border pb-6">
+            <div className="inline-flex items-center gap-2 border border-border bg-background px-3 py-1 font-bold text-[10px] uppercase">
+              <ShieldCheck className="w-3.5 h-3.5" /> RESTRICTED ACCESS
             </div>
+
+            <h1 className="font-display text-3xl font-black uppercase tracking-tight text-foreground">
+              ADMINISTRATOR
+            </h1>
+            <p className="text-muted-foreground text-xs">
+              SECURE PORTAL AUTHENTICATION
+            </p>
           </div>
 
-          <div className="text-center mb-8 relative z-10">
-            <h1 className="text-2xl font-bold font-display tracking-tight text-foreground mb-2">Welcome Back</h1>
-            <p className="text-sm text-muted-foreground">Sign in to access your portfolio dashboard</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-5 relative z-10">
-            <div className="space-y-1">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground/60 group-focus-within:text-primary transition-colors">
-                  <User className="w-5 h-5" />
-                </div>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="block uppercase tracking-wider text-muted-foreground mb-2">USERNAME</label>
+              <div className="relative">
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="text"
                   required
-                  placeholder="Username"
+                  placeholder="ENTER USERNAME"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3.5 bg-background/40 border border-border/70 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/60 transition-all text-foreground placeholder:text-muted-foreground/50"
+                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground uppercase focus:outline-none focus:border-foreground"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground/60 group-focus-within:text-primary transition-colors">
-                  <Lock className="w-5 h-5" />
-                </div>
+            <div>
+              <label className="block uppercase tracking-wider text-muted-foreground mb-2">PASSWORD</label>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="password"
                   required
-                  placeholder="Password"
+                  placeholder="ENTER PASSWORD"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3.5 bg-background/40 border border-border/70 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/60 transition-all text-foreground placeholder:text-muted-foreground/50"
+                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground uppercase focus:outline-none focus:border-foreground"
                 />
               </div>
             </div>
 
             {error && (
-              <motion.div 
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                className="text-destructive text-sm font-medium text-center bg-destructive/10 py-2.5 rounded-lg border border-destructive/20"
-              >
+              <div className="text-destructive font-bold text-center border border-destructive/40 bg-destructive/10 p-3">
                 {error}
-              </motion.div>
+              </div>
             )}
 
             <button
               type="submit"
               disabled={isLoading}
-              className="relative w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] py-3.5 rounded-xl font-bold transition-all duration-300 disabled:opacity-70 disabled:pointer-events-none overflow-hidden group/btn"
+              className="w-full py-4 bg-foreground text-background font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
             >
-              <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                </>
-              )}
+              {isLoading ? "AUTHENTICATING..." : "SIGN IN TO DASHBOARD"} <ArrowRight className="w-4 h-4" />
             </button>
           </form>
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-8 font-medium">
-          &copy; {new Date().getFullYear()} Karthik Lal. Secure Area.
+        <p className="text-center text-[10px] text-muted-foreground mt-6 uppercase tracking-widest font-mono">
+          © {new Date().getFullYear()} KARTHIK LAL // SECURE ADMIN PORTAL
         </p>
       </motion.div>
-    </div>
+    </main>
   )
 }
+

@@ -1,51 +1,173 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Check, Cloud, Code2, Palette, Shield } from "lucide-react"
-import { SectionHeader } from "@/components/ui/section-header"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowUpRight, Check, Shield, Code2, Cloud, Palette, ChevronDown, Sparkles } from "lucide-react"
+import Link from "next/link"
 import servicesData from "@/public/data/services.json"
 
 const iconMap = { Shield, Code2, Cloud, Palette }
 
-const serviceCapabilities: Record<string, string[]> = {
-  "Network Security & Penetration Testing": ["Security audits", "Vulnerability checks", "Policy hardening"],
-  "Full Stack Web Development": ["React / Next.js", "Secure backends", "Scalable systems"],
-  "Cloud Hosting & Virtualization": ["AWS setup", "VMware management", "Reliable deployments"],
-  "Graphic Design & Branding": ["Brand identity", "Marketing assets", "UI/UX design"],
+const serviceDetails: Record<string, { deliverables: string[]; highlight: string }> = {
+  "Network Security & Penetration Testing": {
+    deliverables: [
+      "Full Network Penetration Testing & Vulnerability Assessment",
+      "WAF & Firewall Security Rule Configurations",
+      "DDoS Defense & Incident Response Planning",
+      "PCI-DSS Compliance Audits & Staff Training"
+    ],
+    highlight: "Securing corporate networks and hospitality infrastructures against zero-day threats."
+  },
+  "Full Stack Web Development": {
+    deliverables: [
+      "Custom Next.js & React Web Application Engineering",
+      "High-Performance API Design & Supabase Backend Systems",
+      "Framer Motion Micro-Interactions & Responsive UI/UX",
+      "SEO Optimization, Analytics & Cloudflare Deployment"
+    ],
+    highlight: "Building hyper-fast, scalable digital products that deliver real user engagement."
+  },
+  "Cloud Hosting & Virtualization": {
+    deliverables: [
+      "VMware ESXi Cluster Setup & Server Virtualization",
+      "AWS / Cloudflare Zero-Trust Network Architecture",
+      "Disaster Recovery, Automated Backups & High Availability",
+      "Linux Server Administration & System Performance Tuning"
+    ],
+    highlight: "Ensuring 99.9% uptime SLAs across server clusters and distributed networks."
+  },
+  "Graphic Design & Branding": {
+    deliverables: [
+      "Comprehensive Visual Identity & Brand Guidelines",
+      "Ui/UX Wireframing & Interactive Prototypes",
+      "High-Resolution Print & Digital Marketing Collateral",
+      "Social Media Visual Systems & Video Post-Production"
+    ],
+    highlight: "Crafting memorable, bold visual languages for brands and digital products."
+  }
 }
 
 export default function ServicesSection() {
-  return (
-    <section id="services" className="relative overflow-hidden bg-background py-20 md:py-24 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 section-gradient-blend bg-[radial-gradient(900px_circle_at_12%_18%,hsl(var(--primary)/0.11),transparent_62%)]" />
-      <div className="container relative z-10">
-        <div className="mb-10 lg:mb-12"><SectionHeader eyebrow="Services" title="Expert" highlight="Solutions" align="left" /></div>
+  const [expandedId, setExpandedId] = useState<number | null>(1)
 
-        <div className="grid gap-4 md:grid-cols-2">
+  return (
+    <section id="services" className="relative bg-background py-28 md:py-36 border-t border-border">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+        
+        {/* Section Header */}
+        <div className="mb-14 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              05 // SERVICES & OFFERINGS
+            </div>
+            <h2 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl">
+              WHAT I DELIVER
+            </h2>
+          </div>
+
+          <p className="max-w-md font-sans text-sm text-muted-foreground font-light leading-relaxed">
+            End-to-end technical execution from initial security hardening to full-stack platform launches.
+          </p>
+        </div>
+
+        {/* Accordion / Cards List */}
+        <div className="space-y-6">
           {servicesData.services.map((service, index) => {
-            const Icon = iconMap[service.icon as keyof typeof iconMap]
-            const capabilities = serviceCapabilities[service.title] || []
+            const Icon = iconMap[service.icon as keyof typeof iconMap] || Shield
+            const details = serviceDetails[service.title] || { deliverables: [], highlight: "" }
+            const isExpanded = expandedId === service.id
+            const numStr = String(index + 1).padStart(2, "0")
 
             return (
               <motion.article
                 key={service.id}
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="interactive-surface group rounded-2xl border border-border/70 bg-card/60 p-5 sm:p-6"
+                className={`border-2 transition-all duration-300 ${
+                  isExpanded ? "border-foreground bg-card shadow-2xl" : "border-border bg-card/60 hover:border-foreground/60"
+                }`}
               >
-                <div className="flex items-start justify-between gap-5">
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><Icon className="h-5 w-5" /></div>
-                  <span className="font-display text-2xl font-bold text-muted-foreground/20">{String(index + 1).padStart(2, "0")}</span>
-                </div>
-                <h3 className="mt-5 font-display text-xl font-bold leading-tight tracking-tight transition-colors group-hover:text-primary md:text-2xl">{service.title}</h3>
-                <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">{service.description}</p>
-                <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-border/60 pt-4">
-                  {capabilities.map((capability) => (
-                    <span key={capability} className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground/70"><Check className="h-3 w-3 text-primary" />{capability}</span>
-                  ))}
-                </div>
+                {/* Accordion Header */}
+                <button
+                  onClick={() => setExpandedId(isExpanded ? null : service.id)}
+                  className="w-full p-6 md:p-8 flex items-center justify-between text-left focus:outline-none"
+                >
+                  <div className="flex items-center gap-6">
+                    <span className="font-mono text-xl md:text-2xl font-black text-muted-foreground">
+                      {numStr}
+                    </span>
+
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 border border-foreground bg-foreground text-background hidden sm:block">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="font-display text-2xl md:text-3xl font-black uppercase text-foreground">
+                        {service.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-xs uppercase text-muted-foreground hidden md:block">
+                      {isExpanded ? "COLLAPSE" : "EXPAND DETAILS"}
+                    </span>
+                    <div className={`p-2 border border-border transition-transform duration-300 ${isExpanded ? "rotate-180 bg-foreground text-background" : "bg-background text-foreground"}`}>
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </div>
+                </button>
+
+                {/* Accordion Expanded Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-border px-6 md:px-8 py-8 bg-background"
+                    >
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <div className="lg:col-span-6">
+                          <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
+                            SERVICE OVERVIEW
+                          </div>
+                          <p className="font-sans text-base text-foreground leading-relaxed mb-6">
+                            {service.description}
+                          </p>
+
+                          <div className="p-4 border-l-4 border-foreground bg-card font-mono text-xs text-foreground/90 leading-relaxed">
+                            "{details.highlight}"
+                          </div>
+                        </div>
+
+                        <div className="lg:col-span-6">
+                          <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
+                            KEY DELIVERABLES
+                          </div>
+
+                          <div className="space-y-2.5 mb-8">
+                            {details.deliverables.map((item, idx) => (
+                              <div key={idx} className="flex items-start gap-3 font-mono text-xs text-foreground">
+                                <Check className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
+                                <span>{item}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          <Link
+                            href="/contact"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors"
+                          >
+                            INITIATE SERVICE INQUIRY <ArrowUpRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.article>
             )
           })}
@@ -54,3 +176,4 @@ export default function ServicesSection() {
     </section>
   )
 }
+

@@ -17,23 +17,23 @@ interface VisualEditorProps {
 
 const ImageInput = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => {
   return (
-    <div className="space-y-2">
-      <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
+    <div className="space-y-2 font-mono text-xs uppercase">
+      <label className="font-bold text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-        <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-background/40 border border-border/80 border-dashed flex items-center justify-center shrink-0 shadow-inner">
+        <div className="relative w-24 h-24 border-2 border-border bg-background flex items-center justify-center shrink-0 overflow-hidden">
           {value ? (
             <Image src={value.startsWith('http') ? value : (value.startsWith('/') ? value : `/${value}`)} alt="Preview" fill className="object-cover" unoptimized />
           ) : (
-            <ImageIcon className="w-6 h-6 text-muted-foreground/45" />
+            <ImageIcon className="w-6 h-6 text-muted-foreground" />
           )}
         </div>
         <div className="flex-1 w-full">
           <input
             type="text"
-            className="w-full bg-background/40 border border-border/70 rounded-xl p-3 text-sm focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all text-foreground placeholder:text-muted-foreground/40"
+            className="w-full bg-background border-2 border-border p-3 text-xs text-foreground uppercase focus:outline-none focus:border-foreground"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="/image-path.jpg or https://..."
+            placeholder="/IMAGE-PATH.JPG OR HTTPS://..."
           />
         </div>
       </div>
@@ -42,10 +42,10 @@ const ImageInput = ({ label, value, onChange }: { label: string; value: string; 
 }
 
 const TextareaInput = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => (
-  <div className="space-y-2">
-    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
+  <div className="space-y-2 font-mono text-xs uppercase">
+    <label className="font-bold text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
     <textarea
-      className="w-full bg-background/40 border border-border/70 rounded-xl p-3 text-sm focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all text-foreground placeholder:text-muted-foreground/40 min-h-[120px]"
+      className="w-full bg-background border-2 border-border p-3 text-xs text-foreground uppercase focus:outline-none focus:border-foreground min-h-[120px]"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
@@ -55,12 +55,12 @@ const TextareaInput = ({ label, value, onChange }: { label: string; value: strin
 const TextInput = ({ label, value, onChange, type = "text", options = [] }: { label: string; value: string | number; onChange: (v: any) => void; type?: string; options?: string[] }) => {
   const listId = options.length > 0 ? `${label.replace(/\s+/g, '-')}-options` : undefined;
   return (
-    <div className="space-y-2">
-      <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
+    <div className="space-y-2 font-mono text-xs uppercase">
+      <label className="font-bold text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
       <input
         type={type}
         list={listId}
-        className="w-full bg-background/40 border border-border/70 rounded-xl p-3 text-sm focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all text-foreground placeholder:text-muted-foreground/40"
+        className="w-full bg-background border-2 border-border p-3 text-xs text-foreground uppercase focus:outline-none focus:border-foreground"
         value={value}
         onChange={(e) => onChange(type === 'number' ? Number(e.target.value) : e.target.value)}
       />
@@ -76,16 +76,16 @@ const TextInput = ({ label, value, onChange, type = "text", options = [] }: { la
 }
 
 const ToggleInput = ({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) => (
-  <div className="flex items-center justify-between p-4 rounded-xl border border-border/60 bg-card/45 backdrop-blur-sm shadow-sm transition-all hover:bg-card/75">
-    <label className="text-sm font-semibold text-foreground capitalize cursor-pointer" onClick={() => onChange(!value)}>
+  <div className="flex items-center justify-between p-4 border-2 border-border bg-card font-mono text-xs uppercase">
+    <label className="font-bold text-foreground cursor-pointer" onClick={() => onChange(!value)}>
       {label.replace(/([A-Z])/g, ' $1').trim()}
     </label>
     <button
       type="button"
       onClick={() => onChange(!value)}
-      className={`relative w-12 h-6 rounded-full p-1 transition-colors duration-300 ${value ? 'bg-primary shadow-lg shadow-primary/20' : 'bg-muted-foreground/20'}`}
+      className={`px-4 py-1.5 border border-foreground font-bold text-xs uppercase ${value ? 'bg-foreground text-background' : 'bg-background text-muted-foreground'}`}
     >
-      <div className={`absolute top-1 bottom-1 w-4 rounded-full bg-white transition-transform duration-300 ${value ? 'translate-x-6' : 'translate-x-0'}`} />
+      {value ? "ENABLED" : "DISABLED"}
     </button>
   </div>
 )
@@ -105,13 +105,13 @@ const TagsInput = ({ label, value, onChange, options = [] }: { label: string; va
   }
 
   return (
-    <div className="space-y-2">
-      <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
-      <div className="p-2.5 bg-background/40 border border-border/70 rounded-xl flex flex-wrap gap-2 items-center focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+    <div className="space-y-2 font-mono text-xs uppercase">
+      <label className="font-bold text-muted-foreground">{label.replace(/([A-Z])/g, ' $1').trim()}</label>
+      <div className="p-3 bg-background border-2 border-border flex flex-wrap gap-2 items-center">
         {value.map((tag, i) => (
-          <span key={i} className="flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-lg">
+          <span key={i} className="flex items-center gap-1.5 bg-foreground text-background font-bold text-xs px-2.5 py-1 uppercase">
             {tag}
-            <button onClick={() => onChange(value.filter((_, idx) => idx !== i))} className="hover:text-destructive transition-colors">
+            <button onClick={() => onChange(value.filter((_, idx) => idx !== i))} className="hover:opacity-70">
               <X className="w-3 h-3" />
             </button>
           </span>
@@ -119,8 +119,8 @@ const TagsInput = ({ label, value, onChange, options = [] }: { label: string; va
         <input
           type="text"
           list={listId}
-          className="flex-1 bg-transparent min-w-[120px] text-sm focus:outline-none text-foreground placeholder:text-muted-foreground/40"
-          placeholder="Type and press Enter to add..."
+          className="flex-1 bg-transparent min-w-[120px] text-xs focus:outline-none text-foreground uppercase placeholder:text-muted-foreground"
+          placeholder="TYPE AND PRESS ENTER..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={addTag}
@@ -325,43 +325,44 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
   }
 
   return (
-    <div className="space-y-8 pb-20 relative">
+    <div className="space-y-8 pb-20 relative font-mono text-xs uppercase">
       
       {/* Header Panel */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-card/65 p-5 sm:p-6 rounded-2xl border border-border/80 shadow-sm sticky top-0 z-20 backdrop-blur-md gap-4 overflow-hidden">
-        {/* Neon Bottom border line */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-        
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-2 border-foreground bg-card p-6 shadow-2xl sticky top-0 z-20 gap-4">
         <div>
-          <h2 className="text-2xl font-display font-extrabold capitalize text-foreground">{modelName.replace("-", " ")}</h2>
-          <p className="text-sm text-muted-foreground mt-0.5">Visually manage your live website data entries</p>
+          <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-mono mb-1">
+            MODULE EDITOR // {modelName.toUpperCase()}
+          </div>
+          <h2 className="font-display text-3xl font-black uppercase text-foreground">{modelName.replace("-", " ")}</h2>
         </div>
         
-        <div className="flex items-center gap-3 w-full sm:w-auto relative z-10">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
           {isArrayModel && (
             <button
               onClick={openNewDrawer}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-secondary text-secondary-foreground border border-border/60 px-5 py-2.5 rounded-full font-bold hover:bg-secondary/80 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-sm"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 border-2 border-border bg-background px-5 py-3 text-foreground font-bold hover:border-foreground transition-colors"
             >
-              <PlusCircle className="w-4 h-4 text-primary" />
-              Add New
+              <PlusCircle className="w-4 h-4" />
+              ADD NEW RECORD
             </button>
           )}
           
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-full font-bold hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-70 disabled:pointer-events-none relative overflow-hidden group/save"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 border-2 border-foreground bg-foreground text-background font-bold px-6 py-3 hover:bg-foreground/90 transition-colors disabled:opacity-50"
           >
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover/save:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
             {isSaving ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span>SAVING...</span>
             ) : saveSuccess ? (
-              <Check className="w-4 h-4" />
+              <>
+                <Check className="w-4 h-4" /> SAVED
+              </>
             ) : (
-              <Save className="w-4 h-4" />
+              <>
+                <Save className="w-4 h-4" /> SAVE CHANGES
+              </>
             )}
-            {isSaving ? "Saving..." : saveSuccess ? "Saved!" : "Save Changes"}
           </button>
         </div>
       </div>
@@ -371,7 +372,6 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>
             {arrayData?.map((item: any, idx: number) => {
-              // Try to find the best display properties
               const title = item.title || item.name || item.company || item.platform || `Item ${idx + 1}`
               const image = item.image || item.logo || item.avatar
               const subtitle = item.category || item.role || item.position || (item.technologies && item.technologies.join(', '))
@@ -379,37 +379,34 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
               return (
                 <motion.div
                   layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
                   key={item.id || idx}
-                  className="relative overflow-hidden rounded-2xl border border-border/70 bg-card/65 p-0 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_42px_rgba(var(--primary-rgb),0.08)] group flex flex-col h-full"
+                  className="border-2 border-border bg-card hover:border-foreground transition-all duration-300 group flex flex-col justify-between"
                 >
-                  {/* Card Glowing Line */}
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent z-10" />
-
                   {/* Thumbnail area */}
-                  <div className="relative h-44 bg-muted/40 border-b border-border/50 flex items-center justify-center p-4 overflow-hidden shrink-0">
+                  <div className="relative h-44 bg-background border-b-2 border-border flex items-center justify-center overflow-hidden shrink-0">
                     {image ? (
                       <Image 
                         src={image.startsWith('http') ? image : (image.startsWith('/') ? image : `/${image}`)} 
                         alt={title} 
                         fill 
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
                         unoptimized
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-display font-bold uppercase shadow-inner">
+                      <div className="w-12 h-12 border border-border bg-card flex items-center justify-center text-foreground font-display font-black text-xl">
                         {title.charAt(0)}
                       </div>
                     )}
                     
                     {/* Action Overlay */}
-                    <div className="absolute inset-0 bg-background/80 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 z-20">
+                    <div className="absolute inset-0 bg-background/90 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2 z-20">
                       {idx > 0 && (
                         <button 
                           onClick={() => moveToTop(idx)}
-                          className="bg-secondary text-secondary-foreground p-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md"
+                          className="p-2.5 border border-border bg-card text-foreground hover:border-foreground"
                           title="Move to Top"
                         >
                           <ArrowUp className="w-4 h-4" />
@@ -417,13 +414,13 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                       )}
                       <button 
                         onClick={() => openDrawer(idx)}
-                        className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-md shadow-primary/20"
+                        className="px-4 py-2 bg-foreground text-background font-bold text-xs uppercase"
                       >
-                        Edit
+                        EDIT
                       </button>
                       <button 
                         onClick={() => deleteItem(idx)}
-                        className="bg-destructive text-destructive-foreground p-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md"
+                        className="p-2.5 border border-destructive/50 bg-destructive/10 text-destructive hover:bg-destructive hover:text-destructive-foreground"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -432,10 +429,10 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                   </div>
                   
                   {/* Info area */}
-                  <div className="p-5 flex flex-col flex-1 relative z-10 bg-card/40">
-                    <h3 className="font-display font-bold text-foreground text-base line-clamp-1 group-hover:text-primary transition-colors">{title}</h3>
+                  <div className="p-4 flex flex-col justify-between flex-1 space-y-2">
+                    <h3 className="font-display font-black text-foreground text-lg uppercase truncate">{title}</h3>
                     {subtitle && (
-                      <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">{subtitle}</p>
+                      <p className="font-mono text-xs text-muted-foreground truncate">{subtitle}</p>
                     )}
                   </div>
                 </motion.div>
@@ -444,18 +441,16 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
           </AnimatePresence>
 
           {arrayData?.length === 0 && (
-            <div className="col-span-full py-24 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-border/70 rounded-2xl bg-card/20 backdrop-blur-sm">
-              <PlusCircle className="w-12 h-12 mb-4 text-primary/40" />
-              <p className="font-display font-bold text-lg text-foreground">No entries yet</p>
-              <p className="text-sm mt-1">Click 'Add New' to create your first content item.</p>
+            <div className="col-span-full py-20 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-border bg-card">
+              <PlusCircle className="w-10 h-10 mb-3 text-foreground" />
+              <p className="font-display font-black text-xl text-foreground">NO RECORDS CREATED</p>
+              <p className="text-xs mt-1">CLICK 'ADD NEW RECORD' TO INITIALIZE DATA.</p>
             </div>
           )}
         </div>
       ) : (
         /* Object: Full Page Form View */
-        <div className="bg-card/65 p-6 md:p-8 rounded-2xl border border-border/75 shadow-sm backdrop-blur max-w-4xl mx-auto relative overflow-hidden">
-          {/* Neon Top highlight */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
+        <div className="border-2 border-foreground bg-card p-6 md:p-8 max-w-4xl mx-auto space-y-6">
           <DynamicForm data={data} onChange={setData} optionsMap={optionsMap} />
         </div>
       )}
@@ -470,7 +465,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setEditingIndex(null)}
-              className="fixed inset-0 bg-background/60 backdrop-blur-md z-40"
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
             />
             
             {/* Drawer */}
@@ -478,35 +473,31 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 w-full max-w-md bg-card/90 backdrop-blur-2xl border-l border-border/80 shadow-2xl z-50 flex flex-col h-[100dvh]"
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-y-0 right-0 w-full max-w-lg bg-card border-l-2 border-foreground shadow-2xl z-50 flex flex-col h-[100dvh] font-mono text-xs uppercase"
             >
-              {/* Neon Line border */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent z-10" />
-
-              <div className="flex items-center justify-between p-6 border-b border-border/50 shrink-0 relative z-10">
-                <h3 className="text-xl font-display font-bold text-foreground capitalize">
-                  {editingIndex === -1 ? 'Add New Item' : 'Edit Item'}
+              <div className="flex items-center justify-between p-6 border-b-2 border-border shrink-0">
+                <h3 className="font-display text-2xl font-black uppercase text-foreground">
+                  {editingIndex === -1 ? 'ADD NEW ITEM' : 'EDIT ITEM'}
                 </h3>
                 <button 
                   onClick={() => setEditingIndex(null)}
-                  className="w-8 h-8 rounded-full bg-muted/65 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/90 transition-colors"
+                  className="p-2 border-2 border-foreground bg-foreground text-background font-bold"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
               
-              <div className="flex-1 overflow-y-auto p-6 scrollbar-hide relative z-10">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 <DynamicForm data={drawerData} onChange={setDrawerData} optionsMap={optionsMap} />
               </div>
               
-              <div className="p-6 border-t border-border/50 shrink-0 bg-background/50 backdrop-blur-md relative z-10">
+              <div className="p-6 border-t-2 border-border shrink-0 bg-background">
                 <button
                   onClick={saveDrawer}
-                  className="relative w-full bg-primary text-primary-foreground py-3.5 rounded-xl font-bold hover:bg-primary/95 hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-md overflow-hidden group/drawer-btn"
+                  className="w-full bg-foreground text-background py-4 font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors"
                 >
-                  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover/drawer-btn:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
-                  Apply Changes
+                  APPLY CHANGES
                 </button>
               </div>
             </motion.div>
@@ -517,3 +508,4 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     </div>
   )
 }
+

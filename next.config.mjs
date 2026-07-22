@@ -13,6 +13,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'mir-s3-cdn-cf.behance.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
     ],
   },
   experimental: {
