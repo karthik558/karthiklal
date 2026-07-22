@@ -13,17 +13,21 @@ export default function Footer() {
   return (
     <footer className="relative bg-background border-t-2 border-foreground pt-16 pb-12 overflow-hidden">
       
-      {/* Background Stroke Typography for Depth */}
-      <div className="absolute inset-x-0 bottom-6 pointer-events-none select-none overflow-hidden text-center opacity-[0.07] z-0">
-        <span
-          className="font-display text-[18vw] font-black uppercase tracking-tighter text-transparent leading-none whitespace-nowrap block"
-          style={{
-            WebkitTextStroke: "2px hsl(var(--foreground))",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          KARTHIK LAL
-        </span>
+      {/* Background Typography for Depth - Identical to Hero Section Design */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none overflow-hidden opacity-15 dark:opacity-20">
+        <div className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[15vw] sm:text-[17vw] md:text-[20vw] font-black uppercase tracking-tighter leading-none select-none">
+          <span className="text-foreground">KARTHIK</span>
+          <span className="inline-block w-[0.25em]" />
+          <span
+            style={{
+              WebkitTextStroke: "2.5px hsl(var(--foreground))",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+            }}
+          >
+            LAL
+          </span>
+        </div>
       </div>
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
