@@ -81,9 +81,22 @@ export default function ExperienceSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.35, delay: index * 0.04 }}
-                  className="group relative border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl"
+                  className="group relative border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  {/* Background Stroke Company Name Watermark - Restricted to 55% - 100% Right Zone Only */}
+                  <div className="absolute left-[55%] right-2 bottom-1 top-0 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.08] z-0 transition-opacity duration-300 group-hover:opacity-15 flex items-end justify-end">
+                    <span
+                      className="font-display text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent leading-none whitespace-nowrap block text-right"
+                      style={{
+                        WebkitTextStroke: "2px hsl(var(--foreground))",
+                        WebkitTextFillColor: "transparent",
+                      }}
+                    >
+                      {item.company}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
                     
                     {/* Left: Duration & Num */}
                     <div className="md:col-span-3 flex md:flex-col justify-between md:justify-center border-b md:border-b-0 md:border-r border-border pb-4 md:pb-0 md:pr-6">
@@ -97,18 +110,17 @@ export default function ExperienceSection() {
 
                     {/* Middle: Title & Company */}
                     <div className="md:col-span-8">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-widest border border-foreground bg-foreground text-background px-2 py-0.5">
-                          {item.company}
-                        </span>
+                      <div className="flex flex-wrap items-center gap-3 mb-1 font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                        <span className="text-foreground font-semibold">{item.company}</span>
                         {isCurrent && (
-                          <span className="font-mono text-[10px] font-bold uppercase tracking-widest border border-emerald-500 text-emerald-500 px-2 py-0.5">
-                            ACTIVE
+                          <span className="inline-flex items-center gap-1 text-[10px] border border-emerald-500/80 text-emerald-500 px-2 py-0.5 font-bold">
+                            <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse inline-block" />
+                            CURRENT
                           </span>
                         )}
                       </div>
 
-                      <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4">
+                      <h3 className="font-display text-xl sm:text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4">
                         {item.title}
                       </h3>
                     </div>
