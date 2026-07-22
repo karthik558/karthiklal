@@ -83,16 +83,16 @@ export default function ExperienceSection() {
                   transition={{ duration: 0.35, delay: index * 0.04 }}
                   className="group relative border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
                 >
-                  {/* Background Stroke Company Name Watermark - Restricted to 55% - 100% Right Zone Only */}
-                  <div className="absolute left-[55%] right-2 bottom-1 top-0 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.08] z-0 transition-opacity duration-300 group-hover:opacity-15 flex items-end justify-end">
+                  {/* Background Giant Stroke Number Watermark */}
+                  <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
                     <span
-                      className="font-display text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-transparent leading-none whitespace-nowrap block text-right"
+                      className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
                       style={{
-                        WebkitTextStroke: "2px hsl(var(--foreground))",
+                        WebkitTextStroke: "2.5px hsl(var(--foreground))",
                         WebkitTextFillColor: "transparent",
                       }}
                     >
-                      {item.company}
+                      {numStr}
                     </span>
                   </div>
 

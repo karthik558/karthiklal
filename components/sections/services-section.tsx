@@ -85,18 +85,31 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={`border-2 transition-all duration-300 ${
+                className={`group relative border-2 transition-all duration-300 overflow-hidden ${
                   isExpanded ? "border-foreground bg-card shadow-2xl" : "border-border bg-card/60 hover:border-foreground/60"
                 }`}
               >
+                {/* Background Giant Stroke Number Watermark */}
+                <div className="absolute right-4 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                  <span
+                    className="font-display text-8xl md:text-9xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                    style={{
+                      WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {numStr}
+                  </span>
+                </div>
+
                 {/* Accordion Header */}
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : service.id)}
-                  className="w-full p-6 md:p-8 flex items-center justify-between text-left focus:outline-none"
+                  className="w-full p-6 md:p-8 flex items-center justify-between text-left focus:outline-none relative z-10"
                 >
                   <div className="flex items-center gap-6">
                     <span className="font-mono text-xl md:text-2xl font-black text-muted-foreground">
-                      {numStr}
+                      [{numStr}]
                     </span>
 
                     <div className="flex items-center gap-4">
@@ -127,14 +140,14 @@ export default function ServicesSection() {
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="border-t border-border px-6 md:px-8 py-8 bg-background"
+                      className="border-t border-border px-6 md:px-8 py-8 bg-background relative z-10"
                     >
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         <div className="lg:col-span-6">
                           <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
                             SERVICE OVERVIEW
                           </div>
-                          <p className="font-sans text-base text-foreground leading-relaxed mb-6">
+                          <p className="font-sans text-base text-foreground leading-relaxed mb-6 font-light">
                             {service.description}
                           </p>
 
@@ -159,7 +172,7 @@ export default function ServicesSection() {
 
                           <Link
                             href="/contact"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider hover:bg-background hover:text-foreground transition-all duration-300"
                           >
                             INITIATE SERVICE INQUIRY <ArrowUpRight className="w-4 h-4" />
                           </Link>

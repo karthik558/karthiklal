@@ -90,55 +90,70 @@ export default function CertificationsSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.35, delay: index * 0.04 }}
-                  className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl"
+                  className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
                 >
-                  <div>
-                    <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
-                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                        [{numStr}] // {item.issuer}
-                      </span>
-                      <span className={`font-mono text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 border ${
-                        isActive ? "border-emerald-500 text-emerald-500" : "border-border text-muted-foreground"
-                      }`}>
-                        {item.status}
-                      </span>
-                    </div>
-
-                    <h3 className="font-display text-2xl font-black uppercase text-foreground leading-tight mb-4 group-hover:underline underline-offset-4">
-                      {item.title}
-                    </h3>
+                  {/* Background Giant Stroke Number Watermark */}
+                  <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                    <span
+                      className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                      style={{
+                        WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                        WebkitTextFillColor: "transparent",
+                      }}
+                    >
+                      {numStr}
+                    </span>
                   </div>
 
-                  <div>
-                    <div className="font-mono text-xs text-muted-foreground space-y-1 pt-4 border-t border-border/60 mb-6">
-                      <p>ISSUED: <strong className="text-foreground">{item.date}</strong></p>
-                      <p>EXPIRY: <strong className="text-foreground">{item.expiryDate}</strong></p>
+                  <div className="relative z-10 flex flex-col justify-between h-full">
+                    <div>
+                      <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
+                        <span className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                          [{numStr}] // {item.issuer}
+                        </span>
+                        <span className={`font-mono text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 border ${
+                          isActive ? "border-emerald-500 text-emerald-500" : "border-border text-muted-foreground"
+                        }`}>
+                          {item.status}
+                        </span>
+                      </div>
+
+                      <h3 className="font-display text-2xl font-black uppercase text-foreground leading-tight mb-4 group-hover:underline underline-offset-4">
+                        {item.title}
+                      </h3>
                     </div>
 
-                    <div className="flex items-center justify-between font-mono text-xs">
-                      {canCopy ? (
-                        <button
-                          onClick={() => handleCopy(item.id, item.credentialId)}
-                          className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground uppercase font-bold"
-                        >
-                          {copiedId === item.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedId === item.id ? "COPIED ID" : "COPY CREDENTIAL ID"}</span>
-                        </button>
-                      ) : (
-                        <span className="text-muted-foreground opacity-50">VERIFIED MEMBER</span>
-                      )}
+                    <div>
+                      <div className="font-mono text-xs text-muted-foreground space-y-1 pt-4 border-t border-border/60 mb-6">
+                        <p>ISSUED: <strong className="text-foreground">{item.date}</strong></p>
+                        <p>EXPIRY: <strong className="text-foreground">{item.expiryDate}</strong></p>
+                      </div>
 
-                      {item.link && (
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 border border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
-                          title="Verify Credential Link"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      )}
+                      <div className="flex items-center justify-between font-mono text-xs">
+                        {canCopy ? (
+                          <button
+                            onClick={() => handleCopy(item.id, item.credentialId)}
+                            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground uppercase font-bold"
+                          >
+                            {copiedId === item.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                            <span>{copiedId === item.id ? "COPIED ID" : "COPY CREDENTIAL ID"}</span>
+                          </button>
+                        ) : (
+                          <span className="text-muted-foreground opacity-50">VERIFIED MEMBER</span>
+                        )}
+
+                        {item.link && (
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 border border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
+                            title="Verify Credential Link"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </motion.article>

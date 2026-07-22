@@ -72,38 +72,53 @@ export default function SkillsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl"
+                className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
               >
-                <div>
-                  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 border border-foreground bg-foreground text-background">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <h3 className="font-mono text-sm font-bold uppercase tracking-tight text-foreground">
-                        {category.name}
-                      </h3>
-                    </div>
-                    <span className="font-mono text-xs font-bold text-muted-foreground">
-                      {numStr}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="font-mono text-xs border border-border bg-background px-3 py-1 text-foreground transition-colors duration-200 group-hover:border-foreground/50"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                {/* Background Giant Stroke Number Watermark */}
+                <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                  <span
+                    className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                    style={{
+                      WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {numStr}
+                  </span>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-border/60 flex items-center justify-between font-mono text-[10px] uppercase text-muted-foreground">
-                  <span>SYSTEM MATRIX</span>
-                  <span>{category.skills.length} MODULES</span>
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 border border-foreground bg-foreground text-background">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <h3 className="font-mono text-sm font-bold uppercase tracking-tight text-foreground">
+                          {category.name}
+                        </h3>
+                      </div>
+                      <span className="font-mono text-xs font-bold text-muted-foreground">
+                        [{numStr}]
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {category.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="font-mono text-xs border border-border bg-background px-3 py-1 text-foreground transition-colors duration-200 group-hover:border-foreground/50"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-4 border-t border-border/60 flex items-center justify-between font-mono text-[10px] uppercase text-muted-foreground">
+                    <span>SYSTEM MATRIX</span>
+                    <span>{category.skills.length} MODULES</span>
+                  </div>
                 </div>
               </motion.article>
             )

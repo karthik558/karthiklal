@@ -175,7 +175,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
 
       case 'quote':
         return (
-          <blockquote key={index} className="border-l-4 border-foreground pl-6 py-4 my-8 bg-card border-2 border-border font-mono text-sm">
+          <blockquote key={index} className="border-l-4 border-l-foreground border-y border-r border-border pl-6 py-4 my-8 bg-card font-mono text-sm">
             <p className="text-foreground italic text-base">"{block.text}"</p>
           </blockquote>
         )
