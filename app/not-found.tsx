@@ -1,135 +1,163 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Home, ArrowLeft, Terminal, LayoutGrid, Mail, Compass } from "lucide-react"
+import { ArrowLeft, ArrowUpRight, Home, Mail, MoveUpRight } from "lucide-react"
+
+const directoryLinks = [
+  { index: "01", label: "Home", description: "Back to the beginning", href: "/" },
+  { index: "02", label: "Projects", description: "Browse selected work", href: "/projects" },
+  { index: "03", label: "Blog", description: "Read notes and ideas", href: "/blog" },
+  { index: "04", label: "Contact", description: "Start a conversation", href: "/contact" },
+]
 
 export default function NotFoundPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
-
   const handleGoBack = () => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
+    if (window.history.length > 1) {
       window.history.back()
-    } else {
-      window.location.href = "/"
+      return
     }
+
+    window.location.assign("/")
   }
 
-  const navLinks = [
-    { name: "Home", icon: Home, href: "/", color: "text-blue-500", bg: "bg-blue-500/10" },
-    { name: "Projects", icon: LayoutGrid, href: "/projects", color: "text-purple-500", bg: "bg-purple-500/10" },
-    { name: "Blog", icon: Terminal, href: "/blog", color: "text-green-500", bg: "bg-green-500/10" },
-    { name: "Contact", icon: Mail, href: "/contact", color: "text-orange-500", bg: "bg-orange-500/10" },
-  ]
-
   return (
-    <div className="relative min-h-[100dvh] bg-background flex flex-col items-center justify-center overflow-hidden selection:bg-primary/30">
-      
-      {/* Interactive Spotlight Background */}
-      <div 
-        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle 600px at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary) / 0.05), transparent 80%)`,
-        }}
-      />
+    <section className="relative min-h-[100svh] overflow-hidden bg-background pb-16 pt-32 sm:pb-20 sm:pt-36 lg:pb-24 lg:pt-40">
+      <div className="pointer-events-none absolute inset-0 select-none overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.26)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.22)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_82%)]" />
+        <div className="bg-noise absolute inset-0 opacity-25" />
+      </div>
 
-      {/* Massive Background 404 */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.03, scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black tracking-tighter text-foreground whitespace-nowrap pointer-events-none z-0"
-      >
-        404
-      </motion.div>
-
-      {/* Main Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 mx-auto text-center space-y-10">
-        
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted border border-border text-sm font-medium text-muted-foreground shadow-sm"
+          transition={{ duration: 0.45 }}
+          className="flex items-center justify-between gap-3 border-b-2 border-foreground pb-4 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.24em]"
         >
-          <Compass className="w-4 h-4 text-primary animate-pulse" />
-          <span>Looks like you wandered off the map</span>
+          <span>Error directory // 404</span>
+          <span className="flex items-center gap-2 text-foreground">
+            <span className="h-2 w-2 animate-pulse bg-foreground" />
+            Route unavailable
+          </span>
         </motion.div>
 
-        <div className="space-y-4">
-          <motion.h1 
+        <div className="grid gap-10 border-b border-border py-10 lg:grid-cols-12 lg:items-end lg:gap-8 lg:py-14">
+          <div className="lg:col-span-8">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.08, duration: 0.5 }}
+              className="mb-5 font-mono text-xs font-bold uppercase tracking-[0.28em] text-muted-foreground"
+            >
+              This address leads nowhere
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.14, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-[28vw] font-black uppercase leading-[0.72] tracking-[-0.09em] text-foreground sm:text-[24vw] lg:text-[15rem] xl:text-[17rem]"
+              aria-label="Error 404"
+            >
+              <span>4</span>
+              <span
+                className="inline-block"
+                style={{
+                  WebkitTextStroke: "clamp(1.5px, 0.2vw, 3px) hsl(var(--foreground))",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                0
+              </span>
+              <span>4</span>
+            </motion.h1>
+          </div>
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-black tracking-tight"
+            transition={{ delay: 0.28, duration: 0.55 }}
+            className="lg:col-span-4 lg:pb-1"
           >
-            Page Not Found
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto"
-          >
-            The digital coordinates you entered don't exist in this universe. Let's get you back to familiar territory.
-          </motion.p>
+            <div className="border-l-2 border-foreground pl-5 sm:pl-7">
+              <h2 className="font-display text-3xl font-black uppercase leading-none tracking-tight text-foreground sm:text-4xl">
+                Page not found.
+              </h2>
+              <p className="mt-5 max-w-md font-sans text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
+                The page may have moved, the link may be outdated, or the address may be mistyped. Choose a destination below and keep exploring.
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <Link
+                href="/"
+                className="group inline-flex h-[52px] items-center justify-center gap-2 border-2 border-foreground bg-foreground px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground"
+              >
+                <Home className="h-4 w-4" />
+                Return home
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <button
+                type="button"
+                onClick={handleGoBack}
+                className="group inline-flex h-[52px] items-center justify-center gap-2 border-2 border-border bg-card px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-wider text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
+              >
+                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                Go back
+              </button>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Quick Links Grid */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full pt-6"
-        >
-          {navLinks.map((link, idx) => {
-            const Icon = link.icon
-            return (
-              <Link key={link.name} href={link.href} className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
-                <div className="relative flex flex-col items-center justify-center gap-3 p-6 h-full rounded-2xl bg-card border border-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 group-hover:-translate-y-1">
-                  <div className={`p-3 rounded-xl ${link.bg} transition-transform duration-300 group-hover:scale-110`}>
-                    <Icon className={`w-6 h-6 ${link.color}`} />
-                  </div>
-                  <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {link.name}
-                  </span>
-                </div>
-              </Link>
-            )
-          })}
-        </motion.div>
-
-        {/* Action Buttons */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ delay: 0.38, duration: 0.55 }}
           className="pt-8"
         >
-          <button
-            onClick={handleGoBack}
-            className="group flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-transparent hover:bg-muted text-muted-foreground hover:text-foreground font-medium transition-all duration-300"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            Go Back to Previous Page
-          </button>
-        </motion.div>
+          <div className="mb-4 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground sm:text-xs">
+            <span>Available destinations</span>
+            <span>04 routes</span>
+          </div>
 
+          <div className="grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+            {directoryLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group relative min-h-32 border-b border-r border-border bg-card/70 p-5 transition-colors duration-300 hover:bg-foreground sm:min-h-36"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="font-mono text-[10px] font-bold text-muted-foreground transition-colors group-hover:text-background/60">
+                    {item.index} //
+                  </span>
+                  <MoveUpRight className="h-4 w-4 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-background" />
+                </div>
+                <div className="mt-7">
+                  <h3 className="font-display text-xl font-black uppercase tracking-tight text-foreground transition-colors group-hover:text-background sm:text-2xl">
+                    {item.label}
+                  </h3>
+                  <p className="mt-1 font-sans text-xs text-muted-foreground transition-colors group-hover:text-background/65">
+                    {item.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-5 flex flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <span>Karthik Lal // Portfolio system</span>
+            <a
+              href="mailto:dev@karthiklal.in"
+              className="inline-flex items-center gap-2 font-bold text-foreground hover:underline"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              Report a broken link
+            </a>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   )
 }
