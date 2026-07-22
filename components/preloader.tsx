@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
 
 interface PreloaderProps {
   onComplete?: () => void
@@ -46,26 +45,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           <div className="flex items-center justify-between border-b-2 border-border pb-6">
             <div className="flex items-center gap-3 font-bold">
               <span className="w-2 h-2 bg-foreground animate-ping inline-block" />
-              <div className="relative h-8 w-8 shrink-0">
-                <Image
-                  src="/logo-light.png"
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 object-contain dark:hidden"
-                  priority
-                />
-                <Image
-                  src="/logo-dark.png"
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                  className="hidden h-8 w-8 object-contain dark:block"
-                  priority
-                />
-              </div>
+              <span className="tracking-widest text-[11px]">KARTHIK LAL</span>
             </div>
-            <div className="text-muted-foreground tracking-widest text-[10px]">
+            <div className="text-muted-foreground tracking-widest text-[10px] hidden sm:block">
               SYSTEMS ARCHITECT & IT MANAGER
             </div>
           </div>

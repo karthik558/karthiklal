@@ -51,30 +51,8 @@ export default function NavHeader() {
   }, [isOpen])
 
   return (
-    <div className="flex w-full items-center justify-between font-mono text-xs uppercase">
+    <div className="flex w-full items-center justify-end md:justify-between font-mono text-xs uppercase">
       
-      {/* Brand Identity / Logo */}
-      <SmoothLink href="/" className="flex items-center group">
-        <div className="relative h-8 w-8 shrink-0">
-          <Image
-            src="/logo-light.png"
-            alt="Karthik Lal Logo"
-            width={32}
-            height={32}
-            className="h-8 w-8 object-contain dark:hidden"
-            priority
-          />
-          <Image
-            src="/logo-dark.png"
-            alt="Karthik Lal Logo"
-            width={32}
-            height={32}
-            className="hidden h-8 w-8 object-contain dark:block"
-            priority
-          />
-        </div>
-      </SmoothLink>
-
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex items-center gap-1.5 border-2 border-border bg-card p-1">
         {navItems.map((item) => {
@@ -123,26 +101,7 @@ export default function NavHeader() {
               className="fixed inset-0 z-[10000] flex flex-col justify-between bg-background p-6 md:hidden overflow-y-auto"
             >
               {/* Header inside drawer */}
-              <div className="flex items-center justify-between border-b-2 border-foreground pb-6">
-                <div className="relative h-8 w-8 shrink-0">
-                  <Image
-                    src="/logo-light.png"
-                    alt="Karthik Lal Logo"
-                    width={32}
-                    height={32}
-                    className="h-8 w-8 object-contain dark:hidden"
-                    priority
-                  />
-                  <Image
-                    src="/logo-dark.png"
-                    alt="Karthik Lal Logo"
-                    width={32}
-                    height={32}
-                    className="hidden h-8 w-8 object-contain dark:block"
-                    priority
-                  />
-                </div>
-
+              <div className="flex items-center justify-end border-b-2 border-foreground pb-6">
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-2 border-2 border-foreground bg-foreground text-background font-bold"
