@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, Quote, Star } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Star } from "lucide-react"
+import { cn } from "@/lib/utils"
 import testimonialsData from "@/public/data/testimonials.json"
 
 interface Testimonial {
@@ -18,18 +19,69 @@ interface Testimonial {
 
 const testimonials = testimonialsData.testimonials as Testimonial[]
 
+const CONFETTI_COLORS = ["#fbbf24", "#f59e0b", "#ec4899", "#8b5cf6", "#3b82f6", "#10b981", "#ffffff"]
+
+function ConfettiParticles() {
+  const particles = Array.from({ length: 22 })
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-20 select-none">
+      {particles.map((_, i) => {
+        const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length]
+        const left = `${(i * 19 + 7) % 86 + 7}%`
+        const size = (i % 3) * 3 + 5
+        const rotate = (i * 45) % 360
+
+        return (
+          <motion.div
+            key={i}
+            initial={{
+              opacity: 0,
+              y: 20,
+              x: 0,
+              scale: 0.2,
+              rotate: 0,
+            }}
+            animate={{
+              opacity: [0, 1, 0.9, 0],
+              y: [-10, -50 - (i % 5) * 15, -110],
+              x: (i % 2 === 0 ? 1 : -1) * (20 + (i * 9) % 50),
+              scale: [0.2, 1.2, 1, 0.3],
+              rotate: [0, rotate, rotate + 180],
+            }}
+            transition={{
+              duration: 1.6 + (i % 4) * 0.3,
+              repeat: Infinity,
+              repeatDelay: (i % 3) * 0.3,
+              ease: "easeOut",
+            }}
+            style={{
+              position: "absolute",
+              bottom: "15%",
+              left,
+              width: size,
+              height: size,
+              backgroundColor: color,
+              borderRadius: i % 2 === 0 ? "50%" : "2px",
+            }}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const activeTestimonial = testimonials[activeIndex]
 
   useEffect(() => {
-    if (isPaused || testimonials.length < 2) return
+    if (isHovered || testimonials.length < 2) return
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % testimonials.length)
     }, 6000)
     return () => clearInterval(timer)
-  }, [isPaused])
+  }, [isHovered])
 
   if (!activeTestimonial) return null
 
@@ -71,14 +123,33 @@ export default function TestimonialsSection() {
 
         {/* Testimonial Box */}
         <div
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="border-2 border-foreground bg-card p-8 md:p-14 shadow-2xl relative"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="border-2 border-foreground bg-card p-8 md:p-14 shadow-2xl relative transition-all duration-500 hover:border-amber-400/50"
         >
-          <div className="flex items-center justify-between border-b border-border pb-6 mb-8 font-mono text-xs uppercase">
-            <div className="flex items-center gap-1">
+          {/* Confetti Animation Layer */}
+          <AnimatePresence>
+            {isHovered && <ConfettiParticles />}
+          </AnimatePresence>
+
+          <div className="flex items-center justify-between border-b border-border pb-6 mb-8 font-mono text-xs uppercase relative z-10">
+            {/* Rating Stars with Hover Color Transformation */}
+            <div className="flex items-center gap-1.5">
               {Array.from({ length: activeTestimonial.rating || 5 }).map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
+                <motion.div
+                  key={i}
+                  animate={{ scale: isHovered ? [1, 1.25, 1] : 1 }}
+                  transition={{ duration: 0.3, delay: i * 0.06 }}
+                >
+                  <Star
+                    className={cn(
+                      "w-4 h-4 transition-all duration-300",
+                      isHovered
+                        ? "fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+                        : "fill-foreground text-foreground"
+                    )}
+                  />
+                </motion.div>
               ))}
             </div>
             <span className="text-muted-foreground">
@@ -93,6 +164,7 @@ export default function TestimonialsSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.4 }}
+              className="relative z-10"
             >
               <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase leading-snug text-foreground mb-10">
                 "{activeTestimonial.content}"
