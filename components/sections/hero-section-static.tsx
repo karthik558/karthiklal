@@ -174,7 +174,7 @@ export default function HeroSectionStatic() {
                 </AnimatedButton>
 
                 <AnimatedButton
-                  href="https://drive.google.com/drive/u/0/folders/1MW_nlkiQwtX3uatkQJMadQXijjBo81aW"
+                  href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="outline"
@@ -221,4 +221,3 @@ export default function HeroSectionStatic() {
     </section>
   )
 }
-
