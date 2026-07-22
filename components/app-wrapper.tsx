@@ -24,16 +24,10 @@ export default function AppWrapper({ children }: AppWrapperProps) {
 
   useEffect(() => {
     setIsMounted(true)
-    if (sessionStorage.getItem('hasSeenPreloader')) {
-      setShowPreloader(false)
-    }
   }, [])
 
   const handleComplete = useCallback(() => {
     setShowPreloader(false)
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('hasSeenPreloader', 'true')
-    }
   }, [])
 
   // Handle hash navigation for cross-page links

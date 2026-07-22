@@ -1,102 +1,102 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-
-const words = ["Hello", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "Guten tag", "হ্যালো"]
-
-const opacity = {
-  initial: {
-    opacity: 0,
-  },
-  enter: {
-    opacity: 0.75,
-    transition: { duration: 1, delay: 0.2 },
-  },
-}
-const slideUp = {
-  initial: {
-    top: 0,
-  },
-  exit: {
-    top: "-100vh",
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const, delay: 0.2 },
-  },
-}
+import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 
 interface PreloaderProps {
   onComplete?: () => void
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
- 
-  const [index, setIndex] = useState(0)
-  const [dimension, setDimension] = useState({ width: 0, height: 0 })
+  const [progress, setProgress] = useState(0)
   const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight })
-  }, [])
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval)
+          setTimeout(() => {
+            setIsExiting(true)
+            setTimeout(() => {
+              onComplete?.()
+            }, 700)
+          }, 300)
+          return 100
+        }
+        const next = prev + Math.floor(Math.random() * 12) + 5
+        return next > 100 ? 100 : next
+      })
+    }, 45)
 
-  useEffect(() => {
-    if (index === words.length - 1) {
-      // Start exit animation after showing the last word
-      setTimeout(() => {
-        setIsExiting(true)
-        // Call onComplete after exit animation
-        setTimeout(() => {
-          onComplete?.()
-        }, 1000)
-      }, 1000)
-      return
-    }
-
-    setTimeout(
-      () => {
-        setIndex(index + 1)
-      },
-      index === 0 ? 1000 : 150,
-    )
-  }, [index, onComplete])
-
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width / 2} ${dimension.height + 300} 0 ${dimension.height} L0 0`
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width / 2} ${dimension.height} 0 ${dimension.height} L0 0`
-
-  const curve = {
-    initial: {
-      d: initialPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] as const },
-    },
-    exit: {
-      d: targetPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] as const, delay: 0.3 },
-    },
-  }
-
+    return () => clearInterval(interval)
+  }, [onComplete])
 
   return (
-      <motion.div
-      variants={slideUp}
-      initial="initial"
-      animate={isExiting ? "exit" : "initial"}
-      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-background z-[99999999999]"
-    >
-      {dimension.width > 0 && (
-        <>
-          <motion.p
-            variants={opacity}
-            initial="initial"
-            animate="enter"
-            className="flex items-center text-foreground text-4xl md:text-5xl lg:text-6xl absolute z-10 font-medium"
-          >
-            <span className="block w-2.5 h-2.5 bg-foreground rounded-full mr-2.5"></span>
-            {words[index]}
-          </motion.p>
-          <svg className="absolute top-0 w-full h-[calc(100%+300px)]">
-            <motion.path variants={curve} initial="initial" animate={isExiting ? "exit" : "initial"} fill="hsl(var(--background))" />
-          </svg>
-        </>
+    <AnimatePresence>
+      {!isExiting && (
+        <motion.div
+          initial={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[99999999] flex flex-col justify-between bg-background p-8 md:p-14 font-mono text-xs uppercase select-none border-b-4 border-foreground"
+        >
+          {/* Top Header */}
+          <div className="flex items-center justify-between border-b-2 border-border pb-6">
+            <div className="flex items-center gap-3 font-bold">
+              <span className="w-2 h-2 bg-foreground animate-ping inline-block" />
+              <div className="relative h-8 w-8 shrink-0">
+                <Image
+                  src="/logo-light.png"
+                  alt="Logo"
+                  width={32}
+                  height={32}
+                  className="h-8 w-8 object-contain dark:hidden"
+                  priority
+                />
+                <Image
+                  src="/logo-dark.png"
+                  alt="Logo"
+                  width={32}
+                  height={32}
+                  className="hidden h-8 w-8 object-contain dark:block"
+                  priority
+                />
+              </div>
+            </div>
+            <div className="text-muted-foreground tracking-widest text-[10px]">
+              SYSTEMS ARCHITECT & IT MANAGER
+            </div>
+          </div>
+
+          {/* Center Kinetic Counter */}
+          <div className="my-auto py-12 text-center space-y-4">
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              INITIALIZING INTERFACE PROTOCOLS
+            </div>
+
+            <div className="font-display text-[20vw] sm:text-[16vw] md:text-[14vw] font-black uppercase text-foreground leading-none tracking-tighter">
+              {progress.toString().padStart(2, "0")}<span className="text-[0.4em] font-light">%</span>
+            </div>
+
+            {/* Progress Bar Line */}
+            <div className="max-w-md mx-auto h-1.5 bg-card border border-foreground overflow-hidden p-0.5">
+              <motion.div
+                className="h-full bg-foreground"
+                style={{ width: `${progress}%` }}
+                transition={{ ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+          {/* Bottom Footer */}
+          <div className="flex items-center justify-between border-t-2 border-border pt-6 text-muted-foreground text-[10px] tracking-widest font-bold">
+            <span>KERALA, INDIA // IST TIMEZONE</span>
+            <span>PORTFOLIO 2026</span>
+          </div>
+        </motion.div>
       )}
-    </motion.div>
-  );
-};
+    </AnimatePresence>
+  )
+}
