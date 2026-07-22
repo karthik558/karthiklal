@@ -70,8 +70,18 @@ export default function HeroSectionStatic() {
 
   return (
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-24">
-      {/* Clean Background (No clutter or watermark) */}
-      <div className="absolute inset-0 z-0 bg-background" />
+      {/* Black & White Video Background Overlay */}
+      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-full w-full object-cover grayscale contrast-150 opacity-25 dark:opacity-30 transition-opacity duration-700"
+          src="/user/hero_video.webm"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/60 to-background z-[1]" />
+      </div>
 
       <div className="container relative z-10 mx-auto max-w-6xl px-4 md:px-6 my-auto">
         <motion.div style={{ y: contentY, opacity: heroOpacity }} className="flex flex-col items-center text-center">
