@@ -9,7 +9,7 @@ import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
 interface Certification { id: number; title: string; issuer: string; date: string; expiryDate: string; credentialId: string; status: string; link?: string }
 type CredentialFilter = "all" | "active" | "expired"
-const INITIAL_ITEMS = 6
+const INITIAL_ITEMS = 4
 const certifications = CERTIFICATIONS_DATA.certifications as Certification[]
 
 const parseDate = (date: string) => {
@@ -179,4 +179,3 @@ export default function CertificationsSection() {
     </section>
   )
 }
-

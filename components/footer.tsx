@@ -1,14 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
 
   return (
     <footer className="relative bg-background border-t-2 border-foreground pt-16 pb-12 overflow-hidden">
@@ -97,10 +92,14 @@ export default function Footer() {
           <div>
             © {currentYear} KARTHIK LAL // ALL RIGHTS RESERVED
           </div>
+          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <Link href="/privacy-policy" className="transition-colors hover:text-foreground">Privacy</Link>
+            <Link href="/cookies" className="transition-colors hover:text-foreground">Cookies</Link>
+            <Link href="/terms" className="transition-colors hover:text-foreground">Terms</Link>
+          </nav>
         </div>
       </div>
     </footer>
   )
 }
-
 

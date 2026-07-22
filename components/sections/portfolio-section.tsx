@@ -217,7 +217,7 @@ export default function PortfolioSection() {
               id="portfolio-scroll-row"
               className="flex gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory"
             >
-              {filteredProjects.slice(2).map((project, index) => {
+              {filteredProjects.slice(2, 5).map((project, index) => {
                 const numStr = index + 3 < 10 ? `0${index + 3}` : `${index + 3}`
                 const projectUrl = `/projects/${project.id}`
 
@@ -410,4 +410,3 @@ export default function PortfolioSection() {
     </section>
   )
 }
-

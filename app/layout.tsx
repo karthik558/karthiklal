@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "KARTHIK LAL",
     template: "KARTHIK LAL - %s"
   },
-  description: "Karthik Lal is a 25-year-old IT Manager and Certified Ethical Hacker with 7.2+ years of experience in cybersecurity, network management, and full-stack development. Based in Kerala, India. Expert in secure IT solutions, web development, penetration testing, and threat intelligence.",
+  description: "Karthik Lal is an IT Manager and Certified Ethical Hacker with enterprise experience since 2019 in cybersecurity, network management, and full-stack development. Based in Kerala, India.",
   keywords: [
     // Primary name variations for better search visibility
     "Karthik Lal",
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://karthiklal.in",
     title: "Karthik Lal - IT Manager, Certified Ethical Hacker & Full Stack Developer",
-    description: "Meet Karthik Lal: IT Manager with 7.2+ years in cybersecurity and full-stack development. Expert in secure IT solutions, network management, and threat intelligence. Based in Kerala, India.",
+    description: "Meet Karthik Lal: an IT Manager with enterprise experience since 2019 in cybersecurity and full-stack development. Based in Kerala, India.",
     siteName: "Karthik Lal - Official Portfolio",
     images: [
       {
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Karthik Lal - IT Manager & Certified Ethical Hacker",
-    description: "Meet Karthik Lal: IT Manager with 7.2+ years in cybersecurity and full-stack development. Expert in secure IT solutions and network management from Kerala, India.",
+    description: "Meet Karthik Lal: an IT Manager with enterprise experience since 2019 in cybersecurity, full-stack development, and network management.",
     site: "@karthiklal_in",
     creator: "@karthiklal_in",
     images: ["/1.jpg"],

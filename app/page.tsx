@@ -24,7 +24,7 @@ const structuredData = {
     "Karthik Lal Certified Ethical Hacker",
     "Karthik Lal Developer"
   ],
-  "description": "Karthik Lal is an experienced IT Manager, Certified Ethical Hacker, and Full Stack Developer with 7.2+ years of expertise in cybersecurity, network management, and web development. Based in Kerala, India.",
+  "description": "Karthik Lal is an experienced IT Manager, Certified Ethical Hacker, and Full Stack Developer with enterprise experience since 2019 across cybersecurity, network management, and web development. Based in Kerala, India.",
   "url": "https://karthiklal.in",
   "image": [
     "https://karthiklal.in/1.jpg",
@@ -135,11 +135,6 @@ export default function Home() {
     "author": {
       "@type": "Person",
       "name": "Karthik Lal"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://karthiklal.in/?search={search_term_string}",
-      "query-input": "required name=search_term_string"
     }
   }
 

@@ -47,6 +47,12 @@ const marqueeStyles = `
 .animate-marquee-right {
   animation: marquee-scroll-right var(--duration) linear infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none;
+  }
+}
 `;
 
 function MarqueeAnimation({
@@ -79,6 +85,7 @@ function MarqueeAnimation({
     <>
       <style dangerouslySetInnerHTML={{ __html: marqueeStyles }} />
       <div 
+        aria-label={items.join(", ")}
         className={cn(
           "overflow-hidden w-full text-nowrap flex-nowrap flex relative select-none items-center",
           className
@@ -89,6 +96,7 @@ function MarqueeAnimation({
       >
         {/* Sibling 1 */}
         <div
+          aria-hidden="true"
           className={cn(
             "flex flex-row flex-nowrap whitespace-nowrap shrink-0 items-center",
             animationClass

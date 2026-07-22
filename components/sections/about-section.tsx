@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import {
   Download,
@@ -55,37 +55,7 @@ const pillars = [
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
-  const statsInView = useInView(statsRef, { once: true, amount: 0.3 })
-
   const [activePillar, setActivePillar] = useState<string>("cybersecurity")
-  const [mounted, setMounted] = useState(false)
-  const [experienceCount, setExperienceCount] = useState(0)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (statsInView && mounted) {
-      let start = 0
-      const end = 7.2
-      const duration = 1200
-      const startTime = performance.now()
-
-      const animate = (now: number) => {
-        const elapsed = now - startTime
-        const progress = Math.min(elapsed / duration, 1)
-        const easeProgress = progress * (2 - progress)
-        setExperienceCount(Number((easeProgress * end).toFixed(1)))
-
-        if (progress < 1) {
-          requestAnimationFrame(animate)
-        }
-      }
-      requestAnimationFrame(animate)
-    }
-  }, [statsInView, mounted])
 
   const currentPillarData = pillars.find((p) => p.id === activePillar) || pillars[0]
 
@@ -143,7 +113,7 @@ export default function AboutSection() {
                 "Security is not a feature added at the end; it is the fundamental architecture upon which extraordinary products are built."
               </h3>
               <p className="font-sans text-muted-foreground text-base leading-relaxed mb-8">
-                With <strong className="text-foreground font-semibold">7.2+ years</strong> of hands-on experience in enterprise IT leadership, penetration testing, and web development, I protect mission-critical operations while engineering high-speed digital solutions.
+                With enterprise IT experience since <strong className="text-foreground font-semibold">2019</strong> across leadership, penetration testing, and web development, I protect mission-critical operations while engineering high-speed digital solutions.
               </p>
 
               {/* Interactive Pillar Selectors */}
@@ -206,14 +176,13 @@ export default function AboutSection() {
         </div>
 
         {/* Stats Grid Bar */}
-        <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="border-2 border-border bg-card p-6 flex flex-col justify-center transition-colors hover:border-foreground">
             <div className="font-display text-4xl md:text-5xl font-black text-foreground">
-              {mounted ? experienceCount : "7.2"}
-              <span className="text-muted-foreground">+</span>
+              2019
             </div>
             <div className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mt-2">
-              YEARS ENTERPRISE EXP
+              ENTERPRISE IT CAREER
             </div>
           </div>
 
@@ -248,4 +217,3 @@ export default function AboutSection() {
     </section>
   )
 }
-

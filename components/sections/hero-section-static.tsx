@@ -72,12 +72,15 @@ export default function HeroSectionStatic() {
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-24">
       {/* Black & White Video Background Overlay */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
+        <div className="absolute inset-0 bg-[url('/user/hero.jpg')] bg-cover bg-center grayscale opacity-25 dark:opacity-30" />
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="h-full w-full object-cover grayscale contrast-150 opacity-25 dark:opacity-30 transition-opacity duration-700"
+          preload="metadata"
+          poster="/user/hero.jpg"
+          className="h-full w-full object-cover grayscale contrast-150 opacity-25 dark:opacity-30 transition-opacity duration-700 motion-reduce:hidden"
           src="/user/hero_video.webm"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/60 to-background z-[1]" />
@@ -142,11 +145,11 @@ export default function HeroSectionStatic() {
               className="flex flex-col items-center text-center"
             >
               <p className="font-sans text-base font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl max-w-3xl">
-                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong> with 7.2+ years of enterprise experience.
+                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
               </p>
 
               <div className="mt-6 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:text-xs">
-                {["IT MANAGER", "FULL STACK DEVELOPER", "CYBERSECURITY SPECIALIST", "SYSTEMS ARCHITECT", "CEH CERTIFIED"].map((badge, idx) => (
+                {["IT MANAGER", "CYBERSECURITY SPECIALIST", "SECURE SYSTEMS"].map((badge, idx) => (
                   <span key={idx} className="border border-border bg-card px-3 py-1 sm:px-3.5 sm:py-1.5 text-foreground font-medium uppercase tracking-wider">
                     {badge}
                   </span>
@@ -171,11 +174,13 @@ export default function HeroSectionStatic() {
                 </AnimatedButton>
 
                 <AnimatedButton
-                  href="/contact"
+                  href="https://drive.google.com/drive/u/0/folders/1MW_nlkiQwtX3uatkQJMadQXijjBo81aW"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   variant="outline"
-                  className="h-12 px-6 sm:h-14 sm:px-8"
+                  className="h-12 px-6 sm:h-14 sm:px-8 border-foreground bg-background/80 backdrop-blur-sm"
                 >
-                  GET IN TOUCH <Mail className="ml-2 h-4 w-4" />
+                  DOWNLOAD CV <Download className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                 </AnimatedButton>
               </div>
 
@@ -207,7 +212,7 @@ export default function HeroSectionStatic() {
 
       {/* Hero Bottom Bar */}
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 pt-4 border-t border-border/80 flex items-center justify-between font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
-        <span>01 / 08 SECTIONS</span>
+        <span>00 // INTRODUCTION</span>
         <a href="#about" className="flex items-center gap-2 hover:text-foreground transition-colors">
           <span>SCROLL DOWN</span>
           <ArrowDownRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-bounce" />
@@ -216,5 +221,4 @@ export default function HeroSectionStatic() {
     </section>
   )
 }
-
 
