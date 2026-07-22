@@ -72,37 +72,59 @@ export default function PortfolioSection() {
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.slice(0, 6).map((project, index) => {
+        {/* Top Row: 01 & 02 Flagship Featured Hero Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-12">
+          {filteredProjects.slice(0, 2).map((project, index) => {
             const numStr = index + 1 < 10 ? `0${index + 1}` : `${index + 1}`
             const projectUrl = `/projects/${project.id}`
 
             return (
               <motion.article
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group relative flex flex-col justify-between border-2 border-border bg-card transition-all duration-300 hover:border-foreground hover:shadow-2xl"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 hover:shadow-2xl overflow-hidden"
               >
-                {/* Top Image Box */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden border-b-2 border-border bg-muted">
+                {/* Background Giant Stroke Number Watermark */}
+                <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">
+                  <span
+                    className="font-display text-[11rem] md:text-[13rem] font-black uppercase tracking-tighter text-transparent leading-none block"
+                    style={{
+                      WebkitTextStroke: "3px hsl(var(--foreground))",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {numStr}
+                  </span>
+                </div>
+
+                {/* Top Hero Image Box */}
+                <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-foreground bg-muted z-10">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    sizes="(min-width: 1024px) 33vw, 100vw"
-                    className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
+                    priority={index === 0}
                   />
-                  <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
-                    {numStr}
+                  
+                  {/* Badges */}
+                  <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
+                    <div className="bg-foreground text-background font-mono text-xs font-black px-4 py-1.5 uppercase tracking-widest border-2 border-foreground">
+                      [{numStr}]
+                    </div>
+                    <div className="bg-background/95 text-foreground font-mono text-[10px] font-bold px-3 py-1.5 uppercase tracking-widest border-2 border-border backdrop-blur-md flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                      FLAGSHIP SYSTEM
+                    </div>
                   </div>
 
                   <button
                     onClick={() => setSelectedProject(project)}
-                    className="absolute bottom-3 right-3 bg-background/90 text-foreground hover:bg-foreground hover:text-background p-2.5 border border-border backdrop-blur-md transition-colors"
+                    className="absolute bottom-4 right-4 bg-background/95 text-foreground hover:bg-foreground hover:text-background p-3 border-2 border-border backdrop-blur-md transition-colors select-none z-20"
                     title="Quick Preview"
                   >
                     <Eye className="w-4 h-4" />
@@ -110,46 +132,48 @@ export default function PortfolioSection() {
                 </div>
 
                 {/* Content Details */}
-                <div className="p-6 flex flex-col flex-1 justify-between">
+                <div className="p-6 sm:p-8 md:p-10 flex flex-col flex-1 justify-between relative z-10">
                   <div>
-                    <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-                      {project.category}
+                    <div className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground font-bold mb-3 flex items-center gap-2">
+                      <span className="w-2 h-2 bg-foreground inline-block" />
+                      {project.category} // FEATURED
                     </div>
-                    <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline decoration-foreground underline-offset-4 mb-3">
+                    <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight font-black uppercase text-foreground group-hover:underline decoration-foreground underline-offset-8 decoration-2 mb-4">
                       {project.title}
                     </h3>
-                    <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-6">
+                    <p className="font-sans text-muted-foreground leading-relaxed font-light mb-8 text-sm sm:text-base line-clamp-3">
                       {project.description}
                     </p>
                   </div>
 
                   <div>
                     {/* Tech Stack Tags */}
-                    <div className="flex flex-wrap gap-1.5 mb-6 pt-4 border-t border-border/60 font-mono text-[10px]">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <span key={tech} className="border border-border bg-background px-2 py-0.5 text-foreground uppercase">
+                    <div className="flex flex-wrap gap-2 mb-8 pt-6 border-t-2 border-border font-mono text-xs">
+                      {project.technologies.slice(0, 6).map((tech) => (
+                        <span key={tech} className="border border-foreground/30 bg-background hover:border-foreground px-3 py-1 text-foreground uppercase font-bold transition-colors">
                           {tech}
                         </span>
                       ))}
                     </div>
 
                     {/* Action Links */}
-                    <div className="flex items-center justify-between font-mono text-xs font-bold uppercase">
-                      <Link
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                      <AnimatedButton
                         href={projectUrl}
-                        className="inline-flex items-center gap-1.5 text-foreground hover:underline decoration-2"
+                        variant="primary"
+                        className="h-12 px-6"
                       >
-                        CASE STUDY <ArrowUpRight className="w-3.5 h-3.5" />
-                      </Link>
+                        FULL CASE STUDY <ArrowUpRight className="w-4 h-4" />
+                      </AnimatedButton>
 
                       {project.link && (
                         <a
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                          className="h-12 px-5 inline-flex items-center gap-2 border-2 border-border bg-card text-foreground font-mono text-xs font-bold uppercase tracking-wider hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
                         >
-                          LIVE DEMO <ExternalLink className="w-3 h-3" />
+                          LIVE PLATFORM <ExternalLink className="w-4 h-4" />
                         </a>
                       )}
                     </div>
@@ -159,6 +183,132 @@ export default function PortfolioSection() {
             )
           })}
         </div>
+
+        {/* Second Row: 03, 04, 05, 06... Seamless Scrollable Row */}
+        {filteredProjects.length > 2 && (
+          <div className="relative">
+            <div className="flex items-center justify-between mb-4 font-mono text-xs uppercase">
+              <span className="text-muted-foreground">PROJECT ARCHIVE // [03 TO {filteredProjects.length < 10 ? `0${filteredProjects.length}` : filteredProjects.length}]</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("portfolio-scroll-row")
+                    if (el) el.scrollBy({ left: -380, behavior: "smooth" })
+                  }}
+                  className="p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
+                  aria-label="Scroll left"
+                >
+                  <ArrowUpRight className="w-3.5 h-3.5 -rotate-135" />
+                </button>
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("portfolio-scroll-row")
+                    if (el) el.scrollBy({ left: 380, behavior: "smooth" })
+                  }}
+                  className="p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
+                  aria-label="Scroll right"
+                >
+                  <ArrowUpRight className="w-3.5 h-3.5 rotate-45" />
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="portfolio-scroll-row"
+              className="flex gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory"
+            >
+              {filteredProjects.slice(2).map((project, index) => {
+                const numStr = index + 3 < 10 ? `0${index + 3}` : `${index + 3}`
+                const projectUrl = `/projects/${project.id}`
+
+                return (
+                  <motion.article
+                    key={project.id}
+                    className="group relative flex flex-col justify-between border-2 border-border bg-card p-0 w-[300px] sm:w-[360px] md:w-[380px] shrink-0 snap-start transition-all duration-300 hover:border-foreground hover:shadow-2xl overflow-hidden"
+                  >
+                    {/* Background Giant Stroke Number Watermark */}
+                    <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">
+                      <span
+                        className="font-display text-[7.5rem] font-black uppercase tracking-tighter text-transparent leading-none block"
+                        style={{
+                          WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                          WebkitTextFillColor: "transparent",
+                        }}
+                      >
+                        {numStr}
+                      </span>
+                    </div>
+
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b-2 border-border bg-muted z-10">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="380px"
+                        className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
+                      />
+                      <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
+                        {numStr}
+                      </div>
+
+                      <button
+                        onClick={() => setSelectedProject(project)}
+                        className="absolute bottom-3 right-3 bg-background/90 text-foreground hover:bg-foreground hover:text-background p-2.5 border border-border backdrop-blur-md transition-colors select-none"
+                        title="Quick Preview"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="p-6 flex flex-col flex-1 justify-between relative z-10">
+                      <div>
+                        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                          {project.category}
+                        </div>
+                        <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline decoration-foreground underline-offset-4 mb-3">
+                          {project.title}
+                        </h3>
+                        <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-6 font-light">
+                          {project.description}
+                        </p>
+                      </div>
+
+                      <div>
+                        <div className="flex flex-wrap gap-1.5 mb-6 pt-4 border-t border-border/60 font-mono text-[10px]">
+                          {project.technologies.slice(0, 4).map((tech) => (
+                            <span key={tech} className="border border-border bg-background px-2.5 py-1 text-foreground uppercase font-bold">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center justify-between font-mono text-xs font-bold uppercase">
+                          <Link
+                            href={projectUrl}
+                            className="inline-flex items-center gap-1.5 text-foreground hover:underline decoration-2"
+                          >
+                            CASE STUDY <ArrowUpRight className="w-3.5 h-3.5" />
+                          </Link>
+
+                          {project.link && (
+                            <a
+                              href={project.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                            >
+                              LIVE DEMO <ExternalLink className="w-3 h-3" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.article>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* View All Projects Footer Trigger */}
         <div className="mt-16 text-center">
