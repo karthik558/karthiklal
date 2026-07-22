@@ -165,7 +165,7 @@ export default function HeroSectionStatic() {
                 <AnimatedButton
                   href="/#portfolio"
                   variant="primary"
-                  className="h-12 px-6 sm:h-14 sm:px-8 font-mono text-xs sm:text-sm uppercase tracking-wider bg-foreground text-background hover:bg-foreground/90 border border-foreground"
+                  className="h-12 px-6 sm:h-14 sm:px-8"
                 >
                   EXPLORE WORK <ArrowDownRight className="ml-2 h-4 w-4" />
                 </AnimatedButton>
@@ -173,7 +173,7 @@ export default function HeroSectionStatic() {
                 <AnimatedButton
                   href="/contact"
                   variant="outline"
-                  className="h-12 px-6 sm:h-14 sm:px-8 font-mono text-xs sm:text-sm uppercase tracking-wider border border-border bg-background hover:bg-foreground hover:text-background transition-colors"
+                  className="h-12 px-6 sm:h-14 sm:px-8"
                 >
                   GET IN TOUCH <Mail className="ml-2 h-4 w-4" />
                 </AnimatedButton>

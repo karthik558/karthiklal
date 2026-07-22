@@ -191,7 +191,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 bg-foreground text-background font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-4 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border-2 border-foreground hover:bg-background hover:text-foreground transition-all duration-300 flex items-center justify-center gap-2 select-none cursor-pointer"
               >
                 {isLoading ? "TRANSMITTING MESSAGE..." : "TRANSMIT MESSAGE"} <Send className="w-4 h-4" />
               </button>

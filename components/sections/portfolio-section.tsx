@@ -165,7 +165,7 @@ export default function PortfolioSection() {
           <AnimatedButton
             href="/projects"
             variant="primary"
-            className="h-14 px-10 font-mono text-sm uppercase tracking-wider bg-foreground text-background border border-foreground hover:bg-foreground/90"
+            className="h-14 px-10"
           >
             EXPLORE ALL PROJECTS DIRECTORY <ArrowUpRight className="ml-2 h-4 w-4" />
           </AnimatedButton>
@@ -226,7 +226,7 @@ export default function PortfolioSection() {
                 <Link
                   href={`/projects/${selectedProject.id}`}
                   onClick={() => setSelectedProject(null)}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90"
+                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider hover:bg-background hover:text-foreground transition-all duration-300"
                 >
                   FULL CASE STUDY <ArrowUpRight className="w-4 h-4" />
                 </Link>
@@ -236,7 +236,7 @@ export default function PortfolioSection() {
                     href={selectedProject.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 border border-border bg-background text-foreground font-mono text-xs font-bold uppercase tracking-wider hover:bg-foreground hover:text-background"
+                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border bg-card text-foreground font-mono text-xs font-bold uppercase tracking-wider hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
                   >
                     LIVE SITE <ExternalLink className="w-4 h-4" />
                   </a>

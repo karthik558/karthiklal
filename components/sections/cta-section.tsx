@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Copy, Check, Mail } from "lucide-react"
 import Link from "next/link"
+import { AnimatedButton } from "@/components/ui/animated-button"
 
 export default function CtaSection() {
   const [copied, setCopied] = useState(false)
@@ -33,20 +34,20 @@ export default function CtaSection() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
+            <AnimatedButton
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background font-mono text-sm font-bold uppercase tracking-wider border border-foreground hover:bg-foreground/90 transition-colors"
+              variant="primary"
             >
               GET IN TOUCH DIRECTLY <ArrowUpRight className="w-4 h-4" />
-            </Link>
+            </AnimatedButton>
 
-            <button
+            <AnimatedButton
               onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border bg-background text-foreground font-mono text-sm font-bold uppercase tracking-wider hover:border-foreground transition-colors"
+              variant="outline"
             >
-              {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               <span>{copied ? "EMAIL COPIED!" : "COPY EMAIL"}</span>
-            </button>
+            </AnimatedButton>
           </div>
         </div>
       </div>

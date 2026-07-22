@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SmoothLink from "@/components/smooth-link";
 
@@ -26,28 +25,20 @@ export const AnimatedButton = ({
 }: AnimatedButtonProps) => {
   const isPrimary = variant === "primary";
 
-  const baseStyles = "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]";
+  const baseStyles = "group inline-flex items-center justify-center gap-2 rounded-none px-6 py-3.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 select-none cursor-pointer";
   
-  // Primary: Gradient background or solid primary with glow
-  const primaryStyles = "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 border border-primary/20";
+  // Primary: Solid fill -> Inverts cleanly on hover
+  const primaryStyles = "border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground";
   
-  // Outline: Glassmorphism style
-  const outlineStyles = "border border-primary/20 bg-background/50 backdrop-blur-sm text-foreground hover:border-primary/50 hover:bg-primary/5";
+  // Outline: Glass/Card fill -> Inverts cleanly on hover
+  const outlineStyles = "border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background";
 
   const content = (
-    <>
-      {/* Gradient overlay for primary */}
-      {isPrimary && (
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-      )}
-      
-      <span className="relative z-10 flex items-center gap-2">
-        {children}
-      </span>
-    </>
+    <span className="relative z-10 flex items-center gap-2 text-inherit">
+      {children}
+    </span>
   );
 
-  // Check if it's an external link
   const isExternal = href?.startsWith("http");
 
   if (href) {
@@ -59,7 +50,6 @@ export const AnimatedButton = ({
       );
     }
     if (isExternal) {
-      // Use standard anchor tag for external links to support target="_blank"
       return (
         <a href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...(props as any)}>
           {content}
@@ -79,3 +69,4 @@ export const AnimatedButton = ({
     </button>
   );
 };
+
