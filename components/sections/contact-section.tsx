@@ -144,47 +144,47 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block uppercase tracking-wider text-muted-foreground mb-2">YOUR NAME *</label>
+                  <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR NAME *</label>
                   <input
                     name="name"
                     required
                     type="text"
-                    placeholder="ENTER YOUR FULL NAME"
-                    className="w-full bg-background border-2 border-border p-3.5 text-foreground uppercase focus:outline-none focus:border-foreground"
+                    placeholder="Enter your full name"
+                    className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                   />
                 </div>
 
                 <div>
-                  <label className="block uppercase tracking-wider text-muted-foreground mb-2">YOUR EMAIL *</label>
+                  <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR EMAIL *</label>
                   <input
                     name="email"
                     required
                     type="email"
-                    placeholder="ENTER YOUR EMAIL ADDRESS"
-                    className="w-full bg-background border-2 border-border p-3.5 text-foreground uppercase focus:outline-none focus:border-foreground"
+                    placeholder="Enter your email address"
+                    className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block uppercase tracking-wider text-muted-foreground mb-2">SUBJECT / PROJECT TYPE *</label>
+                <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">SUBJECT / PROJECT TYPE *</label>
                 <input
                   name="subject"
                   required
                   type="text"
-                  placeholder="ENTER SUBJECT OR PROJECT TYPE"
-                  className="w-full bg-background border-2 border-border p-3.5 text-foreground uppercase focus:outline-none focus:border-foreground"
+                  placeholder="Enter subject or project type"
+                  className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
 
               <div>
-                <label className="block uppercase tracking-wider text-muted-foreground mb-2">MESSAGE DETAILS *</label>
+                <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">MESSAGE DETAILS *</label>
                 <textarea
                   name="message"
                   required
                   rows={6}
-                  placeholder="ENTER YOUR MESSAGE DETAILS AND TECHNICAL REQUIREMENTS..."
-                  className="w-full bg-background border-2 border-border p-3.5 text-foreground uppercase focus:outline-none focus:border-foreground"
+                  placeholder="Enter your message details and technical requirements..."
+                  className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
 

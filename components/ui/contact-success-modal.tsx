@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect } from 'react'
-import { X, CheckCircle2 } from 'lucide-react'
+import { X, Check, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AnimatedButton } from './animated-button'
 
@@ -35,59 +35,63 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Subtle backdrop */}
+          {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-background/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-background/80 backdrop-blur-md"
             onClick={onClose}
           />
           
-          {/* Sleek Modal Container */}
+          {/* Sharp Brutalist Modal Container */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md rounded-2xl border border-border/40 bg-card p-8 shadow-2xl overflow-hidden"
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-full max-w-md border-2 border-foreground bg-card p-8 md:p-10 shadow-2xl overflow-hidden"
           >
+            {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute right-5 top-5 p-2 rounded-full hover:bg-muted transition-colors z-20 text-muted-foreground hover:text-foreground"
+              className="absolute right-4 top-4 p-2 border-2 border-border bg-background text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors z-20"
+              aria-label="Close modal"
             >
               <X className="h-4 w-4" />
             </button>
 
             <div className="relative z-10 flex flex-col items-center text-center">
-              {/* Minimal Success Icon */}
+              {/* Badge Icon */}
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", damping: 20, stiffness: 300, delay: 0.1 }}
-                className="relative mb-6"
+                transition={{ duration: 0.3, delay: 0.1 }}
+                className="mb-6 p-4 border-2 border-foreground bg-foreground text-background"
               >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <CheckCircle2 className="h-8 w-8" />
-                </div>
+                <ShieldCheck className="h-8 w-8" />
               </motion.div>
+
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold mb-2">
+                TRANSMISSION ACKNOWLEDGED // [200 OK]
+              </div>
 
               <motion.h2 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mb-2 text-xl font-semibold tracking-tight text-foreground"
+                className="mb-4 font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground"
               >
-                Message sent successfully
+                MESSAGE TRANSMITTED
               </motion.h2>
 
               <motion.p 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="mb-8 text-sm leading-relaxed text-muted-foreground"
+                className="mb-8 font-sans text-sm leading-relaxed text-muted-foreground font-light border-y border-border py-4"
               >
-                {name ? `Thanks for reaching out, ${name}!` : 'Thanks for reaching out!'} I've received your message and will get back to you as soon as possible.
+                {name ? `Thank you for reaching out, ${name}!` : 'Thank you for reaching out!'} Your message has been received safely. I will review your requirements and get back to you promptly.
               </motion.p>
 
               <motion.div 
@@ -98,10 +102,10 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
               >
                 <AnimatedButton 
                   onClick={onClose}
-                  className="h-11 w-full rounded-xl text-sm"
+                  className="h-12 w-full font-mono text-xs font-bold uppercase tracking-wider"
                   variant="primary"
                 >
-                  Got it, thanks!
+                  ACKNOWLEDGE & RETURN
                 </AnimatedButton>
               </motion.div>
             </div>

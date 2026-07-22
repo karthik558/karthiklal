@@ -83,10 +83,10 @@ export default function AdminLoginPage() {
                 <input
                   type="text"
                   required
-                  placeholder="ENTER USERNAME"
+                  placeholder="Enter username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground uppercase focus:outline-none focus:border-foreground"
+                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
             </div>
@@ -98,10 +98,10 @@ export default function AdminLoginPage() {
                 <input
                   type="password"
                   required
-                  placeholder="ENTER PASSWORD"
+                  placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground uppercase focus:outline-none focus:border-foreground"
+                  className="w-full bg-background border-2 border-border pl-10 pr-4 py-3 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
             </div>
