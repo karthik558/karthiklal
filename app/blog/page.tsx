@@ -186,6 +186,7 @@ export default function BlogPage() {
 
                     <Link
                       href={`/blog/${featuredPost.id}`}
+                      prefetch={false}
                       className="inline-flex items-center gap-1.5 text-foreground hover:underline"
                     >
                       READ ARTICLE <ArrowUpRight className="w-4 h-4" />
@@ -234,7 +235,11 @@ export default function BlogPage() {
                     </div>
 
                     <div className="pt-4 border-t border-border/60 flex items-center justify-between font-mono text-xs font-bold uppercase">
-                      <Link href={`/blog/${post.id}`} className="inline-flex items-center gap-1.5 text-foreground hover:underline">
+                      <Link
+                        href={`/blog/${post.id}`}
+                        prefetch={false}
+                        className="inline-flex items-center gap-1.5 text-foreground hover:underline"
+                      >
                         READ ARTICLE <ArrowUpRight className="w-4 h-4" />
                       </Link>
                     </div>

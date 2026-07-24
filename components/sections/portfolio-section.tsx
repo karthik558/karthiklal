@@ -368,6 +368,7 @@ export default function PortfolioSection() {
               <div className="flex flex-wrap gap-4 pt-6 border-t border-border">
                 <Link
                   href={`/projects/${selectedProject.id}`}
+                  prefetch={false}
                   onClick={() => setSelectedProject(null)}
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider hover:bg-background hover:text-foreground transition-all duration-300"
                 >

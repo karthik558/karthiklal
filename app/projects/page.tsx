@@ -154,7 +154,11 @@ export default function ProjectsPage() {
                       </div>
 
                       <div className="flex items-center justify-between font-mono text-xs font-bold uppercase">
-                        <Link href={detailUrl} className="inline-flex items-center gap-1.5 text-foreground hover:underline">
+                        <Link
+                          href={detailUrl}
+                          prefetch={false}
+                          className="inline-flex items-center gap-1.5 text-foreground hover:underline"
+                        >
                           VIEW CASE STUDY <ArrowUpRight className="w-4 h-4" />
                         </Link>
 

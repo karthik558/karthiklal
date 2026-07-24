@@ -171,6 +171,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
           
           <Link
             href={`/projects/${prevProject.id}`}
+            prefetch={false}
             className="group border-2 border-border bg-card p-6 flex flex-col justify-between hover:border-foreground transition-all"
           >
             <div className="text-muted-foreground uppercase flex items-center gap-1 mb-2">
@@ -183,6 +184,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
 
           <Link
             href={`/projects/${nextProject.id}`}
+            prefetch={false}
             className="group border-2 border-border bg-card p-6 flex flex-col justify-between text-right hover:border-foreground transition-all"
           >
             <div className="text-muted-foreground uppercase flex items-center justify-end gap-1 mb-2">
