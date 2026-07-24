@@ -1,26 +1,52 @@
 "use client"
 
-import { useMemo, useState, type UIEvent } from "react"
+import { useMemo, useRef, useState, type UIEvent } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, X, Maximize2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, X, Maximize2 } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { getBehanceUrl } from "@/lib/static-data"
 import featuredDesignsData from "@/public/data/featured-designs.json"
 
-const portfolioItems = featuredDesignsData.featuredDesigns.slice(0, 8)
+const portfolioItems = featuredDesignsData.featuredDesigns
 
 export default function PortfolioGallerySection() {
   const behanceUrl = useMemo(() => getBehanceUrl("#"), [])
   const [selectedImage, setSelectedImage] = useState<{ title: string; image: string } | null>(null)
   const [galleryIndex, setGalleryIndex] = useState(0)
+  const galleryRef = useRef<HTMLDivElement>(null)
 
   const handleGalleryScroll = (event: UIEvent<HTMLDivElement>) => {
-    const track = event.currentTarget.firstElementChild as HTMLElement | null
-    const firstCard = track?.firstElementChild as HTMLElement | null
-    if (!firstCard) return
-    const step = firstCard.offsetWidth + 24
-    setGalleryIndex(Math.min(portfolioItems.length - 1, Math.max(0, Math.round(event.currentTarget.scrollLeft / step))))
+    const track = event.currentTarget.querySelector<HTMLElement>("[data-gallery-track]")
+    if (!track) return
+
+    const viewportCenter = event.currentTarget.scrollLeft + event.currentTarget.clientWidth / 2
+    let closestIndex = 0
+    let closestDistance = Number.POSITIVE_INFINITY
+
+    Array.from(track.children).forEach((child, index) => {
+      const card = child as HTMLElement
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2
+      const distance = Math.abs(cardCenter - viewportCenter)
+      if (distance < closestDistance) {
+        closestDistance = distance
+        closestIndex = index
+      }
+    })
+
+    setGalleryIndex(closestIndex)
+  }
+
+  const scrollToDesign = (index: number) => {
+    const viewport = galleryRef.current
+    const track = viewport?.querySelector<HTMLElement>("[data-gallery-track]")
+    const card = track?.children[index] as HTMLElement | undefined
+    if (!viewport || !card) return
+
+    viewport.scrollTo({
+      left: card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2,
+      behavior: "smooth",
+    })
   }
 
   return (
@@ -47,41 +73,87 @@ export default function PortfolioGallerySection() {
           </AnimatedButton>
         </div>
 
-        <div className="mb-3 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground md:hidden">
-          <span>SWIPE TO EXPLORE</span>
-          <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}</span>
+        <div className="mb-4 flex items-center justify-between gap-4 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <span>
+            <span className="md:hidden">SWIPE THE ARC</span>
+            <span className="hidden md:inline">DRAG OR SCROLL THE ARC // CENTER CARD IS ACTIVE</span>
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="mr-2 text-foreground">
+              {String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}
+            </span>
+            <button
+              type="button"
+              onClick={() => scrollToDesign(Math.max(0, galleryIndex - 1))}
+              disabled={galleryIndex === 0}
+              className="border border-border bg-card p-2 text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
+              aria-label="Previous design"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToDesign(Math.min(portfolioItems.length - 1, galleryIndex + 1))}
+              disabled={galleryIndex === portfolioItems.length - 1}
+              className="border border-border bg-card p-2 text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
+              aria-label="Next design"
+            >
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Ticker Gallery Container */}
+      {/* Scrollable Arc Gallery */}
       <div
+        ref={galleryRef}
         onScroll={handleGalleryScroll}
         role="region"
         aria-label="Featured design gallery"
         tabIndex={0}
-        className="relative z-10 overflow-x-auto pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="relative z-10 snap-x snap-proximity overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div className="flex w-max gap-6 px-4 md:px-6">
+        <div
+          data-gallery-track
+          className="relative z-10 flex h-[585px] w-max items-start gap-6 px-4 pt-3 sm:h-[580px] sm:gap-8 sm:px-6 lg:h-[450px] lg:gap-10 lg:px-8 xl:px-12"
+        >
           {portfolioItems.map((item, index) => {
             const numStr = String(index + 1).padStart(2, "0")
+            const relativeIndex = index - galleryIndex
+            const arcDistance = Math.min(Math.abs(relativeIndex), 4)
+            const isActive = index === galleryIndex
+            const rotation = Math.max(-4, Math.min(4, relativeIndex)) * 2.5
+            const translateY = arcDistance * 15
+            const scale = 1 - arcDistance * 0.015
 
             return (
-              <motion.div
+              <div
                 key={`${item.title}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="relative shrink-0 snap-center will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+                style={{
+                  transform: `translate3d(0, ${translateY}px, 0) rotate(${rotation}deg) scale(${scale})`,
+                  zIndex: isActive ? portfolioItems.length + 10 : portfolioItems.length - arcDistance,
+                }}
               >
-                <div className="group relative w-[82vw] max-w-[340px] border-2 border-border bg-card transition-all duration-300 hover:border-foreground sm:w-[340px] md:w-[380px] md:max-w-none">
+                <motion.article
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45 }}
+                  className={`group relative w-[82vw] max-w-[340px] overflow-hidden border-2 bg-card transition-all duration-500 hover:-translate-y-4 hover:scale-[1.035] hover:border-foreground hover:shadow-2xl motion-reduce:transform-none sm:w-[340px] lg:w-[260px] ${
+                    isActive ? "border-foreground shadow-2xl" : "border-border shadow-md"
+                  }`}
+                >
                   <div className="relative aspect-[4/5] overflow-hidden bg-muted border-b-2 border-border">
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
                       priority={index < 2}
-                      sizes="380px"
-                      className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
+                      sizes="(min-width: 1024px) 260px, 340px"
+                      className={`object-cover contrast-125 transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100 ${
+                        isActive ? "grayscale-0" : "grayscale"
+                      }`}
                     />
 
                     <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
@@ -90,8 +162,8 @@ export default function PortfolioGallerySection() {
 
                     <button
                       onClick={() => setSelectedImage(item)}
-                      className="absolute bottom-3 right-3 p-2.5 bg-background/90 text-foreground hover:bg-foreground hover:text-background border border-border backdrop-blur-md transition-colors"
-                      title="Expand Image"
+                      className="absolute bottom-3 right-3 border border-border bg-background/90 p-2.5 text-foreground backdrop-blur-md transition-all duration-300 hover:bg-foreground hover:text-background lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:focus-visible:translate-y-0 lg:focus-visible:opacity-100"
+                      aria-label={`Expand ${item.title}`}
                     >
                       <Maximize2 className="w-4 h-4" />
                     </button>
@@ -110,20 +182,11 @@ export default function PortfolioGallerySection() {
                       BEHANCE <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
-                </div>
-              </motion.div>
+                </motion.article>
+              </div>
             )
           })}
         </div>
-      </div>
-
-      <div className="container mx-auto flex max-w-7xl items-center gap-1.5 px-4 md:hidden" aria-hidden="true">
-        {portfolioItems.map((item, index) => (
-          <span
-            key={`${item.title}-progress`}
-            className={`h-1.5 transition-all ${galleryIndex === index ? "w-6 bg-foreground" : "w-1.5 bg-border"}`}
-          />
-        ))}
       </div>
 
       {/* Lightbox Modal */}
