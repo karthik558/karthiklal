@@ -129,30 +129,37 @@ export default function PortfolioGallerySection() {
       {/* Lightbox Modal */}
       <AnimatePresence>
         {selectedImage && (
-          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/90 backdrop-blur-md">
+          <div
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/90 backdrop-blur-md cursor-zoom-out"
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-4xl border-2 border-foreground bg-card p-4 md:p-6"
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-5xl border-2 border-foreground bg-card p-4 md:p-6 shadow-2xl cursor-default"
             >
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 z-10 p-2 border border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
+                className="absolute top-4 right-4 z-10 p-2.5 border-2 border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
+                aria-label="Close Lightbox"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
+              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3 font-bold">
                 CREATIVE ARCHIVE // {selectedImage.title}
               </div>
 
-              <div className="relative aspect-[4/3] w-full border-2 border-border overflow-hidden bg-muted">
+              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full border-2 border-border overflow-hidden bg-black">
                 <Image
                   src={selectedImage.image}
                   alt={selectedImage.title}
                   fill
-                  className="object-contain bg-black"
+                  sizes="100vw"
+                  className="object-contain"
+                  priority
                 />
               </div>
             </motion.div>

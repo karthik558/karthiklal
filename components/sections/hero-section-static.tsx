@@ -116,7 +116,7 @@ export default function HeroSectionStatic() {
           
           {/* Main Title - KARTHIK LAL (Single Line, KARTHIK Solid, LAL Stroke) */}
           <div className="py-4 text-center w-full select-none overflow-hidden">
-            <h1 className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[9vw] sm:text-7xl md:text-9xl lg:text-[11.5rem] font-black uppercase tracking-tighter leading-none">
+            <h1 className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[clamp(2.25rem,8.5vw,11.5rem)] font-black uppercase tracking-tighter leading-none">
               {/* KARTHIK - Solid Bold */}
               <span className="flex text-foreground">
                 {"KARTHIK".split("").map((char, index) => (

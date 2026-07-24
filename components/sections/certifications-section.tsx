@@ -141,17 +141,17 @@ export default function CertificationsSection() {
                           <span className="text-muted-foreground opacity-50">VERIFIED MEMBER</span>
                         )}
 
-                        {item.link && (
+                        {item.link ? (
                           <a
                             href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 border border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 border border-border bg-background text-foreground hover:bg-foreground hover:text-background font-bold transition-colors uppercase text-[11px]"
                             title="Verify Credential Link"
                           >
-                            <ExternalLink className="w-4 h-4" />
+                            <span>VERIFY</span> <ExternalLink className="w-3.5 h-3.5" />
                           </a>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </div>

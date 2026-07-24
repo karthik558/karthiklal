@@ -57,17 +57,17 @@ export default function PortfolioSection() {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="sticky top-16 md:top-20 z-20 flex flex-wrap items-center gap-2 bg-background/90 backdrop-blur-md py-2 px-1 border-b border-border/40 md:border-b-0 md:bg-transparent">
             {categories.map((cat) => (
               <button
                 key={cat}
-                  onClick={() => {
-                    setFilter(cat)
-                    setArchiveIndex(0)
-                  }}
+                onClick={() => {
+                  setFilter(cat)
+                  setArchiveIndex(0)
+                }}
                 className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
                   filter === cat
-                    ? "border-foreground bg-foreground text-background font-bold"
+                    ? "border-foreground bg-foreground text-background font-bold shadow-md"
                     : "border-border bg-card text-muted-foreground hover:border-foreground/50 hover:text-foreground"
                 }`}
               >
