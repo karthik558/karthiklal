@@ -1,13 +1,7 @@
-"use client"
-
-import { use } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
-
-// Cloudflare Pages requires every dynamic route to use the Edge Runtime.
-export const runtime = "edge"
 
 interface Project {
   id: number
@@ -21,10 +15,17 @@ interface Project {
   featured: boolean
 }
 
-export default function SingleProjectPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params)
-  const projectId = parseInt(resolvedParams.id, 10)
-  const projects = projectsData.projects as Project[]
+const projects = projectsData.projects as Project[]
+
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return projects.map((project) => ({ id: String(project.id) }))
+}
+
+export default async function SingleProjectPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const projectId = parseInt(id, 10)
   
   const projectIndex = projects.findIndex((p) => p.id === projectId)
   const project = projects[projectIndex]

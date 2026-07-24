@@ -1,14 +1,8 @@
-"use client"
-
-import { useState, useEffect, use } from "react"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react"
+import { ArrowLeft, Calendar, Clock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { toast } from "sonner"
-
-// Add Edge Runtime configuration for Cloudflare Pages compatibility
-export const runtime = 'edge'
+import { ShareButton } from "@/components/blog/share-button"
+import blogsData from "@/public/data/blogs.json"
 
 interface BlogPost {
   id: string
@@ -36,72 +30,17 @@ interface ContentBlock {
   items?: string[]
 }
 
-interface BlogData {
-  blogs: BlogPost[]
+const blogs = blogsData.blogs as BlogPost[]
+
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return blogs.map((blog) => ({ id: blog.id }))
 }
 
-export default function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
-  const [blog, setBlog] = useState<BlogPost | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  // Unwrap the params Promise using React.use()
-  const resolvedParams = use(params)
-
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await fetch('/data/blogs.json')
-        if (!response.ok) {
-          throw new Error('Failed to fetch blogs')
-        }
-
-        const data: BlogData = await response.json()
-        const foundBlog = data.blogs?.find(b => b?.id === resolvedParams.id)
-
-        if (!foundBlog) {
-          setError('Blog post not found')
-        } else {
-          setBlog(foundBlog)
-        }
-      } catch (error) {
-        console.error('Failed to fetch blog:', error)
-        setError('Failed to load blog post')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    if (resolvedParams.id) {
-      fetchBlog()
-    }
-  }, [resolvedParams.id])
-
-  const handleShare = async () => {
-    if (!blog) return
-
-    const shareData = {
-      title: blog.title,
-      text: blog.excerpt,
-      url: window.location.href,
-    }
-
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData)
-        toast.success("Shared successfully!")
-      } else {
-        await navigator.clipboard.writeText(window.location.href)
-        toast.success("Link copied to clipboard!")
-      }
-    } catch (err) {
-      console.error("Error sharing:", err)
-      // Don't show error toast if user cancelled share
-      if (err instanceof Error && err.name !== "AbortError") {
-        toast.error("Failed to share")
-      }
-    }
-  }
+export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const blog = blogs.find((candidate) => candidate.id === id)
 
   const renderContentBlock = (block: ContentBlock, index: number) => {
     switch (block.type) {
@@ -183,19 +122,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
     }
   }
 
-  if (isLoading) {
-    return (
-      <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
-        <div className="container mx-auto max-w-4xl px-4 font-mono text-xs uppercase animate-pulse">
-          <div className="h-10 bg-card border-2 border-border w-36 mb-8" />
-          <div className="h-20 bg-card border-2 border-border w-full mb-6" />
-          <div className="h-96 bg-card border-2 border-border w-full mb-8" />
-        </div>
-      </main>
-    )
-  }
-
-  if (error || !blog) {
+  if (!blog) {
     return (
       <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border text-center">
         <div className="container mx-auto max-w-4xl px-4 font-mono">
@@ -278,9 +205,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
 
           {/* Share & Footer */}
           <footer className="border-t-2 border-border pt-8 mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs uppercase">
-            <Button variant="outline" className="border-2 border-border bg-card hover:border-foreground text-foreground font-bold px-6 py-3" onClick={handleShare}>
-              <Share2 className="h-4 w-4 mr-2" /> SHARE ARTICLE
-            </Button>
+            <ShareButton title={blog.title} excerpt={blog.excerpt} />
 
             <Link href="/blog" className="px-6 py-3 bg-foreground text-background font-bold hover:bg-foreground/90 transition-colors">
               VIEW ALL ARTICLES

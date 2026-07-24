@@ -23,6 +23,28 @@ test("key public routes load without server errors", async ({ page }) => {
   }
 })
 
+test("project and blog client navigation has no failed RSC requests", async ({ page }) => {
+  const failedRscRequests: string[] = []
+
+  page.on("response", (response) => {
+    if (response.url().includes("_rsc=") && response.status() >= 400) {
+      failedRscRequests.push(`${response.status()} ${response.url()}`)
+    }
+  })
+
+  await page.goto("/projects")
+  await page.locator('a[href="/projects/1"]').first().click()
+  await expect(page).toHaveURL(/\/projects\/1$/)
+  await expect(page.locator("main h1")).toBeVisible()
+
+  await page.goto("/blog")
+  await page.locator('a[href="/blog/kernel-development-for-developers"]').first().click()
+  await expect(page).toHaveURL(/\/blog\/kernel-development-for-developers$/)
+  await expect(page.locator("main h1")).toBeVisible()
+
+  expect(failedRscRequests).toEqual([])
+})
+
 test("mobile navigation supports keyboard access and focus restoration", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
