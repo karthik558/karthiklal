@@ -1,12 +1,17 @@
 "use client"
 
 import { useState } from "react"
+import dynamic from "next/dynamic"
 import { Github, Linkedin, Mail, MapPin, Send, Check, Copy, ArrowUpRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { ContactSuccessModal } from "@/components/ui/contact-success-modal"
 import { useToast } from "@/components/ui/use-toast"
 import { PROFILE_DATA } from "@/lib/static-data"
+
+const ContactSuccessModal = dynamic(
+  () => import("@/components/ui/contact-success-modal").then((mod) => mod.ContactSuccessModal),
+  { ssr: false },
+)
 
 export default function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
@@ -35,19 +40,23 @@ export default function ContactSection() {
         email: formData.get("email") as string,
         subject: formData.get("subject") as string,
         message: formData.get("message") as string,
+        website: formData.get("website") as string,
       }
 
       if (!data.name?.trim() || !data.email?.trim() || !data.subject?.trim() || !data.message?.trim()) {
         throw new Error("All fields are required")
       }
 
+      const controller = new AbortController()
+      const timeout = window.setTimeout(() => controller.abort(), 15_000)
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      })
+        signal: controller.signal,
+      }).finally(() => window.clearTimeout(timeout))
 
-      const responseData = await response.json()
+      const responseData = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(responseData.error || "Failed to submit message")
 
       setSenderName(data.name)
@@ -56,7 +65,11 @@ export default function ContactSection() {
     } catch (error) {
       toast({
         title: "Message not sent",
-        description: error instanceof Error ? error.message : "Failed to send message. Please try again later.",
+        description: error instanceof DOMException && error.name === "AbortError"
+          ? "The request timed out. Please try again."
+          : error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again later.",
         variant: "destructive",
       })
     } finally {
@@ -142,6 +155,10 @@ export default function ContactSection() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR NAME *</label>
@@ -149,6 +166,7 @@ export default function ContactSection() {
                     name="name"
                     required
                     type="text"
+                    maxLength={80}
                     placeholder="Enter your full name"
                     className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                   />
@@ -160,6 +178,7 @@ export default function ContactSection() {
                     name="email"
                     required
                     type="email"
+                    maxLength={254}
                     placeholder="Enter your email address"
                     className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                   />
@@ -172,6 +191,7 @@ export default function ContactSection() {
                   name="subject"
                   required
                   type="text"
+                  maxLength={120}
                   placeholder="Enter subject or project type"
                   className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                 />
@@ -179,9 +199,10 @@ export default function ContactSection() {
 
               <div>
                 <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">MESSAGE DETAILS *</label>
-                <textarea
-                  name="message"
-                  required
+                  <textarea
+                    name="message"
+                    required
+                    maxLength={5000}
                   rows={6}
                   placeholder="Enter your message details and technical requirements..."
                   className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
@@ -208,4 +229,3 @@ export default function ContactSection() {
     </main>
   )
 }
-

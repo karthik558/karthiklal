@@ -1,16 +1,35 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import { globalIgnores } from "eslint/config"
+import nextVitals from "eslint-config-next/core-web-vitals"
+import nextTypeScript from "eslint-config-next/typescript"
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals"),
-];
+  ...nextVitals,
+  ...nextTypeScript,
+  {
+    // Keep legacy findings visible without making the newly restored lint gate
+    // unusable. New syntax, import, and framework correctness errors still fail.
+    rules: {
+      "@next/next/no-html-link-for-pages": "warn",
+      "@typescript-eslint/ban-ts-comment": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-require-imports": "warn",
+      "@typescript-eslint/no-unsafe-function-type": "warn",
+      "prefer-const": "warn",
+      "react/jsx-no-comment-textnodes": "warn",
+      "react/no-unescaped-entities": "warn",
+      "react-hooks/purity": "warn",
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/static-components": "warn",
+    },
+  },
+  globalIgnores([
+    ".next/**",
+    ".vercel/**",
+    "public/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]
 
-export default eslintConfig;
+export default eslintConfig

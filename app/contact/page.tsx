@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     url: "https://karthiklal.in/contact",
     images: [
       {
-        url: "/1.jpg",
+        url: "/user/hero.jpg",
         width: 1200,
         height: 630,
         alt: "Contact Karthik Lal - IT Manager & Cybersecurity Expert",

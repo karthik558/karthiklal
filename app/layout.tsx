@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     siteName: "Karthik Lal - Official Portfolio",
     images: [
       {
-        url: "/1.jpg",
+        url: "/user/hero.jpg",
         width: 1200,
         height: 630,
         alt: "Karthik Lal - IT Manager & Certified Ethical Hacker from Kerala, India",
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
     description: "Meet Karthik Lal: an IT Manager with enterprise experience since 2019 in cybersecurity, full-stack development, and network management.",
     site: "@karthiklal_in",
     creator: "@karthiklal_in",
-    images: ["/1.jpg"],
+    images: ["/user/hero.jpg"],
   },
   icons: {
     icon: [

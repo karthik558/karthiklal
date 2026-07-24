@@ -1,13 +1,8 @@
 "use client"
 
-import type React from "react"
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import Lenis from "lenis"
-
-interface SmoothScrollProps {
-  children: React.ReactNode
-}
 
 declare global {
   interface Window {
@@ -15,7 +10,7 @@ declare global {
   }
 }
 
-export default function SmoothScroll({ children }: SmoothScrollProps) {
+export default function SmoothScroll() {
   const pathname = usePathname()
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -62,5 +57,5 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     lenisRef.current?.scrollTo(0, { immediate: true })
   }, [pathname])
 
-  return <>{children}</>
+  return null
 }

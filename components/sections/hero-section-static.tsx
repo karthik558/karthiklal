@@ -87,20 +87,6 @@ export default function HeroSectionStatic() {
   const contentY = useTransform(scrollY, [0, 500], ["0px", "-60px"])
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4])
 
-  const nameString = "KARTHIK LAL"
-  const letterVariants = {
-    hidden: { y: "100%", opacity: 0 },
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.04,
-        duration: 0.8,
-        ease: "easeOut" as const,
-      },
-    }),
-  }
-
   return (
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-24">
       {/* Black & White Video Background */}
@@ -140,16 +126,12 @@ export default function HeroSectionStatic() {
               {/* KARTHIK - Solid Bold */}
               <span className="flex text-foreground">
                 {"KARTHIK".split("").map((char, index) => (
-                  <motion.span
+                  <span
                     key={index}
-                    custom={index}
-                    variants={letterVariants}
-                    initial="hidden"
-                    animate="visible"
                     className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
                   >
                     {char}
-                  </motion.span>
+                  </span>
                 ))}
               </span>
 
@@ -166,16 +148,12 @@ export default function HeroSectionStatic() {
                 }}
               >
                 {"LAL".split("").map((char, index) => (
-                  <motion.span
+                  <span
                     key={index}
-                    custom={index + 7}
-                    variants={letterVariants}
-                    initial="hidden"
-                    animate="visible"
                     className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
                   >
                     {char}
-                  </motion.span>
+                  </span>
                 ))}
               </span>
             </h1>
@@ -183,12 +161,7 @@ export default function HeroSectionStatic() {
 
           {/* Subtitle Statement & Tech Domain Pills - Centered */}
           <div className="mt-6 sm:mt-10 flex flex-col items-center text-center max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="flex flex-col items-center text-center"
-            >
+            <div className="flex flex-col items-center text-center">
               <p className="font-sans text-base font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl max-w-3xl">
                 Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
               </p>
@@ -200,15 +173,10 @@ export default function HeroSectionStatic() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Action Buttons & Social Links - Centered */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mt-8 sm:mt-10 flex flex-col items-center gap-6"
-            >
+            <div className="mt-8 sm:mt-10 flex flex-col items-center gap-6">
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                 <AnimatedButton
                   href="/#portfolio"
@@ -250,7 +218,7 @@ export default function HeroSectionStatic() {
                   )
                 })}
               </div>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

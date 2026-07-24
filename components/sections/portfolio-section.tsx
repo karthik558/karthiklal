@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
@@ -21,16 +21,9 @@ interface Project {
 }
 
 export default function PortfolioSection() {
-  const [projects, setProjects] = useState<Project[]>(projectsData.projects as Project[])
+  const projects = projectsData.projects as Project[]
   const [filter, setFilter] = useState<string>("All")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-
-  useEffect(() => {
-    fetch("/data/projects.json", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((data) => setProjects(data.projects as Project[]))
-      .catch(() => undefined)
-  }, [])
 
   const categories = ["All", "Web Development", "Security", "Systems"]
 

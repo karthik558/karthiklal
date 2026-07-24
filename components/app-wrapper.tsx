@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import Preloader from "@/components/preloader"
 import ContentWrapper from "@/components/content-wrapper"
 import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
 import BackToTop from "@/components/back-to-top"
-import CustomCursor from "@/components/custom-cursor"
+import ClientEnhancements from "@/components/client-enhancements"
 import { Analytics } from "@/components/analytics"
 import { scrollToElement } from "@/lib/scroll-utils"
 
@@ -16,23 +16,14 @@ interface AppWrapperProps {
 }
 
 export default function AppWrapper({ children }: AppWrapperProps) {
-  // Initialize to true for SSR, then check session storage
   const [showPreloader, setShowPreloader] = useState(true)
-  const [isMounted, setIsMounted] = useState(false)
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin') ?? false
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  const handleComplete = useCallback(() => {
-    setShowPreloader(false)
-  }, [])
+  const handlePreloaderComplete = useCallback(() => setShowPreloader(false), [])
 
   // Handle hash navigation for cross-page links
   useEffect(() => {
-    if (!showPreloader && pathname === '/' && typeof window !== 'undefined') {
+    if (pathname === '/' && typeof window !== 'undefined') {
       let targetId = ''
       
       // Check for hash in URL first
@@ -49,18 +40,13 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       }
       
       if (targetId) {
-        console.log('Target detected:', targetId) // Debug log
-
         // Function to attempt scrolling with less aggressive locking
         const attemptScroll = (retryCount = 0) => {
-          console.log(`Attempting to scroll to ${targetId}, retry: ${retryCount}`)
-          
           // First check if the element exists
           const targetElement = document.getElementById(targetId)
           if (!targetElement && retryCount < 8) {
             // Element not found, retry with reasonable delay
             setTimeout(() => {
-              console.log(`Element not found, retry attempt ${retryCount + 1} for ${targetId}`)
               attemptScroll(retryCount + 1)
             }, 300 + (retryCount * 200)) // Progressive delays: 300ms, 500ms, 700ms, etc.
             return
@@ -72,8 +58,6 @@ export default function AppWrapper({ children }: AppWrapperProps) {
               const success = scrollToElement(targetId)
               
               if (success) {
-                console.log(`Successfully scrolled to ${targetId}`)
-                
                 // Clean up the hash from URL after successful scrolling
                 if (hash) {
                   setTimeout(() => {
@@ -83,7 +67,6 @@ export default function AppWrapper({ children }: AppWrapperProps) {
               } else if (retryCount < 8) {
                 // Scroll failed, retry
                 setTimeout(() => {
-                  console.log(`Scroll failed, retry attempt ${retryCount + 1} for ${targetId}`)
                   attemptScroll(retryCount + 1)
                 }, 300 + (retryCount * 200))
               } else {
@@ -101,29 +84,27 @@ export default function AppWrapper({ children }: AppWrapperProps) {
         }, 600) // Reduced initial delay for better responsiveness
       }
     }
-  }, [pathname, showPreloader])
+  }, [pathname])
 
   return (
     <>
-      {showPreloader && !isAdmin && <Preloader onComplete={handleComplete} />}
-      {(!showPreloader || isAdmin) && (
-        <>
-          {!isAdmin && <NavBar />}
-          
-          {isAdmin ? (
-            <main>{children}</main>
-          ) : (
-            <ContentWrapper>
-              <main>{children}</main>
-              <Footer />
-            </ContentWrapper>
-          )}
-
-          {!isAdmin && <BackToTop />}
-          {!isAdmin && <CustomCursor />}
-          <Analytics />
-        </>
+      {showPreloader && !isAdmin && (
+        <Preloader onComplete={handlePreloaderComplete} />
       )}
+      {!isAdmin && <NavBar />}
+          
+      {isAdmin ? (
+        <main>{children}</main>
+      ) : (
+        <ContentWrapper>
+          <main>{children}</main>
+          <Footer />
+        </ContentWrapper>
+      )}
+
+      {!isAdmin && <BackToTop />}
+      {!isAdmin && <ClientEnhancements />}
+      <Analytics />
     </>
   )
 }
