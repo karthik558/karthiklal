@@ -138,7 +138,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased transition-colors duration-300",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
           fontDisplay.variable,
         )}
