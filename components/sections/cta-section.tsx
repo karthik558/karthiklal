@@ -15,7 +15,7 @@ export default function CtaSection() {
   }
 
   return (
-    <section id="cta" className="relative bg-background py-28 md:py-36">
+    <section id="cta" className="relative bg-background py-20 md:py-36">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
           

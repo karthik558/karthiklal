@@ -10,7 +10,7 @@ type ExperienceType = "work" | "education"
 type TimelineFilter = "work" | "education" | "all"
 type ExperienceItem = { id: number; title: string; company: string; duration: string; type: ExperienceType }
 
-const INITIAL_ITEMS = 6
+const INITIAL_ITEMS = 3
 const experiences = experiencesData.experiences as ExperienceItem[]
 
 export default function ExperienceSection() {
@@ -26,7 +26,7 @@ export default function ExperienceSection() {
   const hiddenCount = filtered.length - visible.length
 
   return (
-    <section id="experience" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="experience" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

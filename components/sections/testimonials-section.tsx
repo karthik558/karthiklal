@@ -37,7 +37,7 @@ export default function TestimonialsSection() {
   const showNext = () => setActiveIndex((current) => (current + 1) % testimonials.length)
 
   return (
-    <section id="testimonials" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="testimonials" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

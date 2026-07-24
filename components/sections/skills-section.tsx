@@ -32,7 +32,7 @@ export default function SkillsSection() {
   }).filter(Boolean) as SkillCategory[]
 
   return (
-    <section id="skills" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="skills" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

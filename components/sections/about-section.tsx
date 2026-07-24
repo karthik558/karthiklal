@@ -50,7 +50,7 @@ export default function AboutSection() {
   const currentPillarData = pillars.find((p) => p.id === activePillar) || pillars[0]
 
   return (
-    <section id="about" ref={containerRef} className="relative bg-background py-28 md:py-36">
+    <section id="about" ref={containerRef} className="relative bg-background py-20 md:py-36">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

@@ -51,7 +51,7 @@ export default function ServicesSection() {
   const [expandedId, setExpandedId] = useState<number | null>(1)
 
   return (
-    <section id="services" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="services" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

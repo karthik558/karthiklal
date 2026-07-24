@@ -10,7 +10,7 @@ export default function BackToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 400)
+      setIsVisible(window.scrollY > Math.max(window.innerHeight * 2, 1200))
     }
 
     window.addEventListener("scroll", toggleVisibility)
@@ -36,15 +36,14 @@ export default function BackToTop() {
           whileHover={{ y: -3 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleScrollToTop}
-          className="fixed right-6 bottom-6 z-[9998] flex items-center justify-center gap-2 px-4 h-11 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase shadow-2xl transition-all duration-300 hover:bg-background hover:text-foreground select-none"
+          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-[9998] flex h-11 w-11 items-center justify-center gap-2 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase shadow-2xl transition-all duration-300 hover:bg-background hover:text-foreground select-none sm:right-6 sm:bottom-6 sm:w-auto sm:px-4"
           aria-label="Scroll to top"
         >
-          <span>TOP</span>
+          <span className="hidden sm:inline">TOP</span>
           <ArrowUp className="h-4 w-4 stroke-[3]" />
         </motion.button>
       )}
     </AnimatePresence>
   )
 }
-
 

@@ -8,7 +8,7 @@ import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 
 interface Certification { id: number; title: string; issuer: string; date: string; expiryDate: string; credentialId: string; status: string; link?: string }
 type CredentialFilter = "all" | "active" | "expired"
-const INITIAL_ITEMS = 6
+const INITIAL_ITEMS = 3
 const certifications = CERTIFICATIONS_DATA.certifications as Certification[]
 
 const parseDate = (date: string) => {
@@ -34,7 +34,7 @@ export default function CertificationsSection() {
   }
 
   return (
-    <section id="certifications" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="certifications" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}

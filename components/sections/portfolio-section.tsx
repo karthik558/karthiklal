@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type UIEvent } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
@@ -24,6 +24,7 @@ export default function PortfolioSection() {
   const projects = projectsData.projects as Project[]
   const [filter, setFilter] = useState<string>("All")
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [archiveIndex, setArchiveIndex] = useState(0)
 
   const categories = ["All", "Web Development", "Security", "Systems"]
 
@@ -31,9 +32,17 @@ export default function PortfolioSection() {
     if (filter === "All") return p.featured
     return p.category.toLowerCase().includes(filter.toLowerCase()) || p.technologies.some(t => t.toLowerCase().includes(filter.toLowerCase()))
   })
+  const archiveProjects = filteredProjects.slice(2, 5)
+
+  const handleArchiveScroll = (event: UIEvent<HTMLDivElement>) => {
+    const firstCard = event.currentTarget.firstElementChild as HTMLElement | null
+    if (!firstCard) return
+    const step = firstCard.offsetWidth + 24
+    setArchiveIndex(Math.min(archiveProjects.length - 1, Math.max(0, Math.round(event.currentTarget.scrollLeft / step))))
+  }
 
   return (
-    <section id="portfolio" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="portfolio" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Header Row */}
@@ -52,7 +61,10 @@ export default function PortfolioSection() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setFilter(cat)}
+                  onClick={() => {
+                    setFilter(cat)
+                    setArchiveIndex(0)
+                  }}
                 className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
                   filter === cat
                     ? "border-foreground bg-foreground text-background font-bold"
@@ -183,6 +195,9 @@ export default function PortfolioSection() {
             <div className="flex items-center justify-between mb-4 font-mono text-xs uppercase">
               <span className="text-muted-foreground">PROJECT ARCHIVE // [03 TO {filteredProjects.length < 10 ? `0${filteredProjects.length}` : filteredProjects.length}]</span>
               <div className="flex items-center gap-2">
+                <span className="mr-1 text-[10px] font-bold tracking-widest text-foreground md:hidden">
+                  SWIPE TO EXPLORE
+                </span>
                 <button
                   onClick={() => {
                     const el = document.getElementById("portfolio-scroll-row")
@@ -208,16 +223,20 @@ export default function PortfolioSection() {
 
             <div
               id="portfolio-scroll-row"
-              className="flex gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory"
+              onScroll={handleArchiveScroll}
+              role="region"
+              aria-label="More selected projects"
+              tabIndex={0}
+              className="flex gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              {filteredProjects.slice(2, 5).map((project, index) => {
+              {archiveProjects.map((project, index) => {
                 const numStr = index + 3 < 10 ? `0${index + 3}` : `${index + 3}`
                 const projectUrl = `/projects/${project.id}`
 
                 return (
                   <motion.article
                     key={project.id}
-                    className="group relative flex flex-col justify-between border-2 border-border bg-card p-0 w-[300px] sm:w-[360px] md:w-[380px] shrink-0 snap-start transition-all duration-300 hover:border-foreground hover:shadow-2xl overflow-hidden"
+                    className="group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border-2 border-border bg-card p-0 transition-all duration-300 hover:border-foreground hover:shadow-2xl sm:w-[360px] sm:max-w-none md:w-[380px]"
                   >
                     {/* Background Giant Stroke Number Watermark */}
                     <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">
@@ -299,6 +318,20 @@ export default function PortfolioSection() {
                   </motion.article>
                 )
               })}
+            </div>
+
+            <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest md:hidden">
+              <div className="flex items-center gap-1.5" aria-hidden="true">
+                {archiveProjects.map((project, index) => (
+                  <span
+                    key={project.id}
+                    className={`h-1.5 transition-all ${archiveIndex === index ? "w-6 bg-foreground" : "w-1.5 bg-border"}`}
+                  />
+                ))}
+              </div>
+              <span className="text-muted-foreground">
+                {String(archiveIndex + 1).padStart(2, "0")} / {String(archiveProjects.length).padStart(2, "0")}
+              </span>
             </div>
           </div>
         )}

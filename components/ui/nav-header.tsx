@@ -106,14 +106,6 @@ export default function NavHeader() {
 
   return (
     <div className="flex w-full items-center justify-between font-mono text-xs uppercase">
-      <SmoothLink
-        href="/"
-        className="font-display text-lg font-black tracking-tight text-foreground md:hidden"
-        aria-label="Karthik Lal home"
-      >
-        KARTHIK LAL
-      </SmoothLink>
-      
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex items-center gap-1.5 border-2 border-border bg-card p-1">
         {navItems.map((item) => {
@@ -137,8 +129,10 @@ export default function NavHeader() {
       </ul>
 
       {/* Right Tools: Theme Toggle & Mobile Trigger */}
-      <div className="flex items-center gap-3">
-        <ThemeToggleAnimated />
+      <div className="ml-auto flex items-center gap-3">
+        <div className="hidden md:block">
+          <ThemeToggleAnimated />
+        </div>
 
         <button
           ref={menuButtonRef}

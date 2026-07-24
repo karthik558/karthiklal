@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, type UIEvent } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, X, Maximize2 } from "lucide-react"
@@ -13,9 +13,18 @@ const portfolioItems = featuredDesignsData.featuredDesigns.slice(0, 8)
 export default function PortfolioGallerySection() {
   const behanceUrl = useMemo(() => getBehanceUrl("#"), [])
   const [selectedImage, setSelectedImage] = useState<{ title: string; image: string } | null>(null)
+  const [galleryIndex, setGalleryIndex] = useState(0)
+
+  const handleGalleryScroll = (event: UIEvent<HTMLDivElement>) => {
+    const track = event.currentTarget.firstElementChild as HTMLElement | null
+    const firstCard = track?.firstElementChild as HTMLElement | null
+    if (!firstCard) return
+    const step = firstCard.offsetWidth + 24
+    setGalleryIndex(Math.min(portfolioItems.length - 1, Math.max(0, Math.round(event.currentTarget.scrollLeft / step))))
+  }
 
   return (
-    <section id="portfolio-gallery" className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="portfolio-gallery" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         <div className="mb-14 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -37,10 +46,21 @@ export default function PortfolioGallerySection() {
             FULL BEHANCE ARCHIVE <ArrowUpRight className="ml-2 h-4 w-4" />
           </AnimatedButton>
         </div>
+
+        <div className="mb-3 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground md:hidden">
+          <span>SWIPE TO EXPLORE</span>
+          <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}</span>
+        </div>
       </div>
 
       {/* Ticker Gallery Container */}
-      <div className="relative z-10 overflow-x-auto pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div
+        onScroll={handleGalleryScroll}
+        role="region"
+        aria-label="Featured design gallery"
+        tabIndex={0}
+        className="relative z-10 overflow-x-auto pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
         <div className="flex w-max gap-6 px-4 md:px-6">
           {portfolioItems.map((item, index) => {
             const numStr = String(index + 1).padStart(2, "0")
@@ -53,7 +73,7 @@ export default function PortfolioGallerySection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
               >
-                <div className="group relative w-[290px] sm:w-[340px] md:w-[380px] border-2 border-border bg-card transition-all duration-300 hover:border-foreground">
+                <div className="group relative w-[82vw] max-w-[340px] border-2 border-border bg-card transition-all duration-300 hover:border-foreground sm:w-[340px] md:w-[380px] md:max-w-none">
                   <div className="relative aspect-[4/5] overflow-hidden bg-muted border-b-2 border-border">
                     <Image
                       src={item.image}
@@ -95,6 +115,15 @@ export default function PortfolioGallerySection() {
             )
           })}
         </div>
+      </div>
+
+      <div className="container mx-auto flex max-w-7xl items-center gap-1.5 px-4 md:hidden" aria-hidden="true">
+        {portfolioItems.map((item, index) => (
+          <span
+            key={`${item.title}-progress`}
+            className={`h-1.5 transition-all ${galleryIndex === index ? "w-6 bg-foreground" : "w-1.5 bg-border"}`}
+          />
+        ))}
       </div>
 
       {/* Lightbox Modal */}
