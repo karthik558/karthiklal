@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { getClientKey, rateLimit } from "@/lib/rate-limit"
 
+export const runtime = "edge"
+
 const vitalSchema = z.object({
   id: z.string().max(100),
   name: z.enum(["CLS", "FCP", "FID", "INP", "LCP", "TTFB"]),

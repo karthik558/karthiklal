@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import { z } from "zod"
 import { getClientKey, rateLimit } from "@/lib/rate-limit"
 
+export const runtime = "edge"
+
 const errorSchema = z.object({
   type: z.enum(["error", "unhandledrejection"]),
   name: z.string().max(100),
