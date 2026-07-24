@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import {
   ArrowDownRight,
@@ -46,6 +47,38 @@ interface Social {
 
 export default function HeroSectionStatic() {
   const { scrollY } = useScroll()
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handlePlaying = () => setIsVideoPlaying(true)
+
+    video.addEventListener("playing", handlePlaying)
+    video.addEventListener("canplay", handlePlaying)
+    video.addEventListener("canplaythrough", handlePlaying)
+
+    if (video.readyState >= 3) {
+      setIsVideoPlaying(true)
+    }
+
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setIsVideoPlaying(true))
+        .catch((err) => {
+          console.warn("Autoplay attempt failed/deferred:", err)
+        })
+    }
+
+    return () => {
+      video.removeEventListener("playing", handlePlaying)
+      video.removeEventListener("canplay", handlePlaying)
+      video.removeEventListener("canplaythrough", handlePlaying)
+    }
+  }, [])
 
   const socials: Social[] = (SOCIALS_DATA.socials as Social[])
     .filter((social: Social) => social.active)
@@ -70,19 +103,31 @@ export default function HeroSectionStatic() {
 
   return (
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-24">
-      {/* Black & White Video Background Overlay */}
+      {/* Black & White Video Background */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-        <div className="absolute inset-0 bg-[url('/user/hero.jpg')] bg-cover bg-center grayscale opacity-25 dark:opacity-30" />
+        {/* Fallback image: visible ONLY until video starts playing (on slow internet) */}
+        <div
+          className={`absolute inset-0 bg-[url('/user/hero.jpg')] bg-cover bg-center grayscale transition-opacity duration-700 ${
+            isVideoPlaying ? "opacity-0" : "opacity-25 dark:opacity-30"
+          }`}
+        />
+        {/* Forced video playback */}
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster="/user/hero.jpg"
-          className="h-full w-full object-cover grayscale contrast-150 opacity-25 dark:opacity-30 transition-opacity duration-700 motion-reduce:hidden"
-          src="/user/hero_video.webm"
-        />
+          onPlaying={() => setIsVideoPlaying(true)}
+          onCanPlay={() => setIsVideoPlaying(true)}
+          className={`h-full w-full object-cover grayscale contrast-150 transition-opacity duration-700 motion-reduce:hidden ${
+            isVideoPlaying ? "opacity-25 dark:opacity-30" : "opacity-0"
+          }`}
+        >
+          <source src="/user/hero_video.webm" type="video/webm" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/60 to-background z-[1]" />
       </div>
 
