@@ -2,21 +2,11 @@
 
 import { useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { AnimatedButton } from "@/components/ui/animated-button"
 import {
-  Download,
-  ArrowUpRight,
-  ShieldCheck,
-  Code2,
-  Network,
-  Cpu,
   MapPin,
   CheckCircle2,
-  Terminal,
-  FileCode2,
 } from "lucide-react"
 import Image from "next/image"
-import { PROFILE_DATA } from "@/lib/static-data"
 
 const pillars = [
   {
@@ -60,7 +50,7 @@ export default function AboutSection() {
   const currentPillarData = pillars.find((p) => p.id === activePillar) || pillars[0]
 
   return (
-    <section id="about" ref={containerRef} className="relative bg-background py-28 md:py-36 border-t border-border">
+    <section id="about" ref={containerRef} className="relative bg-background py-28 md:py-36">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}
@@ -110,7 +100,7 @@ export default function AboutSection() {
                 ENGINEERING MANIFESTO
               </div>
               <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6 uppercase">
-                "Security is not a feature added at the end; it is the fundamental architecture upon which extraordinary products are built."
+                &ldquo;Security is not a feature added at the end; it is the fundamental architecture upon which extraordinary products are built.&rdquo;
               </h3>
               <p className="font-sans text-muted-foreground text-base leading-relaxed mb-8">
                 With enterprise IT experience since <strong className="text-foreground font-semibold">2019</strong> across leadership, penetration testing, and web development, I protect mission-critical operations while engineering high-speed digital solutions.
@@ -152,7 +142,7 @@ export default function AboutSection() {
               >
                 <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
                   <span className="font-mono text-xs font-bold uppercase tracking-widest text-foreground">
-                    PILLAR {currentPillarData.num} // {currentPillarData.title}
+                    PILLAR {currentPillarData.num} {"//"} {currentPillarData.title}
                   </span>
                 </div>
                 <p className="font-mono text-xs font-semibold text-muted-foreground mb-3">

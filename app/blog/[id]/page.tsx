@@ -2,9 +2,7 @@
 
 import { useState, useEffect, use } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -176,7 +174,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ id: string 
       case 'quote':
         return (
           <blockquote key={index} className="border-l-4 border-l-foreground border-y border-r border-border pl-6 py-4 my-8 bg-card font-mono text-sm">
-            <p className="text-foreground italic text-base">"{block.text}"</p>
+            <p className="text-foreground italic text-base">&ldquo;{block.text}&rdquo;</p>
           </blockquote>
         )
 

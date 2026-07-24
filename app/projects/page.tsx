@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
-import { ExternalLink, Github, Grid, List, Search, ArrowUpRight, Eye } from "lucide-react"
+import { motion } from "framer-motion"
+import { ExternalLink, Grid, List, Search, ArrowUpRight } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
 
 export default function ProjectsPage() {
@@ -190,4 +190,3 @@ export default function ProjectsPage() {
     </main>
   )
 }
-

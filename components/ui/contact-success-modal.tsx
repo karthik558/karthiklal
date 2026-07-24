@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect } from 'react'
-import { X, Check, ShieldCheck } from 'lucide-react'
+import { X, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AnimatedButton } from './animated-button'
 
@@ -115,4 +115,3 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
     </AnimatePresence>
   )
 }
-

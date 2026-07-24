@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, Github, Eye, X, ExternalLink, Sparkles } from "lucide-react"
+import { ArrowUpRight, Github, Eye, X, ExternalLink } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import projectsData from "@/public/data/projects.json"
 
@@ -129,7 +129,7 @@ export default function PortfolioSection() {
                   <div>
                     <div className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground font-bold mb-3 flex items-center gap-2">
                       <span className="w-2 h-2 bg-foreground inline-block" />
-                      {project.category} // FEATURED
+                      {project.category} {"//"} FEATURED
                     </div>
                     <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight font-black uppercase text-foreground group-hover:underline decoration-foreground underline-offset-8 decoration-2 mb-4">
                       {project.title}

@@ -7,8 +7,8 @@ export const metadata = {
 }
 
 export default async function AdminDashboardPage() {
-  let models: string[] = []
-  let stats: Record<string, { size: number; entries: number | string }> = {}
+  const models: string[] = []
+  const stats: Record<string, { size: number; entries: number | string }> = {}
 
   try {
     const dataDir = path.join(process.cwd(), "public", "data")
@@ -38,7 +38,7 @@ export default async function AdminDashboardPage() {
               entryCount = Object.keys(parsed).length // Count top-level keys
             }
           }
-        } catch (e) {
+        } catch {
           // ignore
         }
 
@@ -54,4 +54,3 @@ export default async function AdminDashboardPage() {
 
   return <DashboardClient models={models} stats={stats} />
 }
-

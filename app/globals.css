@@ -50,7 +50,7 @@ body {
     --secondary: 0 0% 94%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 40%;
+    --muted-foreground: 0 0% 34%;
     --accent: 0 0% 12%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 60%;
@@ -74,7 +74,7 @@ body {
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
+    --muted-foreground: 0 0% 70%;
     --accent: 0 0% 90%;
     --accent-foreground: 0 0% 4%;
     --destructive: 0 62% 50%;

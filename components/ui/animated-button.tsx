@@ -18,6 +18,8 @@ interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
 export const AnimatedButton = ({
   children,
   href,
+  target,
+  rel,
   variant = "primary",
   className,
   icon,
@@ -35,6 +37,7 @@ export const AnimatedButton = ({
 
   const content = (
     <span className="relative z-10 flex items-center gap-2 text-inherit">
+      {icon}
       {children}
     </span>
   );
@@ -51,13 +54,13 @@ export const AnimatedButton = ({
     }
     if (isExternal) {
       return (
-        <a href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...(props as any)}>
+        <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </a>
       );
     }
     return (
-      <Link href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...(props as any)}>
+      <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
         {content}
       </Link>
     );
@@ -69,4 +72,3 @@ export const AnimatedButton = ({
     </button>
   );
 };
-

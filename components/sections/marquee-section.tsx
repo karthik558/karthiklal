@@ -22,23 +22,26 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
   const isClosing = variant === "closing"
 
   return (
-    <section className="relative my-6 w-full max-w-full overflow-hidden bg-background py-4">
-      <div className="relative z-10 space-y-4">
-        <div className="w-[105vw] -ml-[2vw] origin-center -rotate-[1deg]">
+    <section
+      aria-label={isClosing ? "Collaboration services" : "Core capabilities"}
+      className="relative my-3 w-full max-w-full overflow-hidden bg-background py-2"
+    >
+      <div className="relative z-10 space-y-2">
+        <div className="w-[102vw] -ml-[1vw] origin-center -rotate-[0.5deg]">
           <MarqueeAnimation
             direction="left"
             baseVelocity={isClosing ? 1.8 : 2.2}
-            className="border-y-2 border-foreground bg-foreground py-4 font-mono text-2xl font-black uppercase text-background sm:text-3xl md:py-6 md:text-5xl lg:text-6xl tracking-tight"
+            className="border-y-2 border-foreground bg-foreground py-3 font-mono text-xl font-black uppercase tracking-tight text-background sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
           >
             {content.primary}
           </MarqueeAnimation>
         </div>
 
-        <div className="w-[105vw] -ml-[2vw] origin-center rotate-[1deg]">
+        <div className="w-[102vw] -ml-[1vw] origin-center rotate-[0.5deg]">
           <MarqueeAnimation
             direction="right"
             baseVelocity={isClosing ? 2.2 : 1.8}
-            className="border-y-2 border-border bg-card py-4 font-mono text-2xl font-black uppercase text-foreground sm:text-3xl md:py-6 md:text-5xl lg:text-6xl tracking-tight"
+            className="border-y-2 border-border bg-card py-3 font-mono text-xl font-black uppercase tracking-tight text-foreground sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
           >
             {content.secondary}
           </MarqueeAnimation>
@@ -47,4 +50,3 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
     </section>
   )
 }
-

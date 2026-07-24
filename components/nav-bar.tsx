@@ -1,14 +1,12 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { usePathname } from "next/navigation"
 import NavHeader from "@/components/ui/nav-header"
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const lastScrollY = useRef(0)
-  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,23 +27,19 @@ export default function NavBar() {
       }
     }
 
-    setIsScrolled(window.scrollY > 40)
     lastScrollY.current = window.scrollY
+    const initialCheck = requestAnimationFrame(handleScroll)
 
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
+      cancelAnimationFrame(initialCheck)
       window.removeEventListener("scroll", handleScroll)
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
       }
     }
   }, [])
-
-  useEffect(() => {
-    setIsScrolled(window.scrollY > 40)
-    lastScrollY.current = window.scrollY
-  }, [pathname])
 
   return (
     <nav className="fixed left-0 right-0 top-0 z-[9999] w-full isolate pointer-events-none">
@@ -63,4 +57,3 @@ export default function NavBar() {
     </nav>
   )
 }
-

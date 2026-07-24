@@ -1,24 +1,22 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { createPortal } from "react-dom"
-import Link from "next/link"
-import Image from "next/image"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
-import { Menu, X, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
+import { Menu, X, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
 import SmoothLink from "@/components/smooth-link"
 import { useActiveSection } from "@/hooks/use-active-section"
 
+const subscribeToClient = () => () => undefined
+
 export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(subscribeToClient, () => true, () => false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const drawerRef = useRef<HTMLDivElement>(null)
 
   const pathname = usePathname()
   const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services'])
@@ -42,16 +40,79 @@ export default function NavHeader() {
   }
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden"
-      return () => {
-        document.body.style.overflow = "unset"
+    if (!isOpen) return
+
+    const drawer = drawerRef.current
+    if (!drawer) return
+
+    const menuButton = menuButtonRef.current
+    const previousOverflow = document.body.style.overflow
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null
+    const focusableSelector = [
+      'a[href]',
+      'button:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(",")
+
+    const focusFirstControl = () => {
+      const firstControl = drawer.querySelector<HTMLElement>(focusableSelector)
+      ;(firstControl ?? drawer).focus()
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault()
+        setIsOpen(false)
+        return
       }
+
+      if (event.key !== "Tab") return
+
+      const focusableControls = Array.from(
+        drawer.querySelectorAll<HTMLElement>(focusableSelector)
+      ).filter((element) => !element.hasAttribute("disabled"))
+
+      if (focusableControls.length === 0) {
+        event.preventDefault()
+        drawer.focus()
+        return
+      }
+
+      const firstControl = focusableControls[0]
+      const lastControl = focusableControls[focusableControls.length - 1]
+
+      if (event.shiftKey && document.activeElement === firstControl) {
+        event.preventDefault()
+        lastControl.focus()
+      } else if (!event.shiftKey && document.activeElement === lastControl) {
+        event.preventDefault()
+        firstControl.focus()
+      }
+    }
+
+    document.body.style.overflow = "hidden"
+    document.addEventListener("keydown", handleKeyDown)
+    const focusFrame = requestAnimationFrame(focusFirstControl)
+
+    return () => {
+      cancelAnimationFrame(focusFrame)
+      document.removeEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = previousOverflow
+      ;(previouslyFocused ?? menuButton)?.focus()
     }
   }, [isOpen])
 
   return (
-    <div className="flex w-full items-center justify-end md:justify-between font-mono text-xs uppercase">
+    <div className="flex w-full items-center justify-between font-mono text-xs uppercase">
+      <SmoothLink
+        href="/"
+        className="font-display text-lg font-black tracking-tight text-foreground md:hidden"
+        aria-label="Karthik Lal home"
+      >
+        KARTHIK LAL
+      </SmoothLink>
       
       {/* Desktop Navigation Links */}
       <ul className="hidden md:flex items-center gap-1.5 border-2 border-border bg-card p-1">
@@ -80,9 +141,13 @@ export default function NavHeader() {
         <ThemeToggleAnimated />
 
         <button
+          ref={menuButtonRef}
+          type="button"
           onClick={() => setIsOpen(true)}
           className="md:hidden flex items-center justify-center gap-1 px-3.5 h-9 border-2 border-foreground bg-foreground text-background font-bold"
           aria-label="Open menu"
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
           <Menu className="w-4 h-4" />
           <span>MENU</span>
@@ -94,6 +159,12 @@ export default function NavHeader() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              ref={drawerRef}
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Main navigation"
+              tabIndex={-1}
               initial={{ opacity: 0, y: "-100%" }}
               animate={{ opacity: 1, y: "0%" }}
               exit={{ opacity: 0, y: "-100%" }}
@@ -133,7 +204,7 @@ export default function NavHeader() {
                         )}
                       >
                         <div className="flex items-center gap-4">
-                          <span className="text-xs text-muted-foreground font-bold">{item.num} //</span>
+                          <span className="text-xs text-muted-foreground font-bold">{item.num} {"//"}</span>
                           <span className="font-display text-2xl font-black tracking-tight">{item.label}</span>
                         </div>
                         <ArrowUpRight className="w-5 h-5" />
@@ -165,4 +236,3 @@ export default function NavHeader() {
     </div>
   )
 }
-

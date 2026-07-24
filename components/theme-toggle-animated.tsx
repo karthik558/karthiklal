@@ -2,7 +2,7 @@
 
 import { flushSync } from "react-dom"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { motion } from "framer-motion"
 import { Moon, Sun } from "lucide-react"
 
@@ -12,13 +12,11 @@ type ViewTransitionDocument = Document & {
   }
 }
 
+const subscribeToClient = () => () => undefined
+
 export function ThemeToggleAnimated() {
   const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(subscribeToClient, () => true, () => false)
 
   if (!mounted) {
     return <div className="h-9 w-[76px] border-2 border-border bg-card" aria-hidden="true" />

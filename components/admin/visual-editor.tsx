@@ -3,13 +3,16 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Save, Plus, Trash2, X, Check, Image as ImageIcon, PlusCircle, ArrowUp } from "lucide-react"
+import { Save, Trash2, X, Check, Image as ImageIcon, PlusCircle, ArrowUp } from "lucide-react"
 
 interface VisualEditorProps {
-  initialData: any
-  onSave: (data: any) => Promise<void>
+  initialData: EditorData
+  onSave: (data: EditorData) => Promise<void>
   modelName: string
 }
+
+type EditorRecord = Record<string, unknown>
+export type EditorData = EditorRecord | EditorRecord[]
 
 // ----------------------------------------------------------------------
 // Smart Input Fields
@@ -52,7 +55,7 @@ const TextareaInput = ({ label, value, onChange }: { label: string; value: strin
   </div>
 )
 
-const TextInput = ({ label, value, onChange, type = "text", options = [] }: { label: string; value: string | number; onChange: (v: any) => void; type?: string; options?: string[] }) => {
+const TextInput = ({ label, value, onChange, type = "text", options = [] }: { label: string; value: string | number; onChange: (v: string | number) => void; type?: string; options?: string[] }) => {
   const listId = options.length > 0 ? `${label.replace(/\s+/g, '-')}-options` : undefined;
   return (
     <div className="space-y-2 font-mono text-xs uppercase">
@@ -141,9 +144,7 @@ const TagsInput = ({ label, value, onChange, options = [] }: { label: string; va
 // Dynamic Object Form Renderer
 // ----------------------------------------------------------------------
 
-const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: any; onChange: (data: any) => void; optionsMap?: Record<string, string[]> }) => {
-  if (!data || typeof data !== 'object') return null
-
+const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: EditorRecord; onChange: (data: EditorRecord) => void; optionsMap?: Record<string, string[]> }) => {
   return (
     <div className="space-y-6">
       {Object.entries(data).map(([key, value]) => {
@@ -159,7 +160,7 @@ const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: any; onChange:
         if (Array.isArray(value)) {
           // Arrays of strings -> Tags Input
           if (value.length === 0 || typeof value[0] === 'string') {
-            return <TagsInput key={key} label={key} value={value} onChange={(v) => onChange({ ...data, [key]: v })} options={optionsMap[key]} />
+            return <TagsInput key={key} label={key} value={value as string[]} onChange={(v) => onChange({ ...data, [key]: v })} options={optionsMap[key]} />
           }
           // Arrays of objects could be handled here recursively, but for standard models this is rare.
           return <div key={key} className="text-muted-foreground text-sm italic">Complex array editing not supported inline.</div>
@@ -195,16 +196,17 @@ const DynamicForm = ({ data, onChange, optionsMap = {} }: { data: any; onChange:
 // ----------------------------------------------------------------------
 
 export default function VisualEditor({ initialData, onSave, modelName }: VisualEditorProps) {
-  const [data, setData] = useState(initialData)
+  const [data, setData] = useState<EditorData>(initialData)
   const [isSaving, setIsSaving] = useState(false)
   const [saveSuccess, setSaveSuccess] = useState(false)
 
   // Drawer state for array editing
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
-  const [drawerData, setDrawerData] = useState<any>(null)
+  const [drawerData, setDrawerData] = useState<EditorRecord | null>(null)
 
   useEffect(() => {
-    setData(initialData)
+    const syncFrame = requestAnimationFrame(() => setData(initialData))
+    return () => cancelAnimationFrame(syncFrame)
   }, [initialData])
 
   const handleSave = async () => {
@@ -225,7 +227,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
   // Detect if data is an array or an object wrapping a single array
   const isDirectArray = Array.isArray(data)
   let wrapperKey: string | null = null
-  let arrayData: any[] | null = null
+  let arrayData: EditorRecord[] | null = null
   
   if (isDirectArray) {
     arrayData = data
@@ -233,7 +235,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     const keys = Object.keys(data)
     if (keys.length === 1 && Array.isArray(data[keys[0]])) {
       wrapperKey = keys[0]
-      arrayData = data[keys[0]]
+      arrayData = data[keys[0]] as EditorRecord[]
     }
   }
 
@@ -247,16 +249,16 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
   const openNewDrawer = () => {
     setEditingIndex(-1) // -1 means new item
     // Create an empty template based on the first item
-    const template: Record<string, any> = arrayData && arrayData.length > 0 
+    const template: EditorRecord = arrayData && arrayData.length > 0
       ? Object.keys(arrayData[0]).reduce((acc, key) => ({ 
           ...acc, 
           [key]: typeof arrayData![0][key] === 'string' ? '' : typeof arrayData![0][key] === 'number' ? 0 : typeof arrayData![0][key] === 'boolean' ? false : Array.isArray(arrayData![0][key]) ? [] : null 
-        }), {} as Record<string, any>) 
+        }), {} as EditorRecord)
       : {}
     
     // Auto-increment ID if it exists
     if (arrayData && arrayData.length > 0 && typeof arrayData[0].id === 'number') {
-      const maxId = Math.max(...arrayData.map((item: any) => item.id || 0))
+      const maxId = Math.max(...arrayData.map((item) => typeof item.id === "number" ? item.id : 0))
       template['id'] = maxId + 1
     }
     
@@ -264,7 +266,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
   }
 
   const saveDrawer = () => {
-    if (!arrayData) return
+    if (!arrayData || !drawerData) return
     const newData = [...arrayData]
     if (editingIndex === -1) {
       newData.unshift(drawerData)
@@ -320,8 +322,18 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
   // Compute autocomplete options based on existing arrayData
   const optionsMap: Record<string, string[]> = {}
   if (arrayData) {
-    optionsMap['category'] = Array.from(new Set(arrayData.map((item: any) => item.category).filter(Boolean))) as string[]
-    optionsMap['technologies'] = Array.from(new Set(arrayData.flatMap((item: any) => item.technologies || []).filter(Boolean))) as string[]
+    optionsMap['category'] = Array.from(new Set(
+      arrayData
+        .map((item) => item.category)
+        .filter((category): category is string => typeof category === "string")
+    ))
+    optionsMap['technologies'] = Array.from(new Set(
+      arrayData.flatMap((item) =>
+        Array.isArray(item.technologies)
+          ? item.technologies.filter((technology): technology is string => typeof technology === "string")
+          : []
+      )
+    ))
   }
 
   return (
@@ -371,10 +383,19 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
       {isArrayModel ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>
-            {arrayData?.map((item: any, idx: number) => {
-              const title = item.title || item.name || item.company || item.platform || `Item ${idx + 1}`
-              const image = item.image || item.logo || item.avatar
-              const subtitle = item.category || item.role || item.position || (item.technologies && item.technologies.join(', '))
+            {arrayData?.map((item, idx) => {
+              const title = [item.title, item.name, item.company, item.platform]
+                .find((value): value is string => typeof value === "string") ?? `Item ${idx + 1}`
+              const image = [item.image, item.logo, item.avatar]
+                .find((value): value is string => typeof value === "string")
+              const technologies = Array.isArray(item.technologies)
+                ? item.technologies.filter((value): value is string => typeof value === "string")
+                : []
+              const subtitle = [item.category, item.role, item.position]
+                .find((value): value is string => typeof value === "string") ?? technologies.join(", ")
+              const itemKey = typeof item.id === "string" || typeof item.id === "number"
+                ? item.id
+                : idx
               
               return (
                 <motion.div
@@ -382,7 +403,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  key={item.id || idx}
+                  key={itemKey}
                   className="border-2 border-border bg-card hover:border-foreground transition-all duration-300 group flex flex-col justify-between"
                 >
                   {/* Thumbnail area */}
@@ -444,14 +465,14 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
             <div className="col-span-full py-20 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-border bg-card">
               <PlusCircle className="w-10 h-10 mb-3 text-foreground" />
               <p className="font-display font-black text-xl text-foreground">NO RECORDS CREATED</p>
-              <p className="text-xs mt-1">CLICK 'ADD NEW RECORD' TO INITIALIZE DATA.</p>
+              <p className="text-xs mt-1">CLICK &apos;ADD NEW RECORD&apos; TO INITIALIZE DATA.</p>
             </div>
           )}
         </div>
       ) : (
         /* Object: Full Page Form View */
         <div className="border-2 border-foreground bg-card p-6 md:p-8 max-w-4xl mx-auto space-y-6">
-          <DynamicForm data={data} onChange={setData} optionsMap={optionsMap} />
+          <DynamicForm data={data as EditorRecord} onChange={setData} optionsMap={optionsMap} />
         </div>
       )}
 
@@ -508,4 +529,3 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     </div>
   )
 }
-

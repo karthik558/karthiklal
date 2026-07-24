@@ -1,9 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
-import { Check, ChevronDown, ChevronUp, Copy, ExternalLink, ShieldCheck } from "lucide-react"
+import { Check, ChevronDown, ChevronUp, Copy, ExternalLink } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 

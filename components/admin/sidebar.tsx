@@ -23,7 +23,8 @@ export default function AdminSidebar({ models }: { models: string[] }) {
   const pathname = usePathname()
 
   useEffect(() => {
-    setMobileOpen(false)
+    const closeFrame = requestAnimationFrame(() => setMobileOpen(false))
+    return () => cancelAnimationFrame(closeFrame)
   }, [pathname])
 
   return (
@@ -179,4 +180,3 @@ export default function AdminSidebar({ models }: { models: string[] }) {
     </>
   )
 }
-

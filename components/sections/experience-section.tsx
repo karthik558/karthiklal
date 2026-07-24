@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Briefcase, GraduationCap, ChevronDown, ChevronUp, ArrowUpRight } from "lucide-react"
+import { Briefcase, GraduationCap, ChevronDown, ChevronUp } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import experiencesData from "@/public/data/experiences.json"
 
@@ -155,4 +155,3 @@ export default function ExperienceSection() {
     </section>
   )
 }
-

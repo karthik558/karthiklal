@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import {
   ArrowDownRight,
   Download,
-  ExternalLink,
   Facebook,
   Github,
   Globe,
@@ -14,13 +13,12 @@ import {
   Mail,
   MessageCircle,
   Palette,
-  Twitter,
   Youtube,
 } from "lucide-react"
 
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { XIcon } from "@/components/ui/icons"
-import { PROFILE_DATA, SOCIALS_DATA } from "@/lib/static-data"
+import { SOCIALS_DATA } from "@/lib/static-data"
 
 const iconMap = {
   Github,
@@ -59,10 +57,6 @@ export default function HeroSectionStatic() {
     video.addEventListener("playing", handlePlaying)
     video.addEventListener("canplay", handlePlaying)
     video.addEventListener("canplaythrough", handlePlaying)
-
-    if (video.readyState >= 3) {
-      setIsVideoPlaying(true)
-    }
 
     const playPromise = video.play()
     if (playPromise !== undefined) {

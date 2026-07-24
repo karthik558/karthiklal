@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import VisualEditor from "@/components/admin/visual-editor"
+import VisualEditor, { type EditorData } from "@/components/admin/visual-editor"
 
 export default function AdminModelPage() {
   const params = useParams()
   const router = useRouter()
   const model = params.model as string
 
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<EditorData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -27,8 +27,8 @@ export default function AdminModelPage() {
         }
         const json = await res.json()
         setData(json)
-      } catch (err: any) {
-        setError(err.message)
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to fetch data")
       } finally {
         setLoading(false)
       }
@@ -37,7 +37,7 @@ export default function AdminModelPage() {
     fetchData()
   }, [model])
 
-  const handleSave = async (updatedData: any) => {
+  const handleSave = async (updatedData: EditorData) => {
     const res = await fetch(`/api/admin/data/${model}`, {
       method: "POST",
       headers: {
@@ -74,7 +74,7 @@ export default function AdminModelPage() {
   return (
     <div className="max-w-7xl mx-auto">
       <VisualEditor 
-        initialData={data} 
+        initialData={data ?? {}}
         onSave={handleSave} 
         modelName={model} 
       />

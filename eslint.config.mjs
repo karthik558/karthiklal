@@ -22,6 +22,14 @@ const eslintConfig = [
       "react-hooks/static-components": "warn",
     },
   },
+  {
+    files: ["scripts/**/*.js"],
+    rules: {
+      // These Node maintenance scripts intentionally run as CommonJS because
+      // the package itself is not configured as an ES module.
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
   globalIgnores([
     ".next/**",
     ".vercel/**",

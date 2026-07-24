@@ -1,17 +1,14 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { 
   ArrowRight, 
-  TrendingUp, 
   Users, 
   MousePointerClick, 
   Clock,
-  Activity,
-  Database,
-  FileCode
+  Activity
 } from "lucide-react"
 import { 
   AreaChart, 
@@ -32,22 +29,82 @@ interface DashboardClientProps {
   stats: Record<string, { size: number; entries: number | string }>
 }
 
+type AnalyticsIcon = "Activity" | "Users" | "MousePointerClick" | "Clock"
+
+interface TrafficDatum {
+  name: string
+  views: number
+  visitors: number
+}
+
+interface SourceDatum {
+  name: string
+  value: number
+  color?: string
+}
+
+interface StatCard {
+  title: string
+  value: string
+  change: string
+  icon: AnalyticsIcon
+}
+
+interface AnalyticsData {
+  trafficData: TrafficDatum[]
+  sourceData: SourceDatum[]
+  statCards: StatCard[]
+  isMock: boolean
+}
+
+interface TooltipEntry {
+  name?: React.ReactNode
+  value?: React.ReactNode
+}
+
+interface CustomTooltipProps {
+  active?: boolean
+  payload?: TooltipEntry[]
+  label?: React.ReactNode
+}
+
+const subscribeToClient = () => () => undefined
+const monoPieColors = ["#ffffff", "#a1a1aa", "#71717a", "#3f3f46"]
+
+const getIcon = (iconName: AnalyticsIcon) => {
+  switch (iconName) {
+    case "Users": return Users
+    case "MousePointerClick": return MousePointerClick
+    case "Clock": return Clock
+    default: return Activity
+  }
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  if (!active || !payload?.length) return null
+
+  return (
+    <div className="bg-card border-2 border-foreground p-3 shadow-2xl font-mono text-xs uppercase space-y-1 z-50 text-foreground">
+      <p className="font-bold border-b border-border pb-1">{label}</p>
+      {payload.map((item, index) => (
+        <p key={`${String(item.name)}-${index}`} className="flex items-center justify-between gap-4 font-mono">
+          <span className="text-muted-foreground">{item.name}:</span>
+          <span className="font-bold">{item.value}</span>
+        </p>
+      ))}
+    </div>
+  )
+}
+
 export default function DashboardClient({ models, stats }: DashboardClientProps) {
-  const [mounted, setMounted] = useState(false)
-  const [analyticsData, setAnalyticsData] = useState<{
-    trafficData: any[]
-    sourceData: any[]
-    statCards: any[]
-    isMock: boolean
-  } | null>(null)
+  const mounted = useSyncExternalStore(subscribeToClient, () => true, () => false)
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null)
 
   useEffect(() => {
-    setMounted(true)
-    
     const fetchAnalytics = async () => {
       try {
         const res = await fetch('/api/admin/analytics')
-        const data = await res.json()
+        const data: AnalyticsData = await res.json()
         setAnalyticsData(data)
       } catch (error) {
         console.error("Failed to fetch analytics:", error)
@@ -58,44 +115,14 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
   }, [])
 
   const defaultStatCards = [
-    { title: "TOTAL VIEWS", value: "...", change: "...", icon: Activity },
-    { title: "UNIQUE VISITORS", value: "...", change: "...", icon: Users },
-    { title: "ENGAGEMENT RATE", value: "...", change: "...", icon: MousePointerClick },
-    { title: "AVG. SESSION", value: "...", change: "...", icon: Clock },
-  ]
+    { title: "TOTAL VIEWS", value: "...", change: "...", icon: "Activity" },
+    { title: "UNIQUE VISITORS", value: "...", change: "...", icon: "Users" },
+    { title: "ENGAGEMENT RATE", value: "...", change: "...", icon: "MousePointerClick" },
+    { title: "AVG. SESSION", value: "...", change: "...", icon: "Clock" },
+  ] satisfies StatCard[]
 
   const statCardsData = analyticsData?.statCards || defaultStatCards
   const chartTrafficData = analyticsData?.trafficData || []
-
-  // Clean monochrome source colors
-  const monoPieColors = ["#ffffff", "#a1a1aa", "#71717a", "#3f3f46"]
-
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Activity': return Activity
-      case 'Users': return Users
-      case 'MousePointerClick': return MousePointerClick
-      case 'Clock': return Clock
-      default: return Activity
-    }
-  }
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-card border-2 border-foreground p-3 shadow-2xl font-mono text-xs uppercase space-y-1 z-50 text-foreground">
-          <p className="font-bold border-b border-border pb-1">{label}</p>
-          {payload.map((item: any, i: number) => (
-            <p key={i} className="flex items-center justify-between gap-4 font-mono">
-              <span className="text-muted-foreground">{item.name}:</span>
-              <span className="font-bold">{item.value}</span>
-            </p>
-          ))}
-        </div>
-      )
-    }
-    return null
-  }
 
   return (
     <div className="max-w-7xl mx-auto space-y-10 pb-12 font-mono text-xs uppercase">
@@ -223,7 +250,7 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
           </div>
 
           <div className="grid grid-cols-2 gap-2 pt-4 border-t border-border font-mono text-[10px]">
-            {(analyticsData?.sourceData || []).map((source: any, i: number) => (
+            {(analyticsData?.sourceData || []).map((source, i) => (
               <div key={source.name} className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 border border-foreground shrink-0" style={{ backgroundColor: monoPieColors[i % monoPieColors.length] }} />
                 <span className="text-muted-foreground font-bold truncate">{source.name.toUpperCase()}</span>
@@ -266,7 +293,7 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
                   <div className="pt-4 border-t border-border flex items-center justify-between font-mono text-xs font-bold">
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <span>{stats[model]?.entries} RECORDS</span>
-                      <span>//</span>
+                      <span>{"//"}</span>
                       <span>{stats[model]?.size} KB</span>
                     </div>
                     <ArrowRight className="w-4 h-4 text-foreground transition-transform group-hover:translate-x-1" />
@@ -280,4 +307,3 @@ export default function DashboardClient({ models, stats }: DashboardClientProps)
     </div>
   )
 }
-

@@ -9,9 +9,7 @@ export function scrollToElement(targetId: string) {
       return false
     }
 
-    // @ts-ignore
     if (window.lenis) {
-      // @ts-ignore
       window.lenis.scrollTo(targetElement, { offset: -100 })
       return true
     } else {
@@ -35,9 +33,7 @@ export function scrollToElement(targetId: string) {
 
 export function scrollToTop() {
   try {
-    // @ts-ignore
     if (window.lenis) {
-      // @ts-ignore
       window.lenis.scrollTo(0, {
         duration: 2.5,
         easing: (t: number) => 1 - Math.pow(1 - t, 4)
@@ -53,9 +49,7 @@ export function scrollToTop() {
 
 export function getCurrentScrollProgress(): number {
   try {
-    // @ts-ignore
     if (window.lenis) {
-      // @ts-ignore
       return window.lenis.progress
     } else {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
@@ -78,9 +72,7 @@ export function getCurrentScrollProgress(): number {
 
 export function resetScrollPosition() {
   try {
-    // @ts-ignore
     if (window.lenis) {
-      // @ts-ignore
       window.lenis.scrollTo(0, { immediate: true })
     } else {
       window.scrollTo({ top: 0, behavior: 'auto' })

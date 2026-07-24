@@ -71,7 +71,7 @@ export default function Footer() {
                 { name: "GITHUB", href: "https://github.com/karthik558" },
                 { name: "LINKEDIN", href: "https://linkedin.com/in/karthiklal" },
                 { name: "X / TWITTER", href: "https://x.com/_karthiklal" },
-                { name: "BEHANCE", href: "https://behance.net/karthiklal" },
+                { name: "BEHANCE", href: "https://behance.net/karthik558" },
               ].map((link) => (
                 <a
                   key={link.name}
@@ -102,4 +102,3 @@ export default function Footer() {
     </footer>
   )
 }
-

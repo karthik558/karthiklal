@@ -12,7 +12,6 @@ const CertificationsSection = dynamic(() => import("@/components/sections/certif
 const SkillsSection = dynamic(() => import("@/components/sections/skills-section"))
 const TestimonialsSection = dynamic(() => import("@/components/sections/testimonials-section"))
 const CtaSection = dynamic(() => import("@/components/sections/cta-section"))
-const FlowerDivider = dynamic(() => import("@/components/ui/flower-divider").then(mod => mod.FlowerDivider))
 
 // Enhanced Structured Data for SEO - targeting "Karthik Lal" searches
 const structuredData = {
@@ -152,19 +151,12 @@ export default function Home() {
       <HeroSectionStatic />
       <MarqueeSection />
       <AboutSection />
-      <FlowerDivider />
       <PortfolioSection />
-      <FlowerDivider />
       <PortfolioGallerySection />
-      <FlowerDivider />
       <SkillsSection />
-      <FlowerDivider />
       <ServicesSection />
-      <FlowerDivider />
       <ExperienceSection />
-      <FlowerDivider />
       <CertificationsSection />
-      <FlowerDivider />
       <TestimonialsSection />
       <MarqueeSection variant="closing" />
       <CtaSection />

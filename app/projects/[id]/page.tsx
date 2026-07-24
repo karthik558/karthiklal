@@ -1,11 +1,9 @@
 "use client"
 
-import { use, useEffect, useState } from "react"
+import { use } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound } from "next/navigation"
-import { motion } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, Github, ExternalLink, ShieldCheck, Cpu, Code2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
 
 // Cloudflare Pages requires every dynamic route to use the Edge Runtime.

@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { Lock, User, ArrowRight, Loader2, ShieldCheck } from "lucide-react"
+import { Lock, User, ArrowRight, ShieldCheck } from "lucide-react"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 
 export default function AdminLoginPage() {
@@ -33,7 +32,7 @@ export default function AdminLoginPage() {
         const data = await res.json()
         setError(data.error || "INVALID CREDENTIALS")
       }
-    } catch (err) {
+    } catch {
       setError("AN ERROR OCCURRED. PLEASE RETRY.")
     } finally {
       setIsLoading(false)
@@ -129,4 +128,3 @@ export default function AdminLoginPage() {
     </main>
   )
 }
-

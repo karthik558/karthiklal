@@ -1,9 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { ArrowUpRight, Copy, Check, Mail } from "lucide-react"
-import Link from "next/link"
+import { ArrowUpRight, Copy, Check } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 
 export default function CtaSection() {
@@ -17,7 +15,7 @@ export default function CtaSection() {
   }
 
   return (
-    <section id="cta" className="relative bg-background py-28 md:py-36 border-t-2 border-foreground">
+    <section id="cta" className="relative bg-background py-28 md:py-36">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
         <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
           
@@ -30,7 +28,7 @@ export default function CtaSection() {
           </h2>
 
           <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg text-muted-foreground font-light leading-relaxed mb-10">
-            Whether you need enterprise IT management, a thorough security audit, or a high-performance web platform — let's work together.
+            Whether you need enterprise IT management, a thorough security audit, or a high-performance web platform — let&apos;s work together.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
@@ -54,4 +52,3 @@ export default function CtaSection() {
     </section>
   )
 }
-

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, Check, Shield, Code2, Cloud, Palette, ChevronDown, Sparkles } from "lucide-react"
+import { ArrowUpRight, Check, Shield, Code2, Cloud, Palette, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import servicesData from "@/public/data/services.json"
 
@@ -152,7 +152,7 @@ export default function ServicesSection() {
                           </p>
 
                           <div className="p-4 border-l-4 border-foreground bg-card font-mono text-xs text-foreground/90 leading-relaxed">
-                            "{details.highlight}"
+                            &ldquo;{details.highlight}&rdquo;
                           </div>
                         </div>
 
@@ -189,4 +189,3 @@ export default function ServicesSection() {
     </section>
   )
 }
-

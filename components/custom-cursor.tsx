@@ -23,7 +23,7 @@ export default function CustomCursor() {
     const finePointer = window.matchMedia("(pointer: fine) and (hover: hover)").matches
     if (!finePointer) return
 
-    setIsFinePointer(true)
+    const enableFrame = requestAnimationFrame(() => setIsFinePointer(true))
     document.documentElement.classList.add("has-custom-cursor")
 
     const setHoverState = (hovering: boolean, type: HoverType = "default") => {
@@ -76,6 +76,7 @@ export default function CustomCursor() {
     document.addEventListener("visibilitychange", visibility)
 
     return () => {
+      cancelAnimationFrame(enableFrame)
       document.documentElement.classList.remove("has-custom-cursor")
       window.removeEventListener("pointermove", handleMove)
       window.removeEventListener("pointerdown", press)
@@ -124,4 +125,3 @@ export default function CustomCursor() {
     </div>
   )
 }
-

@@ -2,9 +2,7 @@
 
 import { useState } from "react"
 import dynamic from "next/dynamic"
-import { Github, Linkedin, Mail, MapPin, Send, Check, Copy, ArrowUpRight } from "lucide-react"
-import { motion } from "framer-motion"
-import { AnimatedButton } from "@/components/ui/animated-button"
+import { Send, Check, Copy } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { PROFILE_DATA } from "@/lib/static-data"
 

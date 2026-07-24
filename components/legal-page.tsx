@@ -164,7 +164,7 @@ export function LegalSection({
     <motion.section variants={reveal} transition={{ duration: 0.5 }} id={id} className="scroll-mt-32 border-t-2 border-foreground pt-5">
       <div className="grid gap-6 md:grid-cols-12">
         <div className="md:col-span-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">{number} //</span>
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">{number} {"//"}</span>
         </div>
         <div className="md:col-span-9">
           <h2 className="font-display text-3xl font-black uppercase leading-none tracking-tight text-foreground sm:text-4xl">

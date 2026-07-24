@@ -130,7 +130,7 @@ export default function NotFoundPage() {
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-[10px] font-bold text-muted-foreground transition-colors group-hover:text-background/60">
-                    {item.index} //
+                    {item.index} {"//"}
                   </span>
                   <MoveUpRight className="h-4 w-4 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-background" />
                 </div>

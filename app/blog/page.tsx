@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { AnimatePresence, motion } from "framer-motion"
-import { ArrowUpRight, Calendar, Clock, Search } from "lucide-react"
+import { motion } from "framer-motion"
+import { ArrowUpRight, Search } from "lucide-react"
 
 interface BlogPost {
   id: string
@@ -169,7 +169,7 @@ export default function BlogPage() {
                 <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between">
                   <div>
                     <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
-                      {featuredPost.category} // {formatDate(featuredPost.date)}
+                      {featuredPost.category} {"//"} {formatDate(featuredPost.date)}
                     </div>
                     <h2 className="font-display text-3xl sm:text-4xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-4">
                       {featuredPost.title}
@@ -222,7 +222,7 @@ export default function BlogPage() {
                     <div>
                       <div className="font-mono text-[10px] uppercase text-muted-foreground mb-2 flex items-center gap-3">
                         <span>{formatDate(post.date)}</span>
-                        <span>//</span>
+                        <span>{"//"}</span>
                         <span>{post.readTime.toUpperCase()}</span>
                       </div>
                       <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-3 line-clamp-2">
@@ -260,4 +260,3 @@ export default function BlogPage() {
     </main>
   )
 }
-

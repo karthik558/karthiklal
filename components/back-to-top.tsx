@@ -7,32 +7,24 @@ import { scrollToTop } from "@/lib/scroll-utils"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-
-  const isBrowser = typeof window !== "undefined"
 
   useEffect(() => {
-    setIsMounted(true)
-    if (!isBrowser) return
-
     const toggleVisibility = () => {
       setIsVisible(window.scrollY > 400)
     }
 
     window.addEventListener("scroll", toggleVisibility)
-    toggleVisibility()
+    const initialCheck = requestAnimationFrame(toggleVisibility)
 
     return () => {
+      cancelAnimationFrame(initialCheck)
       window.removeEventListener("scroll", toggleVisibility)
     }
-  }, [isBrowser])
+  }, [])
 
   const handleScrollToTop = () => {
-    if (!isBrowser) return
     scrollToTop()
   }
-
-  if (!isMounted || !isBrowser) return null
 
   return (
     <AnimatePresence>
@@ -54,6 +46,5 @@ export default function BackToTop() {
     </AnimatePresence>
   )
 }
-
 
 

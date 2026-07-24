@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ArrowUpRight, Star } from "lucide-react"
 import testimonialsData from "@/public/data/testimonials.json"
@@ -98,7 +97,7 @@ export default function TestimonialsSection() {
               className="relative z-10"
             >
               <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase leading-snug text-foreground mb-10">
-                "{activeTestimonial.content}"
+                &ldquo;{activeTestimonial.content}&rdquo;
               </blockquote>
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-border font-mono text-xs">

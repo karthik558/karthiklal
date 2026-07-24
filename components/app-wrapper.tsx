@@ -88,6 +88,14 @@ export default function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <>
+      {!isAdmin && (
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[100000000] -translate-y-24 border-2 border-foreground bg-background px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-foreground transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+      )}
       {showPreloader && !isAdmin && (
         <Preloader onComplete={handlePreloaderComplete} />
       )}
@@ -97,7 +105,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
         <main>{children}</main>
       ) : (
         <ContentWrapper>
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <Footer />
         </ContentWrapper>
       )}

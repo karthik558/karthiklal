@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Code2, Cpu, Palette, Shield, Terminal, Wrench, Search, Check } from "lucide-react"
+import { Code2, Cpu, Palette, Shield, Terminal, Wrench, Search } from "lucide-react"
 import skillsData from "@/public/data/skills.json"
 
 const iconMap = { Code2, Terminal, Shield, Cpu, Palette, Wrench }
@@ -128,4 +128,3 @@ export default function SkillsSection() {
     </section>
   )
 }
-
