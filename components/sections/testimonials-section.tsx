@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, type CSSProperties } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ArrowUpRight, LayoutGrid, Rows, Star } from "lucide-react"
 import testimonialsData from "@/public/data/testimonials.json"
@@ -16,6 +16,40 @@ interface Testimonial {
 }
 
 const testimonials = testimonialsData.testimonials as Testimonial[]
+const confettiPieces = [
+  { left: "6%", color: "#f59e0b", drift: "-18px", rotation: "210deg", delay: "0ms" },
+  { left: "14%", color: "#ec4899", drift: "14px", rotation: "-240deg", delay: "70ms" },
+  { left: "24%", color: "#06b6d4", drift: "-10px", rotation: "280deg", delay: "120ms" },
+  { left: "36%", color: "#84cc16", drift: "20px", rotation: "-190deg", delay: "30ms" },
+  { left: "48%", color: "#8b5cf6", drift: "-16px", rotation: "250deg", delay: "150ms" },
+  { left: "59%", color: "#f97316", drift: "18px", rotation: "-280deg", delay: "90ms" },
+  { left: "70%", color: "#eab308", drift: "-20px", rotation: "220deg", delay: "20ms" },
+  { left: "80%", color: "#14b8a6", drift: "12px", rotation: "-260deg", delay: "130ms" },
+  { left: "90%", color: "#f43f5e", drift: "-14px", rotation: "200deg", delay: "55ms" },
+  { left: "96%", color: "#3b82f6", drift: "8px", rotation: "-230deg", delay: "175ms" },
+]
+
+function ConfettiBurst() {
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-24 overflow-hidden" aria-hidden="true">
+      {confettiPieces.map((piece, index) => (
+        <span
+          key={`${piece.left}-${piece.color}`}
+          className={`testimonial-confetti absolute top-1 h-2.5 w-1.5 ${
+            index % 3 === 0 ? "rounded-full" : index % 2 === 0 ? "rotate-45" : ""
+          }`}
+          style={{
+            left: piece.left,
+            backgroundColor: piece.color,
+            "--confetti-drift": piece.drift,
+            "--confetti-rotation": piece.rotation,
+            "--confetti-delay": piece.delay,
+          } as CSSProperties}
+        />
+      ))}
+    </div>
+  )
+}
 
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -101,12 +135,17 @@ export default function TestimonialsSection() {
           <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="border-2 border-foreground bg-card p-8 md:p-14 shadow-2xl relative transition-all duration-500"
+            className="group relative overflow-hidden border-2 border-foreground bg-card p-8 shadow-2xl transition-all duration-500 hover:-translate-y-1 motion-reduce:transform-none md:p-14"
           >
+            <ConfettiBurst />
             <div className="flex items-center justify-between border-b border-border pb-6 mb-8 font-mono text-xs uppercase relative z-10">
               <div className="flex items-center gap-1.5">
                 {Array.from({ length: activeTestimonial.rating || 5 }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
+                  <Star
+                    key={i}
+                    className="h-4 w-4 fill-foreground text-foreground transition-all duration-300 group-hover:scale-110 group-hover:fill-amber-400 group-hover:text-amber-500 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.65)] motion-reduce:transform-none"
+                    style={{ transitionDelay: `${i * 45}ms` }}
+                  />
                 ))}
               </div>
               <span className="text-muted-foreground font-bold">
@@ -161,13 +200,18 @@ export default function TestimonialsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className="border-2 border-border bg-card p-6 md:p-8 flex flex-col justify-between hover:border-foreground transition-all duration-300 shadow-sm"
+                className="group relative flex flex-col justify-between overflow-hidden border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-xl motion-reduce:transform-none md:p-8"
               >
+                <ConfettiBurst />
                 <div>
                   <div className="flex items-center justify-between border-b border-border pb-4 mb-4 font-mono text-xs uppercase">
                     <div className="flex items-center gap-1">
                       {Array.from({ length: item.rating || 5 }).map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-foreground text-foreground" />
+                        <Star
+                          key={i}
+                          className="h-3.5 w-3.5 fill-foreground text-foreground transition-all duration-300 group-hover:scale-110 group-hover:fill-amber-400 group-hover:text-amber-500 group-hover:drop-shadow-[0_0_5px_rgba(245,158,11,0.6)] motion-reduce:transform-none"
+                          style={{ transitionDelay: `${i * 45}ms` }}
+                        />
                       ))}
                     </div>
                     <span className="text-muted-foreground font-bold">#{String(idx + 1).padStart(2, "0")}</span>
