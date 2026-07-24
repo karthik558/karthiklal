@@ -42,6 +42,66 @@
     },
     {
       "id": 5,
+      "name": "Vijin Raj S",
+      "position": "Security & Safety Manager",
+      "company": "Taj Lakshadweep (SAMS)",
+      "content": "SAMS has completely transformed how we manage physical assets across properties. The QR-based workflows and audit tracking are fast, intuitive, and highly reliable. Outstanding work by Karthik!",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://samsproject.in"
+    },
+    {
+      "id": 6,
+      "name": "Tamara Engineering Team",
+      "position": "Staff & Employees",
+      "company": "Tamara Leisure Experiences",
+      "content": "GPM-DarkMode is an exceptional extension! It transformed our internal software tool into a sleek, eye-friendly dark mode interface. The visual upgrade and usability improvements are awesome.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://github.com/karthik558/GPM-DarkMode"
+    },
+    {
+      "id": 7,
+      "name": "Alex Rivera",
+      "position": "Open Source Contributor",
+      "company": "MorphAgent Community",
+      "content": "MorphAgent is by far the most versatile user-agent switcher on Firefox. The per-site rule engine and quick profile toggles work seamlessly. Rated top-tier on GitHub!",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://addons.mozilla.org/en-US/firefox/addon/morphagent/"
+    },
+    {
+      "id": 8,
+      "name": "Security Research Group",
+      "position": "Cybersecurity Community",
+      "company": "GitHub Open Source",
+      "content": "One of the best educational network stress-testing tools available on GitHub. Clean code, clear instructions, and high performance. Highly praised by the security community.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://github.com/karthik558/DDOS-ATTACK"
+    },
+    {
+      "id": 9,
+      "name": "Marcus Vance",
+      "position": "Creative Director",
+      "company": "InvoicelyStudio",
+      "content": "InvoicelyStudio made billing clients effortless and professional. The sleek design, instant invoice generation, and seamless workflow saved us hours every week.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://invoicely.samsproject.in"
+    },
+    {
+      "id": 10,
+      "name": "David K.",
+      "position": "DevOps Engineer",
+      "company": "RustPing",
+      "content": "RustPing is amazingly fast and lightweight. Monitoring network health, tracking live logs, and detecting failures in real-time has made diagnostics effortless.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://rust-ping.vercel.app/"
+    },
+    {
+      "id": 11,
       "name": "TWIST-orgx",
       "position": "Development Team",
       "company": "TWIST-orgx",
@@ -51,7 +111,7 @@
       "website": "https://github.com/karthik558/CleanWindowsPro"
     },
     {
-      "id": 6,
+      "id": 12,
       "name": "EuclidOS Team",
       "position": "Development Team",
       "company": "EuclidOS",
@@ -61,7 +121,7 @@
       "website": "https://euclidos.org"
     },
     {
-      "id": 7,
+      "id": 13,
       "name": "Shivalaya Arunachala",
       "position": "Organization",
       "company": "Shivalaya",
@@ -71,7 +131,7 @@
       "website": "https://namashivalaya.org"
     },
     {
-      "id": 8,
+      "id": 14,
       "name": "CherishOS Team",
       "position": "Development Team",
       "company": "CherishOS",
