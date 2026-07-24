@@ -24,27 +24,34 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
   return (
     <section
       aria-label={isClosing ? "Collaboration services" : "Core capabilities"}
-      className="relative my-3 w-full max-w-full overflow-hidden bg-background py-2"
+      className="relative my-3 w-full max-w-full overflow-hidden bg-background py-3"
     >
-      <div className="relative z-10 space-y-2">
-        <div className="w-[102vw] -ml-[1vw] origin-center -rotate-[0.5deg]">
-          <MarqueeAnimation
-            direction="left"
-            baseVelocity={isClosing ? 1.8 : 2.2}
-            className="border-y-2 border-foreground bg-foreground py-3 font-mono text-xl font-black uppercase tracking-tight text-background sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
-          >
-            {content.primary}
-          </MarqueeAnimation>
-        </div>
+      <div className="relative overflow-hidden bg-muted/30 py-5 sm:py-6">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(currentColor_1px,transparent_1px)] [background-size:18px_18px]"
+        />
 
-        <div className="w-[102vw] -ml-[1vw] origin-center rotate-[0.5deg]">
-          <MarqueeAnimation
-            direction="right"
-            baseVelocity={isClosing ? 2.2 : 1.8}
-            className="border-y-2 border-border bg-card py-3 font-mono text-xl font-black uppercase tracking-tight text-foreground sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
-          >
-            {content.secondary}
-          </MarqueeAnimation>
+        <div className="relative z-10 space-y-3">
+          <div className="-ml-[1vw] w-[102vw] origin-center -rotate-[0.65deg] transition-transform duration-500 hover:rotate-0">
+            <MarqueeAnimation
+              direction="left"
+              baseVelocity={isClosing ? 1.8 : 2.2}
+              className="bg-foreground py-3 font-mono text-xl font-black uppercase tracking-tight text-background shadow-xl sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
+            >
+              {content.primary}
+            </MarqueeAnimation>
+          </div>
+
+          <div className="-ml-[1vw] w-[102vw] origin-center rotate-[0.65deg] transition-transform duration-500 hover:rotate-0">
+            <MarqueeAnimation
+              direction="right"
+              baseVelocity={isClosing ? 2.2 : 1.8}
+              className="bg-card py-3 font-mono text-xl font-black uppercase tracking-tight text-foreground shadow-lg ring-1 ring-border/60 sm:text-2xl md:py-4 md:text-3xl lg:text-4xl"
+            >
+              {content.secondary}
+            </MarqueeAnimation>
+          </div>
         </div>
       </div>
     </section>
