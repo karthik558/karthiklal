@@ -2,16 +2,36 @@
   "testimonials": [
     {
       "id": 1,
-      "name": "Shivalaya Arunachala",
-      "position": "Organization",
-      "company": "Shivalaya",
-      "content": "Karthik was a massive help in building our website. Extremely creative and adapted to all our requests. The finishing and commitment were truly commendable.",
+      "name": "Ayana E",
+      "position": "Client",
+      "company": "AuraFemme",
+      "content": "AuraFemme is an elegant and intuitive cycle intelligence dashboard. The tracking features and personalized insights work amazingly well, offering complete privacy and confidence. Excellent work by Karthik!",
       "avatar": "",
       "rating": 5,
-      "website": "https://namashivalaya.org"
+      "website": "https://afemme.samsproject.in"
     },
     {
       "id": 2,
+      "name": "Shankara Arunachala",
+      "position": "Owner",
+      "company": "Devi Project",
+      "content": "Working with Karthik on the DeviProject.org website was an absolute pleasure. He translated our vision into a beautiful, functional site with exceptional professionalism, clear communication, and timely delivery.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://deviproject.org"
+    },
+    {
+      "id": 3,
+      "name": "Shybi Mohan",
+      "position": "Owner",
+      "company": "Greenland Kerala",
+      "content": "Awesome work on our website! Karthik provided great support throughout the project and delivered an exceptional site. Truly dedicated and reliable.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://greenlandkerala.in/"
+    },
+    {
+      "id": 4,
       "name": "Paul John Hotels and Resorts",
       "position": "Management Team",
       "company": "Paul John Hotels and Resorts",
@@ -21,7 +41,7 @@
       "website": "https://ace-redirect.vercel.app/"
     },
     {
-      "id": 3,
+      "id": 5,
       "name": "TWIST-orgx",
       "position": "Development Team",
       "company": "TWIST-orgx",
@@ -31,7 +51,7 @@
       "website": "https://github.com/karthik558/CleanWindowsPro"
     },
     {
-      "id": 4,
+      "id": 6,
       "name": "EuclidOS Team",
       "position": "Development Team",
       "company": "EuclidOS",
@@ -41,7 +61,17 @@
       "website": "https://euclidos.org"
     },
     {
-      "id": 5,
+      "id": 7,
+      "name": "Shivalaya Arunachala",
+      "position": "Organization",
+      "company": "Shivalaya",
+      "content": "Karthik was a massive help in building our website. Extremely creative and adapted to all our requests. The finishing and commitment were truly commendable.",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://namashivalaya.org"
+    },
+    {
+      "id": 8,
       "name": "CherishOS Team",
       "position": "Development Team",
       "company": "CherishOS",
