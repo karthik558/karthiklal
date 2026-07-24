@@ -8,6 +8,7 @@ test("home page renders its primary content", async ({ page }) => {
   await expect(page.locator("h1").first()).toBeVisible()
   await expect(page.locator("h1").first()).toContainText("KARTHIK")
   await expect(page.locator("#portfolio")).toBeAttached()
+  await expect(page.locator("#certifications article")).toHaveCount(6)
 })
 
 test("key public routes load without server errors", async ({ page }) => {

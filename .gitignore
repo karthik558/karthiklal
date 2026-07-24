@@ -31,3 +31,8 @@ next-env.d.ts
 
 # IDEs and Editors
 .vscode/
+
+# Playwright
+.last-run.json
+/test-results/
+/playwright-report/
