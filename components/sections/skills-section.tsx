@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { Code2, Cpu, Palette, Shield, Terminal, Wrench, Search } from "lucide-react"
+import { Code2, Cpu, Palette, Shield, Terminal, Wrench } from "lucide-react"
 import skillsData from "@/public/data/skills.json"
 
 const iconMap = { Code2, Terminal, Shield, Cpu, Palette, Wrench }
@@ -16,21 +15,6 @@ interface SkillCategory {
 const categories = skillsData.skillCategories as SkillCategory[]
 
 export default function SkillsSection() {
-  const [search, setSearch] = useState("")
-
-  const filteredCategories = categories.map((cat) => {
-    if (!search.trim()) return cat
-    const matchingSkills = cat.skills.filter((s) => s.toLowerCase().includes(search.toLowerCase().trim()))
-    const matchesName = cat.name.toLowerCase().includes(search.toLowerCase().trim())
-    if (matchesName || matchingSkills.length > 0) {
-      return {
-        ...cat,
-        skills: matchesName ? cat.skills : matchingSkills,
-      }
-    }
-    return null
-  }).filter(Boolean) as SkillCategory[]
-
   return (
     <section id="skills" className="relative bg-background py-20 md:py-36 border-t border-border">
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
@@ -45,23 +29,11 @@ export default function SkillsSection() {
               SKILLS & EXPERTISE
             </h2>
           </div>
-
-          {/* Search Filter Input */}
-          <div className="relative min-w-[260px]">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="SEARCH SKILLS OR TOOLS..."
-              className="w-full bg-card border-2 border-border pl-10 pr-4 py-2.5 font-mono text-xs text-foreground uppercase placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
-            />
-          </div>
         </div>
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCategories.map((category, index) => {
+          {categories.map((category, index) => {
             const Icon = iconMap[category.icon] || Code2
             const numStr = String(index + 1).padStart(2, "0")
 
