@@ -152,12 +152,12 @@ export default function Home() {
       <MarqueeSection />
       <AboutSection />
       <PortfolioSection />
-      <PortfolioGallerySection />
-      <SkillsSection />
       <ServicesSection />
+      <SkillsSection />
       <ExperienceSection />
       <CertificationsSection />
       <TestimonialsSection />
+      <PortfolioGallerySection />
       <MarqueeSection variant="closing" />
       <CtaSection />
     </div>
