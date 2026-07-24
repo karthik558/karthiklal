@@ -2,16 +2,6 @@
   "testimonials": [
     {
       "id": 1,
-      "name": "Ayana E",
-      "position": "Client",
-      "company": "AuraFemme",
-      "content": "AuraFemme is an elegant and intuitive cycle intelligence dashboard. The tracking features and personalized insights work amazingly well, offering complete privacy and confidence. Excellent work by Karthik!",
-      "avatar": "",
-      "rating": 5,
-      "website": "https://afemme.samsproject.in"
-    },
-    {
-      "id": 2,
       "name": "Shankara Arunachala",
       "position": "Owner",
       "company": "Devi Project",
@@ -21,7 +11,7 @@
       "website": "https://deviproject.org"
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Shybi Mohan",
       "position": "Owner",
       "company": "Greenland Kerala",
@@ -29,6 +19,16 @@
       "avatar": "",
       "rating": 5,
       "website": "https://greenlandkerala.in/"
+    },
+    {
+      "id": 3,
+      "name": "Ayana E",
+      "position": "Client",
+      "company": "AuraFemme",
+      "content": "AuraFemme is an elegant and intuitive cycle intelligence dashboard. The tracking features and personalized insights work amazingly well, offering complete privacy and confidence. Excellent work by Karthik!",
+      "avatar": "",
+      "rating": 5,
+      "website": "https://afemme.samsproject.in"
     },
     {
       "id": 4,
