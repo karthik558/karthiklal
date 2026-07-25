@@ -237,7 +237,7 @@ export default function PortfolioSection() {
                 return (
                   <motion.article
                     key={project.id}
-                    className="group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border-2 border-border bg-card p-0 transition-all duration-300 hover:border-foreground hover:shadow-2xl sm:w-[360px] sm:max-w-none md:w-[380px]"
+                    className="group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border border-border/80 bg-card/70 p-0 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg sm:w-[360px] sm:max-w-none md:w-[380px]"
                   >
                     {/* Background Giant Stroke Number Watermark */}
                     <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">

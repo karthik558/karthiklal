@@ -85,8 +85,8 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={`group relative border-2 transition-all duration-300 overflow-hidden ${
-                  isExpanded ? "border-foreground bg-card shadow-2xl" : "border-border bg-card/60 hover:border-foreground/60"
+                className={`group relative border transition-all duration-300 overflow-hidden ${
+                  isExpanded ? "border-foreground/70 bg-card shadow-lg" : "border-border/80 bg-card/50 hover:border-foreground/50"
                 }`}
               >
                 {/* Background Giant Stroke Number Watermark */}
@@ -116,7 +116,7 @@ export default function ServicesSection() {
                       <div className="p-3 border border-foreground bg-foreground text-background hidden sm:block">
                         <Icon className="w-5 h-5" />
                       </div>
-                      <h3 className="font-display text-2xl md:text-3xl font-black uppercase text-foreground">
+                      <h3 className="font-display text-2xl md:text-3xl font-black text-foreground">
                         {service.title}
                       </h3>
                     </div>
@@ -151,7 +151,7 @@ export default function ServicesSection() {
                             {service.description}
                           </p>
 
-                          <div className="p-4 border-l-4 border-foreground bg-card font-mono text-xs text-foreground/90 leading-relaxed">
+                          <div className="border-l-2 border-foreground bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
                             &ldquo;{details.highlight}&rdquo;
                           </div>
                         </div>
@@ -163,7 +163,7 @@ export default function ServicesSection() {
 
                           <div className="space-y-2.5 mb-8">
                             {details.deliverables.map((item, idx) => (
-                              <div key={idx} className="flex items-start gap-3 font-mono text-xs text-foreground">
+                              <div key={idx} className="flex items-start gap-3 font-sans text-sm text-foreground">
                                 <Check className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
                                 <span>{item}</span>
                               </div>

@@ -4,7 +4,7 @@ import { useState } from "react"
 import dynamic from "next/dynamic"
 import { Send, Check, Copy } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
-import { PROFILE_DATA } from "@/lib/static-data"
+import { PROFILE_DATA, PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
 const ContactSuccessModal = dynamic(
   () => import("@/components/ui/contact-success-modal").then((mod) => mod.ContactSuccessModal),
@@ -127,11 +127,7 @@ export default function ContactSection() {
                 SOCIAL PROFILES
               </div>
               <div className="flex flex-wrap gap-2">
-                {[
-                  { name: "GITHUB", href: "https://github.com/karthik558" },
-                  { name: "LINKEDIN", href: "https://linkedin.com/in/karthiklal" },
-                  { name: "X / TWITTER", href: "https://x.com/_karthiklal" },
-                ].map((s) => (
+                {PUBLIC_SOCIAL_LINKS.map((s) => (
                   <a
                     key={s.name}
                     href={s.href}

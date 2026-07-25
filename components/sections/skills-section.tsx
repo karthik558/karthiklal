@@ -44,7 +44,7 @@ export default function SkillsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
+                className="group relative flex flex-col justify-between border border-border/80 bg-card/70 p-6 md:p-8 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
                 <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
@@ -66,7 +66,7 @@ export default function SkillsSection() {
                         <div className="p-2.5 border border-foreground bg-foreground text-background">
                           <Icon className="w-4 h-4" />
                         </div>
-                        <h3 className="font-mono text-sm font-bold uppercase tracking-tight text-foreground">
+                        <h3 className="font-sans text-base font-semibold text-foreground">
                           {category.name}
                         </h3>
                       </div>
@@ -79,7 +79,7 @@ export default function SkillsSection() {
                       {category.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="font-mono text-xs border border-border bg-background px-3 py-1 text-foreground transition-colors duration-200 group-hover:border-foreground/50"
+                          className="rounded-full bg-muted px-3 py-1 font-sans text-sm text-foreground"
                         >
                           {skill}
                         </span>

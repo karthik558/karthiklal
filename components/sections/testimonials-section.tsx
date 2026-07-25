@@ -162,7 +162,7 @@ export default function TestimonialsSection() {
                 transition={{ duration: 0.4 }}
                 className="relative z-10"
               >
-                <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase leading-snug text-foreground mb-10">
+                <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold leading-snug text-foreground mb-10">
                   &ldquo;{activeTestimonial.content}&rdquo;
                 </blockquote>
 
@@ -200,7 +200,7 @@ export default function TestimonialsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className="group relative flex flex-col justify-between overflow-hidden border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-xl motion-reduce:transform-none md:p-8"
+                className="group relative flex flex-col justify-between overflow-hidden border border-border/80 bg-card/70 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/60 hover:shadow-lg motion-reduce:transform-none md:p-8"
               >
                 <ConfettiBurst />
                 <div>

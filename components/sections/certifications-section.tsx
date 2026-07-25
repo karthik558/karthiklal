@@ -61,6 +61,7 @@ export default function CertificationsSection() {
                   setFilter(option.value as CredentialFilter)
                   setShowAll(false)
                 }}
+                aria-pressed={filter === option.value}
                 className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
                   filter === option.value
                     ? "border-foreground bg-foreground text-background font-bold"
@@ -89,7 +90,7 @@ export default function CertificationsSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.35, delay: index * 0.04 }}
-                  className="group relative flex flex-col justify-between border-2 border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-foreground hover:shadow-xl overflow-hidden"
+                  className="group relative flex flex-col justify-between border border-border/80 bg-card/70 p-6 md:p-8 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg overflow-hidden"
                 >
                   {/* Background Giant Stroke Number Watermark */}
                   <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
@@ -117,7 +118,7 @@ export default function CertificationsSection() {
                         </span>
                       </div>
 
-                      <h3 className="font-display text-2xl font-black uppercase text-foreground leading-tight mb-4 group-hover:underline underline-offset-4">
+                      <h3 className="font-display text-2xl font-black text-foreground leading-tight mb-4 group-hover:underline underline-offset-4">
                         {item.title}
                       </h3>
                     </div>

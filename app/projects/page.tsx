@@ -1,16 +1,19 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ExternalLink, Grid, List, Search, ArrowUpRight } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
 
+const PROJECT_FILTERS_STORAGE_KEY = "project-directory-filters"
+
 export default function ProjectsPage() {
   const [filter, setFilter] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [filtersReady, setFiltersReady] = useState(false)
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(projectsData.projects.map((project) => project.category)))], [])
 
@@ -28,6 +31,39 @@ export default function ProjectsPage() {
       return matchesCategory && matchesSearch
     })
   }, [filter, searchQuery])
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(PROJECT_FILTERS_STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved) as {
+          filter?: string
+          searchQuery?: string
+          viewMode?: "grid" | "list"
+        }
+        if (parsed.filter && categories.includes(parsed.filter)) setFilter(parsed.filter)
+        if (typeof parsed.searchQuery === "string") setSearchQuery(parsed.searchQuery)
+        if (parsed.viewMode === "grid" || parsed.viewMode === "list") setViewMode(parsed.viewMode)
+      }
+    } catch {
+      sessionStorage.removeItem(PROJECT_FILTERS_STORAGE_KEY)
+    } finally {
+      setFiltersReady(true)
+    }
+  }, [categories])
+
+  useEffect(() => {
+    if (!filtersReady) return
+    sessionStorage.setItem(
+      PROJECT_FILTERS_STORAGE_KEY,
+      JSON.stringify({ filter, searchQuery, viewMode })
+    )
+  }, [filter, filtersReady, searchQuery, viewMode])
+
+  const resetFilters = () => {
+    setSearchQuery("")
+    setFilter("All")
+  }
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
@@ -56,19 +92,20 @@ export default function ProjectsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="SEARCH PROJECTS OR TECH..."
-              className="w-full bg-card border-2 border-border pl-10 pr-4 py-3 font-mono text-xs text-foreground uppercase placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
+              aria-label="Search projects by name or technology"
+              className="w-full bg-card border border-border pl-10 pr-4 py-3 font-mono text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
             />
           </div>
 
           {/* Category Pills & Layout Toggle */}
-          <div className="flex flex-wrap items-center gap-3 justify-between">
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="flex min-w-0 items-center gap-3 justify-between">
+            <div className="-mx-1 flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
                   aria-pressed={filter === cat}
-                  className={`font-mono text-xs uppercase tracking-wider px-3 py-2 border transition-all duration-200 ${
+                  className={`shrink-0 font-mono text-xs uppercase tracking-wider px-3 py-2 border transition-all duration-200 ${
                     filter === cat
                       ? "border-foreground bg-foreground text-background font-bold"
                       : "border-border bg-card text-muted-foreground hover:border-foreground/50 hover:text-foreground"
@@ -79,7 +116,7 @@ export default function ProjectsPage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 border-2 border-border bg-card p-1">
+            <div className="hidden items-center gap-1 border border-border bg-card p-1 sm:flex">
               <button
                 onClick={() => setViewMode("grid")}
                 aria-label="Grid view"
@@ -102,6 +139,22 @@ export default function ProjectsPage() {
           </div>
         </div>
 
+        <div className="-mt-8 mb-8 flex items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+          <p aria-live="polite">
+            <span className="font-bold text-foreground">{filteredProjects.length}</span>{" "}
+            {filteredProjects.length === 1 ? "project" : "projects"} found
+          </p>
+          {(filter !== "All" || searchQuery) && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+
         {/* Projects Display */}
         {filteredProjects.length > 0 ? (
           <div className={`grid gap-8 ${viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
@@ -115,13 +168,17 @@ export default function ProjectsPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.04 }}
-                  className={`group border-2 border-border bg-card transition-all duration-300 hover:border-foreground hover:shadow-2xl flex flex-col justify-between ${
+                  className={`group border border-border/80 bg-card/70 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg flex flex-col justify-between ${
                     viewMode === "list" ? "md:grid md:grid-cols-12 md:items-center" : ""
                   }`}
                 >
                   {/* Image Box */}
-                  <div className={`relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border ${
-                    viewMode === "list" ? "md:col-span-4 md:border-b-0 md:border-r-2" : ""
+                  <Link
+                    href={detailUrl}
+                    prefetch={false}
+                    aria-label={`View ${project.title} case study`}
+                    className={`relative block aspect-[16/10] overflow-hidden bg-muted border-b border-border ${
+                    viewMode === "list" ? "md:col-span-4 md:border-b-0 md:border-r" : ""
                   }`}>
                     <Image
                       src={project.image}
@@ -133,7 +190,7 @@ export default function ProjectsPage() {
                     <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
                       {numStr}
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Text Details */}
                   <div className={`p-6 flex flex-col justify-between flex-1 ${viewMode === "list" ? "md:col-span-8" : ""}`}>
@@ -141,10 +198,12 @@ export default function ProjectsPage() {
                       <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
                         {project.category}
                       </div>
-                      <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-3">
-                        {project.title}
+                      <h3 className="mb-3 font-display text-2xl font-black text-foreground">
+                        <Link href={detailUrl} prefetch={false} className="hover:underline underline-offset-4">
+                          {project.title}
+                        </Link>
                       </h3>
-                      <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-6">
+                      <p className="mb-6 line-clamp-3 font-sans text-sm leading-relaxed text-muted-foreground">
                         {project.description}
                       </p>
                     </div>
@@ -152,7 +211,7 @@ export default function ProjectsPage() {
                     <div>
                       <div className="flex flex-wrap gap-1.5 mb-6 pt-4 border-t border-border/60 font-mono text-[10px]">
                         {project.technologies.map((tech) => (
-                          <span key={tech} className="border border-border bg-background px-2.5 py-0.5 text-foreground uppercase font-medium">
+                          <span key={tech} className="rounded-full bg-muted px-2.5 py-1 text-foreground">
                             {tech}
                           </span>
                         ))}
@@ -185,10 +244,10 @@ export default function ProjectsPage() {
             })}
           </div>
         ) : (
-          <div className="border-2 border-border bg-card p-12 text-center font-mono">
+          <div className="border border-border bg-card/70 p-12 text-center font-mono">
             <p className="text-muted-foreground uppercase text-sm mb-4">NO MATCHING PROJECTS FOUND</p>
             <button
-              onClick={() => { setSearchQuery(""); setFilter("All") }}
+              onClick={resetFilters}
               className="px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
             >
               RESET ALL FILTERS

@@ -80,12 +80,12 @@ export default function AboutSection() {
           </div>
 
           {/* Profile Statement */}
-          <div className="lg:col-span-8 border-2 border-border bg-card p-6 md:p-10 flex flex-col justify-between">
+          <div className="lg:col-span-8 border border-border/80 bg-card/70 p-6 md:p-10 flex flex-col justify-between">
             <div>
               <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">
                 RESEARCH // ENGINEERING // DESIGN
               </div>
-              <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6 uppercase">
+              <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6">
                 Securing digital landscapes while crafting intuitive, visually compelling experiences.
               </h3>
               <div className="space-y-4 font-sans text-base leading-relaxed text-muted-foreground">
@@ -108,7 +108,7 @@ export default function AboutSection() {
           {stats.map((stat) => (
             <article
               key={stat.label}
-              className="group flex flex-col justify-center border-2 border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-xl motion-reduce:transform-none md:p-6"
+              className="group flex flex-col justify-center border border-border/80 bg-card/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/60 hover:shadow-lg motion-reduce:transform-none md:p-6"
             >
               <div className="font-display text-4xl font-black text-foreground md:text-5xl">
                 {stat.value}

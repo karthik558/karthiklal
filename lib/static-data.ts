@@ -5,6 +5,14 @@ import certificationsJson from "@/public/data/certifications.json"
 export const PROFILE_DATA = profileJson
 export const SOCIALS_DATA = socialsJson
 export const CERTIFICATIONS_DATA = certificationsJson
+const publicSocialNames = ["GitHub", "LinkedIn", "Instagram", "Facebook", "X", "Behance"]
+
+export const PUBLIC_SOCIAL_LINKS = SOCIALS_DATA.socials
+  .filter((social) => publicSocialNames.includes(social.name))
+  .map((social) => ({
+    name: social.name === "X" ? "X / TWITTER" : social.name.toUpperCase(),
+    href: social.url,
+  }))
 
 export type ProfileData = typeof PROFILE_DATA
 export type SocialsData = typeof SOCIALS_DATA

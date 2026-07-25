@@ -140,7 +140,7 @@ export default function PortfolioGallerySection() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45 }}
-                  className={`group relative w-[82vw] max-w-[340px] overflow-hidden border-2 bg-card transition-all duration-500 hover:-translate-y-4 hover:scale-[1.035] hover:border-foreground hover:shadow-2xl motion-reduce:transform-none sm:w-[340px] lg:w-[260px] ${
+                  className={`group relative w-[82vw] max-w-[340px] overflow-hidden border bg-card/70 transition-all duration-500 hover:-translate-y-2 hover:border-foreground/60 hover:shadow-lg motion-reduce:transform-none sm:w-[340px] lg:w-[260px] ${
                     isActive ? "border-foreground shadow-2xl" : "border-border shadow-md"
                   }`}
                 >
@@ -170,7 +170,7 @@ export default function PortfolioGallerySection() {
                   </div>
 
                   <div className="p-5 flex items-center justify-between font-mono text-xs">
-                    <h3 className="font-bold uppercase tracking-tight text-foreground truncate pr-2">
+                    <h3 className="truncate pr-2 font-sans text-sm font-semibold text-foreground">
                       {item.title}
                     </h3>
                     <a

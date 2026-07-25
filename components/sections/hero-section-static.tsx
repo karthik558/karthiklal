@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import Link from "next/link"
 import {
   ArrowDownRight,
   Download,
@@ -98,7 +99,7 @@ export default function HeroSectionStatic() {
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/user/hero.jpg"
           onPlaying={() => setIsVideoPlaying(true)}
           onCanPlay={() => setIsVideoPlaying(true)}
@@ -156,11 +157,14 @@ export default function HeroSectionStatic() {
           {/* Subtitle Statement & Tech Domain Pills - Centered */}
           <div className="mt-6 sm:mt-10 flex flex-col items-center text-center max-w-4xl">
             <div className="flex flex-col items-center text-center">
-              <p className="font-sans text-base font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl max-w-3xl">
+              <p className="max-w-md font-sans text-lg font-light leading-relaxed text-muted-foreground sm:hidden">
+                I secure enterprise infrastructure and build reliable digital products.
+              </p>
+              <p className="hidden max-w-3xl font-sans text-xl font-light leading-relaxed text-muted-foreground sm:block md:text-2xl">
                 Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
               </p>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:text-xs">
+              <div className="mt-5 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:mt-6 sm:text-xs">
                 {["IT MANAGER", "CYBERSECURITY SPECIALIST", "SECURE SYSTEMS"].map((badge, idx) => (
                   <span key={idx} className="border border-border bg-card px-3 py-1 sm:px-3.5 sm:py-1.5 text-foreground font-medium uppercase tracking-wider">
                     {badge}
@@ -203,7 +207,7 @@ export default function HeroSectionStatic() {
                       href={social.url}
                       target={social.name !== "Email" ? "_blank" : undefined}
                       rel={social.name !== "Email" ? "noopener noreferrer" : undefined}
-                      className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center border border-border bg-card text-foreground transition-all duration-200 hover:bg-foreground hover:text-background"
+                      className="flex h-10 w-10 items-center justify-center border border-border bg-card text-foreground transition-all duration-200 hover:bg-foreground hover:text-background sm:h-11 sm:w-11"
                       title={social.name}
                       aria-label={social.name}
                     >
@@ -220,7 +224,11 @@ export default function HeroSectionStatic() {
       {/* Hero Bottom Bar */}
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 pt-4 border-t border-border/80 flex items-center justify-between font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
         <span>00 // INTRODUCTION</span>
-        <a href="#about" className="flex items-center gap-2 hover:text-foreground transition-colors">
+        <Link href="/projects/1" className="flex items-center gap-2 text-foreground transition-colors hover:underline sm:hidden">
+          <span>FEATURED // GITHUB BURNER</span>
+          <ArrowDownRight className="h-3.5 w-3.5 -rotate-90" />
+        </Link>
+        <a href="#about" className="hidden items-center gap-2 hover:text-foreground transition-colors sm:flex">
           <span>SCROLL DOWN</span>
           <ArrowDownRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-bounce" />
         </a>

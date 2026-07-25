@@ -33,7 +33,7 @@
       "icon": "Twitter",
       "url": "https://x.com/_karthiklal",
       "username": "@_karthiklal",
-      "active": true,
+      "active": false,
       "priority": 4
     },
     {
@@ -69,7 +69,7 @@
       "icon": "Palette",
       "url": "https://behance.net/karthik558",
       "username": "Karthik Lal",
-      "active": true,
+      "active": false,
       "priority": 8
     },
     {

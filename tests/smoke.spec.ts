@@ -23,6 +23,14 @@ test("key public routes load without server errors", async ({ page }) => {
   }
 })
 
+test("contact and footer expose the complete social profile set", async ({ page }) => {
+  await page.goto("/contact")
+
+  for (const social of ["GITHUB", "LINKEDIN", "INSTAGRAM", "FACEBOOK", "X / TWITTER", "BEHANCE"]) {
+    await expect(page.getByRole("link", { name: social, exact: true })).toHaveCount(2)
+  }
+})
+
 test("project and blog client navigation has no failed RSC requests", async ({ page }) => {
   const failedRscRequests: string[] = []
 
@@ -45,10 +53,36 @@ test("project and blog client navigation has no failed RSC requests", async ({ p
   expect(failedRscRequests).toEqual([])
 })
 
+test("project discovery state survives a case-study visit", async ({ page }) => {
+  await page.goto("/projects")
+
+  const securityFilter = page.getByRole("button", { name: "Security Tools", exact: true })
+  await securityFilter.click()
+  await expect(securityFilter).toHaveAttribute("aria-pressed", "true")
+
+  const search = page.getByRole("textbox", { name: "Search projects by name or technology" })
+  await search.fill("Rust")
+  await expect(page.getByText(/projects? found/i)).toBeVisible()
+
+  await page.goto("/projects/1")
+  await page.goBack()
+
+  await expect(search).toHaveValue("Rust")
+  await expect(securityFilter).toHaveAttribute("aria-pressed", "true")
+})
+
 test("mobile navigation supports keyboard access and focus restoration", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
+
+  const hero = page.locator("#home")
+  for (const social of ["GitHub", "LinkedIn", "Instagram", "Facebook"]) {
+    await expect(hero.getByRole("link", { name: social, exact: true })).toBeVisible()
+  }
+  for (const social of ["Email", "X", "Behance"]) {
+    await expect(hero.getByRole("link", { name: social, exact: true })).toHaveCount(0)
+  }
 
   await page.keyboard.press("Tab")
   const skipLink = page.locator('a[href="#main-content"]', { hasText: "Skip to content" })

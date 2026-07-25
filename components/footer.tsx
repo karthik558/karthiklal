@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -67,12 +68,7 @@ export default function Footer() {
             </a>
 
             <div className="flex flex-wrap gap-2 pt-2">
-              {[
-                { name: "GITHUB", href: "https://github.com/karthik558" },
-                { name: "LINKEDIN", href: "https://linkedin.com/in/karthiklal" },
-                { name: "X / TWITTER", href: "https://x.com/_karthiklal" },
-                { name: "BEHANCE", href: "https://behance.net/karthik558" },
-              ].map((link) => (
+              {PUBLIC_SOCIAL_LINKS.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
