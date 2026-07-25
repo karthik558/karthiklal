@@ -149,7 +149,7 @@ export default function NotFoundPage() {
           <div className="mt-5 flex flex-col gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <span>Karthik Lal // Portfolio system</span>
             <a
-              href="mailto:dev@karthiklal.in"
+              href="mailto:contact@karthiklal.in"
               className="inline-flex items-center gap-2 font-bold text-foreground hover:underline"
             >
               <Mail className="h-3.5 w-3.5" />

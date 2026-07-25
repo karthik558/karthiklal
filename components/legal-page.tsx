@@ -220,7 +220,7 @@ export function LegalContact({ subject }: { subject: string }) {
           <p className="mt-3 max-w-xl text-sm font-light leading-6 text-background/70">Contact me if you need clarification about this document or want to exercise a related right.</p>
         </div>
         <a
-          href="mailto:dev@karthiklal.in"
+          href="mailto:contact@karthiklal.in"
           className="group inline-flex h-[52px] shrink-0 items-center justify-center gap-2 border-2 border-background bg-background px-5 font-mono text-xs font-bold uppercase tracking-wider text-foreground transition-colors hover:bg-foreground hover:text-background"
         >
           <Mail className="h-4 w-4" />

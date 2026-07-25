@@ -64,7 +64,7 @@ const structuredData = {
     "addressLocality": "Kerala",
     "addressCountry": "IN"
   },
-  "email": "dev@karthiklal.in",
+  "email": "contact@karthiklal.in",
   "knowsAbout": [
     "Cybersecurity",
     "Network Security", 

@@ -46,11 +46,11 @@ export default function Footer() {
               NAVIGATION
             </div>
             <ul className="space-y-2 uppercase text-muted-foreground">
-              <li><Link href="/" className="hover:text-foreground transition-colors">00 // HOME</Link></li>
-              <li><Link href="/#about" className="hover:text-foreground transition-colors">01 // ABOUT</Link></li>
-              <li><Link href="/projects" className="hover:text-foreground transition-colors">02 // PROJECTS</Link></li>
-              <li><Link href="/#services" className="hover:text-foreground transition-colors">03 // SERVICES</Link></li>
-              <li><Link href="/contact" className="hover:text-foreground transition-colors">04 // CONTACT</Link></li>
+              <li><Link href="/" className="hover:text-foreground transition-colors">HOME</Link></li>
+              <li><Link href="/#about" className="hover:text-foreground transition-colors">ABOUT</Link></li>
+              <li><Link href="/projects" className="hover:text-foreground transition-colors">PROJECTS</Link></li>
+              <li><Link href="/#services" className="hover:text-foreground transition-colors">SERVICES</Link></li>
+              <li><Link href="/contact" className="hover:text-foreground transition-colors">CONTACT</Link></li>
             </ul>
           </div>
 
@@ -60,10 +60,10 @@ export default function Footer() {
               CONNECT
             </div>
             <a
-              href="mailto:dev@karthiklal.in"
+              href="mailto:contact@karthiklal.in"
               className="inline-block font-bold text-foreground hover:underline text-sm uppercase"
             >
-              dev@karthiklal.in
+              contact@karthiklal.in
             </a>
 
             <div className="flex flex-wrap gap-2 pt-2">

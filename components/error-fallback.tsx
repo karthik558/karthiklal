@@ -14,7 +14,7 @@ export default function ErrorFallback({
   title = "Something went wrong",
 }: ErrorFallbackProps) {
   return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-background px-4 py-24">
+    <div className="flex min-h-[70vh] items-center justify-center bg-background px-4 py-24">
       <section className="w-full max-w-2xl border-2 border-foreground bg-card p-8 md:p-12">
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
           SYSTEM RECOVERY
@@ -46,6 +46,6 @@ export default function ErrorFallback({
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

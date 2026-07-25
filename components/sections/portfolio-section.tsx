@@ -65,6 +65,7 @@ export default function PortfolioSection() {
                   setFilter(cat)
                   setArchiveIndex(0)
                 }}
+                aria-pressed={filter === cat}
                 className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
                   filter === cat
                     ? "border-foreground bg-foreground text-background font-bold shadow-md"

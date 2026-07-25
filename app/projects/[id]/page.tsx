@@ -32,14 +32,14 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-background pt-32 pb-24 text-center">
+      <div className="min-h-screen bg-background pt-32 pb-24 text-center">
         <div className="container mx-auto max-w-4xl px-4">
           <h1 className="font-display text-4xl font-black uppercase text-foreground mb-4">PROJECT NOT FOUND</h1>
           <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-mono text-xs uppercase font-bold">
             <ArrowLeft className="w-4 h-4" /> RETURN TO PROJECTS
           </Link>
         </div>
-      </main>
+      </div>
     )
   }
 
@@ -47,7 +47,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
   const nextProject = projects[projectIndex + 1] || projects[0]
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
+    <div className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Back Link */}
@@ -197,6 +197,6 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
 
         </div>
       </div>
-    </main>
+    </div>
   )
 }

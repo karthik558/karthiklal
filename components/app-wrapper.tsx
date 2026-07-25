@@ -102,7 +102,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       {!isAdmin && <NavBar />}
           
       {isAdmin ? (
-        <main>{children}</main>
+        children
       ) : (
         <ContentWrapper>
           <main id="main-content" tabIndex={-1}>{children}</main>

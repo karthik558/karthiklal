@@ -22,8 +22,8 @@
       "id": 3,
       "name": "Email",
       "icon": "Mail",
-      "url": "mailto:dev@karthiklal.in",
-      "username": "dev@karthiklal.in",
+      "url": "mailto:contact@karthiklal.in",
+      "username": "contact@karthiklal.in",
       "active": false,
       "priority": 3
     },

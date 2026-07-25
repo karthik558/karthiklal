@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <main
+    <div
       className="min-h-screen animate-pulse bg-background px-4 pt-32 md:px-6"
       aria-busy="true"
       aria-label="Loading page"
@@ -13,6 +13,6 @@ export default function Loading() {
           <div className="h-72 border-2 border-border bg-card" />
         </div>
       </div>
-    </main>
+    </div>
   )
 }

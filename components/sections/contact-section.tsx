@@ -18,7 +18,7 @@ export default function ContactSection() {
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
 
-  const email = PROFILE_DATA.personalInfo.email || "dev@karthiklal.in"
+  const email = PROFILE_DATA.personalInfo.email || "contact@karthiklal.in"
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText(email)
@@ -76,7 +76,7 @@ export default function ContactSection() {
   }
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
+    <div className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Page Hero Header */}
@@ -148,22 +148,24 @@ export default function ContactSection() {
 
           {/* Right Form Column */}
           <div className="lg:col-span-7 border-2 border-border bg-card p-8 md:p-10">
-            <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-6">
-              SEND MESSAGE FORM
-            </div>
+              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-6">
+                SEND MESSAGE FORM
+              </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
+              <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="website">Website</label>
                 <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR NAME *</label>
+                  <label htmlFor="contact-name" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR NAME *</label>
                   <input
+                    id="contact-name"
                     name="name"
                     required
                     type="text"
+                    autoComplete="name"
                     maxLength={80}
                     placeholder="Enter your full name"
                     className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
@@ -171,11 +173,13 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR EMAIL *</label>
+                  <label htmlFor="contact-email" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR EMAIL *</label>
                   <input
+                    id="contact-email"
                     name="email"
                     required
                     type="email"
+                    autoComplete="email"
                     maxLength={254}
                     placeholder="Enter your email address"
                     className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
@@ -184,20 +188,28 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">SUBJECT / PROJECT TYPE *</label>
-                <input
+                <label htmlFor="contact-subject" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">PROJECT TYPE *</label>
+                <select
+                  id="contact-subject"
                   name="subject"
                   required
-                  type="text"
-                  maxLength={120}
-                  placeholder="Enter subject or project type"
+                  defaultValue=""
                   className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
-                />
+                >
+                  <option value="" disabled>Select a project type</option>
+                  <option value="Security audit">Security audit</option>
+                  <option value="Web development">Web development</option>
+                  <option value="IT consulting">IT consulting</option>
+                  <option value="Infrastructure and cloud">Infrastructure and cloud</option>
+                  <option value="Design and branding">Design and branding</option>
+                  <option value="Other / General inquiry">Other / General inquiry</option>
+                </select>
               </div>
 
               <div>
-                <label className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">MESSAGE DETAILS *</label>
+                <label htmlFor="contact-message" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">MESSAGE DETAILS *</label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     required
                     maxLength={5000}
@@ -212,8 +224,17 @@ export default function ContactSection() {
                 disabled={isLoading}
                 className="w-full py-4 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border-2 border-foreground hover:bg-background hover:text-foreground transition-all duration-300 flex items-center justify-center gap-2 select-none cursor-pointer"
               >
-                {isLoading ? "TRANSMITTING MESSAGE..." : "TRANSMIT MESSAGE"} <Send className="w-4 h-4" />
+                  {isLoading ? "TRANSMITTING MESSAGE..." : "TRANSMIT MESSAGE"} <Send className="w-4 h-4" />
               </button>
+
+              <div className="space-y-2 border-t border-border pt-5 text-[10px] leading-relaxed tracking-wide text-muted-foreground">
+                <p>
+                  TYPICAL RESPONSE TIME // WITHIN 1–2 BUSINESS DAYS
+                </p>
+                <p>
+                  Your information is used only to respond to this inquiry and is not shared for marketing purposes.
+                </p>
+              </div>
             </form>
           </div>
         </div>
@@ -224,6 +245,6 @@ export default function ContactSection() {
           name={senderName}
         />
       </div>
-    </main>
+    </div>
   )
 }

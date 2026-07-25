@@ -30,7 +30,7 @@ export default function ProjectsPage() {
   }, [filter, searchQuery])
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
+    <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Page Hero Header */}
@@ -67,6 +67,7 @@ export default function ProjectsPage() {
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
+                  aria-pressed={filter === cat}
                   className={`font-mono text-xs uppercase tracking-wider px-3 py-2 border transition-all duration-200 ${
                     filter === cat
                       ? "border-foreground bg-foreground text-background font-bold"
@@ -81,6 +82,8 @@ export default function ProjectsPage() {
             <div className="flex items-center gap-1 border-2 border-border bg-card p-1">
               <button
                 onClick={() => setViewMode("grid")}
+                aria-label="Grid view"
+                aria-pressed={viewMode === "grid"}
                 className={`p-2 transition-colors ${viewMode === "grid" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
                 title="Grid View"
               >
@@ -88,6 +91,8 @@ export default function ProjectsPage() {
               </button>
               <button
                 onClick={() => setViewMode("list")}
+                aria-label="List view"
+                aria-pressed={viewMode === "list"}
                 className={`p-2 transition-colors ${viewMode === "list" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
                 title="List View"
               >
@@ -191,6 +196,6 @@ export default function ProjectsPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }

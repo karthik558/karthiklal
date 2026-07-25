@@ -22,12 +22,12 @@ export default function NavHeader() {
   const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services'])
 
   const navItems = [
-    { label: 'HOME', href: '/', sectionId: 'home', num: '00' },
-    { label: 'ABOUT', href: '/#about', sectionId: 'about', num: '01' },
-    { label: 'PROJECTS', href: '/projects', sectionId: 'portfolio', num: '02' },
-    { label: 'SERVICES', href: '/#services', sectionId: 'services', num: '03' },
-    { label: 'BLOG', href: '/blog', sectionId: '', num: '04' },
-    { label: 'CONTACT', href: '/contact', sectionId: '', num: '05' }
+    { label: 'HOME', href: '/', sectionId: 'home' },
+    { label: 'ABOUT', href: '/#about', sectionId: 'about' },
+    { label: 'PROJECTS', href: '/projects', sectionId: 'portfolio' },
+    { label: 'SERVICES', href: '/#services', sectionId: 'services' },
+    { label: 'BLOG', href: '/blog', sectionId: '' },
+    { label: 'CONTACT', href: '/contact', sectionId: '' }
   ]
 
   const isItemActive = (item: typeof navItems[0]) => {
@@ -197,8 +197,7 @@ export default function NavHeader() {
                             : "border-border bg-card text-foreground hover:border-foreground"
                         )}
                       >
-                        <div className="flex items-center gap-4">
-                          <span className="text-xs text-muted-foreground font-bold">{item.num} {"//"}</span>
+                        <div className="flex items-center">
                           <span className="font-display text-2xl font-black tracking-tight">{item.label}</span>
                         </div>
                         <ArrowUpRight className="w-5 h-5" />
@@ -216,10 +215,10 @@ export default function NavHeader() {
                 </div>
 
                 <a
-                  href="mailto:dev@karthiklal.in"
+                  href="mailto:contact@karthiklal.in"
                   className="block w-full text-center py-3 bg-foreground text-background font-bold uppercase tracking-wider border border-foreground"
                 >
-                  dev@karthiklal.in
+                  contact@karthiklal.in
                 </a>
               </div>
             </motion.div>

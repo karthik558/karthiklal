@@ -77,7 +77,7 @@ export default function BlogPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
+      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="space-y-8 font-mono text-xs uppercase animate-pulse">
             <div className="h-32 bg-card border-2 border-border" />
@@ -89,18 +89,18 @@ export default function BlogPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
+    <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            TECHNICAL JOURNAL // 03
+            TECHNICAL JOURNAL // ARCHIVE
           </div>
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             BLOG & INSIGHTS
@@ -262,6 +262,6 @@ export default function BlogPage() {
         )}
 
       </div>
-    </main>
+    </div>
   )
 }

@@ -58,7 +58,7 @@ export default function ServicesSection() {
         <div className="mb-14 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-              05 // SERVICES & OFFERINGS
+              03 // SERVICES & OFFERINGS
             </div>
             <h2 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl">
               WHAT I DELIVER

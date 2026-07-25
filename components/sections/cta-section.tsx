@@ -6,7 +6,7 @@ import { AnimatedButton } from "@/components/ui/animated-button"
 
 export default function CtaSection() {
   const [copied, setCopied] = useState(false)
-  const email = "dev@karthiklal.in"
+  const email = "contact@karthiklal.in"
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText(email)
@@ -20,7 +20,7 @@ export default function CtaSection() {
         <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
           
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
-            INITIATE COLLABORATION // CONTACT
+            09 // INITIATE COLLABORATION
           </div>
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-8">

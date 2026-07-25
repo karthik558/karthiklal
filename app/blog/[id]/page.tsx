@@ -124,19 +124,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
 
   if (!blog) {
     return (
-      <main className="min-h-screen bg-background pt-32 pb-24 border-t border-border text-center">
+      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border text-center">
         <div className="container mx-auto max-w-4xl px-4 font-mono">
           <h1 className="font-display text-4xl font-black uppercase text-foreground mb-4">ARTICLE NOT FOUND</h1>
           <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-bold text-xs uppercase">
             <ArrowLeft className="w-4 h-4" /> RETURN TO BLOG
           </Link>
         </div>
-      </main>
+      </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
+    <div className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
       <div className="container mx-auto max-w-5xl px-4 md:px-6">
         
         {/* Back Navigation */}
@@ -213,6 +213,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </footer>
         </article>
       </div>
-    </main>
+    </div>
   )
 }
