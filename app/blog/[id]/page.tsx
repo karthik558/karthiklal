@@ -1,4 +1,4 @@
-import { ArrowLeft, Calendar, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Github } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { ShareButton } from "@/components/blog/share-button"
@@ -16,6 +16,7 @@ interface BlogPost {
   image: string
   readTime: string
   featured: boolean
+  repository?: string
 }
 
 interface ContentBlock {
@@ -180,6 +181,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
                 </span>
               ))}
             </div>
+
+            {blog.repository && (
+              <a
+                href={blog.repository}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit items-center gap-2 border border-border bg-card px-4 py-2 font-mono text-xs font-bold uppercase text-foreground transition-colors hover:border-foreground"
+              >
+                <Github className="h-4 w-4" />
+                View source repository
+              </a>
+            )}
 
             <div className="relative border-2 border-foreground bg-card overflow-hidden">
               <Image

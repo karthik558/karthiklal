@@ -339,6 +339,281 @@
       "image": "/project/rust-ping.jpg",
       "readTime": "6 min read",
       "featured": false
+    },
+    {
+      "id": "github-burner-ai-profile-analysis",
+      "title": "Building GitHub Burner: Turning Repository Data into an AI-Powered Developer Roast",
+      "excerpt": "How GitHub Burner combines live profile analysis, Gemini-generated commentary, exports, and social sharing in one developer-focused experience.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "GitHub profiles contain more than repository names. Languages, activity, project descriptions, and public statistics together reveal patterns in how a developer works. GitHub Burner turns those signals into a playful, personalized roast instead of presenting another conventional analytics dashboard."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "From Profile URL to Personalized Output"
+        },
+        {
+          "type": "paragraph",
+          "text": "The application fetches repositories, language usage, profile statistics, and coding patterns from GitHub. That structured context is then passed to Gemini to generate commentary based on the developer's actual public work rather than a generic template."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Product Features"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Deep analysis of repositories, languages, and public profile statistics",
+            "Gemini-powered roasts grounded in the collected GitHub context",
+            "Dark and light themes with focused micro-interactions",
+            "One-click sharing for professional and social platforms",
+            "PDF and JSON export options",
+            "Optional user-provided API keys to manage rate limits"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Architecture and Deployment"
+        },
+        {
+          "type": "paragraph",
+          "text": "GitHub Burner uses a Vite-powered React and TypeScript frontend with an Express service layer. Production deployments keep primary API credentials in hosting secrets, while local users can supply a Gemini key through the interface when they want direct control."
+        },
+        {
+          "type": "quote",
+          "text": "The interesting engineering problem was not generating a joke—it was collecting enough relevant context to make the result feel specific to one developer."
+        },
+        {
+          "type": "image",
+          "src": "/project/github-burner.jpg",
+          "alt": "GitHub Burner interface across desktop and mobile screens",
+          "caption": "GitHub Burner transforms repository data into a shareable AI-generated profile roast."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2026-07-25",
+      "category": "AI Development",
+      "tags": [
+        "github-api",
+        "gemini",
+        "react",
+        "typescript",
+        "express"
+      ],
+      "image": "/project/github-burner.jpg",
+      "readTime": "7 min read",
+      "featured": true,
+      "repository": "https://github.com/karthik558/GithubBurner"
+    },
+    {
+      "id": "rust-crypt-aes-argon2-file-encryption",
+      "title": "Designing Rust-Crypt with AES-256-GCM and Argon2",
+      "excerpt": "A look at the authenticated-encryption pipeline, password-based key derivation, portable file format, and CLI design behind Rust-Crypt.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Rust-Crypt is a cross-platform command-line utility for encrypting and decrypting files with a password. The goal was to keep the workflow approachable while using modern cryptographic building blocks and a file format that contains everything required for safe decryption except the password."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Encryption Pipeline"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Generate a unique random salt for every encrypted file",
+            "Derive a 256-bit encryption key from the password with Argon2",
+            "Generate a random 12-byte nonce",
+            "Encrypt and authenticate the file with AES-256-GCM",
+            "Store the salt length, salt, nonce, and encrypted payload in a portable binary format"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Why Authenticated Encryption Matters"
+        },
+        {
+          "type": "paragraph",
+          "text": "AES-GCM does more than conceal file contents. Its authentication tag also allows the application to detect corrupted or modified ciphertext instead of returning silently altered data. Argon2 makes password guessing more expensive by applying a dedicated password-based key derivation process."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "A Small, Portable CLI"
+        },
+        {
+          "type": "paragraph",
+          "text": "Clap provides clear encrypt and decrypt commands, while anyhow keeps error propagation readable. The resulting binary works across Windows, macOS, and Linux and can be compiled with Cargo in release mode."
+        },
+        {
+          "type": "quote",
+          "text": "A security tool should make the safe path understandable: one password, authenticated encryption, explicit commands, and errors that fail clearly."
+        },
+        {
+          "type": "image",
+          "src": "/project/rust-crypt.jpg",
+          "alt": "Rust-Crypt file encryption project",
+          "caption": "Rust-Crypt packages salt, nonce, and authenticated ciphertext into a portable encrypted file."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2026-07-18",
+      "category": "Security Engineering",
+      "tags": [
+        "rust",
+        "aes-256-gcm",
+        "argon2",
+        "cryptography",
+        "cli"
+      ],
+      "image": "/project/rust-crypt.jpg",
+      "readTime": "7 min read",
+      "featured": false,
+      "repository": "https://github.com/karthik558/Rust-Crypt"
+    },
+    {
+      "id": "guestit-portal-hospitality-support-workflows",
+      "title": "Building GuestIT Portal for Faster Hospitality Support",
+      "excerpt": "How a React and Supabase portal connects hotel guests with IT teams through real-time requests, dashboards, authentication, and reporting.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Technology issues in a hotel room directly affect the guest experience, but Wi-Fi, smart TV, and digital-service complaints often travel through several departments before reaching IT. GuestIT Portal creates a direct workflow for submitting, tracking, and resolving those requests."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Designing for Guests and IT Teams"
+        },
+        {
+          "type": "paragraph",
+          "text": "The guest-facing experience prioritizes a responsive request flow that works comfortably on phones and tablets. The staff side adds authenticated access, current request data, dashboard summaries, and reporting tools so the IT team can manage work from one interface."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Core Capabilities"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Supabase authentication for protected staff workflows",
+            "Real-time request synchronization across active sessions",
+            "Dashboards with operational metrics and summaries",
+            "PDF reporting for request and guest records",
+            "Browser notifications for newly submitted assistance requests",
+            "Responsive light and dark themes built with Shadcn UI"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "A Typed Full-Stack Workflow"
+        },
+        {
+          "type": "paragraph",
+          "text": "React and TypeScript power the interface, while Supabase provides PostgreSQL, authentication, and real-time data. TanStack Query manages server state, React Hook Form handles form workflows, and Zod validates input before it reaches the backend."
+        },
+        {
+          "type": "quote",
+          "text": "The value of the portal is operational: fewer handoffs, clearer request ownership, and faster visibility for the team responsible for resolving the issue."
+        },
+        {
+          "type": "image",
+          "src": "/project/guest-wifi.jpg",
+          "alt": "GuestIT Portal hospitality support interface",
+          "caption": "GuestIT Portal provides a direct request channel between hotel guests and IT operations."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2026-07-11",
+      "category": "Hospitality Technology",
+      "tags": [
+        "hospitality",
+        "react",
+        "supabase",
+        "realtime",
+        "typescript"
+      ],
+      "image": "/project/guest-wifi.jpg",
+      "readTime": "6 min read",
+      "featured": false,
+      "repository": "https://github.com/karthik558/GuestIT-Portal"
+    },
+    {
+      "id": "invoicely-studio-private-browser-invoicing",
+      "title": "Building a Privacy-First Invoice Studio in the Browser",
+      "excerpt": "Inside Invoicely Studio's account-free architecture, local persistence, customizable templates, payment QR codes, and high-fidelity PDF exports.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Freelancers and small businesses often need professional invoices without adopting a full accounting platform. Invoicely Studio is designed as a focused workspace that runs entirely in the browser, requires no account, and keeps client and financial data under the user's control."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Privacy as an Architecture Decision"
+        },
+        {
+          "type": "paragraph",
+          "text": "Invoice details, client lists, financial settings, and signatures are not sent to an application server. The project uses browser storage for automatic persistence and provides JSON import and export so users can create their own portable backups."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Features for Real Billing Work"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Custom invoice themes and brand color palettes",
+            "Digital signatures embedded into documents",
+            "Payment QR codes for faster settlement",
+            "Multiple currencies and configurable GST calculations",
+            "Local persistence with JSON backup and restore",
+            "Print-ready PDF generation with compact layout options"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Generating Reliable PDFs"
+        },
+        {
+          "type": "paragraph",
+          "text": "The interface is built with React, TypeScript, Vite, Tailwind CSS, and targeted vanilla CSS. The PDF workflow uses @react-pdf/renderer to translate invoice state into consistent downloadable documents while keeping the editing experience responsive."
+        },
+        {
+          "type": "quote",
+          "text": "Keeping invoicing data client-side turns privacy from a promise into a property of the product's architecture."
+        },
+        {
+          "type": "image",
+          "src": "/project/invoicely.jpg",
+          "alt": "Invoicely Studio invoice editing interface",
+          "caption": "Invoicely Studio combines local-first data handling with customizable, print-ready invoices."
+        }
+      ],
+      "author": "Karthik Lal",
+      "date": "2026-07-04",
+      "category": "Web Development",
+      "tags": [
+        "react",
+        "typescript",
+        "privacy",
+        "pdf",
+        "local-first"
+      ],
+      "image": "/project/invoicely.jpg",
+      "readTime": "6 min read",
+      "featured": false,
+      "repository": "https://github.com/karthik558/InvoicelyStudio"
     }
   ]
 }

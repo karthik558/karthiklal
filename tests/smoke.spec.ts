@@ -31,6 +31,19 @@ test("contact and footer expose the complete social profile set", async ({ page 
   }
 })
 
+test("GitHub-sourced project articles are published with repository links", async ({ page }) => {
+  for (const slug of [
+    "github-burner-ai-profile-analysis",
+    "rust-crypt-aes-argon2-file-encryption",
+    "guestit-portal-hospitality-support-workflows",
+    "invoicely-studio-private-browser-invoicing",
+  ]) {
+    const response = await page.goto(`/blog/${slug}`)
+    expect(response?.status(), slug).toBe(200)
+    await expect(page.getByRole("link", { name: "View source repository" })).toBeVisible()
+  }
+})
+
 test("project and blog client navigation has no failed RSC requests", async ({ page }) => {
   const failedRscRequests: string[] = []
 

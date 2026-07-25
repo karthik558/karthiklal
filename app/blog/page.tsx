@@ -42,7 +42,11 @@ export default function BlogPage() {
       try {
         const response = await fetch("/data/blogs.json")
         const data: BlogData = await response.json()
-        setBlogs(data.blogs)
+        setBlogs(
+          [...data.blogs].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
+        )
       } catch (error) {
         console.error("Failed to fetch blogs:", error)
       } finally {
