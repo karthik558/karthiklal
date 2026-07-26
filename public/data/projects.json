@@ -275,6 +275,24 @@
     },
     {
       "id": 18,
+      "title": "RyZeN Kernel",
+      "description": "Official site and distribution portal for RyZeN Kernel — a high-performance, battery-optimized Android kernel focused on responsive performance, low latency, gaming, and multitasking.",
+      "image": "/project/ryzen-kernel.webp",
+      "category": "Software Development",
+      "link": "https://ryzen-kernel.vercel.app",
+      "github": "https://github.com/karthik558/RyZeN-Website",
+      "technologies": [
+        "React",
+        "Vite",
+        "JavaScript",
+        "C",
+        "Android",
+        "CSS"
+      ],
+      "featured": false
+    },
+    {
+      "id": 19,
       "title": "CodeLogger",
       "description": "A Python script that captures key events of Windows, Mac or Linux machines and outputs the log as code.txt on the script file directory. Educational purpose only.",
       "image": "/project/codelogger.jpg",
@@ -287,7 +305,7 @@
       "featured": false
     },
     {
-      "id": 19,
+      "id": 20,
       "title": "DDOS-ATTACK",
       "description": "This educational script simulates a DDoS attack to help users understand its mechanics, but should not be used for malicious purposes.",
       "image": "/project/ddos.jpg",
@@ -300,7 +318,7 @@
       "featured": false
     },
     {
-      "id": 20,
+      "id": 21,
       "title": "CleanWindowsPro",
       "description": "Optimize Windows system performance and stability with this script designed to clean junk files and repair corrupted system files. Achieve better efficiency with ease.",
       "image": "/project/cleanwindowspro.jpg",
@@ -313,7 +331,7 @@
       "featured": false
     },
     {
-      "id": 21,
+      "id": 22,
       "title": "Ace Redirect",
       "description": "This app is designed to offer a seamless user experience and provide easy access to all of the services offered by Ace Financials Software.",
       "image": "/project/ace-financial.jpg",
@@ -327,7 +345,7 @@
       "featured": false
     },
     {
-      "id": 22,
+      "id": 23,
       "title": "24Online-Server Portal",
       "description": "Customizable website template for 24Online-Server clients and administrators, designed specifically for Paul John Hotels and Resorts.",
       "image": "/project/24online_web.jpg",
@@ -344,7 +362,7 @@
       "featured": false
     },
     {
-      "id": 23,
+      "id": 24,
       "title": "Pixel-Pulse",
       "description": "Pixel Pulse keeps chosen browser sessions active with customizable heartbeats while offering a sleek, theme-aware popup interface.",
       "image": "/project/pixelpulse.jpg",
