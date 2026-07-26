@@ -210,9 +210,12 @@ export default function ProjectsPage() {
                     </div>
 
                     <div>
-                      <div className="flex flex-wrap gap-1.5 mb-6 pt-4 border-t border-border/60 font-mono text-[10px]">
+                      <div className="mb-6 flex flex-wrap gap-1.5 border-t border-border/60 pt-4 font-mono text-[9px]">
                         {project.technologies.map((tech) => (
-                          <span key={tech} className="rounded-full bg-muted px-2.5 py-1 text-foreground">
+                          <span
+                            key={tech}
+                            className="border border-border bg-background px-2.5 py-1 font-bold uppercase tracking-wider text-foreground transition-colors group-hover:border-foreground/50"
+                          >
                             {tech}
                           </span>
                         ))}

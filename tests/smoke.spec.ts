@@ -69,6 +69,10 @@ test("project and blog client navigation has no failed RSC requests", async ({ p
 test("project discovery state survives a case-study visit", async ({ page }) => {
   await page.goto("/projects")
 
+  const firstTechnologyLabel = page.locator("main article").first().locator("span").first()
+  await expect(firstTechnologyLabel).toHaveClass(/border/)
+  await expect(firstTechnologyLabel).not.toHaveClass(/rounded-full/)
+
   const securityFilter = page.getByRole("button", { name: "Security Tools", exact: true })
   await securityFilter.click()
   await expect(securityFilter).toHaveAttribute("aria-pressed", "true")
@@ -198,11 +202,7 @@ test("featured design and case-study interactions remain functional", async ({ p
   await certifications.getByRole("button", { name: "2021, selected; activate to show all years" }).click()
   await expect(certifications.getByText("ALL YEARS", { exact: true })).toBeVisible()
 
-  await page.getByRole("button", { name: "Open experience controls" }).click()
-  await page.getByRole("button", { name: /High contrast Strengthens text and borders/ }).click()
-  await expect(page.locator("html")).toHaveAttribute("data-contrast", "high")
-  await page.getByRole("button", { name: "Reset experience" }).click()
-  await page.getByRole("button", { name: "Close settings" }).click()
+  await expect(page.getByRole("button", { name: "Open experience controls" })).toHaveCount(0)
 
   const interfaceFilter = page.getByRole("button", { name: "INTERFACE", exact: true })
   await interfaceFilter.click()

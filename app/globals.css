@@ -189,48 +189,6 @@ body {
   }
 }
 
-html[data-motion="reduced"] *,
-html[data-motion="reduced"] *::before,
-html[data-motion="reduced"] *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  scroll-behavior: auto !important;
-  transition-duration: 0.01ms !important;
-}
-
-html[data-bandwidth="low"] .bandwidth-heavy {
-  display: none !important;
-}
-
-html[data-contrast="high"] {
-  --muted-foreground: 0 0% 18%;
-  --border: 0 0% 35%;
-}
-
-html.dark[data-contrast="high"] {
-  --muted-foreground: 0 0% 88%;
-  --border: 0 0% 55%;
-}
-
-html[data-animation-intensity="calm"] .interactive-surface,
-html[data-animation-intensity="calm"] .card-hover {
-  transform: none !important;
-}
-
-html[data-cursor="native"],
-html[data-cursor="native"] body,
-html[data-cursor="native"] a,
-html[data-cursor="native"] button,
-html[data-cursor="native"] input,
-html[data-cursor="native"] textarea,
-html[data-cursor="native"] select {
-  cursor: auto !important;
-}
-
-html[data-cursor="native"] .custom-cursor-layer {
-  display: none !important;
-}
-
 ::view-transition-group(*) {
   animation-duration: 650ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
@@ -256,13 +214,6 @@ html:not(.theme-transitioning)::view-transition-new(root) {
     opacity: 0;
     transform: translateY(12px);
   }
-}
-
-html[data-motion="reduced"]::view-transition-group(*),
-html[data-motion="reduced"]:not(.theme-transitioning)::view-transition-old(root),
-html[data-motion="reduced"]:not(.theme-transitioning)::view-transition-new(root) {
-  animation-duration: 1ms !important;
-  animation-delay: 0ms !important;
 }
 
 .text-stroke {

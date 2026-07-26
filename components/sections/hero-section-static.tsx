@@ -103,7 +103,7 @@ export default function HeroSectionStatic() {
           poster="/user/hero.jpg"
           onPlaying={() => setIsVideoPlaying(true)}
           onCanPlay={() => setIsVideoPlaying(true)}
-          className={`bandwidth-heavy h-full w-full object-cover grayscale contrast-150 transition-opacity duration-700 motion-reduce:hidden ${
+          className={`h-full w-full object-cover grayscale contrast-150 transition-opacity duration-700 motion-reduce:hidden ${
             isVideoPlaying ? "opacity-25 dark:opacity-30" : "opacity-0"
           }`}
         >

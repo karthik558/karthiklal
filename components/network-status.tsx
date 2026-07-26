@@ -37,7 +37,7 @@ export default function NetworkStatus() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
-          className={`fixed bottom-16 left-4 z-[10001] flex items-center gap-3 border-2 px-4 py-3 font-mono text-[9px] font-black uppercase tracking-widest shadow-xl sm:bottom-20 sm:left-6 ${
+          className={`fixed bottom-[calc(env(safe-area-inset-bottom)+1rem)] left-4 z-[10001] flex items-center gap-3 border-2 px-4 py-3 font-mono text-[9px] font-black uppercase tracking-widest shadow-xl sm:bottom-6 sm:left-6 ${
             online ? "border-emerald-500 bg-background text-emerald-600" : "border-foreground bg-foreground text-background"
           }`}
         >
