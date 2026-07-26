@@ -3,7 +3,7 @@
 import { useState } from "react"
 import dynamic from "next/dynamic"
 import { Send, Check, Copy } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { PROFILE_DATA, PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
 const ContactSuccessModal = dynamic(
@@ -16,7 +16,6 @@ export default function ContactSection() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [senderName, setSenderName] = useState("")
   const [copied, setCopied] = useState(false)
-  const { toast } = useToast()
 
   const email = PROFILE_DATA.personalInfo.email || "contact@karthiklal.in"
 
@@ -61,14 +60,12 @@ export default function ContactSection() {
       setShowSuccessModal(true)
       form.reset()
     } catch (error) {
-      toast({
-        title: "Message not sent",
+      toast.error("Message not sent", {
         description: error instanceof DOMException && error.name === "AbortError"
           ? "The request timed out. Please try again."
           : error instanceof Error
             ? error.message
             : "Failed to send message. Please try again later.",
-        variant: "destructive",
       })
     } finally {
       setIsLoading(false)

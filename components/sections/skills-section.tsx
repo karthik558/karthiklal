@@ -75,11 +75,11 @@ export default function SkillsSection() {
                       </span>
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-2 border-l border-t border-border/80">
                       {category.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full bg-muted px-3 py-1 font-sans text-sm text-foreground"
+                          className="flex min-h-10 items-center border-b border-r border-border/80 bg-background/70 px-3 py-2 font-mono text-[10px] font-bold uppercase leading-tight tracking-[0.08em] text-foreground transition-colors group-hover:bg-card"
                         >
                           {skill}
                         </span>

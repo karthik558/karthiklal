@@ -141,3 +141,19 @@ test("unknown routes show the not-found experience", async ({ page }) => {
   expect(response?.status()).toBe(404)
   await expect(page.getByText(/not found|404/i).first()).toBeVisible()
 })
+
+test("featured design and case-study interactions remain functional", async ({ page }) => {
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
+
+  const interfaceFilter = page.getByRole("button", { name: "INTERFACE", exact: true })
+  await interfaceFilter.click()
+  await expect(interfaceFilter).toHaveAttribute("aria-pressed", "true")
+  await expect(page.getByRole("heading", { name: "Creator Profile UI" })).toBeVisible()
+
+  await page.goto("/projects/1")
+  const xrayToggle = page.getByRole("button", { name: "X-Ray process off" })
+  await xrayToggle.click()
+  await expect(page.getByRole("button", { name: "X-Ray process on" })).toHaveAttribute("aria-pressed", "true")
+  await expect(page.getByText("X-RAY / COMPONENT LOGIC", { exact: true })).toBeVisible()
+})

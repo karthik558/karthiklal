@@ -95,11 +95,11 @@ export default function CustomCursor() {
       <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x: trailingX, y: trailingY }}>
         <motion.div
           animate={{
-            width: isHovering ? 48 : 28,
-            height: isHovering ? 48 : 28,
-            x: isHovering ? -24 : -14,
-            y: isHovering ? -24 : -14,
-            opacity: isVisible ? 1 : 0,
+            width: 48,
+            height: 48,
+            x: -24,
+            y: -24,
+            opacity: isVisible && isHovering ? 1 : 0,
             scale: isPressed ? 0.82 : 1,
           }}
           transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
@@ -120,7 +120,15 @@ export default function CustomCursor() {
       </motion.div>
 
       <motion.div className="absolute left-0 top-0 will-change-transform" style={{ x, y }}>
-        <motion.span animate={{ opacity: isVisible ? 1 : 0, scale: isHovering || isPressed ? 0 : 1 }} className="block h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+        <motion.span
+          animate={{
+            opacity: isVisible && !isHovering ? 1 : 0,
+            scale: isPressed ? 0.82 : 1,
+          }}
+          transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
+          className="block h-8 w-8 origin-top-left bg-contain bg-left-top bg-no-repeat drop-shadow-md"
+          style={{ backgroundImage: "url('/cursor/cursor.svg')" }}
+        />
       </motion.div>
     </div>
   )

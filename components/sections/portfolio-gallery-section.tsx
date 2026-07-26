@@ -3,19 +3,35 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Eye, EyeOff, Maximize2, SlidersHorizontal, X } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { getBehanceUrl } from "@/lib/static-data"
 import featuredDesignsData from "@/public/data/featured-designs.json"
 
 const portfolioItems = featuredDesignsData.featuredDesigns
+const designFilters = ["ALL", "CAMPAIGNS", "ILLUSTRATION", "IDENTITY", "INTERFACE"] as const
+type DesignFilter = (typeof designFilters)[number]
+
+const designCategory = (discipline: string): DesignFilter => {
+  const value = discipline.toLowerCase()
+  if (/interface|ui|mobile/.test(value)) return "INTERFACE"
+  if (/logo|identity|brand|emblem/.test(value)) return "IDENTITY"
+  if (/illustration|character|vector|3d|poster/.test(value)) return "ILLUSTRATION"
+  return "CAMPAIGNS"
+}
 
 export default function PortfolioGallerySection() {
   const behanceUrl = useMemo(() => getBehanceUrl("#"), [])
-  const [selectedImage, setSelectedImage] = useState<{ title: string; image: string } | null>(null)
+  const [selectedImage, setSelectedImage] = useState<(typeof portfolioItems)[number] | null>(null)
   const [galleryIndex, setGalleryIndex] = useState(0)
+  const [filter, setFilter] = useState<DesignFilter>("ALL")
+  const [processMode, setProcessMode] = useState(false)
   const railRef = useRef<HTMLDivElement>(null)
-  const activeItem = portfolioItems[galleryIndex]
+  const filteredItems = useMemo(
+    () => filter === "ALL" ? portfolioItems : portfolioItems.filter((item) => designCategory(item.discipline) === filter),
+    [filter]
+  )
+  const activeItem = filteredItems[galleryIndex] ?? filteredItems[0]
 
   useEffect(() => {
     if (!selectedImage) return
@@ -46,8 +62,13 @@ export default function PortfolioGallerySection() {
   }, [galleryIndex])
 
   const selectDesign = (index: number) => {
-    const boundedIndex = Math.max(0, Math.min(portfolioItems.length - 1, index))
+    const boundedIndex = Math.max(0, Math.min(filteredItems.length - 1, index))
     setGalleryIndex(boundedIndex)
+  }
+
+  const updateFilter = (nextFilter: DesignFilter) => {
+    setFilter(nextFilter)
+    setGalleryIndex(0)
   }
 
   const handleSectionKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -90,6 +111,36 @@ export default function PortfolioGallerySection() {
           </div>
         </div>
 
+        <div className="mb-5 flex flex-col gap-3 border-y border-border py-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <SlidersHorizontal className="mr-1 h-4 w-4 shrink-0 text-muted-foreground" />
+            {designFilters.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => updateFilter(item)}
+                aria-pressed={filter === item}
+                className={`shrink-0 border px-3 py-2 font-mono text-[9px] font-black uppercase tracking-widest transition-colors ${
+                  filter === item ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setProcessMode((current) => !current)}
+            aria-pressed={processMode}
+            className={`inline-flex min-h-10 shrink-0 items-center justify-center gap-2 border px-3 font-mono text-[9px] font-black uppercase tracking-widest transition-colors ${
+              processMode ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
+            }`}
+          >
+            {processMode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            PROCESS LAYER {processMode ? "ON" : "OFF"}
+          </button>
+        </div>
+
         <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.75fr)_minmax(300px,0.75fr)]">
           <div className="relative min-h-[330px] overflow-hidden border-b border-border bg-muted sm:min-h-[500px] lg:min-h-[620px] lg:border-b-0 lg:border-r">
             <Image
@@ -103,6 +154,27 @@ export default function PortfolioGallerySection() {
             />
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
+            <AnimatePresence>
+              {processMode && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="pointer-events-none absolute inset-0"
+                >
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.24)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.2)_1px,transparent_1px)] bg-[size:12.5%_12.5%]" />
+                  <div className="absolute left-[12.5%] top-[25%] border border-white/80 bg-black/75 px-3 py-2 font-mono text-[8px] font-black uppercase tracking-widest text-white">
+                    Focal hierarchy
+                  </div>
+                  <div className="absolute bottom-[20%] left-[37.5%] border border-white/80 bg-black/75 px-3 py-2 font-mono text-[8px] font-black uppercase tracking-widest text-white">
+                    Message-safe area
+                  </div>
+                  <div className="absolute right-[8%] top-[12%] font-mono text-[8px] font-black uppercase tracking-[0.2em] text-white">
+                    X-RAY / COMPOSITION GRID
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="absolute left-4 top-4 border border-white/30 bg-black/65 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md sm:left-6 sm:top-6">
               SELECTED / {String(galleryIndex + 1).padStart(2, "0")}
             </div>
@@ -127,7 +199,7 @@ export default function PortfolioGallerySection() {
             <div className="relative z-10">
               <div className="mb-7 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 <span>DESIGN STUDY</span>
-                <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}</span>
+                <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(filteredItems.length).padStart(2, "0")}</span>
               </div>
               <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
                 {activeItem.discipline}
@@ -144,7 +216,7 @@ export default function PortfolioGallerySection() {
               <div className="mb-5 h-px overflow-hidden bg-border">
                 <div
                   className="h-full origin-left bg-foreground"
-                  style={{ width: `${((galleryIndex + 1) / portfolioItems.length) * 100}%` }}
+                  style={{ width: `${((galleryIndex + 1) / filteredItems.length) * 100}%` }}
                 />
               </div>
               <div className="flex items-center justify-between gap-4">
@@ -164,7 +236,7 @@ export default function PortfolioGallerySection() {
                   <button
                     type="button"
                     onClick={() => selectDesign(galleryIndex + 1)}
-                    disabled={galleryIndex === portfolioItems.length - 1}
+                    disabled={galleryIndex === filteredItems.length - 1}
                     className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
                     aria-label="Next design"
                   >
@@ -177,7 +249,7 @@ export default function PortfolioGallerySection() {
         </div>
 
         <div className="mt-5 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          <span>COMPLETE ARCHIVE</span>
+          <span>{filter === "ALL" ? "COMPLETE ARCHIVE" : `${filter} ARCHIVE`} {"//"} {filteredItems.length} STUDIES</span>
           <span className="sm:hidden">SWIPE TO BROWSE</span>
           <span className="hidden sm:inline">SELECT A STUDY // SWIPE OR SCROLL</span>
         </div>
@@ -188,7 +260,7 @@ export default function PortfolioGallerySection() {
           aria-label="Choose a featured design"
           className="mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {portfolioItems.map((item, index) => {
+          {filteredItems.map((item, index) => {
             const isActive = index === galleryIndex
 
             return (
@@ -249,7 +321,7 @@ export default function PortfolioGallerySection() {
             >
               <div className="mb-3 flex items-center justify-between gap-4">
                 <div className="truncate font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  CREATIVE ARCHIVE // {selectedImage.title}
+                  CREATIVE ARCHIVE {"//"} {selectedImage.title} {"//"} {selectedImage.discipline}
                 </div>
                 <button
                   type="button"
