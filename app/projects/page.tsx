@@ -166,9 +166,14 @@ export default function ProjectsPage() {
               return (
                 <motion.article
                   key={project.id}
+                  layout="position"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.04 }}
+                  transition={{
+                    opacity: { duration: 0.4, delay: index * 0.04 },
+                    y: { duration: 0.4, delay: index * 0.04 },
+                    layout: { duration: 0.46, ease: [0.22, 1, 0.36, 1] },
+                  }}
                   className={`group border border-border/80 bg-card/70 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg flex flex-col justify-between ${
                     viewMode === "list" ? "md:grid md:grid-cols-12 md:items-center" : ""
                   }`}

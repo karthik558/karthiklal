@@ -7,12 +7,22 @@ test("home page renders its primary content", async ({ page }) => {
   await expect(preloader).toBeHidden({ timeout: 5_000 })
   await page.getByRole("button", { name: "Light mode" }).click()
   await expect(page.locator("html")).not.toHaveClass(/dark/)
+  await expect(page.locator("html")).not.toHaveClass(/theme-transitioning/)
   await page.getByRole("button", { name: "Dark mode" }).click()
   await expect(page.locator("html")).toHaveClass(/dark/)
+  await expect(page.locator("html")).not.toHaveClass(/theme-transitioning/)
   await expect(page.locator("h1").first()).toBeVisible()
   await expect(page.locator("h1").first()).toContainText("KARTHIK")
   await expect(page.locator("#portfolio")).toBeAttached()
   await expect(page.locator("#certifications article")).toHaveCount(3)
+
+  const fullStackService = page.getByRole("button", { name: /Full Stack Web Development/ })
+  await fullStackService.click()
+  await expect(fullStackService).toHaveAttribute("aria-expanded", "true")
+  await expect(page.locator("#service-details-2")).toBeVisible()
+  await fullStackService.click()
+  await expect(fullStackService).toHaveAttribute("aria-expanded", "false")
+  await expect(page.locator("#service-details-2")).toBeHidden()
 })
 
 test("key public routes load without server errors", async ({ page }) => {
@@ -144,7 +154,8 @@ test("desktop custom cursor keeps the SVG and uses motion-only interaction state
   const nameField = page.getByLabel("YOUR NAME *", { exact: true })
   await nameField.hover()
   await expect(cursorLayer).toHaveAttribute("data-cursor-state", "text")
-  await expect(page.getByTestId("cursor-text-indicator")).toBeVisible()
+  await expect(page.getByTestId("cursor-text-indicator")).toHaveCount(0)
+  await expect(svgCursor).toBeVisible()
 
   await page.mouse.down()
   await expect(cursorLayer).toHaveAttribute("data-pressed", "true")

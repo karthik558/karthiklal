@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { ArrowUpRight, Check, Shield, Code2, Cloud, Palette, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import servicesData from "@/public/data/services.json"
@@ -49,6 +49,7 @@ const serviceDetails: Record<string, { deliverables: string[]; highlight: string
 
 export default function ServicesSection() {
   const [expandedId, setExpandedId] = useState<number | null>(1)
+  const prefersReducedMotion = useReducedMotion()
 
   return (
     <section id="services" className="section-shell border-t border-border">
@@ -77,14 +78,20 @@ export default function ServicesSection() {
             const details = serviceDetails[service.title] || { deliverables: [], highlight: "" }
             const isExpanded = expandedId === service.id
             const numStr = String(index + 1).padStart(2, "0")
+            const panelId = `service-details-${service.id}`
 
             return (
               <motion.article
                 key={service.id}
+                layout="position"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{
+                  opacity: { duration: 0.4, delay: index * 0.05 },
+                  y: { duration: 0.4, delay: index * 0.05 },
+                  layout: { duration: prefersReducedMotion ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] },
+                }}
                 className={`group relative border transition-all duration-300 overflow-hidden ${
                   isExpanded ? "border-foreground/70 bg-card shadow-lg" : "border-border/80 bg-card/50 hover:border-foreground/50"
                 }`}
@@ -104,7 +111,10 @@ export default function ServicesSection() {
 
                 {/* Accordion Header */}
                 <button
+                  type="button"
                   onClick={() => setExpandedId(isExpanded ? null : service.id)}
+                  aria-expanded={isExpanded}
+                  aria-controls={panelId}
                   className="w-full p-6 md:p-8 flex items-center justify-between text-left focus:outline-none relative z-10"
                 >
                   <div className="flex items-center gap-6">
@@ -133,49 +143,62 @@ export default function ServicesSection() {
                 </button>
 
                 {/* Accordion Expanded Content */}
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {isExpanded && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="border-t border-border px-6 md:px-8 py-8 bg-background relative z-10"
+                      id={panelId}
+                      role="region"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        height: {
+                          duration: prefersReducedMotion ? 0 : 0.52,
+                          ease: [0.22, 1, 0.36, 1],
+                        },
+                        opacity: {
+                          duration: prefersReducedMotion ? 0 : 0.28,
+                          delay: isExpanded && !prefersReducedMotion ? 0.08 : 0,
+                        },
+                      }}
+                      className="relative z-10 overflow-hidden"
                     >
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                        <div className="lg:col-span-6">
-                          <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
-                            SERVICE OVERVIEW
-                          </div>
-                          <p className="font-sans text-base text-foreground leading-relaxed mb-6 font-light">
-                            {service.description}
-                          </p>
+                      <div className="border-t border-border bg-background px-6 py-8 md:px-8">
+                        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
+                          <div className="lg:col-span-6">
+                            <div className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                              SERVICE OVERVIEW
+                            </div>
+                            <p className="mb-6 font-sans text-base font-light leading-relaxed text-foreground">
+                              {service.description}
+                            </p>
 
-                          <div className="border-l-2 border-foreground bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
-                            &ldquo;{details.highlight}&rdquo;
-                          </div>
-                        </div>
-
-                        <div className="lg:col-span-6">
-                          <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
-                            KEY DELIVERABLES
+                            <div className="border-l-2 border-foreground bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
+                              &ldquo;{details.highlight}&rdquo;
+                            </div>
                           </div>
 
-                          <div className="space-y-2.5 mb-8">
-                            {details.deliverables.map((item, idx) => (
-                              <div key={idx} className="flex items-start gap-3 font-sans text-sm text-foreground">
-                                <Check className="w-4 h-4 text-foreground shrink-0 mt-0.5" />
-                                <span>{item}</span>
-                              </div>
-                            ))}
-                          </div>
+                          <div className="lg:col-span-6">
+                            <div className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                              KEY DELIVERABLES
+                            </div>
 
-                          <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider hover:bg-background hover:text-foreground transition-all duration-300"
-                          >
-                            INITIATE SERVICE INQUIRY <ArrowUpRight className="w-4 h-4" />
-                          </Link>
+                            <div className="mb-8 space-y-2.5">
+                              {details.deliverables.map((item, idx) => (
+                                <div key={idx} className="flex items-start gap-3 font-sans text-sm text-foreground">
+                                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" />
+                                  <span>{item}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            <Link
+                              href="/contact"
+                              className="inline-flex items-center gap-2 border-2 border-foreground bg-foreground px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all duration-300 hover:bg-background hover:text-foreground"
+                            >
+                              INITIATE SERVICE INQUIRY <ArrowUpRight className="h-4 w-4" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

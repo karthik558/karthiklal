@@ -143,15 +143,25 @@ export default function PortfolioGallerySection() {
 
         <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.75fr)_minmax(300px,0.75fr)]">
           <div className="relative min-h-[330px] overflow-hidden border-b border-border bg-muted sm:min-h-[500px] lg:min-h-[620px] lg:border-b-0 lg:border-r">
-            <Image
-              key={activeItem.image}
-              src={activeItem.image}
-              alt={activeItem.title}
-              fill
-              priority={galleryIndex === 0}
-              sizes="(min-width: 1280px) 820px, (min-width: 1024px) 65vw, 100vw"
-              className="object-cover"
-            />
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={activeItem.image}
+                initial={{ opacity: 0, scale: 1.015 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.995 }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={activeItem.image}
+                  alt={activeItem.title}
+                  fill
+                  priority={galleryIndex === 0}
+                  sizes="(min-width: 1280px) 820px, (min-width: 1024px) 65vw, 100vw"
+                  className="object-cover"
+                />
+              </motion.div>
+            </AnimatePresence>
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
             <AnimatePresence>
@@ -196,26 +206,35 @@ export default function PortfolioGallerySection() {
               {String(galleryIndex + 1).padStart(2, "0")}
             </div>
 
-            <div className="relative z-10">
-              <div className="mb-7 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                <span>DESIGN STUDY</span>
-                <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(filteredItems.length).padStart(2, "0")}</span>
-              </div>
-              <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
-                {activeItem.discipline}
-              </p>
-              <h3 className="line-clamp-3 min-h-[6.5rem] max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:min-h-[8.6rem] sm:text-5xl lg:min-h-[10.75rem] lg:text-6xl">
-                {activeItem.title}
-              </h3>
-              <p className="mt-6 line-clamp-3 min-h-[4.5rem] max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
-                {activeItem.description}
-              </p>
-            </div>
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={activeItem.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10"
+              >
+                <div className="mb-7 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                  <span>DESIGN STUDY</span>
+                  <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(filteredItems.length).padStart(2, "0")}</span>
+                </div>
+                <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
+                  {activeItem.discipline}
+                </p>
+                <h3 className="line-clamp-3 min-h-[6.5rem] max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:min-h-[8.6rem] sm:text-5xl lg:min-h-[10.75rem] lg:text-6xl">
+                  {activeItem.title}
+                </h3>
+                <p className="mt-6 line-clamp-3 min-h-[4.5rem] max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
+                  {activeItem.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
             <div className="relative z-10 mt-10">
               <div className="mb-5 h-px overflow-hidden bg-border">
                 <div
-                  className="h-full origin-left bg-foreground"
+                  className="h-full origin-left bg-foreground transition-[width] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
                   style={{ width: `${((galleryIndex + 1) / filteredItems.length) * 100}%` }}
                 />
               </div>

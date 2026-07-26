@@ -96,25 +96,34 @@ export default function PrinciplesSection() {
               {String(activeIndex + 1).padStart(2, "0")}
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div key={active.title} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.24 }} className="relative z-10">
-                <div className="mb-10 flex items-center justify-between border-b border-border pb-5 font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                  <span>PRINCIPLE / {String(activeIndex + 1).padStart(2, "0")}</span>
-                  <ActiveIcon className="h-5 w-5 text-foreground" />
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={active.title}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 flex flex-1 flex-col justify-between"
+              >
+                <div>
+                  <div className="mb-10 flex items-center justify-between border-b border-border pb-5 font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                    <span>PRINCIPLE / {String(activeIndex + 1).padStart(2, "0")}</span>
+                    <ActiveIcon className="h-5 w-5 text-foreground" />
+                  </div>
+                  <h3 className="max-w-3xl font-display text-4xl font-black uppercase leading-[.95] tracking-tight sm:text-6xl lg:text-7xl">
+                    {active.title}
+                  </h3>
+                  <p className="mt-8 max-w-2xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
+                    {active.description}
+                  </p>
                 </div>
-                <h3 className="max-w-3xl font-display text-4xl font-black uppercase leading-[.95] tracking-tight sm:text-6xl lg:text-7xl">
-                  {active.title}
-                </h3>
-                <p className="mt-8 max-w-2xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
-                  {active.description}
-                </p>
+
+                <div className="mt-12 border-l-2 border-foreground pl-5">
+                  <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">IN PRACTICE</div>
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground">{active.practice}</p>
+                </div>
               </motion.div>
             </AnimatePresence>
-
-            <div className="relative z-10 mt-12 border-l-2 border-foreground pl-5">
-              <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">IN PRACTICE</div>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground">{active.practice}</p>
-            </div>
           </div>
         </div>
       </div>

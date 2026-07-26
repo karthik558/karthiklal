@@ -196,27 +196,14 @@ export default function CustomCursor() {
         <motion.span
           data-testid="svg-cursor"
           animate={{
-            opacity: isVisible ? (isText ? 0.46 : isDisabled ? 0.38 : 1) : 0,
-            scale: isPressed ? 0.76 : isText ? 0.72 : hasHalo ? 1.05 : 1,
+            opacity: isVisible ? (isDisabled ? 0.38 : 1) : 0,
+            scale: isPressed ? 0.76 : isText ? 0.88 : hasHalo ? 1.05 : 1,
             rotate: isPressed ? -5 : 0,
           }}
-          transition={{ duration: 0.13, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: isText ? 0.2 : 0.13, ease: [0.22, 1, 0.36, 1] }}
           className="block h-8 w-8 origin-top-left bg-contain bg-left-top bg-no-repeat drop-shadow-md"
           style={{ backgroundImage: "url('/cursor/cursor.svg')" }}
         />
-
-        <motion.span
-          data-testid="cursor-text-indicator"
-          animate={{
-            opacity: isVisible && isText ? 1 : 0,
-            scaleY: isPressed ? 0.72 : 1,
-          }}
-          transition={{ duration: 0.14 }}
-          className="absolute -top-1 left-1 h-7 w-[2px] bg-foreground shadow-[0_0_0_1px_hsl(var(--background)/.45)]"
-        >
-          <span className="absolute -left-[3px] top-0 h-[2px] w-2 bg-foreground" />
-          <span className="absolute bottom-0 -left-[3px] h-[2px] w-2 bg-foreground" />
-        </motion.span>
 
         <motion.span
           animate={{
