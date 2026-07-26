@@ -6,6 +6,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ExternalLink, Grid, List, Search, ArrowUpRight } from "lucide-react"
 import projectsData from "@/public/data/projects.json"
+import ProjectTransitionLink from "@/components/projects/project-transition-link"
 
 const PROJECT_FILTERS_STORAGE_KEY = "project-directory-filters"
 
@@ -173,10 +174,10 @@ export default function ProjectsPage() {
                   }`}
                 >
                   {/* Image Box */}
-                  <Link
+                  <ProjectTransitionLink
                     href={detailUrl}
-                    prefetch={false}
-                    aria-label={`View ${project.title} case study`}
+                    projectId={project.id}
+                    ariaLabel={`View ${project.title} case study`}
                     className={`relative block aspect-[16/10] overflow-hidden bg-muted border-b border-border ${
                     viewMode === "list" ? "md:col-span-4 md:border-b-0 md:border-r" : ""
                   }`}>
@@ -190,7 +191,7 @@ export default function ProjectsPage() {
                     <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
                       {numStr}
                     </div>
-                  </Link>
+                  </ProjectTransitionLink>
 
                   {/* Text Details */}
                   <div className={`p-6 flex flex-col justify-between flex-1 ${viewMode === "list" ? "md:col-span-8" : ""}`}>

@@ -2,10 +2,10 @@
 
 import { useState, type UIEvent } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Github, Eye, X, ExternalLink } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
+import ProjectTransitionLink from "@/components/projects/project-transition-link"
 import projectsData from "@/public/data/projects.json"
 
 interface Project {
@@ -49,7 +49,7 @@ export default function PortfolioSection() {
         <div className="section-heading-row">
           <div>
             <div className="section-kicker">
-              02 // SELECTED WORK
+              03 // SELECTED WORK
             </div>
             <h2 className="section-title">
               FEATURED PROJECTS
@@ -107,7 +107,10 @@ export default function PortfolioSection() {
                 </div>
 
                 {/* Top Hero Image Box */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-foreground bg-muted z-10">
+                <div
+                  className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-foreground bg-muted z-10"
+                  style={{ viewTransitionName: `project-${project.id}` }}
+                >
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -164,13 +167,15 @@ export default function PortfolioSection() {
 
                     {/* Action Links */}
                     <div className="flex flex-wrap items-center justify-between gap-4">
-                      <AnimatedButton
+                      <ProjectTransitionLink
                         href={projectUrl}
-                        variant="primary"
-                        className="h-12 px-6"
+                        projectId={project.id}
+                        shareElement={false}
+                        ariaLabel={`View ${project.title} case study`}
+                        className="inline-flex h-12 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground"
                       >
                         FULL CASE STUDY <ArrowUpRight className="w-4 h-4" />
-                      </AnimatedButton>
+                      </ProjectTransitionLink>
 
                       {project.link && (
                         <a
@@ -252,7 +257,10 @@ export default function PortfolioSection() {
                       </span>
                     </div>
 
-                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b-2 border-border bg-muted z-10">
+                    <div
+                      className="relative aspect-[16/10] w-full overflow-hidden border-b-2 border-border bg-muted z-10"
+                      style={{ viewTransitionName: `project-${project.id}` }}
+                    >
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -296,12 +304,15 @@ export default function PortfolioSection() {
                         </div>
 
                         <div className="flex items-center justify-between font-mono text-xs font-bold uppercase">
-                          <Link
+                          <ProjectTransitionLink
                             href={projectUrl}
+                            projectId={project.id}
+                            shareElement={false}
+                            ariaLabel={`View ${project.title} case study`}
                             className="inline-flex items-center gap-1.5 text-foreground hover:underline decoration-2"
                           >
                             CASE STUDY <ArrowUpRight className="w-3.5 h-3.5" />
-                          </Link>
+                          </ProjectTransitionLink>
 
                           {project.link && (
                             <a
@@ -400,14 +411,15 @@ export default function PortfolioSection() {
               </div>
 
               <div className="flex flex-wrap gap-4 pt-6 border-t border-border">
-                <Link
+                <ProjectTransitionLink
                   href={`/projects/${selectedProject.id}`}
-                  prefetch={false}
-                  onClick={() => setSelectedProject(null)}
+                  projectId={selectedProject.id}
+                  shareElement={false}
+                  ariaLabel={`View ${selectedProject.title} case study`}
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider hover:bg-background hover:text-foreground transition-all duration-300"
                 >
                   FULL CASE STUDY <ArrowUpRight className="w-4 h-4" />
-                </Link>
+                </ProjectTransitionLink>
 
                 {selectedProject.link && (
                   <a

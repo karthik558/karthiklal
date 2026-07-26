@@ -4,6 +4,7 @@ import MarqueeSection from "@/components/sections/marquee-section"
 
 // Dynamically import below-the-fold sections to optimize initial load
 const AboutSection = dynamic(() => import("@/components/sections/about-section"))
+const PrinciplesSection = dynamic(() => import("@/components/sections/principles-section"))
 const PortfolioGallerySection = dynamic(() => import("@/components/sections/portfolio-gallery-section"))
 const PortfolioSection = dynamic(() => import("@/components/sections/portfolio-section"))
 const ServicesSection = dynamic(() => import("@/components/sections/services-section"))
@@ -151,6 +152,7 @@ export default function Home() {
       <HeroSectionStatic />
       <MarqueeSection />
       <AboutSection />
+      <PrinciplesSection />
       <PortfolioSection />
       <ServicesSection />
       <SkillsSection />

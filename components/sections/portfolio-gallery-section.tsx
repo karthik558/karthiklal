@@ -91,7 +91,7 @@ export default function PortfolioGallerySection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">08 // CREATIVE ARCHIVE</div>
+            <div className="section-kicker">09 // CREATIVE ARCHIVE</div>
             <h2 className="section-title">FEATURED DESIGNS</h2>
           </div>
 

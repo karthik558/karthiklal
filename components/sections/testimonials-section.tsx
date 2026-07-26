@@ -79,7 +79,7 @@ export default function TestimonialsSection() {
         <div className="section-heading-row">
           <div>
             <div className="section-kicker">
-              07 // CLIENT FEEDBACK & REVIEWS
+              08 // CLIENT FEEDBACK & REVIEWS
             </div>
             <h2 className="section-title">
               TESTIMONIALS

@@ -58,7 +58,7 @@ export default function ServicesSection() {
         <div className="section-heading-row">
           <div>
             <div className="section-kicker">
-              03 // SERVICES & OFFERINGS
+              04 // SERVICES & OFFERINGS
             </div>
             <h2 className="section-title">
               WHAT I DELIVER

@@ -1,16 +1,9 @@
 "use client"
 
-import { flushSync } from "react-dom"
 import { useTheme } from "next-themes"
 import { useSyncExternalStore } from "react"
 import { motion } from "framer-motion"
 import { Moon, Sun } from "lucide-react"
-
-type ViewTransitionDocument = Document & {
-  startViewTransition?: (update: () => void) => {
-    finished: Promise<void>
-  }
-}
 
 const subscribeToClient = () => () => undefined
 
@@ -26,24 +19,7 @@ export function ThemeToggleAnimated() {
 
   const changeTheme = (nextTheme: "light" | "dark") => {
     if ((nextTheme === "dark") === isDark) return
-
-    const root = document.documentElement
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const viewTransitionDocument = document as ViewTransitionDocument
-
-    if (prefersReducedMotion || !viewTransitionDocument.startViewTransition) {
-      setTheme(nextTheme)
-      return
-    }
-
-    root.classList.add("theme-transitioning")
-    const transition = viewTransitionDocument.startViewTransition(() => {
-      flushSync(() => setTheme(nextTheme))
-    })
-
-    void transition.finished.finally(() => {
-      root.classList.remove("theme-transitioning")
-    })
+    setTheme(nextTheme)
   }
 
   return (

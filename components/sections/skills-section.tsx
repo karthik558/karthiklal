@@ -23,7 +23,7 @@ export default function SkillsSection() {
         <div className="section-heading-row">
           <div>
             <div className="section-kicker">
-              04 // TECH MATRIX & TOOLING
+              05 // TECH MATRIX & TOOLING
             </div>
             <h2 className="section-title">
               SKILLS & EXPERTISE

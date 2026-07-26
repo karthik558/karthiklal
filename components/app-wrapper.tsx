@@ -11,6 +11,7 @@ import ClientEnhancements from "@/components/client-enhancements"
 import { Analytics } from "@/components/analytics"
 import { scrollToElement } from "@/lib/scroll-utils"
 import NetworkStatus from "@/components/network-status"
+import ExperienceControls from "@/components/experience-controls"
 
 interface AppWrapperProps {
   children: React.ReactNode
@@ -114,6 +115,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       {!isAdmin && <BackToTop />}
       {!isAdmin && <ClientEnhancements />}
       {!isAdmin && <NetworkStatus />}
+      {!isAdmin && <ExperienceControls />}
       <Analytics />
     </>
   )

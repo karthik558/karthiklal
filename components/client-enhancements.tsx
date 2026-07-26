@@ -24,12 +24,10 @@ export default function ClientEnhancements() {
     return () => globalThis.clearTimeout(id)
   }, [])
 
-  if (!enabled) return null
-
   return (
     <>
-      <SmoothScroll />
       <CustomCursor />
+      {enabled && <SmoothScroll />}
     </>
   )
 }

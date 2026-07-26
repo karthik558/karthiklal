@@ -9,6 +9,7 @@ import { useActiveSection } from "@/hooks/use-active-section"
 const homeChapters = [
   { id: "home", label: "Introduction" },
   { id: "about", label: "Profile" },
+  { id: "principles", label: "Principles" },
   { id: "portfolio", label: "Selected work" },
   { id: "services", label: "Services" },
   { id: "skills", label: "Capabilities" },

@@ -9,14 +9,18 @@ import {
   ArrowRight,
   Blocks,
   Braces,
+  CheckCircle2,
   ExternalLink,
   Eye,
   EyeOff,
   Github,
   Layers3,
+  MessageSquareQuote,
   ShieldCheck,
   Sparkles,
 } from "lucide-react"
+import { getProjectEvidence } from "@/lib/project-evidence"
+import ProjectTransitionLink from "@/components/projects/project-transition-link"
 
 export interface CaseStudyProject {
   id: number
@@ -47,6 +51,7 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
   const [xray, setXray] = useState(false)
   const [activeChapter, setActiveChapter] = useState("brief")
   const [progress, setProgress] = useState(0)
+  const evidence = useMemo(() => getProjectEvidence(project), [project])
 
   const projectType = useMemo(() => {
     const searchable = `${project.category} ${project.technologies.join(" ")}`.toLowerCase()
@@ -138,7 +143,10 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
         </div>
       </header>
 
-      <div className="relative mx-auto max-w-[1600px] border-y-2 border-foreground bg-muted">
+      <div
+        className="relative mx-auto max-w-[1600px] border-y-2 border-foreground bg-muted"
+        style={{ viewTransitionName: `project-${project.id}` }}
+      >
         <div className="relative aspect-[16/9] min-h-[340px] w-full overflow-hidden">
           <Image src={project.image} alt={project.title} fill priority sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
@@ -195,11 +203,26 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
             </h2>
             <div className="mt-9 grid gap-6 md:grid-cols-2">
               <p className="text-base font-light leading-relaxed text-muted-foreground">
-                The goal was to create a product that communicates trust immediately and keeps its core workflow effortless across devices.
+                {evidence.challenge}
               </p>
               <p className="text-base font-light leading-relaxed text-muted-foreground">
-                The system balances technical capability with a restrained interface, ensuring the product remains understandable as its feature set grows.
+                {evidence.response}
               </p>
+            </div>
+
+            <div className="mt-12">
+              <div className="mb-4 flex items-center gap-2 font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                <CheckCircle2 className="h-4 w-4" /> Project evidence / sourced from the published build
+              </div>
+              <div className="grid border-l border-t border-border sm:grid-cols-3">
+                {evidence.facts.map((fact) => (
+                  <div key={`${fact.value}-${fact.label}`} className="min-h-44 border-b border-r border-border bg-card p-5 sm:p-6">
+                    <div className="font-display text-3xl font-black uppercase sm:text-4xl">{fact.value}</div>
+                    <div className="mt-5 font-mono text-[9px] font-black uppercase tracking-widest">{fact.label}</div>
+                    <p className="mt-2 text-xs font-light leading-relaxed text-muted-foreground">{fact.detail}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -258,6 +281,28 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
                 ))}
               </div>
             </div>
+
+            <div className="mt-16 border-2 border-foreground">
+              <div className="flex flex-col justify-between gap-4 border-b-2 border-foreground bg-foreground p-5 text-background sm:flex-row sm:items-center sm:p-6">
+                <div>
+                  <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-background/60">Decision record</div>
+                  <h3 className="mt-2 font-display text-3xl font-black uppercase">Director&apos;s Notes</h3>
+                </div>
+                <MessageSquareQuote className="h-8 w-8" />
+              </div>
+              <div className="grid lg:grid-cols-3">
+                {evidence.notes.map((note, index) => (
+                  <article key={note.decision} className="border-b border-foreground p-5 last:border-b-0 sm:p-6 lg:min-h-72 lg:border-b-0 lg:border-r lg:last:border-r-0">
+                    <div className="font-mono text-[9px] font-black uppercase tracking-widest text-muted-foreground">
+                      {String(index + 1).padStart(2, "0")} / observed signal
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{note.signal}</p>
+                    <h4 className="mt-8 font-display text-2xl font-black uppercase">{note.decision}</h4>
+                    <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">{note.rationale}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </section>
 
           <section id="outcome" className="scroll-mt-32 pt-20">
@@ -267,6 +312,7 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
             <h2 className="max-w-4xl font-display text-4xl font-black uppercase leading-tight sm:text-6xl">
               A FASTER, CLEARER AND MORE RESILIENT PRODUCT FOUNDATION.
             </h2>
+            <p className="mt-7 max-w-3xl text-base font-light leading-relaxed text-muted-foreground">{evidence.outcome}</p>
             <div className="mt-10 flex flex-wrap gap-3">
               {project.link && (
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 border-2 border-foreground bg-foreground px-5 font-mono text-[10px] font-black uppercase tracking-widest text-background hover:bg-background hover:text-foreground">
@@ -284,14 +330,34 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
       </div>
 
       <nav className="container mx-auto grid max-w-7xl gap-4 border-t-2 border-foreground px-4 pt-10 md:grid-cols-2 md:px-6">
-        <Link href={`/projects/${previousProject.id}`} prefetch={false} className="group border border-border bg-card p-6 transition-colors hover:border-foreground hover:bg-foreground hover:text-background">
-          <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65"><ArrowLeft className="mr-2 inline h-4 w-4" />Previous case</div>
-          <div className="mt-5 font-display text-2xl font-black uppercase">{previousProject.title}</div>
-        </Link>
-        <Link href={`/projects/${nextProject.id}`} prefetch={false} className="group border border-border bg-card p-6 text-right transition-colors hover:border-foreground hover:bg-foreground hover:text-background">
-          <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65">Next case<ArrowRight className="ml-2 inline h-4 w-4" /></div>
-          <div className="mt-5 font-display text-2xl font-black uppercase">{nextProject.title}</div>
-        </Link>
+        <ProjectTransitionLink
+          href={`/projects/${previousProject.id}`}
+          projectId={previousProject.id}
+          ariaLabel={`Previous case study: ${previousProject.title}`}
+          className="group grid min-h-48 grid-cols-[112px_minmax(0,1fr)] overflow-hidden border border-border bg-card transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
+        >
+          <span className="relative block overflow-hidden border-r border-border">
+            <Image src={previousProject.image} alt="" fill sizes="112px" className="object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+          </span>
+          <span className="p-5 sm:p-6">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65"><ArrowLeft className="mr-2 inline h-4 w-4" />Previous case</span>
+            <span className="mt-5 block font-display text-2xl font-black uppercase">{previousProject.title}</span>
+          </span>
+        </ProjectTransitionLink>
+        <ProjectTransitionLink
+          href={`/projects/${nextProject.id}`}
+          projectId={nextProject.id}
+          ariaLabel={`Next case study: ${nextProject.title}`}
+          className="group grid min-h-48 grid-cols-[minmax(0,1fr)_112px] overflow-hidden border border-border bg-card text-right transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
+        >
+          <span className="p-5 sm:p-6">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65">Next case<ArrowRight className="ml-2 inline h-4 w-4" /></span>
+            <span className="mt-5 block font-display text-2xl font-black uppercase">{nextProject.title}</span>
+          </span>
+          <span className="relative block overflow-hidden border-l border-border">
+            <Image src={nextProject.image} alt="" fill sizes="112px" className="object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+          </span>
+        </ProjectTransitionLink>
       </nav>
     </article>
   )

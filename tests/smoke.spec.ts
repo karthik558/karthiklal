@@ -114,6 +114,40 @@ test("mobile navigation supports keyboard access and focus restoration", async (
   await expect(menuButton).toBeFocused()
 })
 
+test("desktop custom cursor keeps the SVG and uses motion-only interaction states", async ({ page }) => {
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
+
+  await page.mouse.move(220, 220)
+  const svgCursor = page.getByTestId("svg-cursor")
+  const cursorLayer = page.locator(".custom-cursor-layer")
+  await expect(svgCursor).toBeVisible()
+  await expect(svgCursor).toHaveCSS("background-image", /cursor\/cursor\.svg/)
+
+  const workLink = page.getByRole("link", { name: "EXPLORE WORK", exact: true })
+  await workLink.hover()
+  await expect(svgCursor).toBeVisible()
+  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "link")
+  await expect(page.getByTestId("cursor-halo")).toBeVisible()
+  await expect(cursorLayer).not.toContainText(/View|Open|Select/)
+
+  await page.goto("/contact")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
+  const subjectField = page.getByLabel("PROJECT TYPE *", { exact: true })
+  await subjectField.hover()
+  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "select")
+
+  const nameField = page.getByLabel("YOUR NAME *", { exact: true })
+  await nameField.hover()
+  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "text")
+  await expect(page.getByTestId("cursor-text-indicator")).toBeVisible()
+
+  await page.mouse.down()
+  await expect(cursorLayer).toHaveAttribute("data-pressed", "true")
+  await page.mouse.up()
+  await expect(cursorLayer).toHaveAttribute("data-pressed", "false")
+})
+
 test("health check and contact validation are available", async ({ request }) => {
   const health = await request.get("/api/health")
   expect(health.ok()).toBeTruthy()
@@ -146,6 +180,30 @@ test("featured design and case-study interactions remain functional", async ({ p
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
 
+  await expect(page.locator("#principles")).toBeAttached()
+  await page.getByRole("button", { name: /Performance is a feature/i }).click()
+  await expect(page.locator("#principles").getByText("Progressive loading", { exact: false })).toBeVisible()
+
+  const experience = page.locator("#experience")
+  await expect(experience.getByText("2026", { exact: true }).first()).toBeVisible()
+  await expect(experience.getByRole("button", { name: "Credentials" })).toHaveCount(0)
+  await experience.getByRole("button", { name: "2026, selected; activate to show all years" }).click()
+  await expect(experience.getByText("ALL YEARS", { exact: true })).toBeVisible()
+  await expect(experience.locator("article")).toHaveCount(10)
+
+  const certifications = page.locator("#certifications")
+  await certifications.getByRole("button", { name: "Archived", exact: true }).click()
+  await expect(certifications.getByRole("button", { name: "2021, selected; activate to show all years" })).toHaveAttribute("aria-pressed", "true")
+  await expect(certifications.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
+  await certifications.getByRole("button", { name: "2021, selected; activate to show all years" }).click()
+  await expect(certifications.getByText("ALL YEARS", { exact: true })).toBeVisible()
+
+  await page.getByRole("button", { name: "Open experience controls" }).click()
+  await page.getByRole("button", { name: /High contrast Strengthens text and borders/ }).click()
+  await expect(page.locator("html")).toHaveAttribute("data-contrast", "high")
+  await page.getByRole("button", { name: "Reset experience" }).click()
+  await page.getByRole("button", { name: "Close settings" }).click()
+
   const interfaceFilter = page.getByRole("button", { name: "INTERFACE", exact: true })
   await interfaceFilter.click()
   await expect(interfaceFilter).toHaveAttribute("aria-pressed", "true")
@@ -156,4 +214,6 @@ test("featured design and case-study interactions remain functional", async ({ p
   await xrayToggle.click()
   await expect(page.getByRole("button", { name: "X-Ray process on" })).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByText("X-RAY / COMPONENT LOGIC", { exact: true })).toBeVisible()
+  await expect(page.getByText(/Project evidence/)).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Director's Notes" })).toBeVisible()
 })
