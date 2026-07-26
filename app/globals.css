@@ -86,6 +86,29 @@ body {
   }
 }
 
+@layer components {
+  .section-shell {
+    @apply relative bg-background py-20 md:py-28 lg:py-36;
+  }
+
+  .section-container {
+    @apply container relative z-10 mx-auto max-w-7xl px-4 md:px-6;
+  }
+
+  .section-heading-row {
+    @apply mb-14 flex flex-col justify-between gap-6 border-b border-border pb-8 md:flex-row md:items-end lg:mb-16;
+  }
+
+  .section-kicker {
+    @apply mb-3 font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground;
+  }
+
+  .section-title {
+    @apply font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl;
+    text-wrap: balance;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -413,13 +436,6 @@ html {
   scrollbar-width: none;
 }
 
-/* GPU acceleration for better performance */
-section {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
 /* Improved card animations */
 .card, .button {
   transform: translateZ(0);
@@ -689,25 +705,6 @@ body {
 .dark .bg-primary\/20 {
   background-color: hsl(0 0% 100% / 0.15) !important;
   border-color: hsl(0 0% 100% / 0.3) !important;
-}
-
-/* Custom cursor for entire website */
-* {
-  cursor: url('/cursor/cursor.svg') 0 0, auto !important;
-}
-
-/* Specific cursor states for interactive elements */
-a, button, .cursor-pointer, [role="button"] {
-  cursor: url('/cursor/cursor.svg') 0 0, pointer !important;
-}
-
-input, textarea, [contenteditable] {
-  cursor: url('/cursor/cursor.svg') 0 0, text !important;
-}
-
-/* Fallback for elements that need default cursors */
-.cursor-default {
-  cursor: url('/cursor/cursor.svg') 0 0, default !important;
 }
 
 /* Enhanced nav header styles for better visibility */

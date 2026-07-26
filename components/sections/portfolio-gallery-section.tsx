@@ -1,9 +1,9 @@
 "use client"
 
-import { useMemo, useRef, useState, type UIEvent } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, X, Maximize2 } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, X } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { getBehanceUrl } from "@/lib/static-data"
 import featuredDesignsData from "@/public/data/featured-designs.json"
@@ -14,208 +14,255 @@ export default function PortfolioGallerySection() {
   const behanceUrl = useMemo(() => getBehanceUrl("#"), [])
   const [selectedImage, setSelectedImage] = useState<{ title: string; image: string } | null>(null)
   const [galleryIndex, setGalleryIndex] = useState(0)
-  const galleryRef = useRef<HTMLDivElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
+  const activeItem = portfolioItems[galleryIndex]
 
-  const handleGalleryScroll = (event: UIEvent<HTMLDivElement>) => {
-    const track = event.currentTarget.querySelector<HTMLElement>("[data-gallery-track]")
-    if (!track) return
+  useEffect(() => {
+    if (!selectedImage) return
 
-    const viewportCenter = event.currentTarget.scrollLeft + event.currentTarget.clientWidth / 2
-    let closestIndex = 0
-    let closestDistance = Number.POSITIVE_INFINITY
+    const previousOverflow = document.body.style.overflow
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedImage(null)
+    }
 
-    Array.from(track.children).forEach((child, index) => {
-      const card = child as HTMLElement
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2
-      const distance = Math.abs(cardCenter - viewportCenter)
-      if (distance < closestDistance) {
-        closestDistance = distance
-        closestIndex = index
-      }
-    })
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", handleKeyDown)
 
-    setGalleryIndex(closestIndex)
-  }
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [selectedImage])
 
-  const scrollToDesign = (index: number) => {
-    const viewport = galleryRef.current
-    const track = viewport?.querySelector<HTMLElement>("[data-gallery-track]")
-    const card = track?.children[index] as HTMLElement | undefined
-    if (!viewport || !card) return
+  useEffect(() => {
+    const rail = railRef.current
+    const card = rail?.querySelector<HTMLElement>(`[data-design-index="${galleryIndex}"]`)
+    if (!rail || !card) return
 
-    viewport.scrollTo({
-      left: card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2,
+    rail.scrollTo({
+      left: card.offsetLeft + card.offsetWidth / 2 - rail.clientWidth / 2,
       behavior: "smooth",
     })
+  }, [galleryIndex])
+
+  const selectDesign = (index: number) => {
+    const boundedIndex = Math.max(0, Math.min(portfolioItems.length - 1, index))
+    setGalleryIndex(boundedIndex)
+  }
+
+  const handleSectionKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault()
+      selectDesign(galleryIndex - 1)
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault()
+      selectDesign(galleryIndex + 1)
+    }
   }
 
   return (
-    <section id="portfolio-gallery" className="relative bg-background py-20 md:py-36 border-t border-border">
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
-        
-        <div className="mb-14 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <section
+      id="portfolio-gallery"
+      className="section-shell border-t border-border"
+      onKeyDown={handleSectionKeyDown}
+    >
+      <div className="section-container">
+        <div className="section-heading-row">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-              08 // CREATIVE ARCHIVE
+            <div className="section-kicker">08 // CREATIVE ARCHIVE</div>
+            <h2 className="section-title">FEATURED DESIGNS</h2>
+          </div>
+
+          <div className="flex max-w-md flex-col items-start gap-5 md:items-end">
+            <p className="font-sans text-sm font-light leading-relaxed text-muted-foreground md:text-right">
+              A curated selection of identity, interface, and visual-system work—built to communicate clearly and leave a distinct impression.
+            </p>
+            <AnimatedButton
+              href={behanceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              className="w-fit border-border font-mono text-xs uppercase tracking-wider hover:border-foreground"
+            >
+              VIEW BEHANCE <ArrowUpRight className="ml-2 h-4 w-4" />
+            </AnimatedButton>
+          </div>
+        </div>
+
+        <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.75fr)_minmax(300px,0.75fr)]">
+          <div className="relative min-h-[330px] overflow-hidden border-b border-border bg-muted sm:min-h-[500px] lg:min-h-[620px] lg:border-b-0 lg:border-r">
+            <Image
+              key={activeItem.image}
+              src={activeItem.image}
+              alt={activeItem.title}
+              fill
+              priority={galleryIndex === 0}
+              sizes="(min-width: 1280px) 820px, (min-width: 1024px) 65vw, 100vw"
+              className="object-cover"
+            />
+
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
+            <div className="absolute left-4 top-4 border border-white/30 bg-black/65 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md sm:left-6 sm:top-6">
+              SELECTED / {String(galleryIndex + 1).padStart(2, "0")}
             </div>
-            <h2 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl">
-              FEATURED DESIGNS
-            </h2>
-          </div>
-
-          <AnimatedButton
-            href={behanceUrl}
-            target="_blank"
-            variant="outline"
-            className="w-fit font-mono text-xs uppercase tracking-wider border-border hover:border-foreground"
-          >
-            FULL BEHANCE ARCHIVE <ArrowUpRight className="ml-2 h-4 w-4" />
-          </AnimatedButton>
-        </div>
-
-        <div className="mb-4 flex items-center justify-between gap-4 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          <span>
-            <span className="md:hidden">SWIPE THE ARC</span>
-            <span className="hidden md:inline">DRAG OR SCROLL THE ARC // CENTER CARD IS ACTIVE</span>
-          </span>
-          <div className="flex items-center gap-2">
-            <span className="mr-2 text-foreground">
-              {String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}
-            </span>
             <button
               type="button"
-              onClick={() => scrollToDesign(Math.max(0, galleryIndex - 1))}
-              disabled={galleryIndex === 0}
-              className="border border-border bg-card p-2 text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
-              aria-label="Previous design"
+              onClick={() => setSelectedImage(activeItem)}
+              className="absolute bottom-4 right-4 inline-flex min-h-11 items-center gap-2 border border-white/40 bg-black/65 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md transition-colors hover:border-white hover:bg-white hover:text-black sm:bottom-6 sm:right-6"
+              aria-label={`View ${activeItem.title} full screen`}
             >
-              <ArrowLeft className="h-3.5 w-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToDesign(Math.min(portfolioItems.length - 1, galleryIndex + 1))}
-              disabled={galleryIndex === portfolioItems.length - 1}
-              className="border border-border bg-card p-2 text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
-              aria-label="Next design"
-            >
-              <ArrowRight className="h-3.5 w-3.5" />
+              <Maximize2 className="h-4 w-4" /> FULL VIEW
             </button>
           </div>
-        </div>
-      </div>
 
-      {/* Scrollable Arc Gallery */}
-      <div
-        ref={galleryRef}
-        onScroll={handleGalleryScroll}
-        role="region"
-        aria-label="Featured design gallery"
-        tabIndex={0}
-        className="relative z-10 snap-x snap-proximity overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
+          <div className="relative flex min-h-[350px] flex-col justify-between p-6 sm:p-8 lg:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-3 -top-8 select-none font-display text-[10rem] font-black leading-none text-foreground/[0.035] sm:text-[13rem]"
+            >
+              {String(galleryIndex + 1).padStart(2, "0")}
+            </div>
+
+            <div className="relative z-10">
+              <div className="mb-7 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                <span>DESIGN STUDY</span>
+                <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(portfolioItems.length).padStart(2, "0")}</span>
+              </div>
+              <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
+                {activeItem.discipline}
+              </p>
+              <h3 className="max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                {activeItem.title}
+              </h3>
+              <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
+                {activeItem.description}
+              </p>
+            </div>
+
+            <div className="relative z-10 mt-10">
+              <div className="mb-5 h-px overflow-hidden bg-border">
+                <div
+                  className="h-full origin-left bg-foreground"
+                  style={{ width: `${((galleryIndex + 1) / portfolioItems.length) * 100}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  USE ARROWS TO EXPLORE
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => selectDesign(galleryIndex - 1)}
+                    disabled={galleryIndex === 0}
+                    className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
+                    aria-label="Previous design"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => selectDesign(galleryIndex + 1)}
+                    disabled={galleryIndex === portfolioItems.length - 1}
+                    className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-30"
+                    aria-label="Next design"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <span>COMPLETE ARCHIVE</span>
+          <span className="sm:hidden">SWIPE TO BROWSE</span>
+          <span className="hidden sm:inline">SELECT A STUDY // SWIPE OR SCROLL</span>
+        </div>
+
         <div
-          data-gallery-track
-          className="relative z-10 flex h-[585px] w-max items-start gap-6 px-4 pt-3 sm:h-[580px] sm:gap-8 sm:px-6 lg:h-[450px] lg:gap-10 lg:px-8 xl:px-12"
+          ref={railRef}
+          role="tablist"
+          aria-label="Choose a featured design"
+          className="mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {portfolioItems.map((item, index) => {
-            const numStr = String(index + 1).padStart(2, "0")
-            const relativeIndex = index - galleryIndex
-            const arcDistance = Math.min(Math.abs(relativeIndex), 4)
             const isActive = index === galleryIndex
-            const rotation = Math.max(-4, Math.min(4, relativeIndex)) * 2.5
-            const translateY = arcDistance * 15
-            const scale = 1 - arcDistance * 0.015
 
             return (
-              <div
+              <button
                 key={`${item.title}-${index}`}
-                className="relative shrink-0 snap-center will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-                style={{
-                  transform: `translate3d(0, ${translateY}px, 0) rotate(${rotation}deg) scale(${scale})`,
-                  zIndex: isActive ? portfolioItems.length + 10 : portfolioItems.length - arcDistance,
-                }}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Show ${item.title}`}
+                data-design-index={index}
+                onClick={() => selectDesign(index)}
+                className={`group relative w-[44vw] max-w-[180px] shrink-0 snap-start overflow-hidden border text-left transition-all duration-300 sm:w-[160px] ${
+                  isActive
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-card text-foreground hover:border-foreground/60"
+                }`}
               >
-                <motion.article
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45 }}
-                  className={`group relative w-[82vw] max-w-[340px] overflow-hidden border bg-card/70 transition-all duration-500 hover:-translate-y-2 hover:border-foreground/60 hover:shadow-lg motion-reduce:transform-none sm:w-[340px] lg:w-[260px] ${
-                    isActive ? "border-foreground shadow-2xl" : "border-border shadow-md"
-                  }`}
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-muted border-b-2 border-border">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      priority={index < 2}
-                      sizes="(min-width: 1024px) 260px, 340px"
-                      className={`object-cover contrast-125 transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100 ${
-                        isActive ? "grayscale-0" : "grayscale"
-                      }`}
-                    />
-
-                    <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
-                      {numStr}
-                    </div>
-
-                    <button
-                      onClick={() => setSelectedImage(item)}
-                      className="absolute bottom-3 right-3 border border-border bg-background/90 p-2.5 text-foreground backdrop-blur-md transition-all duration-300 hover:bg-foreground hover:text-background lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:focus-visible:translate-y-0 lg:focus-visible:opacity-100"
-                      aria-label={`Expand ${item.title}`}
-                    >
-                      <Maximize2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <div className="p-5 flex items-center justify-between font-mono text-xs">
-                    <h3 className="truncate pr-2 font-sans text-sm font-semibold text-foreground">
-                      {item.title}
-                    </h3>
-                    <a
-                      href={behanceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground shrink-0 inline-flex items-center gap-1 uppercase font-semibold"
-                    >
-                      BEHANCE <ArrowUpRight className="w-3 h-3" />
-                    </a>
-                  </div>
-                </motion.article>
-              </div>
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="180px"
+                    className={`object-cover transition duration-500 group-hover:scale-105 ${
+                      isActive ? "grayscale-0" : "grayscale group-hover:grayscale-0"
+                    }`}
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-2 border-t border-current/20 px-3 py-2.5">
+                  <span className="truncate font-sans text-xs font-semibold">{item.title}</span>
+                  <span className="font-mono text-[9px] font-bold">{String(index + 1).padStart(2, "0")}</span>
+                </div>
+              </button>
             )
           })}
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       <AnimatePresence>
         {selectedImage && (
-          <div
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${selectedImage.title} preview`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/90 backdrop-blur-md cursor-zoom-out"
+            className="fixed inset-0 z-[10000] flex cursor-zoom-out items-center justify-center bg-background/95 p-3 backdrop-blur-md sm:p-6"
           >
             <motion.div
-              onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-5xl border-2 border-foreground bg-card p-4 md:p-6 shadow-2xl cursor-default"
+              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, y: 18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              className="relative w-full max-w-6xl cursor-default border border-foreground bg-card p-3 shadow-2xl sm:p-5"
             >
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 z-10 p-2.5 border-2 border-border bg-background text-foreground hover:bg-foreground hover:text-background transition-colors"
-                aria-label="Close Lightbox"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3 font-bold">
-                CREATIVE ARCHIVE // {selectedImage.title}
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <div className="truncate font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  CREATIVE ARCHIVE // {selectedImage.title}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedImage(null)}
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-border bg-background text-foreground transition-colors hover:bg-foreground hover:text-background"
+                  aria-label="Close preview"
+                  autoFocus
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
 
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full border-2 border-border overflow-hidden bg-black">
+              <div className="relative h-[70svh] w-full overflow-hidden border border-border bg-black">
                 <Image
                   src={selectedImage.image}
                   alt={selectedImage.title}
@@ -226,7 +273,7 @@ export default function PortfolioGallerySection() {
                 />
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>

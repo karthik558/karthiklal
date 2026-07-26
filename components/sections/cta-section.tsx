@@ -15,11 +15,11 @@ export default function CtaSection() {
   }
 
   return (
-    <section id="cta" className="relative bg-background py-20 md:py-36">
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+    <section id="cta" className="section-shell">
+      <div className="section-container">
         <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
           
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
+          <div className="section-kicker mb-4">
             09 // INITIATE COLLABORATION
           </div>
 

@@ -2,51 +2,75 @@
   "featuredDesigns": [
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/00634e215516589.67cb14067e350.jpeg",
-      "title": "Brand Identity"
+      "title": "Women's Day Celebration",
+      "discipline": "Social Campaign Poster",
+      "description": "An International Women's Day greeting for Lilac Hotels featuring illustrated women, bold typography, and floral motifs."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/06a1c6198005031.664f4d2c07e1a.png",
-      "title": "App Interface"
+      "title": "Mother's Day Tribute",
+      "discipline": "Social Campaign Illustration",
+      "description": "A warm Mother's Day greeting for Coorg Wilderness Resort centered on a mother-and-child illustration."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/2b8ef1198005031.663a25afab140.png",
-      "title": "Web Design"
+      "title": "Cricket Tournament",
+      "discipline": "Sports Event Poster",
+      "description": "A vibrant cricket tournament announcement combining stadium scenery, sporting equipment, and event information."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/0300da198005031.663b38c0e793d.png",
-      "title": "Dashboard UX"
+      "title": "Volleyball Anniversary Match",
+      "discipline": "Sports Event Poster",
+      "description": "An anniversary volleyball match announcement built around a dramatic ball, net, and deep-blue sporting palette."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/bd3b4d174168173.649d2364da5e0.png",
-      "title": "Illustration"
+      "title": "Onam Boat Race",
+      "discipline": "Festive Vector Illustration",
+      "description": "An Onam 2023 greeting depicting Kerala's traditional snake-boat race in a warm, celebratory landscape."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/8ca4ef174167957.649d222d7535e.png",
-      "title": "Typography"
+      "title": "Onam Celebration",
+      "discipline": "Festive Character Illustration",
+      "description": "A playful Kerala festival scene featuring a decorated snake boat, ceremonial parasols, and a Pulikali character."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/94f398149008519.62e286d4a6d9a.png",
-      "title": "Product Concept"
+      "title": "Good Day Starts with Coffee",
+      "discipline": "Product Advertising",
+      "description": "A premium coffee promotion for Paul John Hotels using rich beans, warm lighting, and a centered package composition."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/41f9c5149008519.62dfe2d31023a.png",
-      "title": "3D Rendering"
+      "title": "Coffee Break",
+      "discipline": "Product Advertising",
+      "description": "A clean coffee-pouch campaign framed by scattered beans, soft neutral tones, and a geometric display platform."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/138959140295881.623ef4a205c5d.png",
-      "title": "Visual Identity"
+      "title": "Dental Implant Awareness",
+      "discipline": "Healthcare Advertising",
+      "description": "A dental implant awareness visual for Al Ahalia Medical Centre using a clear anatomical cutaway and direct message."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/946118139026885.623bf32779298.png",
-      "title": "Marketing Assets"
+      "title": "Colours of Onam",
+      "discipline": "Festive Brand Campaign",
+      "description": "An Onam campaign for Lighting Bazar turning colorful light bulbs into a stage for Kerala's traditional art forms."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e22062188246697.66a9d29dc9560.png",
-      "title": "Social Media"
+      "title": "Justice for Kunjarikomban",
+      "discipline": "Wildlife Awareness Campaign",
+      "description": "An elephant-conservation protest poster combining documentary imagery, urgent typography, and a clear call to action."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/a79652134749859.61dbf42a779fb.jpg",
-      "title": "Print Design"
+      "title": "Lunar Wolf Emblem",
+      "discipline": "3D Logo Visualization",
+      "description": "A polished purple-and-chrome logo study presenting a wolf silhouette inside a circular lunar emblem."
     }
   ]
 }

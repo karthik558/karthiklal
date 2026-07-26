@@ -157,8 +157,8 @@ export default function HeroSectionStatic() {
           {/* Subtitle Statement & Tech Domain Pills - Centered */}
           <div className="mt-6 sm:mt-10 flex flex-col items-center text-center max-w-4xl">
             <div className="flex flex-col items-center text-center">
-              <p className="max-w-md font-sans text-lg font-light leading-relaxed text-muted-foreground sm:hidden">
-                I secure enterprise infrastructure and build reliable digital products.
+              <p className="max-w-sm px-1 font-sans text-base font-light leading-relaxed text-muted-foreground sm:hidden">
+                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
               </p>
               <p className="hidden max-w-3xl font-sans text-xl font-light leading-relaxed text-muted-foreground sm:block md:text-2xl">
                 Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.

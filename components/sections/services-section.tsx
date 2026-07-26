@@ -51,16 +51,16 @@ export default function ServicesSection() {
   const [expandedId, setExpandedId] = useState<number | null>(1)
 
   return (
-    <section id="services" className="relative bg-background py-20 md:py-36 border-t border-border">
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
+    <section id="services" className="section-shell border-t border-border">
+      <div className="section-container">
         
         {/* Section Header */}
-        <div className="mb-14 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="section-heading-row">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+            <div className="section-kicker">
               03 // SERVICES & OFFERINGS
             </div>
-            <h2 className="font-display text-4xl font-black uppercase tracking-tight text-foreground sm:text-6xl md:text-7xl">
+            <h2 className="section-title">
               WHAT I DELIVER
             </h2>
           </div>
