@@ -1,10 +1,34 @@
 {
   "featuredDesigns": [
     {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/593777236867179.Y3JvcCwyMTMzLDE2NjgsMCw2OTE.jpg",
+      "title": "Island Diwali Celebration",
+      "discipline": "Hospitality Festival Campaign",
+      "description": "A cinematic Diwali greeting for Bangaram Coral Pearl featuring an illuminated island resort, traditional lamps, and fireworks."
+    },
+    {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/00634e215516589.67cb14067e350.jpeg",
       "title": "Women's Day Celebration",
       "discipline": "Social Campaign Poster",
       "description": "An International Women's Day greeting for Lilac Hotels featuring illustrated women, bold typography, and floral motifs."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/205913198149953.Y3JvcCwyMjUwLDE3NTksMCw3Mg.png",
+      "title": "Habbe Sukoon",
+      "discipline": "Herbal Product Advertising",
+      "description": "A polished medication campaign for Hermas Unani presenting the herbal product through a clean green studio composition."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/e88c1a198147377.Y3JvcCwxOTk5LDE1NjQsMCww.png",
+      "title": "Surgical Care Launch",
+      "discipline": "Healthcare Campaign",
+      "description": "A launch campaign for Calicut Centre for Surgery built around clinical confidence, clarity, and a focused medical portrait."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/af0b60198147215.Y3JvcCw3NzksNjA5LDE1NCww.png",
+      "title": "Biryani for a Cause",
+      "discipline": "Charity Event Campaign",
+      "description": "A colorful fundraising campaign inviting food lovers to join Athani's biryani challenge in support of a charitable cause."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/06a1c6198005031.664f4d2c07e1a.png",
@@ -25,10 +49,22 @@
       "description": "An anniversary volleyball match announcement built around a dramatic ball, net, and deep-blue sporting palette."
     },
     {
+      "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e22062188246697.66a9d29dc9560.png",
+      "title": "Justice for Kunjarikomban",
+      "discipline": "Wildlife Awareness Campaign",
+      "description": "An elephant-conservation protest poster combining documentary imagery, urgent typography, and a clear call to action."
+    },
+    {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/bd3b4d174168173.649d2364da5e0.png",
       "title": "Onam Boat Race",
       "discipline": "Festive Vector Illustration",
       "description": "An Onam 2023 greeting depicting Kerala's traditional snake-boat race in a warm, celebratory landscape."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/de4a6a174168051.Y3JvcCw0MDk2LDMyMDMsMCw0NDY.png",
+      "title": "Onam Character Art",
+      "discipline": "Festive Illustration",
+      "description": "A vibrant Onam 2023 character illustration inspired by Kerala's expressive Kathakali performance tradition."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/8ca4ef174167957.649d222d7535e.png",
@@ -55,16 +91,64 @@
       "description": "A dental implant awareness visual for Al Ahalia Medical Centre using a clear anatomical cutaway and direct message."
     },
     {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/55da66139027447.Y3JvcCwyNTAwLDE5NTUsMCw2MQ.png",
+      "title": "7th Heaven Cake",
+      "discipline": "Dessert Advertising",
+      "description": "A refined dessert campaign featuring a rich chocolate-and-strawberry cake against a clean, minimal restaurant layout."
+    },
+    {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/946118139026885.623bf32779298.png",
       "title": "Colours of Onam",
       "discipline": "Festive Brand Campaign",
       "description": "An Onam campaign for Lighting Bazar turning colorful light bulbs into a stage for Kerala's traditional art forms."
     },
     {
-      "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e22062188246697.66a9d29dc9560.png",
-      "title": "Justice for Kunjarikomban",
-      "discipline": "Wildlife Awareness Campaign",
-      "description": "An elephant-conservation protest poster combining documentary imagery, urgent typography, and a clear call to action."
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/fa465a139026611.Y3JvcCwxNDAwLDEwOTUsMCww.png",
+      "title": "Cheese Burger Campaign",
+      "discipline": "Food Advertising",
+      "description": "A bold Cheese Mill promotion using rich food photography, scripted typography, and a deep-blue and golden palette."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/9ac344139026391.Y3JvcCwxNDAwLDEwOTUsMCwyNA.png",
+      "title": "Memorice Campaign",
+      "discipline": "Dessert Product Advertising",
+      "description": "A playful frozen-dessert campaign combining chocolate and strawberry bars with energetic splashes and a vibrant pink palette."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/d5b6e6139026099.Y3JvcCwxMzM0LDEwNDMsNDYsMA.png",
+      "title": "Blissful Drapes",
+      "discipline": "Fashion Advertising",
+      "description": "A polished saree promotion balancing a clean offer panel with elegant fashion photography and warm neutral styling."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/08e55b136704703.Y3JvcCw4OTQsNzAwLDI1Miww.png",
+      "title": "Pandemic Business Carousel",
+      "discipline": "Social Media Carousel",
+      "description": "A playful business carousel using an evolving beach scene to visualize how entrepreneurs adapted during the pandemic."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/61451c135684621.Y3JvcCwxMjY4LDk5Miw3NSww.jpg",
+      "title": "The Art of Avatar",
+      "discipline": "Book Cover Design",
+      "description": "A cinematic wraparound book cover inspired by Avatar, pairing luminous character artwork with a dark, immersive layout."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/72a0c1134753231.Y3JvcCwxNDAwLDEwOTUsMCw1NTc.png",
+      "title": "Creator Profile UI",
+      "discipline": "Mobile Interface Design",
+      "description": "A dark mobile profile concept using luminous purple gradients, clear creator statistics, and a focused follow action."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/a499fc134752675.Y3JvcCw3NDEsNTgwLDgyLDIwMw.png",
+      "title": "Creative Freedom",
+      "discipline": "Abstract Poster Design",
+      "description": "A vivid abstract poster exploring creative freedom through layered geometry, luminous gradients, and energetic color."
+    },
+    {
+      "image": "https://mir-s3-cdn-cf.behance.net/projects/original/e31252134749859.Y3JvcCwxMDgwLDg0NCwwLDE3OQ.png",
+      "title": "Abstract 3D Type",
+      "discipline": "3D Typography Experiment",
+      "description": "A playful pink studio scene combining oversized letterforms, reflective spheres, and softly lit geometric architecture."
     },
     {
       "image": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/a79652134749859.61dbf42a779fb.jpg",

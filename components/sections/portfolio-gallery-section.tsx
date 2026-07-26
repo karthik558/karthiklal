@@ -116,7 +116,7 @@ export default function PortfolioGallerySection() {
             </button>
           </div>
 
-          <div className="relative flex min-h-[350px] flex-col justify-between p-6 sm:p-8 lg:p-10">
+          <div className="relative flex min-h-[430px] flex-col justify-between p-6 sm:min-h-[440px] sm:p-8 lg:min-h-[620px] lg:p-10">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -right-3 -top-8 select-none font-display text-[10rem] font-black leading-none text-foreground/[0.035] sm:text-[13rem]"
@@ -132,10 +132,10 @@ export default function PortfolioGallerySection() {
               <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
                 {activeItem.discipline}
               </p>
-              <h3 className="max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              <h3 className="line-clamp-3 min-h-[6.5rem] max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:min-h-[8.6rem] sm:text-5xl lg:min-h-[10.75rem] lg:text-6xl">
                 {activeItem.title}
               </h3>
-              <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
+              <p className="mt-6 line-clamp-3 min-h-[4.5rem] max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
                 {activeItem.description}
               </p>
             </div>
