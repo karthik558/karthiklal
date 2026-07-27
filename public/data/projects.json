@@ -2,6 +2,22 @@
   "projects": [
     {
       "id": 1,
+      "title": "Nivara dining",
+      "description": "This project is a modern web application designed to enhance the dining experience for hotel guests by enabling them to order meals and services directly from their room.",
+      "image": "/project/nivara-ird.jpg",
+      "category": "Web Development",
+      "link": "https://nivara-ird.vercel.app/",
+      "github": "https://github.com/karthik558/NivaraDining",
+      "technologies": [
+        "Vue",
+        "Vite",
+        "JavaScript",
+        "CSS"
+      ],
+      "featured": true
+    },
+    {
+      "id": 2,
       "title": "Github Burner",
       "description": "The ultimate AI-powered roaster for developers. Github Burner deeply analyzes your repositories, languages, and coding habits to deliver a ruthless, nuclear-level roast.",
       "image": "/project/github-burner.jpg",
@@ -18,7 +34,7 @@
       "featured": true
     },
     {
-      "id": 2,
+      "id": 3,
       "title": "Devi Project",
       "description": "Agnividya is a 10-day immersive journey into one of the most ancient and profound sacred fire practices from the Vedic tradition of India. Rooted in the precise rituals of Agnihotra, it is a complete foundation in working with fire, breath, mantra, and the elements — to bring the human system into alignment with the greater rhythms of nature.",
       "image": "/project/deviproject.png",
@@ -37,7 +53,7 @@
       "featured": true
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "GreenLandKerala",
       "description": "Kerala taxi and tour booking website for Greenland Holidays — airport transfers, sightseeing packages, and outstation trips across Kerala.",
       "image": "/project/greenland.jpg",
@@ -55,7 +71,7 @@
       "featured": true
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "InvoicelyStudio",
       "description": "Your all-in-one studio for beautiful invoicing. Simplify your billing, impress your clients, and manage your freelance business with a tool designed for modern creators.",
       "image": "/project/invoicely.jpg",
@@ -74,7 +90,7 @@
       "featured": true
     },
     {
-      "id": 5,
+      "id": 6,
       "title": "AuraFemme",
       "description": "Aura Femme is an elegant cycle intelligence dashboard designed to empower you with personalized insights. It helps you intuitively track ovulation, monitor your fertile window, and optimize your sexual health with confidence and privacy.",
       "image": "/project/aurafemme.jpg",
@@ -91,7 +107,7 @@
       "featured": true
     },
     {
-      "id": 6,
+      "id": 7,
       "title": "SAMS",
       "description": "SAMS streamlines the full lifecycle of physical assets across properties and departments. It helps teams register, track, audit, and label assets with efficient QR-based workflows, clear ownership, and strong accountability.",
       "image": "/project/samsproject.jpg",
@@ -108,7 +124,7 @@
       "featured": true
     },
     {
-      "id": 7,
+      "id": 8,
       "title": "MorphAgent",
       "description": "MorphAgent: Instantly spoof user agent & touch points in Firefox. 70+ profiles, per-site rules, privacy-focused.",
       "image": "/project/morphagent.jpeg",
@@ -123,7 +139,7 @@
       "featured": true
     },
     {
-      "id": 8,
+      "id": 9,
       "title": "Guest-IT Portal",
       "description": "A Modern, Feature-Rich Guest IT Portal Application built with React, TypeScript, and Supabase. Escalation tool for Hotel/Resorts for getting guest request directly on Portal.",
       "image": "/project/guest-wifi.jpg",
@@ -140,7 +156,7 @@
       "featured": false
     },
     {
-      "id": 9,
+      "id": 10,
       "title": "RustPing",
       "description": "A fast, Rust-powered network monitoring tool inspired by PRTG. Monitor network health, track live logs, and detect failures in real-time. Lightweight, efficient, and built for reliability.",
       "image": "/project/rust-ping.jpg",
@@ -156,7 +172,7 @@
       "featured": false
     },
     {
-      "id": 10,
+      "id": 11,
       "title": "Rust-Crypt",
       "description": "A simple yet powerful file encryption tool built with Rust. Securely encrypt and decrypt files using AES-256-GCM encryption with password-based key derivation.",
       "image": "/project/rust-crypt.jpg",
@@ -169,7 +185,7 @@
       "featured": false
     },
     {
-      "id": 11,
+      "id": 12,
       "title": "GPM-DarkMode",
       "description": "Unofficial dark mode support for GPM Software (Supports Firefox and Chromium based browsers). This tool enables dark mode, enhancing UI accessibility.",
       "image": "/project/gpm.jpg",
@@ -184,7 +200,7 @@
       "featured": false
     },
     {
-      "id": 12,
+      "id": 13,
       "title": "LogAnalyzerPro",
       "description": "LogAnalyzerPro is a versatile tool for analyzing log files with features like filtering, search, and export, ideal for developers and sysadmins.",
       "image": "/project/log-analyzer.jpg",
@@ -195,21 +211,6 @@
         "Python"
       ],
       "featured": false
-    },
-    {
-      "id": 13,
-      "title": "InRoomDining",
-      "description": "This project is a modern web application designed to enhance the dining experience for hotel guests by enabling them to order meals and services directly from their room.",
-      "image": "/project/lilac-ird.jpg",
-      "category": "Web Development",
-      "link": "https://lilacird.vercel.app/",
-      "github": "https://lilacird.vercel.app/",
-      "technologies": [
-        "React",
-        "NextJS",
-        "CSS"
-      ],
-      "featured": true
     },
     {
       "id": 14,
