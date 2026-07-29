@@ -7,6 +7,8 @@ import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 import { Menu, X, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
+import Image from "next/image"
+import Link from "next/link"
 import SmoothLink from "@/components/smooth-link"
 import { useActiveSection } from "@/hooks/use-active-section"
 
@@ -58,7 +60,7 @@ export default function NavHeader() {
 
     const focusFirstControl = () => {
       const firstControl = drawer.querySelector<HTMLElement>(focusableSelector)
-      ;(firstControl ?? drawer).focus()
+        ; (firstControl ?? drawer).focus()
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -100,14 +102,38 @@ export default function NavHeader() {
       cancelAnimationFrame(focusFrame)
       document.removeEventListener("keydown", handleKeyDown)
       document.body.style.overflow = previousOverflow
-      ;(previouslyFocused ?? menuButton)?.focus()
+        ; (previouslyFocused ?? menuButton)?.focus()
     }
   }, [isOpen])
 
   return (
-    <div className="flex w-full items-center justify-between font-mono text-xs uppercase">
+    <div className="flex w-full items-center justify-between font-mono text-xs uppercase gap-6 md:gap-8 lg:gap-12">
+      {/* Brand Logo - Prominent Mobile & Desktop Sizing */}
+      <Link href="/" className="relative block h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 shrink-0 transition-transform duration-300 hover:scale-105" aria-label="Home">
+        {/* Light Mode Logo (black lines) */}
+        <Image
+          src="/logo-dark.png?v=3"
+          alt="Karthik Lal Logo"
+          width={64}
+          height={64}
+          className="h-full w-full object-contain theme-logo-dark"
+          priority
+          unoptimized
+        />
+        {/* Dark Mode Logo (glowing white lines) */}
+        <Image
+          src="/logo-light.png?v=3"
+          alt="Karthik Lal Logo"
+          width={64}
+          height={64}
+          className="h-full w-full object-contain theme-logo-light"
+          priority
+          unoptimized
+        />
+      </Link>
+
       {/* Desktop Navigation Links */}
-      <ul className="hidden md:flex items-center gap-1.5 border-2 border-border bg-card p-1">
+      <ul className="hidden lg:flex items-center gap-1.5 border-2 border-border bg-card p-1.5 ml-auto">
         {navItems.map((item) => {
           const active = isItemActive(item)
           return (
