@@ -57,9 +57,9 @@ export default function AdminSidebar({ models }: { models: string[] }) {
         {/* Header / Logo */}
         <div className={cn("flex items-center justify-between p-5 border-b-2 border-border", !mobileOpen && collapsed && "md:flex-col md:gap-4")}>
           <div className={cn("flex items-center gap-3", !mobileOpen && collapsed ? "md:justify-center" : "justify-start")}>
-            <div className="relative h-7 w-7 shrink-0">
-              <Image src="/logo-light.png" alt="Logo" fill className="dark:hidden object-contain" priority />
-              <Image src="/logo-dark.png" alt="Logo" fill className="hidden dark:block object-contain" priority />
+            <div className="relative h-8 w-8 shrink-0">
+              <Image src="/logo-dark.png?v=3" alt="Logo" fill className="theme-logo-dark object-contain" priority unoptimized />
+              <Image src="/logo-light.png?v=3" alt="Logo" fill className="theme-logo-light object-contain" priority unoptimized />
             </div>
             {(!collapsed || mobileOpen) && (
               <span className="font-display font-black text-sm tracking-tight text-foreground">

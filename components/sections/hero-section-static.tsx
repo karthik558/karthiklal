@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 
 import { AnimatedButton } from "@/components/ui/animated-button"
+import { TextScramble } from "@/components/ui/text-scramble"
 import { XIcon } from "@/components/ui/icons"
 import { SOCIALS_DATA } from "@/lib/static-data"
 
@@ -167,7 +168,7 @@ export default function HeroSectionStatic() {
               <div className="mt-5 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:mt-6 sm:text-xs">
                 {["IT MANAGER", "CYBERSECURITY SPECIALIST", "SECURE SYSTEMS"].map((badge, idx) => (
                   <span key={idx} className="border border-border bg-card px-3 py-1 sm:px-3.5 sm:py-1.5 text-foreground font-medium uppercase tracking-wider">
-                    {badge}
+                    <TextScramble text={badge} trigger="both" speed={30} />
                   </span>
                 ))}
               </div>

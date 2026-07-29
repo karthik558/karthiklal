@@ -6,6 +6,9 @@ import { motion } from "framer-motion"
 import { Lock, User, ArrowRight, ShieldCheck } from "lucide-react"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 
+import Image from "next/image"
+import Link from "next/link"
+
 export default function AdminLoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -47,7 +50,14 @@ export default function AdminLoginPage() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8881_1px,transparent_1px),linear-gradient(to_bottom,#8881_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-70 pointer-events-none" />
       </div>
 
-      {/* Theme Toggle in top right */}
+      {/* Top Left Logo & Top Right Theme Toggle */}
+      <div className="absolute top-6 left-6 z-50">
+        <Link href="/" className="relative block h-12 w-12 shrink-0 transition-transform duration-300 hover:scale-105" aria-label="Home">
+          <Image src="/logo-dark.png?v=3" alt="Logo" width={48} height={48} className="h-full w-full object-contain theme-logo-dark" priority unoptimized />
+          <Image src="/logo-light.png?v=3" alt="Logo" width={48} height={48} className="h-full w-full object-contain theme-logo-light" priority unoptimized />
+        </Link>
+      </div>
+
       <div className="absolute top-6 right-6 z-50">
         <ThemeToggleAnimated />
       </div>
@@ -62,6 +72,13 @@ export default function AdminLoginPage() {
           
           {/* Header */}
           <div className="text-center space-y-3 border-b-2 border-border pb-6">
+            <div className="flex justify-center mb-2">
+              <div className="relative h-14 w-14">
+                <Image src="/logo-dark.png?v=3" alt="Logo" width={56} height={56} className="h-full w-full object-contain theme-logo-dark" priority unoptimized />
+                <Image src="/logo-light.png?v=3" alt="Logo" width={56} height={56} className="h-full w-full object-contain theme-logo-light" priority unoptimized />
+              </div>
+            </div>
+
             <div className="inline-flex items-center gap-2 border border-border bg-background px-3 py-1 font-bold text-[10px] uppercase">
               <ShieldCheck className="w-3.5 h-3.5" /> RESTRICTED ACCESS
             </div>

@@ -2,8 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import SmoothLink from "@/components/smooth-link";
+import { cn } from "@/lib/utils";
+import { MagneticButton } from "@/components/ui/magnetic-button";
 
 interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -44,31 +45,35 @@ export const AnimatedButton = ({
 
   const isExternal = href?.startsWith("http");
 
+  let element: React.ReactNode;
+
   if (href) {
     if (href.startsWith("/#")) {
-      return (
+      element = (
         <SmoothLink href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </SmoothLink>
       );
-    }
-    if (isExternal) {
-      return (
+    } else if (isExternal) {
+      element = (
         <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </a>
       );
+    } else {
+      element = (
+        <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+          {content}
+        </Link>
+      );
     }
-    return (
-      <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+  } else {
+    element = (
+      <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...props}>
         {content}
-      </Link>
+      </button>
     );
   }
 
-  return (
-    <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...props}>
-      {content}
-    </button>
-  );
+  return <MagneticButton>{element}</MagneticButton>;
 };
