@@ -66,7 +66,7 @@ export default function ScrollVideo() {
           video.pause()
         }
       } catch {
-        // Autoplay policy fallback
+        // Mobile autoplay restrictions fallback
       }
 
       // Create ScrollTrigger bound to document scroll height with real-time progress
@@ -97,6 +97,17 @@ export default function ScrollVideo() {
       ScrollTrigger.refresh()
     }
 
+    // Wake up video decoder on mobile touch/scroll gestures
+    const wakeUpMobileVideo = () => {
+      if (video.readyState < 1) {
+        video.load()
+      }
+      setIsLoaded(true)
+      if (video.duration && !isNaN(video.duration)) {
+        initScrubber()
+      }
+    }
+
     if (video.readyState >= 1 && video.duration) {
       initScrubber()
     } else {
@@ -105,7 +116,11 @@ export default function ScrollVideo() {
       }
       video.addEventListener("loadedmetadata", handleMetadata)
       video.addEventListener("canplaythrough", handleMetadata)
+      video.addEventListener("loadeddata", handleMetadata)
     }
+
+    window.addEventListener("touchstart", wakeUpMobileVideo, { passive: true, once: true })
+    window.addEventListener("scroll", wakeUpMobileVideo, { passive: true, once: true })
 
     const resizeObserver = new ResizeObserver(() => {
       ScrollTrigger.refresh()
@@ -114,6 +129,8 @@ export default function ScrollVideo() {
 
     return () => {
       video.removeEventListener("seeked", handleSeeked)
+      window.removeEventListener("touchstart", wakeUpMobileVideo)
+      window.removeEventListener("scroll", wakeUpMobileVideo)
       if (scrollTriggerInstance) scrollTriggerInstance.kill()
       if (animationFrameId) cancelAnimationFrame(animationFrameId)
       resizeObserver.disconnect()
@@ -121,18 +138,21 @@ export default function ScrollVideo() {
   }, [])
 
   return (
-    <div className="parallax-container fixed inset-0 z-[-1] overflow-hidden pointer-events-none select-none">
+    <div className="parallax-container fixed inset-0 h-[100svh] w-screen z-[-1] overflow-hidden pointer-events-none select-none">
       {/* Scroll-Bound 3D Video */}
       <video
         ref={videoRef}
         id="scroll-video"
         muted
         playsInline
+        autoPlay
+        loop
         preload="auto"
         className={`h-full w-full object-cover transition-opacity duration-500 ${
-          isLoaded ? "opacity-100" : "opacity-0"
+          isLoaded ? "opacity-100" : "opacity-90"
         }`}
       >
+        <source src="/user/hero_video.webm" type="video/webm" />
         <source src="/user/hero_video.webm" type="video/mp4" />
       </video>
 
