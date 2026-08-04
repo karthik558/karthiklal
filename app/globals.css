@@ -91,7 +91,7 @@ body {
 
 @layer components {
   .section-shell {
-    @apply relative bg-background py-20 md:py-28 lg:py-36;
+    @apply relative bg-transparent py-20 md:py-28 lg:py-36;
   }
 
   .section-container {

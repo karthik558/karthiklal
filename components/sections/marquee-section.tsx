@@ -24,7 +24,7 @@ export default function MarqueeSection({ variant = "intro" }: MarqueeSectionProp
   return (
     <section
       aria-label={isClosing ? "Collaboration services" : "Core capabilities"}
-      className="relative my-3 w-full max-w-full overflow-hidden bg-background py-3"
+      className="relative my-3 w-full max-w-full overflow-hidden bg-transparent py-3"
     >
       <div className="relative overflow-hidden bg-muted/30 py-5 sm:py-6">
         <div
