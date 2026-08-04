@@ -102,7 +102,7 @@ export default function CertificationsSection() {
   }
 
   return (
-    <section id="certifications" className="section-shell overflow-hidden border-t border-border">
+    <section id="certifications" className="section-shell overflow-hidden border-t-2 border-border">
       <div className="section-container">
         <div className="section-heading-row">
           <div>

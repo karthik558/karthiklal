@@ -52,7 +52,7 @@ export default function ServicesSection() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section id="services" className="section-shell border-t border-border">
+    <section id="services" className="section-shell border-t-2 border-border">
       <div className="section-container">
         
         {/* Section Header */}

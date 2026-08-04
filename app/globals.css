@@ -53,13 +53,13 @@ body {
     --secondary: 0 0% 94%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 34%;
+    --muted-foreground: 0 0% 25%;
     --accent: 0 0% 12%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
+    --border: 0 0% 70%;
+    --input: 0 0% 70%;
     --ring: 0 0% 9%;
     --primary-rgb: 24 24 27;
     --radius: 0.5rem;
@@ -77,13 +77,13 @@ body {
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 70%;
+    --muted-foreground: 0 0% 75%;
     --accent: 0 0% 90%;
     --accent-foreground: 0 0% 4%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
+    --border: 0 0% 32%;
+    --input: 0 0% 32%;
     --ring: 0 0% 98%;
     --primary-rgb: 250 250 250;
   }
@@ -99,7 +99,7 @@ body {
   }
 
   .section-heading-row {
-    @apply mb-14 flex flex-col justify-between gap-6 border-b border-border pb-8 md:flex-row md:items-end lg:mb-16;
+    @apply mb-14 flex flex-col justify-between gap-6 border-b-2 border-border pb-8 md:flex-row md:items-end lg:mb-16;
   }
 
   .section-kicker {

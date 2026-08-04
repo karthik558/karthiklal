@@ -16,7 +16,7 @@ const categories = skillsData.skillCategories as SkillCategory[]
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="section-shell border-t border-border">
+    <section id="skills" className="section-shell border-t-2 border-border">
       <div className="section-container">
         
         {/* Section Header */}

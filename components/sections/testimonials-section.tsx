@@ -72,7 +72,7 @@ export default function TestimonialsSection() {
   const showNext = () => setActiveIndex((current) => (current + 1) % testimonials.length)
 
   return (
-    <section id="testimonials" className="section-shell border-t border-border">
+    <section id="testimonials" className="section-shell border-t-2 border-border">
       <div className="section-container">
         
         {/* Section Header */}

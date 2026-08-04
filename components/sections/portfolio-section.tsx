@@ -42,7 +42,7 @@ export default function PortfolioSection() {
   }
 
   return (
-    <section id="portfolio" className="section-shell border-t border-border">
+    <section id="portfolio" className="section-shell border-t-2 border-border">
       <div className="section-container">
         
         {/* Header Row */}

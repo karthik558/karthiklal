@@ -85,7 +85,7 @@ export default function PortfolioGallerySection() {
   return (
     <section
       id="portfolio-gallery"
-      className="section-shell border-t border-border"
+      className="section-shell border-t-2 border-border"
       onKeyDown={handleSectionKeyDown}
     >
       <div className="section-container">

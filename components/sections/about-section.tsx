@@ -36,7 +36,7 @@ const stats = [
 
 export default function AboutSection() {
   return (
-    <section id="about" className="section-shell">
+    <section id="about" className="section-shell border-t-2 border-border">
       <div className="section-container">
         
         {/* Section Header */}
