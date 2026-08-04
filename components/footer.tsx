@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
 export default function Footer() {
@@ -32,34 +31,14 @@ export default function Footer() {
         {/* Minimal Footer Row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-border font-mono text-xs">
 
-          {/* Brand Name & Logo */}
+          {/* Brand Name */}
           <div className="md:col-span-5 space-y-3">
-            <div className="flex items-center gap-3.5">
-              <Link href="/" className="relative h-14 w-14 sm:h-16 sm:w-16 shrink-0 block transition-transform duration-300 hover:scale-105" aria-label="Home">
-                <Image
-                  src="/logo-dark.png?v=3"
-                  alt="Karthik Lal Logo"
-                  width={64}
-                  height={64}
-                  className="h-full w-full object-contain theme-logo-dark"
-                  unoptimized
-                />
-                <Image
-                  src="/logo-light.png?v=3"
-                  alt="Karthik Lal Logo"
-                  width={64}
-                  height={64}
-                  className="h-full w-full object-contain theme-logo-light"
-                  unoptimized
-                />
-              </Link>
-              <div>
-                <div className="font-display text-3xl font-black uppercase tracking-tighter text-foreground leading-none">
-                  KARTHIK LAL
-                </div>
-                <div className="text-muted-foreground uppercase tracking-widest text-[10px] mt-1">
-                  IT MANAGER & CYBERSECURITY SPECIALIST
-                </div>
+            <div>
+              <div className="font-display text-3xl font-black uppercase tracking-tighter text-foreground leading-none">
+                KARTHIK LAL
+              </div>
+              <div className="text-muted-foreground uppercase tracking-widest text-[10px] mt-1">
+                IT MANAGER & CYBERSECURITY SPECIALIST
               </div>
             </div>
           </div>

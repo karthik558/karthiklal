@@ -7,13 +7,9 @@ import {
   Download,
   Facebook,
   Github,
-  Globe,
   Instagram,
   Linkedin,
   Mail,
-  MessageCircle,
-  Palette,
-  Youtube,
 } from "lucide-react"
 
 import { AnimatedButton } from "@/components/ui/animated-button"
@@ -28,10 +24,6 @@ const iconMap = {
   Twitter: XIcon,
   Instagram,
   Facebook,
-  Youtube,
-  MessageCircle,
-  Globe,
-  Palette,
 }
 
 interface Social {

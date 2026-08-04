@@ -831,18 +831,3 @@ body {
   border-color: hsl(0 0% 100% / 0.25) !important;
 }
 
-/* Logo Theme Switching Guarantee */
-.theme-logo-dark {
-  display: block;
-}
-.theme-logo-light {
-  display: none;
-}
-.dark .theme-logo-dark {
-  display: none !important;
-}
-.dark .theme-logo-light {
-  display: block !important;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
-}
-
