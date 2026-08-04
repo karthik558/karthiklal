@@ -134,7 +134,7 @@ body {
 
 ::view-transition-new(root) {
   z-index: 2;
-  animation: theme-reveal 560ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: theme-reveal 1200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .theme-transitioning *,
@@ -147,9 +147,9 @@ body {
 .theme-transition-fallback *,
 .theme-transition-fallback *::before,
 .theme-transition-fallback *::after {
-  transition-duration: 360ms !important;
+  transition-duration: 1200ms !important;
   transition-property: background-color, border-color, color, fill, stroke !important;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .testimonial-confetti {

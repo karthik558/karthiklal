@@ -46,7 +46,7 @@ export function ThemeToggleAnimated() {
     if (!documentWithTransitions.startViewTransition) {
       root.classList.add("theme-transition-fallback")
       applyTheme()
-      window.setTimeout(() => root.classList.remove("theme-transition-fallback"), 420)
+      window.setTimeout(() => root.classList.remove("theme-transition-fallback"), 1200)
       return
     }
 
@@ -73,7 +73,7 @@ export function ThemeToggleAnimated() {
         className="absolute left-0.5 top-0.5 z-0 h-7 w-[34px] bg-foreground"
         initial={false}
         animate={{ x: isDark ? 34 : 0 }}
-        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       />
 
       <button
@@ -88,7 +88,7 @@ export function ThemeToggleAnimated() {
         <motion.span
           initial={false}
           animate={{ rotate: isDark ? -55 : 0, scale: isDark ? 0.78 : 1 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <Sun className="h-4 w-4" />
         </motion.span>
@@ -106,7 +106,7 @@ export function ThemeToggleAnimated() {
         <motion.span
           initial={false}
           animate={{ rotate: isDark ? 0 : 55, scale: isDark ? 1 : 0.78 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <Moon className="h-4 w-4" />
         </motion.span>
