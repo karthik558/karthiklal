@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from "react"
-import { motion, useInView } from "framer-motion"
+import { useInView } from "framer-motion"
 
 interface TextScrambleProps {
   text: string
@@ -9,7 +9,7 @@ interface TextScrambleProps {
   speed?: number
   trigger?: "hover" | "viewport" | "both"
   characterSet?: string
-  as?: any
+  as?: React.ElementType
 }
 
 const DEFAULT_CHARS = "0123456789ABCDEF!@#$%^&*()_+-=[]{}|;:,.<>?"
@@ -23,14 +23,15 @@ export function TextScramble({
   as: Component = "span",
 }: TextScrambleProps) {
   const [displayText, setDisplayText] = useState(text)
-  const [isScrambling, setIsScrambling] = useState(false)
   const containerRef = useRef<HTMLElement>(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.5 })
+  const isRunningRef = useRef(false)
+  const hasTriggeredViewRef = useRef(false)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const scramble = useCallback(() => {
-    if (isScrambling) return
-    setIsScrambling(true)
+    if (isRunningRef.current) return
+    isRunningRef.current = true
 
     const length = text.length
     let iteration = 0
@@ -57,20 +58,29 @@ export function TextScramble({
       if (iteration >= maxIterations) {
         if (timerRef.current) clearInterval(timerRef.current)
         setDisplayText(text)
-        setIsScrambling(false)
+        isRunningRef.current = false
       }
     }, speed)
-  }, [text, speed, characterSet, isScrambling])
+  }, [text, speed, characterSet])
 
-  // Trigger on Viewport entry
+  // Trigger ONCE on Viewport entry
   useEffect(() => {
+    if (hasTriggeredViewRef.current) return
     if ((trigger === "viewport" || trigger === "both") && isInView) {
+      hasTriggeredViewRef.current = true
       scramble()
     }
   }, [isInView, trigger, scramble])
 
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [])
+
   const handleMouseEnter = () => {
-    if (trigger === "hover" || trigger === "both") {
+    if ((trigger === "hover" || trigger === "both") && !isRunningRef.current) {
       scramble()
     }
   }
