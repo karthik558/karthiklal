@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import ScrollVideo from "@/components/scroll-video"
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
 
@@ -140,7 +139,6 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <ScrollVideo />
       {/* Enhanced Structured Data for SEO */}
       <script
         type="application/ld+json"

@@ -16,6 +16,7 @@ import { AnimatedButton } from "@/components/ui/animated-button"
 import { TextScramble } from "@/components/ui/text-scramble"
 import { XIcon } from "@/components/ui/icons"
 import { SOCIALS_DATA } from "@/lib/static-data"
+import ScrollVideo from "@/components/scroll-video"
 
 const iconMap = {
   Github,
@@ -48,6 +49,9 @@ export default function HeroSectionStatic() {
 
   return (
     <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-transparent pt-28 pb-20 md:pt-36 md:pb-24">
+      {/* Background Video - Hero Section Only */}
+      <ScrollVideo />
+
       {/* Hero Section Gradient Overlay for optimal readability */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background z-[1]" />
