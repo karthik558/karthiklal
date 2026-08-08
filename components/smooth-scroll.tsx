@@ -45,10 +45,24 @@ export default function SmoothScroll() {
     lenis.on("scroll", onScroll)
 
     let frame = 0
+    let isPaused = false
+
     const raf = (time: number) => {
-      lenis.raf(time)
+      if (!isPaused) {
+        lenis.raf(time)
+      }
       frame = requestAnimationFrame(raf)
     }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isPaused = true
+      } else {
+        isPaused = false
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibility)
 
     lenisRef.current = lenis
     window.lenis = lenis
@@ -56,6 +70,7 @@ export default function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(frame)
+      document.removeEventListener("visibilitychange", handleVisibility)
       lenis.off("scroll", onScroll)
       lenis.destroy()
       lenisRef.current = null

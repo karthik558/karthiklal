@@ -10,11 +10,15 @@ import { Toaster } from "@/components/ui/sonner"
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+  preload: true,
 })
 
 const fontDisplay = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+  preload: true,
 })
 
 export const metadata: Metadata = {

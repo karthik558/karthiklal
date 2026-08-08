@@ -27,6 +27,7 @@ export default function CustomCursor() {
   const [isFinePointer, setIsFinePointer] = useState(false)
   const visibleRef = useRef(false)
   const cursorStateRef = useRef<CursorState>("default")
+  const lastTargetRef = useRef<EventTarget | null>(null)
   const x = useMotionValue(-100)
   const y = useMotionValue(-100)
   const trailingX = useSpring(x, { stiffness: 460, damping: 34, mass: 0.2 })
@@ -46,6 +47,9 @@ export default function CustomCursor() {
     }
 
     const detectTarget = (target: EventTarget | null) => {
+      if (lastTargetRef.current === target) return
+      lastTargetRef.current = target
+
       if (!(target instanceof Element)) return updateCursorState("default")
 
       const interactive = target.closest(
@@ -104,6 +108,7 @@ export default function CustomCursor() {
 
     const hide = () => {
       visibleRef.current = false
+      lastTargetRef.current = null
       setIsVisible(false)
       setIsPressed(false)
       updateCursorState("default")
