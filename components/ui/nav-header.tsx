@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { createPortal } from "react-dom"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
+import { SoundToggle } from "@/components/ui/sound-toggle"
 import { Menu, X, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
@@ -128,9 +129,10 @@ export default function NavHeader() {
         })}
       </ul>
 
-      {/* Right Tools: Theme Toggle & Mobile Trigger */}
+      {/* Right Tools: Theme Toggle, Sound Toggle & Mobile Trigger */}
       <div className="ml-auto flex items-center gap-3">
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-2">
+          <SoundToggle />
           <ThemeToggleAnimated />
         </div>
 
@@ -209,6 +211,11 @@ export default function NavHeader() {
 
               {/* Bottom Drawer Footer */}
               <div className="border-t-2 border-foreground pt-6 space-y-4 font-mono text-xs">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>SOUND FX</span>
+                  <SoundToggle />
+                </div>
+
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>THEME MODE</span>
                   <ThemeToggleAnimated />

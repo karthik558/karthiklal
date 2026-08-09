@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import {
   Award,
@@ -10,10 +10,13 @@ import {
   ChevronUp,
   Copy,
   ExternalLink,
+  Eye,
   ShieldCheck,
+  X,
 } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
+import { playClickSound, playModalOpenSound, playSuccessSound } from "@/lib/sound-fx"
 
 interface Certification {
   id: number
@@ -50,6 +53,16 @@ export default function CertificationsSection() {
   const [selectedYear, setSelectedYear] = useState<number | null>(2026)
   const [showAll, setShowAll] = useState(false)
   const [copiedId, setCopiedId] = useState<number | null>(null)
+  const [inspectedCredential, setInspectedCredential] = useState<Certification | null>(null)
+
+  useEffect(() => {
+    if (!inspectedCredential) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setInspectedCredential(null)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [inspectedCredential])
 
   const filtered = useMemo(
     () =>
@@ -80,6 +93,7 @@ export default function CertificationsSection() {
   const hiddenCount = selectedCredentials.length - visible.length
 
   const selectFilter = (nextFilter: CredentialFilter) => {
+    playClickSound()
     setFilter(nextFilter)
     setShowAll(false)
 
@@ -91,12 +105,14 @@ export default function CertificationsSection() {
   }
 
   const selectYear = (year: number) => {
+    playClickSound()
     setSelectedYear((current) => (current === year ? null : year))
     setShowAll(false)
   }
 
   const handleCopy = async (id: number, text: string) => {
     await navigator.clipboard.writeText(text)
+    playSuccessSound()
     setCopiedId(id)
     window.setTimeout(() => setCopiedId(null), 1500)
   }
@@ -278,16 +294,29 @@ export default function CertificationsSection() {
                               </span>
                             )}
 
-                            {item.link && (
-                              <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex min-h-9 items-center gap-1.5 border border-border bg-card px-3 font-mono text-[9px] font-black uppercase hover:border-foreground hover:bg-foreground hover:text-background"
+                            <div className="flex flex-wrap items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  playModalOpenSound()
+                                  setInspectedCredential(item)
+                                }}
+                                className="inline-flex min-h-9 items-center gap-1.5 border border-foreground/30 bg-card px-3 font-mono text-[9px] font-black uppercase text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors"
                               >
-                                Verify <ExternalLink className="h-3.5 w-3.5" />
-                              </a>
-                            )}
+                                Inspect <Eye className="h-3.5 w-3.5" />
+                              </button>
+
+                              {item.link && (
+                                <a
+                                  href={item.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex min-h-9 items-center gap-1.5 border border-border bg-card px-3 font-mono text-[9px] font-black uppercase hover:border-foreground hover:bg-foreground hover:text-background"
+                                >
+                                  Verify <ExternalLink className="h-3.5 w-3.5" />
+                                </a>
+                              )}
+                            </div>
                           </div>
                         </article>
                       )
@@ -314,7 +343,10 @@ export default function CertificationsSection() {
               {selectedYear !== null && (hiddenCount > 0 || showAll) && (
                 <div className="mt-7 text-center">
                   <AnimatedButton
-                    onClick={() => setShowAll((current) => !current)}
+                    onClick={() => {
+                      playClickSound()
+                      setShowAll((current) => !current)
+                    }}
                     variant="outline"
                     className="h-12 border-border px-8 font-mono text-xs uppercase tracking-wider hover:border-foreground"
                   >
@@ -329,9 +361,100 @@ export default function CertificationsSection() {
 
         <div className="mt-4 flex flex-col justify-between gap-2 font-mono text-[9px] font-bold uppercase tracking-widest text-muted-foreground sm:flex-row">
           <span>Timeline reflects issue dates recorded in the credential archive.</span>
-          <span>Select the active year again to reveal every matching credential.</span>
+          <span>Select any credential to open official verification & registry inspection.</span>
         </div>
       </div>
+
+      {/* Credential Verification Modal */}
+      <AnimatePresence>
+        {inspectedCredential && (
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-lg overflow-hidden border-2 border-foreground bg-card p-6 shadow-2xl sm:p-8"
+              role="dialog"
+              aria-modal="true"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  playClickSound()
+                  setInspectedCredential(null)
+                }}
+                className="absolute right-4 top-4 border-2 border-foreground bg-foreground p-1.5 text-background transition-transform hover:scale-105"
+                aria-label="Close credential details"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                OFFICIALLY VERIFIED CREDENTIAL
+              </div>
+
+              <h3 className="mt-4 font-display text-2xl font-black uppercase text-foreground sm:text-3xl">
+                {inspectedCredential.title}
+              </h3>
+
+              <div className="mt-2 font-mono text-xs font-bold text-muted-foreground">
+                ISSUED BY: <span className="text-foreground">{inspectedCredential.issuer}</span>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-4 border-y-2 border-border py-4 font-mono text-xs">
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">ISSUE DATE</span>
+                  <span className="font-bold text-foreground">{inspectedCredential.date}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">EXPIRATION</span>
+                  <span className="font-bold text-foreground">{inspectedCredential.expiryDate}</span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">STATUS</span>
+                  <span className={`inline-block border px-2 py-0.5 text-[10px] font-bold uppercase ${
+                    inspectedCredential.status === "active" ? "border-emerald-500 text-emerald-500" : "border-border text-muted-foreground"
+                  }`}>
+                    {inspectedCredential.status}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">REGISTRY ID</span>
+                  <span className="font-mono text-xs font-bold text-foreground truncate block">
+                    {inspectedCredential.credentialId}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                {inspectedCredential.credentialId && inspectedCredential.credentialId !== "Not Available" && (
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(inspectedCredential.id, inspectedCredential.credentialId)}
+                    className="inline-flex h-10 items-center gap-2 border-2 border-border bg-background px-4 font-mono text-xs font-bold uppercase text-foreground hover:border-foreground"
+                  >
+                    {copiedId === inspectedCredential.id ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                    {copiedId === inspectedCredential.id ? "COPIED ID" : "COPY ID"}
+                  </button>
+                )}
+
+                {inspectedCredential.link && (
+                  <a
+                    href={inspectedCredential.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-5 font-mono text-xs font-bold uppercase text-background transition-all hover:bg-background hover:text-foreground"
+                  >
+                    VERIFY PORTAL <ExternalLink className="h-4 w-4" />
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
 import { scrollToTop } from "@/lib/scroll-utils"
+import { playWindWhooshSound } from "@/lib/sound-fx"
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
@@ -23,6 +24,7 @@ export default function BackToTop() {
   }, [])
 
   const handleScrollToTop = () => {
+    playWindWhooshSound(0.75)
     scrollToTop()
   }
 
