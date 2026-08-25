@@ -22,7 +22,9 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "Cambria", "serif"],
+        display: ["var(--font-serif)", "Georgia", "serif"],
+        signature: ["var(--font-signature)", "'Brush Script MT'", "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -58,6 +60,32 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        terracotta: {
+          DEFAULT: "#A86E61",
+          light: "#BD8C7D",
+          dark: "#8E594C",
+          50: "#FAF4F2",
+          100: "#F4E7E3",
+          200: "#E9CEC7",
+          300: "#DBB1A6",
+          400: "#C89083",
+          500: "#A86E61",
+          600: "#92594D",
+          700: "#79463B",
+          800: "#623830",
+          900: "#4D2C26",
+        },
+        sand: {
+          DEFAULT: "#EAE3DA",
+          light: "#F5EFEB",
+          dark: "#D6CCC0",
+        },
+        obsidian: {
+          DEFAULT: "#141414",
+          light: "#222222",
+          card: "#1C1C1C",
+          border: "#2A2A2A",
+        },
         orange: {
           400: "#fb923c",
           500: "#f97316",
@@ -68,7 +96,7 @@ const config = {
           500: "#ef4444",
           600: "#dc2626",
         },
-        "accent-custom": "#7d1e16",
+        "accent-custom": "#A86E61",
       },
       borderRadius: {
         lg: "var(--radius)",

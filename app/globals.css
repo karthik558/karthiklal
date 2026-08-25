@@ -42,50 +42,50 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%;
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 94%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 25%;
-    --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 98%;
+    --background: 35 24% 90%;
+    --foreground: 20 12% 14%;
+    --card: 35 20% 93%;
+    --card-foreground: 20 12% 14%;
+    --popover: 35 20% 95%;
+    --popover-foreground: 20 12% 14%;
+    --primary: 12 38% 52%;
+    --primary-foreground: 35 24% 96%;
+    --secondary: 35 16% 84%;
+    --secondary-foreground: 20 12% 14%;
+    --muted: 35 15% 82%;
+    --muted-foreground: 25 8% 42%;
+    --accent: 12 38% 52%;
+    --accent-foreground: 35 24% 96%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 70%;
-    --input: 0 0% 70%;
-    --ring: 0 0% 9%;
-    --primary-rgb: 24 24 27;
+    --border: 35 14% 76%;
+    --input: 35 14% 76%;
+    --ring: 12 38% 52%;
+    --primary-rgb: 168 110 97;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 75%;
-    --accent: 0 0% 90%;
-    --accent-foreground: 0 0% 4%;
+    --background: 0 0% 8%;
+    --foreground: 35 20% 92%;
+    --card: 0 0% 11%;
+    --card-foreground: 35 20% 92%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 35 20% 92%;
+    --primary: 12 38% 56%;
+    --primary-foreground: 0 0% 8%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 35 20% 92%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 35 8% 65%;
+    --accent: 12 38% 56%;
+    --accent-foreground: 0 0% 8%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 32%;
-    --input: 0 0% 32%;
-    --ring: 0 0% 98%;
-    --primary-rgb: 250 250 250;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 12 38% 56%;
+    --primary-rgb: 184 125 112;
   }
 }
 
@@ -613,221 +613,74 @@ body {
   }
 }
 
-/* Explicit accent color overrides - ensures new color is applied */
-:root {
-  --accent-color-override: #7d1e16;
-  --accent-hsl-override: 6 74% 29%;
+/* Luxury Editorial Typography & Utilities */
+.font-serif-display {
+  font-family: var(--font-serif), Georgia, Cambria, serif;
 }
 
-.bg-accent,
-.bg-accent\/10,
-.bg-accent\/20,
-.bg-accent\/5 {
-  background-color: hsl(6 74% 29% / var(--tw-bg-opacity, 1)) !important;
+.font-signature-style {
+  font-family: var(--font-signature), 'Brush Script MT', cursive;
 }
 
-.bg-accent\/10 {
-  background-color: hsl(6 74% 29% / 0.1) !important;
+.arch-frame {
+  border-radius: 9999px 9999px 0 0;
+  overflow: hidden;
 }
 
-.bg-accent\/20 {
-  background-color: hsl(6 74% 29% / 0.2) !important;
+.terracotta-gradient {
+  background: linear-gradient(135deg, #A86E61 0%, #8E594C 100%);
 }
 
-.bg-accent\/5 {
-  background-color: hsl(6 74% 29% / 0.05) !important;
+.terracotta-text {
+  color: #A86E61;
 }
 
-.text-accent {
-  color: hsl(6 74% 29%) !important;
+.dark .terracotta-text {
+  color: #B87D70;
 }
 
-.border-accent {
-  border-color: hsl(6 74% 29%) !important;
+/* Subtle botanical decor blends */
+.botanical-decor {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.75;
+  transition: opacity 0.5s ease;
 }
 
-/* Comprehensive primary color overrides */
-.bg-primary,
-.bg-primary\/10,
-.bg-primary\/20,
-.bg-primary\/5,
-.bg-primary\/8 {
-  background-color: hsl(6 74% 29% / var(--tw-bg-opacity, 1)) !important;
+.botanical-decor:hover {
+  opacity: 1;
 }
 
-.bg-primary\/10 {
-  background-color: hsl(6 74% 29% / 0.1) !important;
+/* Circular Rotating Stamp Badge */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.bg-primary\/20 {
-  background-color: hsl(6 74% 29% / 0.2) !important;
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
 }
 
-.bg-primary\/5 {
-  background-color: hsl(6 74% 29% / 0.05) !important;
+/* Editorial Project Card Hover */
+.editorial-project-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.bg-primary\/8 {
-  background-color: hsl(6 74% 29% / 0.08) !important;
+.editorial-project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
 }
 
-.text-primary {
-  color: hsl(6 74% 29%) !important;
+/* Editorial Glass & Borders */
+.editorial-border-light {
+  border-color: rgba(168, 110, 97, 0.25);
 }
 
-.border-primary,
-.border-primary\/20,
-.border-primary\/30,
-.border-primary\/40 {
-  border-color: hsl(6 74% 29% / var(--tw-border-opacity, 1)) !important;
-}
-
-.border-primary\/20 {
-  border-color: hsl(6 74% 29% / 0.2) !important;
-}
-
-.border-primary\/30 {
-  border-color: hsl(6 74% 29% / 0.3) !important;
-}
-
-.border-primary\/40 {
-  border-color: hsl(6 74% 29% / 0.4) !important;
-}
-
-/* Update gradient classes that use primary */
-.from-primary {
-  --tw-gradient-from: hsl(6 74% 29%) !important;
-  --tw-gradient-to: hsl(6 74% 29% / 0) !important;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
-}
-
-.to-primary {
-  --tw-gradient-to: hsl(6 74% 29%) !important;
-}
-
-.via-primary {
-  --tw-gradient-to: hsl(6 74% 29% / 0) !important;
-  --tw-gradient-stops: var(--tw-gradient-from), hsl(6 74% 29%), var(--tw-gradient-to) !important;
-}
-
-/* Hero name styling - accent color in light mode, white in dark mode */
-.hero-name {
-  color: hsl(var(--accent)) !important;
-  font-family: 'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.05em !important;
-  font-style: italic !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-.dark .hero-name {
-  color: hsl(0 0% 100%) !important;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Ensure primary colored elements are visible in dark mode */
-.dark .text-primary {
-  color: hsl(0 0% 100%) !important;
-}
-
-.dark .bg-primary\/20 {
-  background-color: hsl(0 0% 100% / 0.2) !important;
-}
-
-.dark .border-primary\/30 {
-  border-color: hsl(0 0% 100% / 0.3) !important;
-}
-
-/* Section titles and headings visibility fixes for dark mode */
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: hsl(0 0% 98%) !important;
-}
-
-/* Badge and label visibility in dark mode */
-.dark span.text-primary {
-  color: hsl(0 0% 100%) !important;
-}
-
-.dark .bg-primary\/20 {
-  background-color: hsl(0 0% 100% / 0.15) !important;
-  border-color: hsl(0 0% 100% / 0.3) !important;
-}
-
-/* Enhanced nav header styles for better visibility */
-/* Navigation cursor/hover background */
-.bg-primary\/10 {
-  background-color: hsl(6 74% 29% / 0.15) !important;
-}
-
-/* Improved nav hover states for light mode */
-.hover\:bg-primary\/10:hover {
-  background-color: hsl(6 74% 29% / 0.15) !important;
-}
-
-.hover\:bg-muted\/50:hover {
-  background-color: hsl(var(--muted) / 0.8) !important;
-}
-
-/* Dark mode nav enhancements */
-.dark .bg-primary\/10 {
-  background-color: hsl(0 0% 100% / 0.12) !important;
-  border: 1px solid hsl(0 0% 100% / 0.1) !important;
-}
-
-.dark .hover\:bg-primary\/10:hover {
-  background-color: hsl(0 0% 100% / 0.15) !important;
-  border-color: hsl(0 0% 100% / 0.2) !important;
-}
-
-.dark .hover\:bg-muted\/50:hover {
-  background-color: hsl(0 0% 100% / 0.08) !important;
-}
-
-/* Nav tab hover effects */
-.dark li:hover {
-  color: hsl(0 0% 100%) !important;
-}
-
-/* Navigation link active states */
-.text-primary {
-  color: hsl(6 74% 29%) !important;
-}
-
-.dark .text-primary {
-  color: hsl(0 0% 100%) !important;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3) !important;
-}
-
-/* Mobile menu item hover enhancements */
-.dark .group-hover\:bg-primary\/10:hover {
-  background-color: hsl(0 0% 100% / 0.12) !important;
-}
-
-.dark .group-hover\:text-primary:hover {
-  color: hsl(0 0% 100%) !important;
-}
-
-/* Social icons in mobile menu */
-.dark .hover\:border-primary\/40:hover {
-  border-color: hsl(0 0% 100% / 0.4) !important;
-}
-
-.dark .hover\:shadow-primary\/20:hover {
-  box-shadow: 0 4px 12px hsl(0 0% 100% / 0.15) !important;
-}
-
-/* Navigation backdrop in dark mode */
-.dark .bg-background\/40 {
-  background-color: hsl(var(--background) / 0.8) !important;
-  border-color: hsl(0 0% 100% / 0.2) !important;
-}
-
-/* Desktop nav border enhancement */
-.border-primary\/20 {
-  border-color: hsl(6 74% 29% / 0.25) !important;
-}
-
-.dark .border-primary\/20 {
-  border-color: hsl(0 0% 100% / 0.25) !important;
+.editorial-border-dark {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
