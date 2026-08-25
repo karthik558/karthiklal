@@ -1,17 +1,14 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { Volume2, VolumeX } from "lucide-react"
-import { isSoundEnabled, setSoundEnabled, playSuccessSound } from "@/lib/sound-fx"
+import { isSoundEnabled, setSoundEnabled, playSuccessSound, subscribeSoundChange } from "@/lib/sound-fx"
+
+const subscribeToClient = () => () => undefined
 
 export function SoundToggle() {
-  const [enabled, setEnabled] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    setEnabled(isSoundEnabled())
-  }, [])
+  const mounted = useSyncExternalStore(subscribeToClient, () => true, () => false)
+  const enabled = useSyncExternalStore(subscribeSoundChange, isSoundEnabled, () => false)
 
   if (!mounted) {
     return <div className="w-9 h-9 border-2 border-border bg-card" />
@@ -19,7 +16,6 @@ export function SoundToggle() {
 
   const toggleSound = () => {
     const next = !enabled
-    setEnabled(next)
     setSoundEnabled(next)
     if (next) {
       setTimeout(() => playSuccessSound(), 50)

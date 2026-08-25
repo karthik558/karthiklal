@@ -16,14 +16,28 @@ const getAudioContext = (): AudioContext | null => {
   return audioCtx
 }
 
+const SOUND_STORAGE_KEY = "sound_enabled"
+const SOUND_EVENT = "app:sound-toggle"
+
 export const isSoundEnabled = (): boolean => {
   if (typeof window === "undefined") return false
-  return localStorage.getItem("sound_enabled") === "true"
+  return localStorage.getItem(SOUND_STORAGE_KEY) === "true"
 }
 
 export const setSoundEnabled = (enabled: boolean): void => {
   if (typeof window === "undefined") return
-  localStorage.setItem("sound_enabled", enabled ? "true" : "false")
+  localStorage.setItem(SOUND_STORAGE_KEY, enabled ? "true" : "false")
+  window.dispatchEvent(new CustomEvent(SOUND_EVENT, { detail: { enabled } }))
+}
+
+export const subscribeSoundChange = (callback: () => void): (() => void) => {
+  if (typeof window === "undefined") return () => {}
+  window.addEventListener(SOUND_EVENT, callback)
+  window.addEventListener("storage", callback)
+  return () => {
+    window.removeEventListener(SOUND_EVENT, callback)
+    window.removeEventListener("storage", callback)
+  }
 }
 
 export const playClickSound = (): void => {
