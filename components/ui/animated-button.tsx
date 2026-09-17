@@ -77,3 +77,5 @@ export const AnimatedButton = ({
 
   return <MagneticButton>{element}</MagneticButton>;
 };
+
+export default AnimatedButton;

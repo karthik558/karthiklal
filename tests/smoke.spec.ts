@@ -228,3 +228,33 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(page.getByText(/Project evidence/)).toBeVisible()
   await expect(page.getByRole("heading", { name: "Director's Notes" })).toBeVisible()
 })
+
+test("sound profile toggle cycles through profiles and persists to storage", async ({ page }) => {
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
+
+  const soundBtn = page.getByTestId("sound-toggle-btn")
+  await expect(soundBtn).toBeVisible()
+  await expect(soundBtn).toHaveAttribute("data-sound-profile", "muted")
+
+  // 1: Muted -> Cyber
+  await soundBtn.click()
+  await expect(soundBtn).toHaveAttribute("data-sound-profile", "cyber")
+  expect(await page.evaluate(() => localStorage.getItem("portfolio_sound_profile"))).toBe("cyber")
+
+  // 2: Cyber -> Clean
+  await soundBtn.click()
+  await expect(soundBtn).toHaveAttribute("data-sound-profile", "clean")
+  expect(await page.evaluate(() => localStorage.getItem("portfolio_sound_profile"))).toBe("clean")
+
+  // 3: Clean -> Retro
+  await soundBtn.click()
+  await expect(soundBtn).toHaveAttribute("data-sound-profile", "retro")
+  expect(await page.evaluate(() => localStorage.getItem("portfolio_sound_profile"))).toBe("retro")
+
+  // 4: Retro -> Muted
+  await soundBtn.click()
+  await expect(soundBtn).toHaveAttribute("data-sound-profile", "muted")
+  expect(await page.evaluate(() => localStorage.getItem("portfolio_sound_profile"))).toBe("muted")
+})
+

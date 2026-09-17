@@ -2,7 +2,13 @@
 
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
-import { playClickSound, playWindWhooshSound } from "@/lib/sound-fx"
+import {
+  playClickSound,
+  playProfileHoverSound,
+  playProfileTypingSound,
+  playProfileCopySound,
+  getAudioContext,
+} from "@/lib/sound-fx"
 
 const CustomCursor = dynamic(() => import("@/components/custom-cursor"), {
   ssr: false,
@@ -25,6 +31,7 @@ export default function ClientEnhancements() {
     return () => globalThis.clearTimeout(id)
   }, [])
 
+  // Global click audio interceptor
   useEffect(() => {
     const handleGlobalClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null
@@ -42,48 +49,108 @@ export default function ClientEnhancements() {
     return () => window.removeEventListener("click", handleGlobalClick, { capture: true })
   }, [])
 
-  // Fast scroll up adaptive wind whoosh sound detector (Strict Upward Scroll Only)
+  // Global typing audio interceptor with 55ms cooldown and ±4% pitch jitter
   useEffect(() => {
-    let lastScrollY = window.scrollY
-    let lastTime = performance.now()
-    let lastWhooshTime = 0
-    let lastScrollDownTime = 0
+    let lastKeyTime = 0
+    const ignoredKeys = new Set([
+      "Shift",
+      "Control",
+      "Alt",
+      "Meta",
+      "CapsLock",
+      "Tab",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Escape",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown",
+    ])
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      const currentTime = performance.now()
-      const dt = currentTime - lastTime
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.repeat) return
+      if (ignoredKeys.has(event.key)) return
 
-      if (dt >= 20) {
-        const dy = currentScrollY - lastScrollY
-        const velocity = dy / dt
+      const target = event.target as HTMLElement | null
+      if (!target) return
 
-        // Track when user is scrolling DOWN
-        if (dy > 2) {
-          lastScrollDownTime = currentTime
+      const isTextInput =
+        target instanceof HTMLTextAreaElement ||
+        target.isContentEditable ||
+        (target instanceof HTMLInputElement &&
+          !["checkbox", "radio", "range", "color", "file", "submit", "button", "reset"].includes(target.type))
+
+      if (isTextInput) {
+        const now = performance.now()
+        if (now - lastKeyTime >= 55) {
+          lastKeyTime = now
+          // Jitter pitch between 0.96 and 1.04 for organic keystrokes
+          const pitchOffset = 0.96 + Math.random() * 0.08
+          playProfileTypingSound(pitchOffset)
         }
-
-        // STRICT UPWARD SCROLL ONLY:
-        // 1. dy must be negative (scrolling UP)
-        // 2. velocity must be fast negative (< -2.2 px/ms)
-        // 3. User must NOT have scrolled down in the last 800ms (eliminates momentum recoil)
-        if (dy < -2 && velocity < -2.2 && currentScrollY > 250 && currentTime - lastScrollDownTime > 800) {
-          const speed = Math.abs(velocity)
-          const intensity = Math.min(0.9, Math.max(0.25, (speed - 1.8) / 5))
-
-          if (currentTime - lastWhooshTime > 750) {
-            lastWhooshTime = currentTime
-            playWindWhooshSound(intensity)
-          }
-        }
-
-        lastScrollY = currentScrollY
-        lastTime = currentTime
       }
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("keydown", handleKeyDown, { capture: true, passive: true })
+    return () => window.removeEventListener("keydown", handleKeyDown, { capture: true })
+  }, [])
+
+  // Throttled hover audio on interactive elements (desktop only)
+  useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    if (!finePointer) return
+
+    let lastHoverTime = 0
+    let lastHoverTarget: Element | null = null
+
+    const handlePointerOver = (event: PointerEvent) => {
+      const target = event.target as Element | null
+      if (!target) return
+
+      const interactive = target.closest(
+        'a, button, [role="button"], input[type="button"], input[type="submit"], [data-cursor-type="button"], [data-cursor-type="link"]'
+      )
+      if (!interactive || interactive === lastHoverTarget) return
+      lastHoverTarget = interactive
+
+      const now = performance.now()
+      if (now - lastHoverTime >= 90) {
+        lastHoverTime = now
+        playProfileHoverSound()
+      }
+    }
+
+    window.addEventListener("pointerover", handlePointerOver, { capture: true, passive: true })
+    return () => window.removeEventListener("pointerover", handlePointerOver, { capture: true })
+  }, [])
+
+  // Global clipboard copy audio interceptor
+  useEffect(() => {
+    const handleCopy = () => {
+      playProfileCopySound()
+    }
+
+    window.addEventListener("copy", handleCopy, { passive: true })
+    return () => window.removeEventListener("copy", handleCopy)
+  }, [])
+
+  // Suspend/resume AudioContext on tab visibility change
+  useEffect(() => {
+    const handleVisibility = () => {
+      const ctx = getAudioContext()
+      if (!ctx) return
+      if (document.hidden && ctx.state === "running") {
+        ctx.suspend().catch(() => {})
+      } else if (!document.hidden && ctx.state === "suspended") {
+        ctx.resume().catch(() => {})
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibility)
+    return () => document.removeEventListener("visibilitychange", handleVisibility)
   }, [])
 
   return (

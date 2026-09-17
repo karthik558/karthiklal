@@ -4,6 +4,7 @@ import { useTheme } from "next-themes"
 import { type MouseEvent, useSyncExternalStore } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { Moon, Sun } from "lucide-react"
+import { playProfileThemeToggleSound } from "@/lib/sound-fx"
 
 const subscribeToClient = () => () => undefined
 
@@ -26,6 +27,7 @@ export function ThemeToggleAnimated() {
 
   const changeTheme = (nextTheme: "light" | "dark", event: MouseEvent<HTMLButtonElement>) => {
     if ((nextTheme === "dark") === isDark) return
+    playProfileThemeToggleSound()
 
     const root = document.documentElement
     const documentWithTransitions = document as ViewTransitionDocument
