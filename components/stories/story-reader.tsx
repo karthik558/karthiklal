@@ -223,30 +223,42 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
   }, [currentPageIndex, story.id])
 
   // In scroll mode: track continuous scroll progress (0-100%) and active chapter in view
-  useEffect(() => {
-    if (readingMode !== "scroll") return
+  const updateProgress = useCallback(() => {
     const container = contentScrollRef.current
     if (!container) return
 
-    const updateProgress = () => {
-      const maxScroll = container.scrollHeight - container.clientHeight
-      const currentScroll = container.scrollTop
-      const rawPercent = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0
-      setScrollProgress(Math.min(100, Math.max(0, Math.round(rawPercent * 10) / 10)))
+    const maxScroll = container.scrollHeight - container.clientHeight
+    const currentScroll = container.scrollTop
+    const rawPercent = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0
+    const clampedProgress = Math.min(100, Math.max(0, Math.round(rawPercent * 10) / 10))
+    setScrollProgress(clampedProgress)
 
-      const pageElements = container.querySelectorAll<HTMLElement>(".story-page-section")
-      const containerTop = container.getBoundingClientRect().top
-      let activeIdx = 0
+    const pageElements = container.querySelectorAll<HTMLElement>(".story-page-section")
+    if (pageElements.length === 0) return
 
+    const containerRect = container.getBoundingClientRect()
+    const containerTop = containerRect.top
+    const viewportThreshold = Math.max(100, container.clientHeight * 0.35)
+
+    let activeIdx = 0
+    if (maxScroll > 0 && currentScroll >= maxScroll - 60) {
+      activeIdx = Math.max(0, totalPages - 1)
+    } else {
       pageElements.forEach((el, index) => {
         const rect = el.getBoundingClientRect()
-        if (rect.top - containerTop <= 180) {
+        if (rect.top - containerTop <= viewportThreshold) {
           activeIdx = index
         }
       })
-
-      setCurrentPageIndex(activeIdx)
     }
+
+    setCurrentPageIndex((prev) => (prev !== activeIdx ? activeIdx : prev))
+  }, [totalPages])
+
+  useEffect(() => {
+    if (!mounted || readingMode !== "scroll") return
+    const container = contentScrollRef.current
+    if (!container) return
 
     updateProgress()
     container.addEventListener("scroll", updateProgress, { passive: true })
@@ -256,7 +268,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
       container.removeEventListener("scroll", updateProgress)
       window.removeEventListener("resize", updateProgress)
     }
-  }, [readingMode])
+  }, [readingMode, mounted, updateProgress])
 
   // Navigation handlers for book mode
   const goToNextPage = useCallback(() => {
@@ -730,10 +742,10 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
         >
           <div
             style={{
-              width: `${activeProgress}%`,
+              width: `${Math.max(activeProgress, 0.5)}%`,
               backgroundColor: currentTheme.accent || "hsl(var(--primary))",
             }}
-            className="h-full bg-primary transition-[width] duration-75 ease-out shadow-sm"
+            className="h-full transition-[width] duration-75 ease-out shadow-sm"
           />
         </div>
       </header>
@@ -883,6 +895,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
       {/* Main Reading Canvas - Clean natural scroll container with zero wheel hijacking */}
       <main
         ref={contentScrollRef}
+        onScroll={readingMode === "scroll" ? updateProgress : undefined}
         data-lenis-prevent="true"
         style={{
           overscrollBehavior: "contain",
