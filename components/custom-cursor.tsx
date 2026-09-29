@@ -96,7 +96,7 @@ export default function CustomCursor() {
       updateCursorState(selectableText ? "text" : "default")
     }
 
-    const handleMove = (event: PointerEvent) => {
+    const handleMove = (event: PointerEvent | MouseEvent) => {
       x.set(event.clientX)
       y.set(event.clientY)
       detectTarget(event.target)
@@ -118,23 +118,24 @@ export default function CustomCursor() {
     const release = () => setIsPressed(false)
     const visibility = () => document.hidden && hide()
 
-    window.addEventListener("pointermove", handleMove, { passive: true })
+    window.addEventListener("pointermove", handleMove as unknown as EventListener, { passive: true })
+    window.addEventListener("mousemove", handleMove as unknown as EventListener, { passive: true })
     window.addEventListener("pointerdown", press, { passive: true })
     window.addEventListener("pointerup", release, { passive: true })
     window.addEventListener("pointerleave", hide)
-    window.addEventListener("pointercancel", hide)
-    window.addEventListener("blur", hide)
+    document.addEventListener("mouseleave", hide)
+    document.addEventListener("mouseenter", (e) => handleMove(e), { passive: true })
     document.addEventListener("visibilitychange", visibility)
 
     return () => {
       cancelAnimationFrame(enableFrame)
       document.documentElement.classList.remove("has-custom-cursor")
-      window.removeEventListener("pointermove", handleMove)
+      window.removeEventListener("pointermove", handleMove as unknown as EventListener)
+      window.removeEventListener("mousemove", handleMove as unknown as EventListener)
       window.removeEventListener("pointerdown", press)
       window.removeEventListener("pointerup", release)
       window.removeEventListener("pointerleave", hide)
-      window.removeEventListener("pointercancel", hide)
-      window.removeEventListener("blur", hide)
+      document.removeEventListener("mouseleave", hide)
       document.removeEventListener("visibilitychange", visibility)
     }
   }, [x, y])
@@ -149,7 +150,7 @@ export default function CustomCursor() {
 
   return (
     <div
-      className="custom-cursor-layer pointer-events-none fixed inset-0 z-[10050] overflow-hidden"
+      className="custom-cursor-layer pointer-events-none fixed inset-0 z-[999999] overflow-hidden"
       data-cursor-state={cursorState}
       data-pressed={isPressed}
       aria-hidden="true"

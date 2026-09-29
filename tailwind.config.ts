@@ -21,9 +21,9 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "Cambria", "serif"],
-        display: ["var(--font-serif)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "'Manjari'", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["'Noto Serif Malayalam'", "var(--font-serif)", "Georgia", "Cambria", "serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
         signature: ["var(--font-signature)", "'Brush Script MT'", "cursive"],
       },
       colors: {

@@ -9,6 +9,7 @@ import {
   MessageSquare, 
   FileText, 
   Palette,
+  BookOpen,
   Database
 } from "lucide-react"
 
@@ -23,6 +24,7 @@ export const getModelIcon = (modelName: string) => {
     case "skills": return Cpu;
     case "testimonials": return MessageSquare;
     case "blogs": return FileText;
+    case "stories": return BookOpen;
     case "featured-designs": return Palette;
     default: return Database;
   }

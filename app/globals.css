@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,21 +25,13 @@ body {
   overflow-x: hidden;
 }
 
-@media (pointer: fine) and (hover: hover) {
-  .has-custom-cursor,
-  .has-custom-cursor body,
-  .has-custom-cursor a,
-  .has-custom-cursor button,
-  .has-custom-cursor input,
-  .has-custom-cursor textarea,
-  .has-custom-cursor select,
-  .has-custom-cursor summary,
-  .has-custom-cursor label,
-  .has-custom-cursor [contenteditable="true"],
-  .has-custom-cursor [data-cursor-type],
-  .has-custom-cursor [role="button"] {
-    cursor: none !important;
-  }
+/* Ensure natural mouse cursor always works reliably across the site */
+a, button, [role="button"], input[type="submit"], input[type="button"] {
+  cursor: pointer;
+}
+
+input, textarea, [contenteditable="true"] {
+  cursor: text;
 }
 
 @layer base {
@@ -616,6 +610,14 @@ body {
 /* Luxury Editorial Typography & Utilities */
 .font-serif-display {
   font-family: var(--font-serif), Georgia, Cambria, serif;
+}
+
+.story-font-serif {
+  font-family: 'Noto Serif Malayalam', 'Noto Serif', Georgia, 'Times New Roman', serif !important;
+}
+
+.story-font-sans {
+  font-family: 'Manjari', var(--font-sans), system-ui, -apple-system, sans-serif !important;
 }
 
 .font-signature-style {
