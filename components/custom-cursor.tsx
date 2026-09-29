@@ -149,12 +149,26 @@ export default function CustomCursor() {
   const isExternal = cursorState === "external"
 
   return (
-    <div
-      className="custom-cursor-layer pointer-events-none fixed inset-0 z-[999999] overflow-hidden"
-      data-cursor-state={cursorState}
-      data-pressed={isPressed}
-      aria-hidden="true"
-    >
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @media (pointer: fine) and (hover: hover) {
+              html.has-custom-cursor,
+              html.has-custom-cursor body,
+              html.has-custom-cursor * {
+                cursor: none !important;
+              }
+            }
+          `,
+        }}
+      />
+      <div
+        className="custom-cursor-layer pointer-events-none fixed inset-0 z-[999999] overflow-hidden"
+        data-cursor-state={cursorState}
+        data-pressed={isPressed}
+        aria-hidden="true"
+      >
       <motion.div
         className="absolute left-0 top-0 will-change-transform"
         style={{ x: trailingX, y: trailingY }}
@@ -228,5 +242,6 @@ export default function CustomCursor() {
         />
       </motion.div>
     </div>
+    </>
   )
 }
