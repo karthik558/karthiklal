@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
+import Image from "next/image"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
@@ -929,6 +930,36 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                 </div>
               </div>
 
+              {/* Story Cinematic Artwork */}
+              {story.coverImage && (
+                <div 
+                  style={{ borderColor: currentTheme.border }}
+                  className="w-full border-2 overflow-hidden shadow-md space-y-0"
+                >
+                  <div className="relative w-full aspect-[16/9] sm:aspect-[21/9]">
+                    <Image
+                      src={story.coverImage}
+                      alt={story.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  <div 
+                    style={{ 
+                      backgroundColor: currentTheme.cardBg,
+                      borderColor: currentTheme.border, 
+                      color: currentTheme.muted 
+                    }}
+                    className="px-4 py-2 text-[10px] font-mono uppercase tracking-widest border-t flex items-center justify-between"
+                  >
+                    <span>കഥാ ചിത്രം // STORY ARTWORK</span>
+                    <span>{story.englishTitle || "COVER"}</span>
+                  </div>
+                </div>
+              )}
+
               {/* All Pages Rendered Sequentially without interruptions */}
               {pages.map((p, idx) => (
                 <article
@@ -1061,6 +1092,25 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                     </h3>
                   )}
                 </div>
+
+                {/* Story Cover Artwork on Opening Page */}
+                {currentPageIndex === 0 && story.coverImage && (
+                  <div 
+                    style={{ borderColor: currentTheme.border }}
+                    className="w-full border-2 overflow-hidden shadow-md my-6"
+                  >
+                    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9]">
+                      <Image
+                        src={story.coverImage}
+                        alt={story.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 800px"
+                        className="object-cover"
+                        priority
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* Highlight Pull-Quote (if present) */}
                 {currentPage.highlightQuote && (
