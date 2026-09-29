@@ -360,6 +360,19 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
     }
   }
 
+  // Sync fullscreen state if user exits via Esc key or system gesture
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement))
+    }
+    document.addEventListener("fullscreenchange", handleFsChange)
+    document.addEventListener("webkitfullscreenchange", handleFsChange)
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFsChange)
+      document.removeEventListener("webkitfullscreenchange", handleFsChange)
+    }
+  }, [])
+
   // Copy share link
   const handleShare = () => {
     if (typeof window !== "undefined") {

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion"
 
 type CursorState = "default" | "link" | "external" | "button" | "select" | "text" | "disabled"
@@ -25,6 +26,7 @@ export default function CustomCursor() {
   const [isPressed, setIsPressed] = useState(false)
   const [cursorState, setCursorState] = useState<CursorState>("default")
   const [isFinePointer, setIsFinePointer] = useState(false)
+  const [portalTarget, setPortalTarget] = useState<Element | null>(null)
   const visibleRef = useRef(false)
   const cursorStateRef = useRef<CursorState>("default")
   const lastTargetRef = useRef<EventTarget | null>(null)
@@ -32,6 +34,20 @@ export default function CustomCursor() {
   const y = useMotionValue(-100)
   const trailingX = useSpring(x, { stiffness: 460, damping: 34, mass: 0.2 })
   const trailingY = useSpring(y, { stiffness: 460, damping: 34, mass: 0.2 })
+
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    const updateTarget = () => {
+      setPortalTarget(document.fullscreenElement || document.body)
+    }
+    updateTarget()
+    document.addEventListener("fullscreenchange", updateTarget)
+    document.addEventListener("webkitfullscreenchange", updateTarget)
+    return () => {
+      document.removeEventListener("fullscreenchange", updateTarget)
+      document.removeEventListener("webkitfullscreenchange", updateTarget)
+    }
+  }, [])
 
   useEffect(() => {
     const finePointer = window.matchMedia("(pointer: fine) and (hover: hover)").matches
@@ -140,7 +156,7 @@ export default function CustomCursor() {
     }
   }, [x, y])
 
-  if (!isFinePointer) return null
+  if (!isFinePointer || !portalTarget) return null
 
   const hasHalo = ["link", "external", "button", "select"].includes(cursorState)
   const isText = cursorState === "text"
@@ -159,16 +175,21 @@ export default function CustomCursor() {
               html.has-custom-cursor * {
                 cursor: none !important;
               }
+              :fullscreen:not(:has(.custom-cursor-layer)),
+              :fullscreen:not(:has(.custom-cursor-layer)) * {
+                cursor: auto !important;
+              }
             }
           `,
         }}
       />
-      <div
-        className="custom-cursor-layer pointer-events-none fixed inset-0 z-[999999] overflow-hidden"
-        data-cursor-state={cursorState}
-        data-pressed={isPressed}
-        aria-hidden="true"
-      >
+      {createPortal(
+        <div
+          className="custom-cursor-layer pointer-events-none fixed inset-0 z-[999999] overflow-hidden"
+          data-cursor-state={cursorState}
+          data-pressed={isPressed}
+          aria-hidden="true"
+        >
       <motion.div
         className="absolute left-0 top-0 will-change-transform"
         style={{ x: trailingX, y: trailingY }}
@@ -241,7 +262,9 @@ export default function CustomCursor() {
           className="absolute -left-1 top-2 h-[2px] w-8 -rotate-45 bg-foreground"
         />
       </motion.div>
-    </div>
-    </>
-  )
+    </div>,
+    portalTarget
+  )}
+  </>
+)
 }
