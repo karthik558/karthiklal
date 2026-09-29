@@ -363,7 +363,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
   // Copy share link
   const handleShare = () => {
     if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.origin + "/stories")
+      navigator.clipboard.writeText(window.location.origin + "/stories/" + story.id)
       setCopiedLink(true)
       setTimeout(() => setCopiedLink(false), 2000)
     }
