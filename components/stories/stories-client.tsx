@@ -1,64 +1,80 @@
 "use client"
 
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
-  BookOpen, 
-  Search, 
-  Clock, 
-  Layers, 
-  ArrowRight, 
-  ChevronRight
-} from "lucide-react"
+import { ArrowUpRight, Search } from "lucide-react"
 import StoryReader, { type Story } from "@/components/stories/story-reader"
 
 interface StoriesClientProps {
   initialStories: Story[]
 }
 
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).toUpperCase()
+
 export default function StoriesClient({ initialStories }: StoriesClientProps) {
-  const [stories, setStories] = useState<Story[]>(initialStories)
+  const [stories] = useState<Story[]>(initialStories)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   
   // Active reading modal / overlay state
   const [activeStory, setActiveStory] = useState<Story | null>(null)
 
+  // Automatically open reader if URL has ?read=storyId or ?story=storyId
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    try {
+      const params = new URLSearchParams(window.location.search)
+      const targetId = params.get("read") || params.get("story")
+      if (targetId) {
+        const found = stories.find((s) => s.id === targetId)
+        if (found) {
+          setActiveStory(found)
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, [stories])
+
   // Categories list
   const categories = useMemo(() => {
-    const set = new Set<string>()
-    stories.forEach((s) => {
-      if (s.category) set.add(s.category)
-    })
-    return ["All", ...Array.from(set)]
+    return ["All", ...Array.from(new Set(stories.map((s) => s.category).filter(Boolean)))]
   }, [stories])
 
   // Filtered stories
   const filteredStories = useMemo(() => {
-    const q = searchQuery.toLowerCase().trim()
+    const query = searchQuery.toLowerCase().trim()
+
     return stories.filter((story) => {
-      const matchQuery =
-        !q ||
-        story.title.toLowerCase().includes(q) ||
-        (story.englishTitle && story.englishTitle.toLowerCase().includes(q)) ||
-        story.excerpt.toLowerCase().includes(q) ||
-        (story.tags && story.tags.some((t) => t.toLowerCase().includes(q)))
+      const matchesSearch =
+        query === "" ||
+        story.title.toLowerCase().includes(query) ||
+        (story.englishTitle && story.englishTitle.toLowerCase().includes(query)) ||
+        story.excerpt.toLowerCase().includes(query) ||
+        (story.tags && story.tags.some((tag) => tag.toLowerCase().includes(query)))
+      const matchesCategory = selectedCategory === "All" || story.category === selectedCategory
 
-      const matchCategory = selectedCategory === "All" || story.category === selectedCategory
-
-      return matchQuery && matchCategory
+      return matchesSearch && matchesCategory
     })
   }, [stories, searchQuery, selectedCategory])
 
   const featuredStory = useMemo(() => {
-    return filteredStories.find((s) => s.featured) || filteredStories[0] || null
+    return filteredStories.find((story) => story.featured) || filteredStories[0] || null
   }, [filteredStories])
 
-  const otherStories = useMemo(() => {
+  const regularStories = useMemo(() => {
     if (!featuredStory) return []
-    return filteredStories.filter((s) => s.id !== featuredStory.id)
+    return filteredStories.filter((story) => story.id !== featuredStory.id)
   }, [filteredStories, featuredStory])
+
+  const isFiltered = searchQuery.trim() !== "" || selectedCategory !== "All"
+  const visibleStories = isFiltered ? filteredStories : regularStories
 
   const openStoryReader = (story: Story) => {
     setActiveStory(story)
@@ -66,26 +82,23 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
 
   return (
     <>
-      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border selection:bg-foreground selection:text-background">
+      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           
-          {/* Hero Header */}
+          {/* Page Hero Header - 100% Unified with Blog */}
           <div className="mb-14 border-b border-border pb-10">
-            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-primary" />
-              <span>സാഹിത്യ ശേഖരം // LITERARY ARCHIVE</span>
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              LITERARY ARCHIVE // STORIES
             </div>
-            
-            <h1 className="font-display text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tight text-foreground">
+            <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
               STORIES &amp; NARRATIVES
             </h1>
-            
             <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-              ഹൃദയസ്പർശിയായ കഥകൾ, അനുഭവങ്ങൾ, പ്രണയം, അകൽച്ചകൾ, വൈകിയ തിരിച്ചറിവുകൾ. A collection of literary reflections and novellas written by Karthik Lal.
+              A curated collection of literary fiction, emotional novellas, and personal reflections exploring human relationships and quiet truths.
             </p>
           </div>
 
-          {/* Search & Categories Filter */}
+          {/* Toolbar: Search & Filters - 100% Unified with Blog */}
           <div className="mb-12 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 border-b border-border pb-8">
             <div className="relative min-w-[280px] lg:w-96">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -93,7 +106,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="കഥകൾ തിരയുക / SEARCH STORIES..."
+                placeholder="SEARCH STORIES OR TAGS..."
                 className="w-full bg-card border-2 border-border pl-10 pr-4 py-3 font-mono text-xs text-foreground uppercase placeholder:text-muted-foreground focus:outline-none focus:border-foreground"
               />
             </div>
@@ -115,236 +128,175 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
             </div>
           </div>
 
-          {/* Stories Showcase */}
-          {filteredStories.length === 0 ? (
-            <div className="border-2 border-dashed border-border bg-card p-16 text-center space-y-4 font-mono text-xs uppercase">
-              <BookOpen className="w-12 h-12 mx-auto text-muted-foreground opacity-60" />
-              <h3 className="text-base font-bold text-foreground">കഥകൾ ഒന്നും കണ്ടെത്തിയില്ല / NO STORIES FOUND</h3>
-              <p className="text-muted-foreground normal-case font-sans max-w-md mx-auto text-sm">
-                No published stories matched your search query. Try clearing your filters.
-              </p>
+          {/* Content Section */}
+          {filteredStories.length > 0 ? (
+            <div className="space-y-12">
+              
+              {/* Featured Story Card - In full natural color always */}
+              {featuredStory && !isFiltered && (
+                <motion.article
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="group border-2 border-foreground bg-card transition-all duration-300 hover:shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch overflow-hidden"
+                >
+                  <div 
+                    onClick={() => openStoryReader(featuredStory)}
+                    className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground cursor-pointer min-h-[300px] lg:min-h-[420px]"
+                  >
+                    <Image
+                      src={featuredStory.coverImage}
+                      alt={featuredStory.title}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
+                      FEATURED STORY
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between">
+                    <div>
+                      <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
+                        {featuredStory.category} {"//"} {formatDate(featuredStory.date)}
+                      </div>
+                      <h2 
+                        onClick={() => openStoryReader(featuredStory)}
+                        className="font-display text-3xl sm:text-4xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-2 cursor-pointer"
+                      >
+                        {featuredStory.title}
+                      </h2>
+                      {featuredStory.englishTitle && (
+                        <div className="font-mono text-xs text-muted-foreground font-bold uppercase tracking-wider mb-4">
+                          {featuredStory.englishTitle}
+                        </div>
+                      )}
+
+                      {/* Pull Quote */}
+                      <blockquote className="border-l-2 border-foreground pl-4 py-1.5 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/30">
+                        &ldquo;ചിലപ്പോൾ ഒരു ബന്ധം തകരാൻ വലിയൊരു വഴക്ക് ആവശ്യമില്ല. ഒരു ചെറിയ നിശ്ശബ്ദത മതി.&rdquo;
+                      </blockquote>
+
+                      <p className="font-sans text-muted-foreground text-sm sm:text-base leading-relaxed line-clamp-3 mb-6">
+                        {featuredStory.excerpt}
+                      </p>
+                    </div>
+
+                    <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 font-mono text-xs font-bold uppercase">
+                      <span className="text-muted-foreground">
+                        READ TIME: {featuredStory.readTime.toUpperCase()} • {featuredStory.totalPages} PAGES
+                      </span>
+
+                      {/* Clear, Prominent "READ STORY" Button */}
+                      <button
+                        onClick={() => openStoryReader(featuredStory)}
+                        className="inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
+                      >
+                        READ STORY <ArrowUpRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.article>
+              )}
+
+              {/* Stories Grid - In full natural color always */}
+              {visibleStories.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {visibleStories.map((story, index) => (
+                    <motion.article
+                      key={story.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.04 }}
+                      className="group border-2 border-border bg-card hover:border-foreground transition-all duration-300 hover:shadow-2xl flex flex-col justify-between"
+                    >
+                      <div 
+                        onClick={() => openStoryReader(story)}
+                        className="relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border cursor-pointer"
+                      >
+                        <Image
+                          src={story.coverImage}
+                          alt={story.title}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, 100vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider">
+                          {story.category}
+                        </div>
+                      </div>
+
+                      <div className="p-6 flex flex-col justify-between flex-1">
+                        <div>
+                          <div className="font-mono text-[10px] uppercase text-muted-foreground mb-2 flex items-center gap-3">
+                            <span>{formatDate(story.date)}</span>
+                            <span>{"//"}</span>
+                            <span>{story.readTime.toUpperCase()}</span>
+                          </div>
+                          <h3 
+                            onClick={() => openStoryReader(story)}
+                            className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-2 line-clamp-2 cursor-pointer"
+                          >
+                            {story.title}
+                          </h3>
+                          {story.englishTitle && (
+                            <div className="font-mono text-xs text-muted-foreground uppercase mb-3">
+                              {story.englishTitle}
+                            </div>
+                          )}
+                          <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-6">
+                            {story.excerpt}
+                          </p>
+                        </div>
+
+                        <div className="pt-4 border-t border-border/60 flex items-center justify-between font-mono text-xs font-bold uppercase">
+                          <button
+                            onClick={() => openStoryReader(story)}
+                            className="inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-4 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
+                          >
+                            READ STORY <ArrowUpRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+              )}
+
+            </div>
+          ) : (
+            <div className="border-2 border-border bg-card p-12 text-center font-mono">
+              <p className="text-muted-foreground uppercase text-sm mb-4">NO MATCHING STORIES FOUND</p>
               <button
-                onClick={() => {
-                  setSearchQuery("")
-                  setSelectedCategory("All")
-                }}
-                className="px-4 py-2 border border-foreground bg-foreground text-background font-bold"
+                onClick={() => { setSearchQuery(""); setSelectedCategory("All") }}
+                className="px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
               >
                 RESET FILTERS
               </button>
             </div>
-          ) : (
-            <div className="space-y-16">
-              {/* Featured Hero Story Card */}
-              {featuredStory && (
-                <div className="border-2 border-foreground bg-card overflow-hidden shadow-2xl relative group">
-                  <div className="grid grid-cols-1 lg:grid-cols-12">
-                    {/* Left: Cinematic Cover Art */}
-                    <div className="lg:col-span-6 relative min-h-[360px] lg:min-h-[520px] bg-black overflow-hidden border-b-2 lg:border-b-0 lg:border-r-2 border-border">
-                      {featuredStory.coverImage ? (
-                        <Image
-                          src={featuredStory.coverImage}
-                          alt={featuredStory.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90"
-                          priority
-                          unoptimized
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-card text-muted-foreground font-mono text-xs">
-                          NO COVER ARTWORK
-                        </div>
-                      )}
-                      
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent lg:hidden" />
-
-                      {/* Top badges over image */}
-                      <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10 font-mono text-[10px] uppercase">
-                        <span className="px-2.5 py-1 bg-foreground text-background font-bold tracking-wider shadow-md">
-                          FEATURED STORY
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Right: Story Info & Reading Actions */}
-                    <div className="lg:col-span-6 p-6 sm:p-8 lg:p-12 flex flex-col justify-between space-y-6">
-                      <div className="space-y-4">
-                        <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground uppercase">
-                          <span className="px-2.5 py-1 border border-border bg-background font-bold text-foreground">
-                            {featuredStory.category}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1">
-                            <Layers className="w-3.5 h-3.5" />
-                            {featuredStory.totalPages} PAGES
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
-                            {featuredStory.readTime}
-                          </span>
-                        </div>
-
-                        {/* Story Title */}
-                        <div className="space-y-1 pt-1">
-                          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-tight">
-                            {featuredStory.title}
-                          </h2>
-                          {featuredStory.englishTitle && (
-                            <p className="font-mono text-xs md:text-sm text-muted-foreground uppercase tracking-widest font-bold">
-                              {featuredStory.englishTitle}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Excerpt */}
-                        <p className="font-sans text-base sm:text-lg text-foreground/80 leading-relaxed font-light pt-2">
-                          {featuredStory.excerpt}
-                        </p>
-
-                        {/* First page quote teaser */}
-                        {featuredStory.pages && featuredStory.pages[0]?.highlightQuote && (
-                          <div className="border-l-4 border-foreground pl-4 py-2 font-serif italic text-sm text-muted-foreground">
-                            &ldquo;{featuredStory.pages[0].highlightQuote}&rdquo;
-                          </div>
-                        )}
-
-                        {/* Tags */}
-                        {featuredStory.tags && featuredStory.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-2 pt-2">
-                            {featuredStory.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="font-mono text-[10px] text-muted-foreground px-2 py-0.5 border border-border/80 bg-background"
-                              >
-                                #{tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Call to Actions */}
-                      <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center gap-3 font-mono text-xs uppercase">
-                        {/* Primary: Read story */}
-                        <button
-                          onClick={() => openStoryReader(featuredStory)}
-                          className="flex-1 flex items-center justify-center gap-2 px-6 py-4 border-2 border-foreground bg-foreground text-background font-bold hover:bg-background hover:text-foreground transition-all shadow-xl group/btn"
-                        >
-                          <BookOpen className="w-4 h-4" />
-                          <span>കഥ വായിക്കുക // READ STORY</span>
-                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Other Stories Grid (if additional stories exist) */}
-              {otherStories.length > 0 && (
-                <div className="space-y-6 pt-6">
-                  <div className="flex items-center justify-between border-b-2 border-border pb-3 font-mono text-xs uppercase">
-                    <span className="font-bold tracking-wider">MORE STORIES ({otherStories.length})</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {otherStories.map((story) => (
-                      <div
-                        key={story.id}
-                        className="border-2 border-border bg-card flex flex-col justify-between hover:border-foreground transition-all group overflow-hidden shadow-lg"
-                      >
-                        <div className="space-y-4">
-                          {/* Image */}
-                          <div className="relative h-56 bg-black overflow-hidden border-b-2 border-border">
-                            {story.coverImage ? (
-                              <Image
-                                src={story.coverImage}
-                                alt={story.title}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                unoptimized
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center font-mono text-xs text-muted-foreground">
-                                NO IMAGE
-                              </div>
-                            )}
-
-                            <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 font-mono text-[9px] uppercase">
-                              <span className="px-2 py-0.5 bg-background/90 text-foreground border border-border font-bold">
-                                {story.category}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div className="p-5 space-y-3">
-                            <div className="flex items-center gap-3 font-mono text-[11px] text-muted-foreground uppercase">
-                              <span>{story.totalPages} PAGES</span>
-                              <span>•</span>
-                              <span>{story.readTime}</span>
-                            </div>
-
-                            <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                              {story.title}
-                            </h3>
-
-                            {story.englishTitle && (
-                              <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest font-bold">
-                                {story.englishTitle}
-                              </p>
-                            )}
-
-                            <p className="font-sans text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                              {story.excerpt}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Footer Button */}
-                        <div className="p-5 pt-0">
-                          <button
-                            onClick={() => openStoryReader(story)}
-                            className="w-full flex items-center justify-center gap-2 py-2.5 border border-border bg-background hover:bg-foreground hover:text-background font-mono text-xs uppercase font-bold transition-all"
-                          >
-                            <span>READ STORY</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Archive Information Card */}
-              <div className="border-2 border-border bg-card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
-                <div className="space-y-1.5 max-w-xl">
-                  <div className="flex items-center gap-2 font-bold text-foreground">
-                    <BookOpen className="w-4 h-4 text-primary" />
-                    <span>ABOUT KARTHIK LAL&apos;S LITERARY WORK</span>
-                  </div>
-                  <p className="text-muted-foreground normal-case font-sans text-sm leading-relaxed">
-                    Stories written from real human emotions, exploring love, silence, vulnerable conversations, and the delicate choices that define human connections.
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 shrink-0">
-                  <div className="px-3.5 py-2 border border-border bg-background text-muted-foreground text-[11px]">
-                    ARCHIVE FORMAT // STANDALONE
-                  </div>
-                </div>
-              </div>
-
-            </div>
           )}
+
+          {/* Bottom Section: About Karthik Lal's Literary Work */}
+          <div className="mt-16 border-2 border-foreground bg-card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
+            <div className="space-y-1.5 max-w-2xl">
+              <div className="font-bold text-foreground text-sm tracking-wider">
+                ABOUT KARTHIK LAL&apos;S LITERARY WORK
+              </div>
+              <p className="text-muted-foreground normal-case font-sans text-sm leading-relaxed">
+                Stories written from real human emotions, exploring love, silence, vulnerable conversations, and the delicate choices that define human connections.
+              </p>
+            </div>
+            <div className="shrink-0 font-mono text-[10px] text-muted-foreground uppercase tracking-widest border border-border px-3 py-1.5 bg-background">
+              LITERARY ARCHIVE // 2026
+            </div>
+          </div>
 
         </div>
       </div>
 
-      {/* The Immersive Reader Overlay */}
+      {/* Interactive Story Reader Overlay */}
       <AnimatePresence>
         {activeStory && (
           <StoryReader
