@@ -23,6 +23,8 @@ export interface StoryPage {
   title?: string
   highlightQuote?: string
   content: string
+  image?: string
+  imageCaption?: string
 }
 
 export interface Story {
@@ -1003,6 +1005,37 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                     </div>
                   )}
 
+                  {/* Chapter Scene Artwork */}
+                  {p.image && (
+                    <div 
+                      style={{ borderColor: currentTheme.border }}
+                      className="w-full border-2 overflow-hidden shadow-sm my-6 space-y-0"
+                    >
+                      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9]">
+                        <Image
+                          src={p.image}
+                          alt={p.title || `Scene illustration`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 800px"
+                          className="object-cover"
+                        />
+                      </div>
+                      {p.imageCaption && (
+                        <div 
+                          style={{ 
+                            backgroundColor: currentTheme.cardBg,
+                            borderColor: currentTheme.border, 
+                            color: currentTheme.muted 
+                          }}
+                          className="px-4 py-2 text-[10px] font-mono uppercase tracking-widest border-t flex items-center justify-between"
+                        >
+                          <span>രംഗം // SCENE ARTWORK</span>
+                          <span>{p.imageCaption}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <div
                     style={{
                       color: currentTheme.text,
@@ -1129,6 +1162,37 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                   >
                     &ldquo;{currentPage.highlightQuote}&rdquo;
                   </motion.div>
+                )}
+
+                {/* Chapter Scene Artwork for Current Page */}
+                {currentPage.image && (
+                  <div 
+                    style={{ borderColor: currentTheme.border }}
+                    className="w-full border-2 overflow-hidden shadow-md my-6 space-y-0"
+                  >
+                    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9]">
+                      <Image
+                        src={currentPage.image}
+                        alt={currentPage.title || "Scene illustration"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 800px"
+                        className="object-cover"
+                      />
+                    </div>
+                    {currentPage.imageCaption && (
+                      <div 
+                        style={{ 
+                          backgroundColor: currentTheme.cardBg,
+                          borderColor: currentTheme.border, 
+                          color: currentTheme.muted 
+                        }}
+                        className="px-4 py-2 text-[10px] font-mono uppercase tracking-widest border-t flex items-center justify-between"
+                      >
+                        <span>രംഗം // SCENE ARTWORK</span>
+                        <span>{currentPage.imageCaption}</span>
+                      </div>
+                    )}
+                  </div>
                 )}
 
                 {/* Page Paragraphs Content */}

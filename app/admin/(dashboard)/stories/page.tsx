@@ -32,6 +32,8 @@ export interface StoryPage {
   title?: string
   highlightQuote?: string
   content: string
+  image?: string
+  imageCaption?: string
 }
 
 export interface Story {
