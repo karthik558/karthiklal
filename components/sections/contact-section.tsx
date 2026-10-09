@@ -1,10 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { Send, Check, Copy } from "lucide-react"
+import { Send, Check, Copy, ChevronDown } from "lucide-react"
 import { toast } from "sonner"
 import { PROFILE_DATA, PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
+
+const PROJECT_TYPES = [
+  "Security audit",
+  "Web development",
+  "IT consulting",
+  "Infrastructure and cloud",
+  "Design and branding",
+  "Other / General inquiry",
+] as const
+
 
 const ContactSuccessModal = dynamic(
   () => import("@/components/ui/contact-success-modal").then((mod) => mod.ContactSuccessModal),
@@ -16,6 +26,69 @@ export default function ContactSection() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [senderName, setSenderName] = useState("")
   const [copied, setCopied] = useState(false)
+  const [selectedSubject, setSelectedSubject] = useState("")
+  const [isSelectOpen, setIsSelectOpen] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const selectContainerRef = useRef<HTMLDivElement>(null)
+  const selectButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (selectContainerRef.current && !selectContainerRef.current.contains(e.target as Node)) {
+        setIsSelectOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick)
+    document.addEventListener("touchstart", handleOutsideClick)
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick)
+      document.removeEventListener("touchstart", handleOutsideClick)
+    }
+  }, [])
+
+  const handleSelectKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault()
+      if (!isSelectOpen) {
+        setIsSelectOpen(true)
+        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
+      } else {
+        setHighlightedIndex((prev) => (prev < PROJECT_TYPES.length - 1 ? prev + 1 : 0))
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault()
+      if (!isSelectOpen) {
+        setIsSelectOpen(true)
+        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : PROJECT_TYPES.length - 1)
+      } else {
+        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : PROJECT_TYPES.length - 1))
+      }
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      if (isSelectOpen && highlightedIndex >= 0 && highlightedIndex < PROJECT_TYPES.length) {
+        setSelectedSubject(PROJECT_TYPES[highlightedIndex])
+        setIsSelectOpen(false)
+      } else {
+        setIsSelectOpen((prev) => !prev)
+        if (!isSelectOpen) {
+          setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
+        }
+      }
+    } else if (e.key === "Escape") {
+      if (isSelectOpen) {
+        e.preventDefault()
+        setIsSelectOpen(false)
+      }
+    } else if (e.key === "Tab") {
+      setIsSelectOpen(false)
+    }
+  }
+
+  const selectOption = (type: string) => {
+    setSelectedSubject(type)
+    setIsSelectOpen(false)
+    selectButtonRef.current?.focus()
+  }
 
   const email = PROFILE_DATA.personalInfo.email || "contact@karthiklal.in"
 
@@ -35,7 +108,7 @@ export default function ContactSection() {
       const data = {
         name: formData.get("name") as string,
         email: formData.get("email") as string,
-        subject: formData.get("subject") as string,
+        subject: (formData.get("subject") as string) || selectedSubject,
         message: formData.get("message") as string,
         website: formData.get("website") as string,
       }
@@ -58,6 +131,7 @@ export default function ContactSection() {
 
       setSenderName(data.name)
       setShowSuccessModal(true)
+      setSelectedSubject("")
       form.reset()
     } catch (error) {
       toast.error("Message not sent", {
@@ -149,7 +223,7 @@ export default function ContactSection() {
               <span className="paper-postal-stamp">REGISTERED DISPATCH // IST</span>
             </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
+              <form onSubmit={handleSubmit} onReset={() => setSelectedSubject("")} className="space-y-6 font-mono text-xs">
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="website">Website</label>
                 <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
@@ -185,22 +259,83 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="contact-subject" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">PROJECT TYPE *</label>
-                <select
-                  id="contact-subject"
-                  name="subject"
-                  required
-                  defaultValue=""
-                  className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
+                <label
+                  id="contact-subject-label"
+                  htmlFor="contact-subject"
+                  className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs cursor-pointer select-none"
                 >
-                  <option value="" disabled>Select a project type</option>
-                  <option value="Security audit">Security audit</option>
-                  <option value="Web development">Web development</option>
-                  <option value="IT consulting">IT consulting</option>
-                  <option value="Infrastructure and cloud">Infrastructure and cloud</option>
-                  <option value="Design and branding">Design and branding</option>
-                  <option value="Other / General inquiry">Other / General inquiry</option>
-                </select>
+                  PROJECT TYPE *
+                </label>
+                <div ref={selectContainerRef} className="relative">
+                  <button
+                    ref={selectButtonRef}
+                    type="button"
+                    id="contact-subject"
+                    aria-labelledby="contact-subject-label"
+                    aria-haspopup="listbox"
+                    aria-expanded={isSelectOpen}
+                    data-cursor-type="select"
+                    onClick={() => {
+                      setIsSelectOpen((prev) => !prev)
+                      if (!isSelectOpen) {
+                        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
+                      }
+                    }}
+                    onKeyDown={handleSelectKeyDown}
+                    className={`w-full bg-background border-2 p-3.5 text-foreground flex items-center justify-between font-mono text-xs transition-colors focus:outline-none select-none cursor-pointer ${
+                      isSelectOpen ? "border-foreground" : "border-border hover:border-foreground/70 focus:border-foreground"
+                    }`}
+                  >
+                    <span className={selectedSubject ? "text-foreground font-bold uppercase tracking-wider" : "text-muted-foreground uppercase tracking-wider"}>
+                      {selectedSubject || "Select a project type"}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-foreground transition-transform duration-200 shrink-0 ml-2 ${
+                        isSelectOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <input
+                    type="hidden"
+                    name="subject"
+                    value={selectedSubject}
+                    required
+                  />
+
+                  {isSelectOpen && (
+                    <ul
+                      role="listbox"
+                      aria-labelledby="contact-subject-label"
+                      className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 bg-card border-2 border-foreground shadow-2xl py-1 divide-y divide-border/60 max-h-64 overflow-y-auto font-mono text-xs animate-in fade-in-0 duration-150"
+                    >
+                      {PROJECT_TYPES.map((type, idx) => {
+                        const isSelected = selectedSubject === type
+                        const isHighlighted = highlightedIndex === idx
+                        return (
+                          <li
+                            key={type}
+                            role="option"
+                            aria-selected={isSelected}
+                            data-cursor-type="button"
+                            onClick={() => selectOption(type)}
+                            onMouseEnter={() => setHighlightedIndex(idx)}
+                            className={`px-4 py-3 cursor-pointer flex items-center justify-between transition-colors select-none ${
+                              isSelected
+                                ? "bg-foreground text-background font-bold uppercase tracking-wider"
+                                : isHighlighted
+                                ? "bg-muted text-foreground uppercase tracking-wider font-semibold"
+                                : "text-foreground hover:bg-muted/60 uppercase tracking-wider"
+                            }`}
+                          >
+                            <span>{type}</span>
+                            {isSelected && <Check className="w-3.5 h-3.5 shrink-0 ml-2" />}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+                </div>
               </div>
 
               <div>

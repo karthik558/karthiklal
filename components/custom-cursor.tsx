@@ -133,6 +133,7 @@ export default function CustomCursor() {
     const press = () => setIsPressed(true)
     const release = () => setIsPressed(false)
     const visibility = () => document.hidden && hide()
+    const handleBlur = () => setIsPressed(false)
 
     window.addEventListener("pointermove", handleMove as unknown as EventListener, { passive: true })
     window.addEventListener("mousemove", handleMove as unknown as EventListener, { passive: true })
@@ -142,6 +143,7 @@ export default function CustomCursor() {
     document.addEventListener("mouseleave", hide)
     document.addEventListener("mouseenter", (e) => handleMove(e), { passive: true })
     document.addEventListener("visibilitychange", visibility)
+    window.addEventListener("blur", handleBlur)
 
     return () => {
       cancelAnimationFrame(enableFrame)
@@ -153,6 +155,7 @@ export default function CustomCursor() {
       window.removeEventListener("pointerleave", hide)
       document.removeEventListener("mouseleave", hide)
       document.removeEventListener("visibilitychange", visibility)
+      window.removeEventListener("blur", handleBlur)
     }
   }, [x, y])
 
@@ -174,6 +177,10 @@ export default function CustomCursor() {
               html.has-custom-cursor body,
               html.has-custom-cursor * {
                 cursor: none !important;
+              }
+              html.has-custom-cursor select,
+              html.has-custom-cursor option {
+                cursor: pointer !important;
               }
               :fullscreen:not(:has(.custom-cursor-layer)),
               :fullscreen:not(:has(.custom-cursor-layer)) * {

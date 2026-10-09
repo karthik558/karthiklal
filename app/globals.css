@@ -33,7 +33,7 @@ body {
 }
 
 /* Ensure natural mouse cursor always works reliably across the site */
-a, button, [role="button"], input[type="submit"], input[type="button"] {
+a, button, [role="button"], input[type="submit"], input[type="button"], select {
   cursor: pointer;
 }
 
@@ -143,6 +143,10 @@ input, textarea, [contenteditable="true"] {
   html.has-custom-cursor body,
   html.has-custom-cursor * {
     cursor: none !important;
+  }
+  html.has-custom-cursor select,
+  html.has-custom-cursor option {
+    cursor: pointer !important;
   }
 }
 
