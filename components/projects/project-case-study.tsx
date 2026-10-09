@@ -13,11 +13,11 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
+  FileText,
   Github,
   Layers3,
   MessageSquareQuote,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react"
 import { getProjectEvidence } from "@/lib/project-evidence"
 import ProjectTransitionLink from "@/components/projects/project-transition-link"
@@ -127,9 +127,14 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
+            <div className="mb-4">
+              <span className="paper-stamp">
+                CASE STUDY SPECIMEN // {String(project.id).padStart(2, "0")}
+              </span>
+            </div>
             <div className="mb-5 flex flex-wrap items-center gap-3 font-mono text-[10px] font-black uppercase tracking-[0.18em]">
               <span className="bg-foreground px-3 py-1.5 text-background">{project.category}</span>
-              <span className="text-muted-foreground">CASE STUDY // {String(project.id).padStart(2, "0")}</span>
+              <span className="text-muted-foreground">ENGINEERING // SECURITY</span>
             </div>
             <h1 className="max-w-5xl font-display text-5xl font-black uppercase leading-[0.85] tracking-[-0.045em] sm:text-7xl md:text-8xl lg:text-[7rem]">
               {project.title}
@@ -143,28 +148,72 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
         </div>
       </header>
 
-      <div
-        className="relative mx-auto max-w-[1600px] border-y-2 border-foreground bg-muted"
-        style={{ viewTransitionName: `project-${project.id}` }}
-      >
-        <div className="relative aspect-[16/9] min-h-[340px] w-full overflow-hidden">
-          <Image src={project.image} alt={project.title} fill priority sizes="100vw" className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
-          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 text-white sm:bottom-8 sm:left-8 sm:right-8">
-            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em]">PRIMARY EXPERIENCE / PRODUCTION VIEW</span>
-            <span className="font-display text-5xl font-black sm:text-7xl">{String(project.id).padStart(2, "0")}</span>
-          </div>
-          {xray && (
-            <div className="pointer-events-none absolute inset-0">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.2)_1px,transparent_1px)] bg-[size:8.333%_12.5%]" />
-              <div className="absolute left-[8.3%] top-[12.5%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
-                12-column responsive frame
-              </div>
-              <div className="absolute bottom-[12.5%] right-[8.3%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
-                Content-safe boundary
-              </div>
+      {/* Contained, Proportionate Case Study Specimen View */}
+      <div className="container mx-auto max-w-7xl px-4 md:px-6">
+        <div
+          className="paper-sheet relative overflow-hidden border-2 border-foreground bg-card shadow-lg"
+          style={{ viewTransitionName: `project-${project.id}` }}
+        >
+          {/* Top Dossier Specimen Meta Strip */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-foreground bg-muted/40 px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider">
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-foreground">SPECIMEN // {project.category}</span>
+              <span className="text-muted-foreground">REF: PRJ-{String(project.id).padStart(3, "0")}</span>
             </div>
-          )}
+            <div className="flex items-center gap-4">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-bold text-foreground hover:underline"
+                >
+                  LIVE SYSTEM <ExternalLink className="h-3 w-3" />
+                </a>
+              )}
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-bold text-muted-foreground hover:text-foreground"
+                >
+                  SOURCE <Github className="h-3 w-3" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[16/9] max-h-[460px] md:max-h-[520px] w-full overflow-hidden bg-muted">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              priority
+              sizes="(min-width: 1280px) 1200px, 100vw"
+              className="object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 text-white sm:bottom-6 sm:left-6 sm:right-6">
+              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] bg-black/60 px-3 py-1 backdrop-blur-sm border border-white/20">
+                PRIMARY EXPERIENCE // PRODUCTION VIEW
+              </span>
+              <span className="font-display text-4xl font-black sm:text-6xl text-white drop-shadow-md">
+                {String(project.id).padStart(2, "0")}
+              </span>
+            </div>
+            {xray && (
+              <div className="pointer-events-none absolute inset-0">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.2)_1px,transparent_1px)] bg-[size:8.333%_12.5%]" />
+                <div className="absolute left-[8.3%] top-[12.5%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
+                  12-column responsive frame
+                </div>
+                <div className="absolute bottom-[12.5%] right-[8.3%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
+                  Content-safe boundary
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -196,7 +245,7 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
         <div>
           <section id="brief" className="scroll-mt-32 border-b border-border pb-20">
             <div className="mb-5 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <Sparkles className="h-4 w-4" /> 01 / THE BRIEF
+              <FileText className="h-4 w-4" /> 01 / THE BRIEF
             </div>
             <h2 className="max-w-4xl font-display text-4xl font-black uppercase leading-tight sm:text-6xl">
               TURN A COMPLEX WORKFLOW INTO A CLEAR, RELIABLE EXPERIENCE.
