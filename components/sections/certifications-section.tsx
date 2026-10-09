@@ -252,7 +252,7 @@ export default function CertificationsSection() {
                       return (
                         <article
                           key={item.id}
-                          className="group grid gap-4 border-b border-r border-border bg-background p-5 sm:grid-cols-[52px_minmax(0,1fr)] sm:p-6 xl:grid-cols-[52px_minmax(0,1fr)_170px]"
+                          className="paper-sheet group grid gap-4 border-b border-r border-border bg-card p-5 sm:grid-cols-[52px_minmax(0,1fr)] sm:p-6 xl:grid-cols-[52px_minmax(0,1fr)_170px]"
                         >
                           <span className="grid h-11 w-11 place-items-center border border-border bg-card transition-colors group-hover:border-foreground group-hover:bg-foreground group-hover:text-background">
                             <Award className="h-4 w-4" />

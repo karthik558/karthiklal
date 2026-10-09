@@ -93,7 +93,7 @@ export default function PortfolioSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="paper-sheet group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 overflow-hidden"
+                className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
                 <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">
@@ -174,7 +174,7 @@ export default function PortfolioSection() {
                         projectId={project.id}
                         shareElement={false}
                         ariaLabel={`View ${project.title} case study`}
-                        className="inline-flex h-12 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground"
+                        className="paper-button inline-flex h-12 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground"
                       >
                         FULL CASE STUDY <ArrowUpRight className="w-4 h-4" />
                       </ProjectTransitionLink>
@@ -184,7 +184,7 @@ export default function PortfolioSection() {
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="h-12 px-5 inline-flex items-center gap-2 border-2 border-border bg-card text-foreground font-mono text-xs font-bold uppercase tracking-wider hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+                          className="paper-button h-12 px-5 inline-flex items-center gap-2 border-2 border-border bg-card text-foreground font-mono text-xs font-bold uppercase tracking-wider hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
                         >
                           LIVE PLATFORM <ExternalLink className="w-4 h-4" />
                         </a>
@@ -211,7 +211,7 @@ export default function PortfolioSection() {
                     const el = document.getElementById("portfolio-scroll-row")
                     if (el) el.scrollBy({ left: -380, behavior: "smooth" })
                   }}
-                  className="p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
+                  className="paper-button p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
                   aria-label="Scroll left"
                 >
                   <ArrowUpRight className="w-3.5 h-3.5 -rotate-135" />
@@ -221,7 +221,7 @@ export default function PortfolioSection() {
                     const el = document.getElementById("portfolio-scroll-row")
                     if (el) el.scrollBy({ left: 380, behavior: "smooth" })
                   }}
-                  className="p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
+                  className="paper-button p-2 border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors select-none"
                   aria-label="Scroll right"
                 >
                   <ArrowUpRight className="w-3.5 h-3.5 rotate-45" />
@@ -244,7 +244,7 @@ export default function PortfolioSection() {
                 return (
                   <motion.article
                     key={project.id}
-                    className="group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border border-border/80 bg-card/70 p-0 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg sm:w-[360px] sm:max-w-none md:w-[380px]"
+                    className="paper-sheet paper-folded-corner group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border-2 border-border/80 bg-card p-0 transition-all duration-300 hover:border-foreground/80 sm:w-[360px] sm:max-w-none md:w-[380px]"
                   >
                     {/* Background Giant Stroke Number Watermark */}
                     <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">

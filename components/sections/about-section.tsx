@@ -59,8 +59,8 @@ export default function AboutSection() {
 
         {/* Top Editorial Row */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
-          {/* Portrait Image Block */}
-          <div className="paper-sheet paper-tape lg:col-span-4 relative group overflow-hidden border-2 border-foreground min-h-[380px] lg:min-h-full">
+          {/* Portrait Image Block with Washi Tape and Brass Paper Clip */}
+          <div className="paper-sheet paper-tape paper-clip lg:col-span-4 relative group overflow-hidden border-2 border-foreground min-h-[380px] lg:min-h-full">
             <Image
               src="/user/about.jpg"
               alt="Karthik Lal"
@@ -81,8 +81,8 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Profile Statement */}
-          <div className="paper-sheet lg:col-span-8 border-2 border-border/90 p-6 md:p-10 flex flex-col justify-between">
+          {/* Profile Statement with Folded Corner */}
+          <div className="paper-sheet paper-folded-corner lg:col-span-8 border-2 border-border/90 p-6 md:p-10 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
                 <span className="paper-tag">ARCHIVAL DOSSIER // REF: KL-2026</span>
@@ -106,12 +106,12 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Stats Grid Bar */}
+        {/* Stats Grid Bar - Styled as Library Catalog Index Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat) => (
             <article
               key={stat.label}
-              className="paper-sheet group flex flex-col justify-center border-2 border-border/80 p-5 md:p-6 transition-all duration-300"
+              className="paper-sheet paper-index-card group flex flex-col justify-center border-2 border-border/80 p-5 md:p-6 transition-all duration-300"
             >
               <div className="font-display text-4xl font-black text-foreground md:text-5xl">
                 {stat.value}

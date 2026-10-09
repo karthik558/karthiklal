@@ -64,9 +64,9 @@ input, textarea, [contenteditable="true"] {
     --ring: 12 58% 46%;
     --primary-rgb: 186 61 44;
     --radius: 0.5rem;
-    --paper-grain-opacity: 0.055;
-    --paper-shadow: 1px 1px 0 rgba(40, 28, 18, 0.05), 0 3px 12px -2px rgba(40, 28, 18, 0.08), 0 10px 24px -6px rgba(40, 28, 18, 0.06);
-    --paper-shadow-hover: 1px 1px 0 rgba(40, 28, 18, 0.08), 0 6px 16px -2px rgba(40, 28, 18, 0.12), 0 16px 32px -6px rgba(40, 28, 18, 0.1);
+    --paper-grain-opacity: 0.12;
+    --paper-shadow: 1px 1px 0 rgba(40, 28, 18, 0.06), 0 4px 14px -2px rgba(40, 28, 18, 0.1), 0 12px 28px -6px rgba(40, 28, 18, 0.08);
+    --paper-shadow-hover: 1px 1px 0 rgba(40, 28, 18, 0.08), 0 8px 20px -2px rgba(40, 28, 18, 0.14), 0 20px 36px -6px rgba(40, 28, 18, 0.12);
   }
 
   .dark {
@@ -90,9 +90,9 @@ input, textarea, [contenteditable="true"] {
     --input: 28 8% 22%;
     --ring: 12 52% 58%;
     --primary-rgb: 211 101 85;
-    --paper-grain-opacity: 0.04;
-    --paper-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3), 0 4px 14px -2px rgba(0, 0, 0, 0.45), 0 12px 28px -6px rgba(0, 0, 0, 0.4);
-    --paper-shadow-hover: 1px 1px 0 rgba(0, 0, 0, 0.4), 0 8px 20px -2px rgba(0, 0, 0, 0.55), 0 20px 36px -6px rgba(0, 0, 0, 0.5);
+    --paper-grain-opacity: 0.085;
+    --paper-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35), 0 5px 16px -2px rgba(0, 0, 0, 0.5), 0 14px 32px -6px rgba(0, 0, 0, 0.45);
+    --paper-shadow-hover: 1px 1px 0 rgba(0, 0, 0, 0.45), 0 10px 24px -2px rgba(0, 0, 0, 0.6), 0 24px 40px -6px rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -124,7 +124,16 @@ input, textarea, [contenteditable="true"] {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground relative;
+    @apply text-foreground relative;
+    background-color: hsl(var(--background));
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0' y1='30' x2='120' y2='30' stroke='%23221b16' stroke-opacity='0.035' stroke-width='0.75'/%3E%3Cline x1='0' y1='60' x2='120' y2='60' stroke='%23221b16' stroke-opacity='0.035' stroke-width='0.75'/%3E%3Cline x1='0' y1='90' x2='120' y2='90' stroke='%23221b16' stroke-opacity='0.035' stroke-width='0.75'/%3E%3Cline x1='0' y1='120' x2='120' y2='120' stroke='%23221b16' stroke-opacity='0.035' stroke-width='0.75'/%3E%3Cline x1='60' y1='0' x2='60' y2='120' stroke='%23221b16' stroke-opacity='0.04' stroke-width='1' stroke-dasharray='2%2C3'/%3E%3Cpath d='M15%2C22 Q20%2C26 26%2C23' stroke='%23221b16' stroke-opacity='0.05' stroke-width='0.6' fill='none'/%3E%3Cpath d='M85%2C45 Q90%2C52 95%2C48' stroke='%23221b16' stroke-opacity='0.05' stroke-width='0.6' fill='none'/%3E%3Cpath d='M40%2C82 Q46%2C80 52%2C85' stroke='%23221b16' stroke-opacity='0.06' stroke-width='0.6' fill='none'/%3E%3Ccircle cx='32' cy='105' r='0.75' fill='%23221b16' fill-opacity='0.05'/%3E%3Ccircle cx='104' cy='18' r='0.65' fill='%23221b16' fill-opacity='0.05'/%3E%3Ccircle cx='75' cy='95' r='0.8' fill='%23221b16' fill-opacity='0.06'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  .dark body {
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0' y1='30' x2='120' y2='30' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='60' x2='120' y2='60' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='90' x2='120' y2='90' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='120' x2='120' y2='120' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='60' y1='0' x2='60' y2='120' stroke='%23f2ece1' stroke-opacity='0.03' stroke-width='1' stroke-dasharray='2%2C3'/%3E%3Cpath d='M15%2C22 Q20%2C26 26%2C23' stroke='%23f2ece1' stroke-opacity='0.035' stroke-width='0.6' fill='none'/%3E%3Cpath d='M85%2C45 Q90%2C52 95%2C48' stroke='%23f2ece1' stroke-opacity='0.035' stroke-width='0.6' fill='none'/%3E%3Cpath d='M40%2C82 Q46%2C80 52%2C85' stroke='%23f2ece1' stroke-opacity='0.04' stroke-width='0.6' fill='none'/%3E%3Ccircle cx='32' cy='105' r='0.75' fill='%23f2ece1' fill-opacity='0.035'/%3E%3Ccircle cx='104' cy='18' r='0.65' fill='%23f2ece1' fill-opacity='0.035'/%3E%3Ccircle cx='75' cy='95' r='0.8' fill='%23f2ece1' fill-opacity='0.04'/%3E%3C/svg%3E");
   }
 }
 
@@ -717,15 +726,16 @@ body {
   height: 100vh;
   pointer-events: none;
   z-index: 99990;
-  opacity: var(--paper-grain-opacity, 0.055);
+  opacity: var(--paper-grain-opacity, 0.12);
   background-repeat: repeat;
-  background-size: 180px 180px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }
 
 .dark .paper-noise-canvas {
   mix-blend-mode: overlay;
+  opacity: var(--paper-grain-opacity, 0.085);
 }
 
 /* 2. Tactile Paper Elevation */
@@ -839,9 +849,9 @@ body {
   transform: translateX(-50%) rotate(-1.5deg);
   width: 72px;
   height: 22px;
-  background: rgba(228, 220, 204, 0.72);
-  border-left: 2px dashed rgba(175, 165, 145, 0.65);
-  border-right: 2px dashed rgba(175, 165, 145, 0.65);
+  background: rgba(228, 220, 204, 0.75);
+  border-left: 2px dashed rgba(175, 165, 145, 0.7);
+  border-right: 2px dashed rgba(175, 165, 145, 0.7);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(1.5px);
   z-index: 25;
@@ -849,8 +859,8 @@ body {
 }
 
 .dark .paper-tape::before {
-  background: rgba(55, 50, 45, 0.8);
-  border-color: rgba(95, 88, 80, 0.65);
+  background: rgba(55, 50, 45, 0.85);
+  border-color: rgba(95, 88, 80, 0.7);
 }
 
 .paper-tape-corner {
@@ -865,17 +875,17 @@ body {
   width: 48px;
   height: 18px;
   transform: rotate(35deg);
-  background: rgba(228, 220, 204, 0.72);
-  border-left: 1.5px dashed rgba(175, 165, 145, 0.65);
-  border-right: 1.5px dashed rgba(175, 165, 145, 0.65);
+  background: rgba(228, 220, 204, 0.75);
+  border-left: 1.5px dashed rgba(175, 165, 145, 0.7);
+  border-right: 1.5px dashed rgba(175, 165, 145, 0.7);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   z-index: 25;
   pointer-events: none;
 }
 
 .dark .paper-tape-corner::before {
-  background: rgba(55, 50, 45, 0.8);
-  border-color: rgba(95, 88, 80, 0.65);
+  background: rgba(55, 50, 45, 0.85);
+  border-color: rgba(95, 88, 80, 0.7);
 }
 
 /* 6. Perforated Coupon / Ticket Tear-Off Line */
@@ -947,4 +957,120 @@ body {
   letter-spacing: 0.08em;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
+
+/* 10. Dog-Eared / Folded Paper Corner */
+.paper-folded-corner {
+  position: relative;
+}
+
+.paper-folded-corner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 22px 22px 0;
+  border-color: transparent hsl(var(--background)) transparent transparent;
+  z-index: 10;
+  filter: drop-shadow(-1.5px 1.5px 1.5px rgba(0, 0, 0, 0.18));
+  pointer-events: none;
+}
+
+.paper-folded-corner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 22px 0 0 22px;
+  border-color: hsla(var(--border) / 0.9) transparent transparent transparent;
+  z-index: 9;
+  pointer-events: none;
+}
+
+/* 11. Brass Metallic Paperclip Accent */
+.paper-clip {
+  position: relative;
+}
+
+.paper-clip::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  width: 13px;
+  height: 36px;
+  border: 2.5px solid #C49746;
+  border-radius: 7px 7px 4px 4px;
+  background: transparent;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  z-index: 30;
+  pointer-events: none;
+  transform: rotate(4deg);
+}
+
+/* 12. Vintage Library Catalog Index Card */
+.paper-index-card {
+  position: relative;
+  background-color: hsl(var(--card));
+  background-image: 
+    linear-gradient(to right, transparent 40px, hsla(12, 60%, 50%, 0.35) 40px, hsla(12, 60%, 50%, 0.35) 41px, transparent 41px),
+    repeating-linear-gradient(to bottom, transparent, transparent 27px, hsla(var(--border) / 0.45) 28px);
+  box-shadow: var(--paper-shadow);
+}
+
+/* 13. Airmail Border Stripes (for Dispatch & Contact) */
+.paper-airmail {
+  position: relative;
+  border: 4px solid transparent;
+  border-image: repeating-linear-gradient(
+    -45deg,
+    hsl(var(--primary)) 0px,
+    hsl(var(--primary)) 12px,
+    transparent 12px,
+    transparent 18px,
+    #2c4f7c 18px,
+    #2c4f7c 30px,
+    transparent 30px,
+    transparent 36px
+  ) 4;
+}
+
+/* 14. Circular Postal Cancellation Stamp */
+.paper-postal-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border: 1.5px solid hsla(var(--primary) / 0.85);
+  border-radius: 9999px;
+  color: hsl(var(--primary));
+  font-family: var(--font-mono, monospace);
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transform: rotate(-3deg);
+  background-color: hsla(var(--primary) / 0.05);
+  box-shadow: 0 0 0 2px hsla(var(--primary) / 0.15);
+}
+
+/* 15. Deckle Torn Edge Border Divider */
+.paper-deckle-divider {
+  position: relative;
+  height: 12px;
+  width: 100%;
+  background-repeat: repeat-x;
+  background-size: 20px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 Q5 6 10 2 T20 0 V10 H0 Z' fill='%23C8BEB3' fill-opacity='0.5'/%3E%3C/svg%3E");
+}
+
+.dark .paper-deckle-divider {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 Q5 6 10 2 T20 0 V10 H0 Z' fill='%233B3632' fill-opacity='0.6'/%3E%3C/svg%3E");
+}
+
 

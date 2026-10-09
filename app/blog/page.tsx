@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Search } from "lucide-react"
+import blogsData from "@/public/data/blogs.json"
 
 interface BlogPost {
   id: string
@@ -20,10 +21,6 @@ interface BlogPost {
   featured: boolean
 }
 
-interface BlogData {
-  blogs: BlogPost[]
-}
-
 const formatDate = (date: string) =>
   new Date(date).toLocaleDateString("en-US", {
     month: "short",
@@ -31,31 +28,14 @@ const formatDate = (date: string) =>
     year: "numeric",
   }).toUpperCase()
 
+const sortedBlogs = [...(blogsData.blogs as BlogPost[])].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+)
+
 export default function BlogPage() {
-  const [blogs, setBlogs] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [blogs] = useState<BlogPost[]>(sortedBlogs)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetch("/data/blogs.json")
-        const data: BlogData = await response.json()
-        setBlogs(
-          [...data.blogs].sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          )
-        )
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchBlogs()
-  }, [])
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(blogs.map((blog) => blog.category)))], [blogs])
 
@@ -79,35 +59,19 @@ export default function BlogPage() {
   const isFiltered = searchQuery.trim() !== "" || selectedCategory !== "All"
   const visiblePosts = isFiltered ? filteredBlogs : regularPosts
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
-        <div className="container mx-auto max-w-7xl px-4 md:px-6">
-          <div className="space-y-8 font-mono text-xs uppercase animate-pulse">
-            <div className="h-32 bg-card border-2 border-border" />
-            <div className="h-14 bg-card border-2 border-border" />
-            <div className="grid gap-8 md:grid-cols-3">
-              {[...Array(6)].map((_, index) => (
-                <div key={index} className="h-80 bg-card border-2 border-border" />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            TECHNICAL JOURNAL // ARCHIVE
+          <div className="mb-3">
+            <span className="paper-stamp">
+              TECHNICAL JOURNAL // ARCHIVE &amp; DISPATCHES
+            </span>
           </div>
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            BLOG & INSIGHTS
+            BLOG &amp; INSIGHTS
           </h1>
           <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
             Notes, tutorials, and deep-dives on cybersecurity, network infrastructure, software engineering, and systems administration.
@@ -134,7 +98,7 @@ export default function BlogPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-2 border transition-all duration-200 ${
                   selectedCategory === cat
-                    ? "border-foreground bg-foreground text-background font-bold"
+                    ? "border-foreground bg-foreground text-background font-bold shadow-sm"
                     : "border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground"
                 }`}
               >
@@ -154,36 +118,50 @@ export default function BlogPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="group border-2 border-foreground bg-card transition-all duration-300 hover:shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch overflow-hidden"
+                className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
               >
-                <div className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground">
+                <Link
+                  href={`/blog/${featuredPost.id}`}
+                  className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground cursor-pointer min-h-[300px] lg:min-h-[420px] block"
+                >
                   <Image
                     src={featuredPost.image}
                     alt={featuredPost.title}
                     fill
                     priority
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100"
+                    className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
                   />
-                  <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
+                  <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground shadow-sm">
                     FEATURED READ
                   </div>
-                </div>
+                </Link>
 
                 <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between">
                   <div>
                     <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
                       {featuredPost.category} {"//"} {formatDate(featuredPost.date)}
                     </div>
-                    <h2 className="font-display text-3xl sm:text-4xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-4">
-                      {featuredPost.title}
-                    </h2>
-                    <p className="font-sans text-muted-foreground text-sm sm:text-base leading-relaxed line-clamp-4 mb-6">
+                    <Link href={`/blog/${featuredPost.id}`} className="block">
+                      <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-4 cursor-pointer leading-tight">
+                        {featuredPost.title}
+                      </h2>
+                    </Link>
+                    <p className="font-sans text-muted-foreground text-sm sm:text-base leading-relaxed line-clamp-3 mb-6">
                       {featuredPost.excerpt}
                     </p>
+                    {featuredPost.tags && featuredPost.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+                        {featuredPost.tags.slice(0, 5).map((tag) => (
+                          <span key={tag} className="border border-border bg-background px-2.5 py-1 text-foreground uppercase font-bold text-[10px]">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="pt-6 border-t border-border flex items-center justify-between font-mono text-xs font-bold uppercase">
+                  <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 font-mono text-xs font-bold uppercase">
                     <span className="text-muted-foreground">
                       READ TIME: {featuredPost.readTime.toUpperCase()}
                     </span>
@@ -191,7 +169,7 @@ export default function BlogPage() {
                     <Link
                       href={`/blog/${featuredPost.id}`}
                       prefetch={false}
-                      className="inline-flex items-center gap-1.5 text-foreground hover:underline"
+                      className="paper-button inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                     >
                       READ ARTICLE <ArrowUpRight className="w-4 h-4" />
                     </Link>
@@ -208,20 +186,23 @@ export default function BlogPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.04 }}
-                  className="group border-2 border-border bg-card hover:border-foreground transition-all duration-300 hover:shadow-2xl flex flex-col justify-between"
+                  className="paper-sheet paper-folded-corner group border-2 border-border hover:border-foreground transition-all duration-300 flex flex-col justify-between"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border">
+                  <Link
+                    href={`/blog/${post.id}`}
+                    className="relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border cursor-pointer block"
+                  >
                     <Image
                       src={post.image}
                       alt={post.title}
                       fill
                       sizes="(min-width: 1024px) 33vw, 100vw"
-                      className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100"
+                      className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
                     />
-                    <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider">
+                    <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider shadow-sm">
                       {post.category}
                     </div>
-                  </div>
+                  </Link>
 
                   <div className="p-6 flex flex-col justify-between flex-1">
                     <div>
@@ -230,9 +211,11 @@ export default function BlogPage() {
                         <span>{"//"}</span>
                         <span>{post.readTime.toUpperCase()}</span>
                       </div>
-                      <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-3 line-clamp-2">
-                        {post.title}
-                      </h3>
+                      <Link href={`/blog/${post.id}`}>
+                        <h3 className="font-display text-2xl font-black uppercase text-foreground group-hover:underline underline-offset-4 mb-3 line-clamp-2 cursor-pointer">
+                          {post.title}
+                        </h3>
+                      </Link>
                       <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-6">
                         {post.excerpt}
                       </p>
@@ -242,9 +225,9 @@ export default function BlogPage() {
                       <Link
                         href={`/blog/${post.id}`}
                         prefetch={false}
-                        className="inline-flex items-center gap-1.5 text-foreground hover:underline"
+                        className="paper-button inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-4 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                       >
-                        READ ARTICLE <ArrowUpRight className="w-4 h-4" />
+                        READ ARTICLE <ArrowUpRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
                   </div>
@@ -254,16 +237,31 @@ export default function BlogPage() {
 
           </div>
         ) : (
-          <div className="border-2 border-border bg-card p-12 text-center font-mono">
+          <div className="paper-sheet border-2 border-border p-12 text-center font-mono">
             <p className="text-muted-foreground uppercase text-sm mb-4">NO MATCHING ARTICLES FOUND</p>
             <button
               onClick={() => { setSearchQuery(""); setSelectedCategory("All") }}
-              className="px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
+              className="paper-button px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
             >
               RESET FILTERS
             </button>
           </div>
         )}
+
+        {/* Bottom Section: About Karthik Lal's Technical Journal */}
+        <div className="paper-sheet paper-index-card mt-16 border-2 border-foreground p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="font-bold text-foreground text-sm tracking-wider">
+              ABOUT KARTHIK LAL&apos;S TECHNICAL JOURNAL
+            </div>
+            <p className="text-muted-foreground normal-case font-sans text-sm leading-relaxed">
+              Dispatches on vulnerability research, zero-day analysis, defensive network architecture, full-stack design patterns, and distributed systems engineering.
+            </p>
+          </div>
+          <div className="shrink-0 font-mono text-[10px] text-muted-foreground uppercase tracking-widest border border-border px-3 py-1.5 bg-background">
+            TECHNICAL DISPATCHES // 2021–2026
+          </div>
+        </div>
 
       </div>
     </div>

@@ -142,11 +142,11 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Right Form Column */}
-          <div className="paper-sheet lg:col-span-7 border-2 border-foreground bg-card p-8 md:p-10">
+          {/* Right Form Column - Airmail Styling */}
+          <div className="paper-sheet paper-folded-corner paper-airmail lg:col-span-7 bg-card p-8 md:p-10">
             <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
               <span className="paper-tag">TRANSMISSION MEMO</span>
-              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">ENCRYPTED // HTTPS</span>
+              <span className="paper-postal-stamp">REGISTERED DISPATCH // IST</span>
             </div>
 
               <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
@@ -219,7 +219,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border-2 border-foreground hover:bg-background hover:text-foreground transition-all duration-300 flex items-center justify-center gap-2 select-none cursor-pointer"
+                className="paper-button w-full py-4 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border-2 border-foreground hover:bg-background hover:text-foreground transition-all duration-300 flex items-center justify-center gap-2 select-none cursor-pointer"
               >
                   {isLoading ? "TRANSMITTING MESSAGE..." : "TRANSMIT MESSAGE"} <Send className="w-4 h-4" />
               </button>

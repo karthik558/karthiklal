@@ -189,7 +189,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.04 }}
-                    className="paper-sheet group border-2 border-border hover:border-foreground transition-all duration-300 flex flex-col justify-between"
+                    className="paper-sheet paper-folded-corner group border-2 border-border hover:border-foreground transition-all duration-300 flex flex-col justify-between"
                   >
                     <Link 
                       href={`/stories/${story.id}`}
@@ -247,11 +247,11 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
 
           </div>
         ) : (
-          <div className="border-2 border-border bg-card p-12 text-center font-mono">
+          <div className="paper-sheet border-2 border-border p-12 text-center font-mono">
             <p className="text-muted-foreground uppercase text-sm mb-4">NO MATCHING STORIES FOUND</p>
             <button
               onClick={() => { setSearchQuery(""); setSelectedCategory("All") }}
-              className="px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
+              className="paper-button px-6 py-3 bg-foreground text-background font-bold text-xs uppercase tracking-wider"
             >
               RESET FILTERS
             </button>
@@ -259,7 +259,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
         )}
 
         {/* Bottom Section: About Karthik Lal's Literary Work */}
-        <div className="mt-16 border-2 border-foreground bg-card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
+        <div className="paper-sheet paper-index-card mt-16 border-2 border-foreground p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
           <div className="space-y-1.5 max-w-2xl">
             <div className="font-bold text-foreground text-sm tracking-wider">
               ABOUT KARTHIK LAL&apos;S LITERARY WORK
