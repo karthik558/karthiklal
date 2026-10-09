@@ -110,7 +110,7 @@ export default function StoriesSection() {
               
               {/* Pull Quote */}
               <blockquote className="border-l-2 border-foreground pl-4 py-1.5 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/30">
-                &ldquo;ചിലപ്പോൾ ഒരു ബന്ധം തകരാൻ വലിയൊരു വഴക്ക് ആവശ്യമില്ല. ഒരു ചെറിയ നിശ്ശബ്ദത മതി.&rdquo;
+                &ldquo;{featuredStory.subtitle || featuredStory.pages?.[0]?.highlightQuote || "ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."}&rdquo;
               </blockquote>
 
               <p className="font-sans text-muted-foreground text-sm sm:text-base leading-relaxed line-clamp-3 mb-6">

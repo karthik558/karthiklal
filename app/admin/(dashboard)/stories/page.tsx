@@ -40,6 +40,7 @@ export interface Story {
   id: string
   title: string
   englishTitle?: string
+  subtitle?: string
   excerpt: string
   coverImage: string
   author: string
@@ -140,6 +141,7 @@ export default function AdminStoriesPage() {
       id: `story-${Date.now()}`,
       title: "",
       englishTitle: "",
+      subtitle: "",
       excerpt: "",
       coverImage: "/stories/images/before-twelve-o-clock.webp",
       author: "കാർത്തിക് ലാൽ",
@@ -454,6 +456,18 @@ export default function AdminStoriesPage() {
                   onChange={(e) => setEditingStory({ ...editingStory, englishTitle: e.target.value })}
                   placeholder="e.g. Before Twelve O'Clock"
                   className="w-full bg-background border-2 border-border p-3 text-sm text-foreground uppercase focus:outline-none focus:border-foreground"
+                />
+              </div>
+
+              {/* Subtitle / Tagline */}
+              <div className="space-y-2">
+                <label className="font-bold text-muted-foreground">SUBTITLE / TAGLINE (ഉപശീർഷകം)</label>
+                <input
+                  type="text"
+                  value={editingStory.subtitle || ""}
+                  onChange={(e) => setEditingStory({ ...editingStory, subtitle: e.target.value })}
+                  placeholder="e.g. ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."
+                  className="w-full bg-background border-2 border-border p-3 text-sm text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
 
