@@ -1044,23 +1044,28 @@ body {
   ) 4;
 }
 
-/* 14. Circular Postal Cancellation Stamp */
+/* 14. Postal Cancellation Stamp */
 .paper-postal-stamp {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  border: 1.5px solid hsla(var(--primary) / 0.85);
-  border-radius: 9999px;
-  color: hsl(var(--primary));
+  gap: 0.35rem;
   font-family: var(--font-mono, monospace);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  transform: rotate(-3deg);
-  background-color: hsla(var(--primary) / 0.05);
-  box-shadow: 0 0 0 2px hsla(var(--primary) / 0.15);
+  letter-spacing: 0.18em;
+  padding: 0.25rem 0.65rem;
+  border: 1.5px dashed hsl(var(--primary));
+  color: hsl(var(--primary));
+  background-color: hsla(var(--primary) / 0.07);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  user-select: none;
+}
+
+.paper-postal-stamp:hover {
+  transform: rotate(0deg) scale(1.02);
+  background-color: hsla(var(--primary) / 0.14);
 }
 
 /* 15. Deckle Torn Edge Border Divider */

@@ -220,7 +220,7 @@ export default function ContactSection() {
           <div className="paper-sheet paper-folded-corner paper-airmail lg:col-span-7 bg-card p-8 md:p-10">
             <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
               <span className="paper-tag">TRANSMISSION MEMO</span>
-              <span className="paper-postal-stamp">REGISTERED DISPATCH // IST</span>
+              <span className="paper-stamp">REGISTERED DISPATCH // IST</span>
             </div>
 
               <form onSubmit={handleSubmit} onReset={() => setSelectedSubject("")} className="space-y-6 font-mono text-xs">
