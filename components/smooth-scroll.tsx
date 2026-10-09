@@ -3,8 +3,6 @@
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import Lenis from "lenis"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 declare global {
   interface Window {
@@ -20,29 +18,24 @@ export default function SmoothScroll() {
     if (typeof window === "undefined") return
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
     if (prefersReducedMotion) {
       window.lenis = null
       return
     }
 
-    gsap.registerPlugin(ScrollTrigger)
-
+    // High-performance, snappy Lenis configuration
+    // Completely free of GSAP overhead and double-smoothing lag; preserves native mobile touch
     const lenis = new Lenis({
-      duration: 0.9,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
+      duration: 0.6, // Fast, snappy response (eliminates the sluggish 0.9s delay)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Snappy exponential ease-out
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.4,
-      infinite: false,
+      wheelMultiplier: 1.0, // Natural 1:1 speed (removes the artificial slowdown)
+      touchMultiplier: 1.0,
+      syncTouch: false, // Never hijack native 120Hz touch scrolling on mobile
+      autoRaf: false,
     })
-
-    const onScroll = () => {
-      ScrollTrigger.update()
-    }
-    lenis.on("scroll", onScroll)
 
     let frame = 0
     let isPaused = false
@@ -55,11 +48,7 @@ export default function SmoothScroll() {
     }
 
     const handleVisibility = () => {
-      if (document.hidden) {
-        isPaused = true
-      } else {
-        isPaused = false
-      }
+      isPaused = document.hidden
     }
 
     document.addEventListener("visibilitychange", handleVisibility)
@@ -71,7 +60,6 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(frame)
       document.removeEventListener("visibilitychange", handleVisibility)
-      lenis.off("scroll", onScroll)
       lenis.destroy()
       lenisRef.current = null
       window.lenis = null

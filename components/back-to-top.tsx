@@ -14,7 +14,7 @@ export default function BackToTop() {
       setIsVisible(window.scrollY > Math.max(window.innerHeight * 2, 1200))
     }
 
-    window.addEventListener("scroll", toggleVisibility)
+    window.addEventListener("scroll", toggleVisibility, { passive: true })
     const initialCheck = requestAnimationFrame(toggleVisibility)
 
     return () => {
