@@ -52,7 +52,11 @@ export default function PrinciplesSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">02 // OPERATING PRINCIPLES</div>
+            <div className="mb-3">
+              <span className="paper-stamp">
+                02 // OPERATING PRINCIPLES
+              </span>
+            </div>
             <h2 className="section-title">HOW I BUILD</h2>
           </div>
           <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground md:text-base">
@@ -60,7 +64,7 @@ export default function PrinciplesSection() {
           </p>
         </div>
 
-        <div className="grid border-2 border-foreground lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)]">
+        <div className="paper-sheet grid border-2 border-foreground lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)]">
           <div className="border-b-2 border-foreground bg-card lg:border-b-0 lg:border-r-2">
             {principles.map((principle, index) => {
               const Icon = principle.icon

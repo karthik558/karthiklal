@@ -122,7 +122,11 @@ export default function CertificationsSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">07 // CREDENTIAL TIMELINE</div>
+            <div className="mb-3">
+              <span className="paper-stamp">
+                07 // CREDENTIAL REGISTRY
+              </span>
+            </div>
             <h2 className="section-title">CERTIFICATIONS</h2>
           </div>
           <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
@@ -139,7 +143,7 @@ export default function CertificationsSection() {
               aria-pressed={filter === option.value}
               className={`border px-4 py-2 font-mono text-[10px] font-black uppercase tracking-widest transition-colors ${
                 filter === option.value
-                  ? "border-foreground bg-foreground text-background"
+                  ? "border-foreground bg-foreground text-background shadow-sm"
                   : "border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground"
               }`}
             >
@@ -148,7 +152,7 @@ export default function CertificationsSection() {
           ))}
         </div>
 
-        <div className="border-2 border-foreground bg-card">
+        <div className="paper-sheet border-2 border-foreground bg-card">
           <div className="border-b-2 border-foreground p-5 sm:p-7">
             <div className="mb-5 flex items-center justify-between gap-4">
               <div>

@@ -34,11 +34,16 @@ export default function Footer() {
           {/* Brand Name */}
           <div className="md:col-span-5 space-y-3">
             <div>
+              <div className="mb-3">
+                <span className="paper-stamp">
+                  ARCHIVAL IMPRINT // 2019–2026
+                </span>
+              </div>
               <div className="font-display text-3xl font-black uppercase tracking-tighter text-foreground leading-none">
                 KARTHIK LAL
               </div>
               <div className="text-muted-foreground uppercase tracking-widest text-[10px] mt-1">
-                IT MANAGER & CYBERSECURITY SPECIALIST
+                IT MANAGER &amp; CYBERSECURITY SPECIALIST
               </div>
             </div>
           </div>

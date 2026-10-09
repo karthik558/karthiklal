@@ -43,50 +43,56 @@ input, textarea, [contenteditable="true"] {
 
 @layer base {
   :root {
-    --background: 35 24% 90%;
-    --foreground: 20 12% 14%;
-    --card: 35 20% 93%;
-    --card-foreground: 20 12% 14%;
-    --popover: 35 20% 95%;
-    --popover-foreground: 20 12% 14%;
-    --primary: 12 38% 52%;
-    --primary-foreground: 35 24% 96%;
-    --secondary: 35 16% 84%;
-    --secondary-foreground: 20 12% 14%;
-    --muted: 35 15% 82%;
-    --muted-foreground: 25 8% 42%;
-    --accent: 12 38% 52%;
-    --accent-foreground: 35 24% 96%;
-    --destructive: 0 84% 60%;
+    --background: 38 28% 91%;
+    --foreground: 24 16% 12%;
+    --card: 38 32% 95%;
+    --card-foreground: 24 16% 12%;
+    --popover: 38 32% 96%;
+    --popover-foreground: 24 16% 12%;
+    --primary: 12 58% 46%;
+    --primary-foreground: 38 32% 96%;
+    --secondary: 36 20% 86%;
+    --secondary-foreground: 24 16% 12%;
+    --muted: 36 18% 84%;
+    --muted-foreground: 28 10% 40%;
+    --accent: 12 58% 46%;
+    --accent-foreground: 38 32% 96%;
+    --destructive: 0 76% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 35 14% 76%;
-    --input: 35 14% 76%;
-    --ring: 12 38% 52%;
-    --primary-rgb: 168 110 97;
+    --border: 35 16% 76%;
+    --input: 35 16% 76%;
+    --ring: 12 58% 46%;
+    --primary-rgb: 186 61 44;
     --radius: 0.5rem;
+    --paper-grain-opacity: 0.055;
+    --paper-shadow: 1px 1px 0 rgba(40, 28, 18, 0.05), 0 3px 12px -2px rgba(40, 28, 18, 0.08), 0 10px 24px -6px rgba(40, 28, 18, 0.06);
+    --paper-shadow-hover: 1px 1px 0 rgba(40, 28, 18, 0.08), 0 6px 16px -2px rgba(40, 28, 18, 0.12), 0 16px 32px -6px rgba(40, 28, 18, 0.1);
   }
 
   .dark {
-    --background: 0 0% 8%;
-    --foreground: 35 20% 92%;
-    --card: 0 0% 11%;
-    --card-foreground: 35 20% 92%;
-    --popover: 0 0% 11%;
-    --popover-foreground: 35 20% 92%;
-    --primary: 12 38% 56%;
-    --primary-foreground: 0 0% 8%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 35 20% 92%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 35 8% 65%;
-    --accent: 12 38% 56%;
-    --accent-foreground: 0 0% 8%;
+    --background: 28 10% 8.5%;
+    --foreground: 38 24% 92%;
+    --card: 28 8% 12%;
+    --card-foreground: 38 24% 92%;
+    --popover: 28 8% 12%;
+    --popover-foreground: 38 24% 92%;
+    --primary: 12 52% 58%;
+    --primary-foreground: 28 10% 8.5%;
+    --secondary: 28 8% 16%;
+    --secondary-foreground: 38 24% 92%;
+    --muted: 28 8% 17%;
+    --muted-foreground: 35 10% 64%;
+    --accent: 12 52% 58%;
+    --accent-foreground: 28 10% 8.5%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 12 38% 56%;
-    --primary-rgb: 184 125 112;
+    --border: 28 8% 22%;
+    --input: 28 8% 22%;
+    --ring: 12 52% 58%;
+    --primary-rgb: 211 101 85;
+    --paper-grain-opacity: 0.04;
+    --paper-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3), 0 4px 14px -2px rgba(0, 0, 0, 0.45), 0 12px 28px -6px rgba(0, 0, 0, 0.4);
+    --paper-shadow-hover: 1px 1px 0 rgba(0, 0, 0, 0.4), 0 8px 20px -2px rgba(0, 0, 0, 0.55), 0 20px 36px -6px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -697,5 +703,248 @@ body {
 
 .editorial-border-dark {
   border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   Tactile Editorial Paper Design System
+   ========================================================================== */
+
+/* 1. Procedural Vector Paper Grain Canvas (Zero Network Transfer) */
+.paper-noise-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99990;
+  opacity: var(--paper-grain-opacity, 0.055);
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.dark .paper-noise-canvas {
+  mix-blend-mode: overlay;
+}
+
+/* 2. Tactile Paper Elevation */
+.paper-sheet {
+  background-color: hsl(var(--card));
+  box-shadow: var(--paper-shadow);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.paper-sheet:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--paper-shadow-hover);
+}
+
+/* 3. Stacked Manuscript Folio */
+.paper-sheet-stacked {
+  position: relative;
+  background-color: hsl(var(--card));
+  box-shadow: var(--paper-shadow);
+}
+
+.paper-sheet-stacked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  transform: translate(5px, 5px) rotate(0.6deg);
+  z-index: -1;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.paper-sheet-stacked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  transform: translate(-4px, 7px) rotate(-0.5deg);
+  z-index: -2;
+  pointer-events: none;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.paper-sheet-stacked:hover::before {
+  transform: translate(7px, 7px) rotate(1deg);
+}
+
+.paper-sheet-stacked:hover::after {
+  transform: translate(-6px, 10px) rotate(-0.9deg);
+}
+
+/* 4. Vermilion Ink Stamp Kickers */
+.paper-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.25rem 0.65rem;
+  border: 1.5px dashed hsl(var(--primary));
+  color: hsl(var(--primary));
+  background-color: hsla(var(--primary) / 0.07);
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  user-select: none;
+}
+
+.paper-stamp:hover {
+  transform: rotate(0deg) scale(1.02);
+  background-color: hsla(var(--primary) / 0.14);
+}
+
+.paper-stamp-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 0.25rem 0.6rem;
+  border: 1.5px dashed hsl(var(--foreground));
+  color: hsl(var(--foreground));
+  background-color: hsla(var(--foreground) / 0.05);
+  transform: rotate(1deg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.paper-stamp-dark:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* 5. Translucent Drafting / Washi Tape Accents */
+.paper-tape {
+  position: relative;
+}
+
+.paper-tape::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 72px;
+  height: 22px;
+  background: rgba(228, 220, 204, 0.72);
+  border-left: 2px dashed rgba(175, 165, 145, 0.65);
+  border-right: 2px dashed rgba(175, 165, 145, 0.65);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(1.5px);
+  z-index: 25;
+  pointer-events: none;
+}
+
+.dark .paper-tape::before {
+  background: rgba(55, 50, 45, 0.8);
+  border-color: rgba(95, 88, 80, 0.65);
+}
+
+.paper-tape-corner {
+  position: relative;
+}
+
+.paper-tape-corner::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 48px;
+  height: 18px;
+  transform: rotate(35deg);
+  background: rgba(228, 220, 204, 0.72);
+  border-left: 1.5px dashed rgba(175, 165, 145, 0.65);
+  border-right: 1.5px dashed rgba(175, 165, 145, 0.65);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  z-index: 25;
+  pointer-events: none;
+}
+
+.dark .paper-tape-corner::before {
+  background: rgba(55, 50, 45, 0.8);
+  border-color: rgba(95, 88, 80, 0.65);
+}
+
+/* 6. Perforated Coupon / Ticket Tear-Off Line */
+.paper-perforation {
+  position: relative;
+  border-top: 2px dashed hsl(var(--border));
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.paper-perforation::before,
+.paper-perforation::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+}
+
+.paper-perforation::before {
+  left: -7px;
+}
+
+.paper-perforation::after {
+  right: -7px;
+}
+
+/* 7. Ruled Ledger Paper Guidelines */
+.paper-ruled-bg {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    hsla(var(--border) / 0.45) 28px
+  );
+  line-height: 28px;
+}
+
+/* 8. Letterpress Pressed Button Feel */
+.paper-button {
+  box-shadow: 0 2px 0 hsl(var(--foreground)), 0 4px 8px -2px rgba(35, 25, 15, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.paper-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 hsl(var(--foreground)), 0 6px 12px -2px rgba(35, 25, 15, 0.16);
+}
+
+.paper-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 hsl(var(--foreground));
+}
+
+/* 9. Archival Tag Badge */
+.paper-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 

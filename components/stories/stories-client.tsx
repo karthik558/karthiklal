@@ -63,8 +63,10 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
         
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            LITERARY ARCHIVE // STORIES
+          <div className="mb-3">
+            <span className="paper-stamp">
+              LITERARY ARCHIVE // STORIES &amp; FOLIOS
+            </span>
           </div>
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             STORIES &amp; NARRATIVES
@@ -94,7 +96,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-2 border transition-all duration-200 ${
                   selectedCategory === cat
-                    ? "border-foreground bg-foreground text-background font-bold"
+                    ? "border-foreground bg-foreground text-background font-bold shadow-sm"
                     : "border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground"
                 }`}
               >
@@ -114,7 +116,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="group border-2 border-foreground bg-card transition-all duration-300 hover:shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch overflow-hidden"
+                className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
               >
                 <Link 
                   href={`/stories/${featuredStory.id}`}
@@ -128,8 +130,8 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
-                    FEATURED STORY
+                  <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground shadow-sm">
+                    FEATURED FOLIO
                   </div>
                 </Link>
 
@@ -152,7 +154,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     )}
 
                     {/* Pull Quote */}
-                    <blockquote className="border-l-2 border-foreground pl-4 py-1.5 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/30">
+                    <blockquote className="paper-ruled-bg border-l-4 border-primary pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
                       &ldquo;{featuredStory.subtitle || featuredStory.pages?.[0]?.highlightQuote || "ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."}&rdquo;
                     </blockquote>
 
@@ -169,7 +171,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     {/* Direct Link Button */}
                     <Link
                       href={`/stories/${featuredStory.id}`}
-                      className="inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
+                      className="paper-button inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                     >
                       READ STORY <ArrowUpRight className="w-4 h-4" />
                     </Link>
@@ -187,7 +189,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.04 }}
-                    className="group border-2 border-border bg-card hover:border-foreground transition-all duration-300 hover:shadow-2xl flex flex-col justify-between"
+                    className="paper-sheet group border-2 border-border hover:border-foreground transition-all duration-300 flex flex-col justify-between"
                   >
                     <Link 
                       href={`/stories/${story.id}`}
@@ -200,7 +202,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                         sizes="(min-width: 1024px) 33vw, 100vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider">
+                      <div className="absolute top-3 left-3 bg-foreground text-background font-mono text-[10px] font-bold px-2.5 py-0.5 uppercase tracking-wider shadow-sm">
                         {story.category}
                       </div>
                     </Link>
@@ -232,7 +234,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                       <div className="pt-4 border-t border-border/60 flex items-center justify-between font-mono text-xs font-bold uppercase">
                         <Link
                           href={`/stories/${story.id}`}
-                          className="inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-4 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
+                          className="paper-button inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-4 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                         >
                           READ STORY <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>

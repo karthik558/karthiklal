@@ -48,8 +48,10 @@ export default function PortfolioSection() {
         {/* Header Row */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              03 // SELECTED WORK
+            <div className="mb-3">
+              <span className="paper-stamp">
+                03 // SELECTED WORK &amp; DOSSIERS
+              </span>
             </div>
             <h2 className="section-title">
               FEATURED PROJECTS
@@ -68,7 +70,7 @@ export default function PortfolioSection() {
                 aria-pressed={filter === cat}
                 className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
                   filter === cat
-                    ? "border-foreground bg-foreground text-background font-bold shadow-md"
+                    ? "border-foreground bg-foreground text-background font-bold shadow-sm"
                     : "border-border bg-card text-muted-foreground hover:border-foreground/50 hover:text-foreground"
                 }`}
               >
@@ -91,7 +93,7 @@ export default function PortfolioSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 hover:shadow-2xl overflow-hidden"
+                className="paper-sheet group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
                 <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">

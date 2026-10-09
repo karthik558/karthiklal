@@ -60,8 +60,15 @@ export default function HeroSectionStatic() {
       <div className="container relative z-10 mx-auto max-w-6xl px-4 md:px-6 my-auto">
         <motion.div style={{ y: contentY, opacity: heroOpacity }} className="flex flex-col items-center text-center">
           
+          {/* Paper Folio Volume Stamp */}
+          <div className="mb-3 flex items-center justify-center">
+            <span className="paper-stamp">
+              EST. 2019 // ARCHIVAL FOLIO VOL. 07 // KERALA, IN
+            </span>
+          </div>
+
           {/* Main Title - KARTHIK LAL (Single Line, KARTHIK Solid, LAL Stroke) */}
-          <div className="py-4 text-center w-full select-none overflow-hidden">
+          <div className="py-2 text-center w-full select-none overflow-hidden">
             <h1 className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[clamp(2.25rem,8.5vw,11.5rem)] font-black uppercase tracking-tighter leading-none">
               {/* KARTHIK - Solid Bold */}
               <span className="flex text-foreground">
@@ -109,9 +116,9 @@ export default function HeroSectionStatic() {
                 Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
               </p>
 
-              <div className="mt-5 flex flex-wrap justify-center gap-2 font-mono text-[10px] sm:mt-6 sm:text-xs">
+              <div className="mt-5 flex flex-wrap justify-center gap-2.5 font-mono text-[10px] sm:mt-6 sm:text-xs">
                 {["IT MANAGER", "CYBERSECURITY SPECIALIST", "SECURE SYSTEMS"].map((badge, idx) => (
-                  <span key={idx} className="border border-border bg-card px-3 py-1 sm:px-3.5 sm:py-1.5 text-foreground font-medium uppercase tracking-wider">
+                  <span key={idx} className="paper-sheet border-2 border-border/80 px-3.5 py-1.5 text-foreground font-semibold uppercase tracking-wider">
                     <TextScramble text={badge} trigger="both" speed={30} />
                   </span>
                 ))}

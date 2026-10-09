@@ -43,8 +43,10 @@ export default function StoriesSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              10 // LITERARY WORKS
+            <div className="mb-3">
+              <span className="paper-stamp">
+                10 // LITERARY WORKS
+              </span>
             </div>
             <h2 className="section-title">
               FEATURED STORIES
@@ -71,7 +73,7 @@ export default function StoriesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="group border-2 border-foreground bg-card transition-all duration-300 hover:shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch overflow-hidden"
+          className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
         >
           <Link 
             href={`/stories/${featuredStory.id}`}
@@ -85,15 +87,16 @@ export default function StoriesSection() {
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground">
-              [01]
+            <div className="absolute top-4 left-4 bg-foreground text-background font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest border border-foreground shadow-sm">
+              [FOLIO 01]
             </div>
           </Link>
 
           <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between">
             <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
-                {featuredStory.category} {"//"} {formatDate(featuredStory.date)}
+              <div className="flex items-center gap-3 mb-3">
+                <span className="paper-tag">{featuredStory.category}</span>
+                <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{formatDate(featuredStory.date)}</span>
               </div>
 
               <Link href={`/stories/${featuredStory.id}`} className="block">
@@ -109,7 +112,7 @@ export default function StoriesSection() {
               )}
               
               {/* Pull Quote */}
-              <blockquote className="border-l-2 border-foreground pl-4 py-1.5 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/30">
+              <blockquote className="paper-ruled-bg border-l-4 border-primary pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
                 &ldquo;{featuredStory.subtitle || featuredStory.pages?.[0]?.highlightQuote || "ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."}&rdquo;
               </blockquote>
 
@@ -126,7 +129,7 @@ export default function StoriesSection() {
               {/* Direct link to story page */}
               <Link
                 href={`/stories/${featuredStory.id}`}
-                className="inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
+                className="paper-button inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
               >
                 READ STORY <ArrowUpRight className="w-4 h-4" />
               </Link>

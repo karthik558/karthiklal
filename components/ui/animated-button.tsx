@@ -28,7 +28,7 @@ export const AnimatedButton = ({
 }: AnimatedButtonProps) => {
   const isPrimary = variant === "primary";
 
-  const baseStyles = "group inline-flex items-center justify-center gap-2 rounded-none px-6 py-3.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 select-none cursor-pointer";
+  const baseStyles = "group inline-flex items-center justify-center gap-2 rounded-none px-6 py-3.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider select-none cursor-pointer paper-button";
   
   // Primary: Solid fill -> Inverts cleanly on hover
   const primaryStyles = "border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground";

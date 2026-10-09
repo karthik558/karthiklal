@@ -109,7 +109,7 @@ export default function NavHeader() {
   return (
     <div className="flex w-full items-center justify-between font-mono text-xs uppercase gap-6 md:gap-8 lg:gap-12">
       {/* Desktop Navigation Links - Left Aligned */}
-      <ul className="hidden lg:flex items-center gap-1.5 border-2 border-border bg-card p-1.5">
+      <ul className="paper-sheet hidden lg:flex items-center gap-1.5 border-2 border-border p-1.5">
         {navItems.map((item) => {
           const active = isItemActive(item)
           return (
@@ -119,7 +119,7 @@ export default function NavHeader() {
                 className={cn(
                   "px-3.5 py-2 transition-all font-bold tracking-wider block",
                   active
-                    ? "bg-foreground text-background"
+                    ? "bg-foreground text-background shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-background"
                 )}
               >
@@ -141,7 +141,7 @@ export default function NavHeader() {
           ref={menuButtonRef}
           type="button"
           onClick={() => setIsOpen(true)}
-          className="md:hidden flex items-center justify-center gap-1 px-3.5 h-9 border-2 border-foreground bg-foreground text-background font-bold"
+          className="paper-button md:hidden flex items-center justify-center gap-1 px-3.5 h-9 border-2 border-foreground bg-foreground text-background font-bold"
           aria-label="Open menu"
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"

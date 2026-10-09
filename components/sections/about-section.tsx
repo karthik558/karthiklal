@@ -42,8 +42,10 @@ export default function AboutSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              01 // PHILOSOPHY & CAPABILITIES
+            <div className="mb-3">
+              <span className="paper-stamp">
+                01 // PHILOSOPHY &amp; CAPABILITIES
+              </span>
             </div>
             <h2 className="section-title">
               ABOUT ME
@@ -58,7 +60,7 @@ export default function AboutSection() {
         {/* Top Editorial Row */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
           {/* Portrait Image Block */}
-          <div className="lg:col-span-4 relative group overflow-hidden border-2 border-foreground bg-card min-h-[380px] lg:min-h-full">
+          <div className="paper-sheet paper-tape lg:col-span-4 relative group overflow-hidden border-2 border-foreground min-h-[380px] lg:min-h-full">
             <Image
               src="/user/about.jpg"
               alt="Karthik Lal"
@@ -69,7 +71,7 @@ export default function AboutSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
             <div className="absolute bottom-0 left-0 p-6 z-10">
-              <span className="inline-block bg-foreground text-background font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest mb-2">
+              <span className="inline-block bg-foreground text-background font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest mb-2 shadow-sm">
                 IT MANAGER // CEH
               </span>
               <h3 className="font-display text-2xl font-black uppercase text-foreground">KARTHIK LAL</h3>
@@ -80,10 +82,11 @@ export default function AboutSection() {
           </div>
 
           {/* Profile Statement */}
-          <div className="lg:col-span-8 border border-border/80 bg-card/70 p-6 md:p-10 flex flex-col justify-between">
+          <div className="paper-sheet lg:col-span-8 border-2 border-border/90 p-6 md:p-10 flex flex-col justify-between">
             <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">
-                RESEARCH // ENGINEERING // DESIGN
+              <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
+                <span className="paper-tag">ARCHIVAL DOSSIER // REF: KL-2026</span>
+                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">RESEARCH // SEC // DESIGN</span>
               </div>
               <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6">
                 Securing digital landscapes while crafting intuitive, visually compelling experiences.
@@ -108,7 +111,7 @@ export default function AboutSection() {
           {stats.map((stat) => (
             <article
               key={stat.label}
-              className="group flex flex-col justify-center border border-border/80 bg-card/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/60 hover:shadow-lg motion-reduce:transform-none md:p-6"
+              className="paper-sheet group flex flex-col justify-center border-2 border-border/80 p-5 md:p-6 transition-all duration-300"
             >
               <div className="font-display text-4xl font-black text-foreground md:text-5xl">
                 {stat.value}

@@ -22,8 +22,10 @@ export default function SkillsSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              05 // TECH MATRIX & TOOLING
+            <div className="mb-3">
+              <span className="paper-stamp">
+                05 // TECH MATRIX &amp; TOOLING
+              </span>
             </div>
             <h2 className="section-title">
               SKILLS & EXPERTISE
@@ -44,7 +46,7 @@ export default function SkillsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="group relative flex flex-col justify-between border border-border/80 bg-card/70 p-6 md:p-8 transition-all duration-300 hover:border-foreground/60 hover:shadow-lg overflow-hidden"
+                className="paper-sheet group relative flex flex-col justify-between border-2 border-border/80 bg-card p-6 md:p-8 transition-all duration-300 overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
                 <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">

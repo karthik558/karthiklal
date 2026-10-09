@@ -58,8 +58,10 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              04 // SERVICES & OFFERINGS
+            <div className="mb-3">
+              <span className="paper-stamp">
+                04 // SERVICES &amp; CAPABILITIES
+              </span>
             </div>
             <h2 className="section-title">
               WHAT I DELIVER
@@ -92,8 +94,8 @@ export default function ServicesSection() {
                   y: { duration: 0.4, delay: index * 0.05 },
                   layout: { duration: prefersReducedMotion ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] },
                 }}
-                className={`group relative border transition-all duration-300 overflow-hidden ${
-                  isExpanded ? "border-foreground/70 bg-card shadow-lg" : "border-border/80 bg-card/50 hover:border-foreground/50"
+                className={`paper-sheet group relative border-2 transition-all duration-300 overflow-hidden ${
+                  isExpanded ? "border-foreground bg-card" : "border-border/80 bg-card hover:border-foreground/50"
                 }`}
               >
                 {/* Background Giant Stroke Number Watermark */}

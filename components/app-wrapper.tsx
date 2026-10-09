@@ -89,6 +89,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
 
   return (
     <>
+      <div className="paper-noise-canvas" aria-hidden="true" />
       {!isAdmin && (
         <a
           href="#main-content"

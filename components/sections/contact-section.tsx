@@ -78,8 +78,10 @@ export default function ContactSection() {
         
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            COMMUNICATION CHANNEL // 09
+          <div className="mb-3">
+            <span className="paper-stamp">
+              COMMUNICATION DISPATCH // 09
+            </span>
           </div>
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             GET IN TOUCH
@@ -93,10 +95,11 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
           {/* Left Info Column */}
-          <div className="lg:col-span-5 border-2 border-foreground bg-card p-8 space-y-8 flex flex-col justify-between font-mono text-xs">
+          <div className="paper-sheet lg:col-span-5 border-2 border-foreground bg-card p-8 space-y-8 flex flex-col justify-between font-mono text-xs">
             <div>
-              <div className="font-bold uppercase tracking-widest text-muted-foreground mb-6">
-                DIRECT CHANNELS
+              <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
+                <span className="paper-tag">DIRECT CHANNELS</span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">DISPATCH</span>
               </div>
 
               <div className="space-y-4">
@@ -140,10 +143,11 @@ export default function ContactSection() {
           </div>
 
           {/* Right Form Column */}
-          <div className="lg:col-span-7 border-2 border-border bg-card p-8 md:p-10">
-              <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-6">
-                SEND MESSAGE FORM
-              </div>
+          <div className="paper-sheet lg:col-span-7 border-2 border-foreground bg-card p-8 md:p-10">
+            <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
+              <span className="paper-tag">TRANSMISSION MEMO</span>
+              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">ENCRYPTED // HTTPS</span>
+            </div>
 
               <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
               <div className="hidden" aria-hidden="true">
