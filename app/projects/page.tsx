@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -20,14 +20,46 @@ interface Project {
   featured: boolean
 }
 
+const PROJECT_FILTERS_STORAGE_KEY = "karthiklal_project_filters"
+
 export default function ProjectsPage() {
   const [filter, setFilter] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
+  const [filtersReady, setFiltersReady] = useState(false)
 
   const categories = useMemo(
     () => ["All", ...Array.from(new Set(projectsData.projects.map((project) => project.category)))],
     []
   )
+
+  useEffect(() => {
+    try {
+      const savedFilters = sessionStorage.getItem(PROJECT_FILTERS_STORAGE_KEY)
+      if (savedFilters) {
+        const parsed = JSON.parse(savedFilters)
+        if (parsed.filter && categories.includes(parsed.filter)) {
+          setFilter(parsed.filter)
+        }
+        if (typeof parsed.searchQuery === "string") {
+          setSearchQuery(parsed.searchQuery)
+        }
+      }
+    } catch {}
+    setFiltersReady(true)
+  }, [categories])
+
+  useEffect(() => {
+    if (!filtersReady) return
+    sessionStorage.setItem(
+      PROJECT_FILTERS_STORAGE_KEY,
+      JSON.stringify({ filter, searchQuery })
+    )
+  }, [filter, filtersReady, searchQuery])
+
+  const resetFilters = () => {
+    setSearchQuery("")
+    setFilter("All")
+  }
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim()
@@ -95,8 +127,10 @@ export default function ProjectsPage() {
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setFilter(cat)}
-                className={`px-3.5 py-2 border transition-all duration-200 ${
+                aria-pressed={filter === cat}
+                className={`paper-button px-3.5 py-2 border transition-all duration-200 cursor-pointer ${
                   filter === cat
                     ? "border-foreground bg-foreground text-background font-bold shadow-sm"
                     : "border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground"
@@ -106,6 +140,23 @@ export default function ProjectsPage() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Results Counter & Reset */}
+        <div className="-mt-6 mb-8 flex items-center justify-between gap-4 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          <p aria-live="polite">
+            <span className="font-bold text-foreground">{filteredProjects.length}</span>{" "}
+            {filteredProjects.length === 1 ? "project" : "projects"} found
+          </p>
+          {(filter !== "All" || searchQuery) && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="paper-button font-bold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground cursor-pointer"
+            >
+              Clear filters
+            </button>
+          )}
         </div>
 
         {/* Content Section */}
@@ -142,7 +193,7 @@ export default function ProjectsPage() {
                 <div className="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="paper-tag">{featuredProject.category}</span>
+                      <span className="paper-tag border border-border">{featuredProject.category}</span>
                       <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">ENGINEERING // SECURITY</span>
                     </div>
 
