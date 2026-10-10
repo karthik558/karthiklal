@@ -91,7 +91,7 @@ export default function ServicesSection() {
                   layout: { duration: prefersReducedMotion ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] },
                 }}
                 className={`paper-sheet group relative border-2 transition-all duration-300 overflow-hidden ${
-                  isExpanded ? "border-foreground bg-card" : "border-border/80 bg-card hover:border-foreground/50"
+                  isExpanded ? "border-foreground/70 bg-card shadow-lg" : "border-border/80 bg-card hover:border-foreground/60"
                 }`}
               >
                 {/* Background Giant Stroke Number Watermark */}
@@ -171,7 +171,7 @@ export default function ServicesSection() {
                               {service.description}
                             </p>
 
-                            <div className="border-l-2 border-foreground bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
+                            <div className="border-l-2 border-border bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
                               &ldquo;{details.highlight}&rdquo;
                             </div>
                           </div>

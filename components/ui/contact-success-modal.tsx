@@ -50,7 +50,7 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-md border-2 border-foreground bg-card p-8 md:p-10 shadow-2xl overflow-hidden"
+            className="paper-sheet relative w-full max-w-md border-2 border-border/80 bg-card p-8 md:p-10 shadow-2xl overflow-hidden"
           >
             {/* Close Button */}
             <button

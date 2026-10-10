@@ -70,11 +70,11 @@ export default function StoriesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
+          className="paper-sheet-stacked group border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 items-stretch"
         >
           <Link 
             href={`/stories/${featuredStory.id}`}
-            className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground cursor-pointer min-h-[300px] lg:min-h-[420px] block"
+            className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-border/80 cursor-pointer min-h-[300px] lg:min-h-[420px] block"
           >
             <Image
               src={featuredStory.coverImage}
@@ -109,7 +109,7 @@ export default function StoriesSection() {
               )}
               
               {/* Pull Quote */}
-              <blockquote className="paper-ruled-bg border-l-4 border-primary pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
+              <blockquote className="paper-ruled-bg border-l-4 border-foreground pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
                 &ldquo;{featuredStory.subtitle || featuredStory.pages?.[0]?.highlightQuote || "ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."}&rdquo;
               </blockquote>
 
@@ -144,11 +144,24 @@ export default function StoriesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="group border-2 border-border bg-card hover:border-foreground transition-all duration-300 hover:shadow-2xl flex flex-col justify-between"
+                className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden"
               >
+                {/* Background Giant Stroke Number Watermark */}
+                <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                  <span
+                    className="font-display text-7xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                    style={{
+                      WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {String(index + 2).padStart(2, "0")}
+                  </span>
+                </div>
+
                 <Link 
                   href={`/stories/${story.id}`}
-                  className="relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border cursor-pointer block"
+                  className="relative aspect-[16/10] overflow-hidden bg-muted border-b-2 border-border/80 cursor-pointer block z-10"
                 >
                   <Image
                     src={story.coverImage}

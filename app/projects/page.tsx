@@ -166,13 +166,13 @@ export default function ProjectsPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
+                className="paper-sheet-stacked group border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 items-stretch"
               >
                 <ProjectTransitionLink
                   href={`/projects/${featuredProject.id}`}
                   projectId={featuredProject.id}
                   ariaLabel={`View ${featuredProject.title} case study`}
-                  className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground cursor-pointer min-h-[300px] lg:min-h-[420px] block"
+                  className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-border/80 cursor-pointer min-h-[300px] lg:min-h-[420px] block"
                 >
                   <Image
                     src={featuredProject.image}
@@ -346,7 +346,7 @@ export default function ProjectsPage() {
         )}
 
         {/* Bottom Section: About Karthik Lal's Engineering Archive */}
-        <div className="paper-sheet paper-index-card mt-16 border-2 border-foreground p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
+        <div className="paper-sheet paper-index-card mt-16 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
           <div className="space-y-1.5 max-w-2xl">
             <div className="font-bold text-foreground text-sm tracking-wider">
               ABOUT KARTHIK LAL&apos;S ENGINEERING ARCHIVE

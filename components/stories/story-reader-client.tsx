@@ -30,7 +30,7 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
             <ArrowLeft className="w-4 h-4" /> ALL STORIES
           </Link>
 
-          <article className="border-2 border-foreground bg-card p-6 sm:p-10 md:p-12 space-y-6">
+          <article className="paper-sheet border-2 border-border/80 bg-card p-6 sm:p-10 md:p-12 space-y-6">
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               {story.category} • {story.readTime} • {story.totalPages} PAGES
             </div>
@@ -43,7 +43,7 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
               </p>
             )}
             {story.coverImage && (
-              <div className="relative aspect-[16/9] w-full overflow-hidden border-2 border-foreground my-6">
+              <div className="relative aspect-[16/9] w-full overflow-hidden border-2 border-border/80 my-6">
                 <Image
                   src={story.coverImage}
                   alt={story.title}

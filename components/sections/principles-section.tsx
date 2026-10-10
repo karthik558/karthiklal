@@ -61,8 +61,8 @@ export default function PrinciplesSection() {
           </div>
         </div>
 
-        <div className="paper-sheet grid border-2 border-foreground lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)]">
-          <div className="border-b-2 border-foreground bg-card lg:border-b-0 lg:border-r-2">
+        <div className="paper-sheet grid border-2 border-border/80 lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)] overflow-hidden">
+          <div className="border-b-2 border-border/80 bg-card lg:border-b-0 lg:border-r-2">
             {principles.map((principle, index) => {
               const Icon = principle.icon
               const selected = activeIndex === index
@@ -119,7 +119,7 @@ export default function PrinciplesSection() {
                   </p>
                 </div>
 
-                <div className="mt-12 border-l-2 border-foreground pl-5">
+                <div className="mt-12 border-l-2 border-border pl-5">
                   <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">IN PRACTICE</div>
                   <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground">{active.practice}</p>
                 </div>

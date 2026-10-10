@@ -194,7 +194,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
               </a>
             )}
 
-            <div className="relative border-2 border-foreground bg-card overflow-hidden">
+            <div className="relative border-2 border-border/80 bg-card overflow-hidden">
               <Image
                 src={blog.image}
                 alt={blog.title}
@@ -207,7 +207,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </header>
 
           {/* Abstract / Excerpt */}
-          <div className="border-2 border-foreground bg-card p-6 md:p-8 font-sans text-base md:text-lg leading-relaxed text-foreground font-medium">
+          <div className="border-2 border-border/80 bg-card p-6 md:p-8 font-sans text-base md:text-lg leading-relaxed text-foreground font-medium">
             {blog.excerpt}
           </div>
 

@@ -134,7 +134,7 @@ export default function HeroSectionStatic() {
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="outline"
-                  className="h-12 px-6 sm:h-14 sm:px-8 border-foreground bg-background/80 backdrop-blur-sm"
+                  className="h-12 px-6 sm:h-14 sm:px-8 border-border/80 hover:border-foreground/80 bg-background/80 backdrop-blur-sm"
                 >
                   DOWNLOAD CV <Download className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                 </AnimatedButton>

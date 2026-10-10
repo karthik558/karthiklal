@@ -127,7 +127,7 @@ export default function CertificationsSection() {
         </div>
 
         {/* Paper Controls Sheet */}
-        <div className="paper-sheet border-2 border-foreground bg-card p-5 sm:p-7 mb-8">
+        <div className="paper-sheet border-2 border-border/80 bg-card p-5 sm:p-7 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-border">
             {/* Status Filter Buttons */}
             <div className="flex flex-wrap items-center gap-2">
@@ -226,9 +226,22 @@ export default function CertificationsSection() {
                 return (
                   <article
                     key={item.id}
-                    className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border bg-card p-6 hover:border-foreground transition-all duration-200"
+                    className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card p-6 hover:border-foreground/80 hover:shadow-xl transition-all duration-300 overflow-hidden"
                   >
-                    <div>
+                    {/* Background Giant Stroke Number Watermark */}
+                    <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                      <span
+                        className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                        style={{
+                          WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                          WebkitTextFillColor: "transparent",
+                        }}
+                      >
+                        {String(item.id).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    <div className="relative z-10 flex flex-col justify-between h-full">
                       {/* Top Header: Issuer Tag & Status Badge */}
                       <div className="flex items-center justify-between gap-2 mb-4">
                         <span className="paper-tag font-bold text-[10px] truncate max-w-[180px]">
@@ -340,7 +353,7 @@ export default function CertificationsSection() {
                 setShowAll((current) => !current)
               }}
               variant="outline"
-              className="paper-button h-11 border-2 border-foreground bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer"
+              className="paper-button h-11 border-2 border-border/80 bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:border-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
             >
               {showAll ? "Show fewer credentials" : `Load more (${hiddenCount} more)`}
               {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
@@ -358,7 +371,7 @@ export default function CertificationsSection() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
               transition={{ duration: 0.2 }}
-              className="paper-sheet paper-folded-corner relative w-full max-w-lg overflow-hidden border-2 border-foreground bg-card p-6 shadow-2xl sm:p-8"
+              className="paper-sheet paper-folded-corner relative w-full max-w-lg overflow-hidden border-2 border-border/80 bg-card p-6 shadow-2xl sm:p-8"
               role="dialog"
               aria-modal="true"
             >

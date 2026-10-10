@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="border-2 border-foreground bg-card p-8 sm:p-10 shadow-2xl space-y-6">
+        <div className="paper-sheet border-2 border-border/80 bg-card p-8 sm:p-10 shadow-2xl space-y-6">
           
           {/* Header */}
           <div className="text-center space-y-3 border-b-2 border-border pb-6">

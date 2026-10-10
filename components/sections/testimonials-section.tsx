@@ -137,7 +137,7 @@ export default function TestimonialsSection() {
             className="group relative pt-6 pb-2"
           >
             {/* Stacked physical paper sheets on desk */}
-            <div className="paper-sheet-stacked relative border-2 border-foreground bg-card transition-all duration-300">
+            <div className="paper-sheet-stacked relative border-2 border-border/80 bg-card hover:border-foreground/80 transition-all duration-300">
               
               {/* PushPin pinned at the top center */}
               <PushPin className="absolute -top-2 left-1/2 -translate-x-1/2 z-20" />
@@ -232,9 +232,23 @@ export default function TestimonialsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: idx * 0.04 }}
-                className="paper-sheet group flex flex-col justify-between border-2 border-border bg-card p-6 sm:p-8 hover:border-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="paper-sheet group relative flex flex-col justify-between border-2 border-border/80 bg-card p-6 sm:p-8 hover:border-foreground/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
               >
-                <div>
+                {/* Background Giant Stroke Number Watermark */}
+                <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                  <span
+                    className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                    style={{
+                      WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <div>
                   {/* Top Bar: Stars & Number */}
                   <div className="flex items-center justify-between border-b border-border/80 pb-4 mb-5">
                     <div className="flex items-center gap-1">
@@ -280,7 +294,8 @@ export default function TestimonialsSection() {
                     </a>
                   )}
                 </div>
-              </motion.article>
+              </div>
+            </motion.article>
             ))}
           </div>
         )}

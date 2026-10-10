@@ -17,7 +17,7 @@ export default function ErrorFallback({
   return (
     <div className="relative flex min-h-[82vh] items-center justify-center overflow-hidden bg-background px-4 py-28">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/.28)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/.22)_1px,transparent_1px)] bg-[size:56px_56px]" />
-      <section className="relative w-full max-w-3xl border-2 border-foreground bg-card p-7 shadow-2xl md:p-12">
+      <section className="paper-sheet relative w-full max-w-3xl border-2 border-border/80 bg-card p-7 shadow-2xl md:p-12">
         <div className="mb-8 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-black uppercase tracking-[0.2em]">
           <span>System recovery</span>
           <span className="flex items-center gap-2 text-red-500"><TriangleAlert className="h-4 w-4" /> Exception isolated</span>

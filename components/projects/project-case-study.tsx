@@ -151,11 +151,11 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
       {/* Contained, Proportionate Case Study Specimen View */}
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div
-          className="paper-sheet relative overflow-hidden border-2 border-foreground bg-card shadow-lg"
+          className="paper-sheet relative overflow-hidden border-2 border-border/80 bg-card shadow-lg hover:border-foreground/80 transition-all duration-300"
           style={{ viewTransitionName: `project-${project.id}` }}
         >
           {/* Top Dossier Specimen Meta Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-foreground bg-muted/40 px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-border/80 bg-muted/40 px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider">
             <div className="flex items-center gap-3">
               <span className="font-bold text-foreground">SPECIMEN // {project.category}</span>
               <span className="text-muted-foreground">REF: PRJ-{String(project.id).padStart(3, "0")}</span>
@@ -331,8 +331,8 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
               </div>
             </div>
 
-            <div className="mt-16 border-2 border-foreground">
-              <div className="flex flex-col justify-between gap-4 border-b-2 border-foreground bg-foreground p-5 text-background sm:flex-row sm:items-center sm:p-6">
+            <div className="mt-16 border-2 border-border/80 bg-card overflow-hidden">
+              <div className="flex flex-col justify-between gap-4 border-b-2 border-border/80 bg-foreground p-5 text-background sm:flex-row sm:items-center sm:p-6">
                 <div>
                   <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-background/60">Decision record</div>
                   <h3 className="mt-2 font-display text-3xl font-black uppercase">Director&apos;s Notes</h3>
@@ -341,7 +341,7 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
               </div>
               <div className="grid lg:grid-cols-3">
                 {evidence.notes.map((note, index) => (
-                  <article key={note.decision} className="border-b border-foreground p-5 last:border-b-0 sm:p-6 lg:min-h-72 lg:border-b-0 lg:border-r lg:last:border-r-0">
+                  <article key={note.decision} className="border-b border-border p-5 last:border-b-0 sm:p-6 lg:min-h-72 lg:border-b-0 lg:border-r lg:last:border-r-0">
                     <div className="font-mono text-[9px] font-black uppercase tracking-widest text-muted-foreground">
                       {String(index + 1).padStart(2, "0")} / observed signal
                     </div>

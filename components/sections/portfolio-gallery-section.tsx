@@ -337,7 +337,7 @@ export default function PortfolioGallerySection() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.98 }}
               transition={{ duration: 0.25 }}
-              className="relative w-full max-w-6xl cursor-default border border-foreground bg-card p-3 shadow-2xl sm:p-5"
+              className="paper-sheet relative w-full max-w-6xl cursor-default border-2 border-border/80 bg-card p-3 shadow-2xl sm:p-5"
             >
               <div className="mb-3 flex items-center justify-between gap-4">
                 <div className="truncate font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">

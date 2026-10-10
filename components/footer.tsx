@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative bg-background border-t-2 border-foreground pt-16 pb-12 overflow-hidden">
+    <footer className="relative bg-background border-t-2 border-border pt-16 pb-12 overflow-hidden">
 
       {/* Background Typography for Depth - Identical to Hero Section Design */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none overflow-hidden opacity-15 dark:opacity-20">

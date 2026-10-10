@@ -113,11 +113,11 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="paper-sheet-stacked group border-2 border-foreground grid grid-cols-1 lg:grid-cols-12 items-stretch"
+                className="paper-sheet-stacked group border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 items-stretch"
               >
                 <Link 
                   href={`/stories/${featuredStory.id}`}
-                  className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-foreground cursor-pointer min-h-[300px] lg:min-h-[420px] block"
+                  className="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-muted border-b-2 lg:border-b-0 lg:border-r-2 border-border/80 cursor-pointer min-h-[300px] lg:min-h-[420px] block"
                 >
                   <Image
                     src={featuredStory.coverImage}
@@ -151,7 +151,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
                     )}
 
                     {/* Pull Quote */}
-                    <blockquote className="paper-ruled-bg border-l-4 border-primary pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
+                    <blockquote className="paper-ruled-bg border-l-4 border-foreground pl-4 py-2 font-sans italic text-sm sm:text-base text-foreground/90 leading-relaxed mb-4 bg-muted/20">
                       &ldquo;{featuredStory.subtitle || featuredStory.pages?.[0]?.highlightQuote || "ചില സ്നേഹങ്ങൾ നഷ്ടപ്പെട്ടശേഷമാണ് അവയുടെ വില നമ്മൾ മനസ്സിലാക്കുന്നത്."}&rdquo;
                     </blockquote>
 
@@ -256,7 +256,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
         )}
 
         {/* Bottom Section: About Karthik Lal's Literary Work */}
-        <div className="paper-sheet paper-index-card mt-16 border-2 border-foreground p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
+        <div className="paper-sheet paper-index-card mt-16 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-xs uppercase">
           <div className="space-y-1.5 max-w-2xl">
             <div className="font-bold text-foreground text-sm tracking-wider">
               ABOUT KARTHIK LAL&apos;S LITERARY WORK

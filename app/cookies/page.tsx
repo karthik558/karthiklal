@@ -41,7 +41,7 @@ export default function CookiePolicyPage() {
 
       <LegalSection number="02" id="types" title="Cookies used" intro="The site may use the following categories. Optional categories are used only where enabled and applicable.">
         <div className="space-y-6">
-          <div className="border-2 border-foreground p-5 sm:p-7">
+          <div className="paper-sheet border-2 border-border/80 bg-card p-5 sm:p-7">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Category // 01</p>

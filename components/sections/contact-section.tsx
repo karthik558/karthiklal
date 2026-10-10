@@ -166,59 +166,88 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
           {/* Left Info Column */}
-          <div className="paper-sheet lg:col-span-5 border-2 border-foreground bg-card p-8 space-y-8 flex flex-col justify-between font-mono text-xs">
-            <div>
-              <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-                <span className="paper-tag">DIRECT CHANNELS</span>
-                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">DISPATCH</span>
-              </div>
-
-              <div className="space-y-4">
-                <div className="p-4 border border-border bg-background space-y-2">
-                  <div className="text-muted-foreground uppercase">EMAIL ADDRESS</div>
-                  <div className="font-bold text-foreground text-sm uppercase">{email}</div>
-                  <button
-                    onClick={copyEmail}
-                    className="inline-flex items-center gap-1.5 pt-2 text-foreground hover:underline font-bold uppercase"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? "COPIED TO CLIPBOARD" : "COPY EMAIL"}</span>
-                  </button>
-                </div>
-
-                <div className="p-4 border border-border bg-background space-y-2">
-                  <div className="text-muted-foreground uppercase">LOCATION & TIMEZONE</div>
-                  <div className="font-bold text-foreground text-sm uppercase">KERALA, INDIA // IST (UTC+5:30)</div>
-                </div>
-              </div>
+          <div className="paper-sheet group relative lg:col-span-5 flex flex-col justify-between border-2 border-border/80 bg-card p-8 space-y-8 font-mono text-xs transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden">
+            {/* Background Giant Stroke Number Watermark */}
+            <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.09] z-0 transition-opacity duration-300 group-hover:opacity-20">
+              <span
+                className="font-display text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                style={{
+                  WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                10
+              </span>
             </div>
 
-            <div className="space-y-3 pt-6 border-t border-border">
-              <div className="font-bold uppercase tracking-widest text-muted-foreground">
-                SOCIAL PROFILES
+            <div className="relative z-10 flex flex-col justify-between h-full space-y-8">
+              <div>
+                <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
+                  <span className="paper-tag">DIRECT CHANNELS</span>
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest">DISPATCH</span>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 border border-border bg-background space-y-2">
+                    <div className="text-muted-foreground uppercase">EMAIL ADDRESS</div>
+                    <div className="font-bold text-foreground text-sm uppercase">{email}</div>
+                    <button
+                      onClick={copyEmail}
+                      className="inline-flex items-center gap-1.5 pt-2 text-foreground hover:underline font-bold uppercase"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copied ? "COPIED TO CLIPBOARD" : "COPY EMAIL"}</span>
+                    </button>
+                  </div>
+
+                  <div className="p-4 border border-border bg-background space-y-2">
+                    <div className="text-muted-foreground uppercase">LOCATION & TIMEZONE</div>
+                    <div className="font-bold text-foreground text-sm uppercase">KERALA, INDIA // IST (UTC+5:30)</div>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {PUBLIC_SOCIAL_LINKS.map((s) => (
-                  <a
-                    key={s.name}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 border border-border bg-background text-foreground hover:border-foreground uppercase font-bold text-[10px]"
-                  >
-                    {s.name}
-                  </a>
-                ))}
+
+              <div className="space-y-3 pt-6 border-t border-border">
+                <div className="font-bold uppercase tracking-widest text-muted-foreground">
+                  SOCIAL PROFILES
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {PUBLIC_SOCIAL_LINKS.map((s) => (
+                    <a
+                      key={s.name}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 border border-border bg-background text-foreground hover:border-foreground uppercase font-bold text-[10px]"
+                    >
+                      {s.name}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Form Column - Airmail Styling */}
-          <div className="paper-sheet paper-folded-corner paper-airmail lg:col-span-7 bg-card p-8 md:p-10">
-            <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-              <span className="paper-tag">TRANSMISSION MEMO</span>
-              <span className="paper-stamp">REGISTERED DISPATCH // IST</span>
+          {/* Right Form Column - Tactile Paper Memo */}
+          <div className="paper-sheet paper-folded-corner group relative lg:col-span-7 border-2 border-border/80 bg-card p-8 md:p-10 transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden">
+            {/* Background Giant Stroke Watermark */}
+            <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.09] z-0 transition-opacity duration-300 group-hover:opacity-20">
+              <span
+                className="font-display text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                style={{
+                  WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                MEMO
+              </span>
             </div>
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
+                <span className="paper-tag">TRANSMISSION MEMO</span>
+                <span className="paper-tag font-bold">REGISTERED DISPATCH // IST</span>
+              </div>
 
               <form onSubmit={handleSubmit} onReset={() => setSelectedSubject("")} className="space-y-6 font-mono text-xs">
               <div className="hidden" aria-hidden="true">
@@ -304,7 +333,7 @@ export default function ContactSection() {
                     <ul
                       role="listbox"
                       aria-labelledby="contact-subject-label"
-                      className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 bg-card border-2 border-foreground shadow-2xl py-1 divide-y divide-border/60 max-h-64 overflow-y-auto font-mono text-xs animate-in fade-in-0 duration-150"
+                      className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 bg-card border-2 border-border/80 shadow-2xl py-1 divide-y divide-border/60 max-h-64 overflow-y-auto font-mono text-xs animate-in fade-in-0 duration-150"
                     >
                       {PROJECT_TYPES.map((type, idx) => {
                         const isSelected = selectedSubject === type
@@ -365,6 +394,7 @@ export default function ContactSection() {
                 </p>
               </div>
             </form>
+            </div>
           </div>
         </div>
 

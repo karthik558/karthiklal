@@ -93,7 +93,7 @@ export default function PortfolioSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-foreground bg-card transition-all duration-500 overflow-hidden"
+                className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
                 <div className="absolute right-0 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-500 group-hover:opacity-20">
@@ -110,7 +110,7 @@ export default function PortfolioSection() {
 
                 {/* Top Hero Image Box */}
                 <div
-                  className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-foreground bg-muted z-10"
+                  className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-border/80 bg-muted z-10"
                   style={{ viewTransitionName: `project-${project.id}` }}
                 >
                   <Image
@@ -370,7 +370,7 @@ export default function PortfolioSection() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-3xl border-2 border-foreground bg-card p-6 md:p-8 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+              className="paper-sheet relative w-full max-w-3xl border-2 border-border/80 bg-card p-6 md:p-8 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
             >
               <button
                 onClick={() => setSelectedProject(null)}

@@ -117,7 +117,7 @@ export default function ExperienceSection() {
         </div>
 
         {/* Paper Controls Sheet */}
-        <div className="paper-sheet border-2 border-foreground bg-card p-5 sm:p-7 mb-8">
+        <div className="paper-sheet border-2 border-border/80 bg-card p-5 sm:p-7 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-border">
             {/* Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
@@ -226,9 +226,22 @@ export default function ExperienceSection() {
                   return (
                     <article
                       key={item.id}
-                      className="paper-sheet paper-folded-corner border-2 border-foreground bg-card p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 hover:shadow-md group"
+                      className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card p-6 sm:p-7 transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden"
                     >
-                      <div>
+                      {/* Background Giant Stroke Number Watermark */}
+                      <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
+                        <span
+                          className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
+                          style={{
+                            WebkitTextStroke: "2.5px hsl(var(--foreground))",
+                            WebkitTextFillColor: "transparent",
+                          }}
+                        >
+                          {numStr}
+                        </span>
+                      </div>
+
+                      <div className="relative z-10">
                         {/* Card Top Metadata Bar */}
                         <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
                           <div className="flex items-center gap-2">
@@ -248,7 +261,7 @@ export default function ExperienceSection() {
 
                         {/* Title & Organization */}
                         <div className="flex items-start gap-3.5">
-                          <div className="grid h-10 w-10 shrink-0 place-items-center border-2 border-foreground bg-background text-foreground group-hover:bg-foreground group-hover:text-background transition-colors mt-0.5">
+                          <div className="grid h-10 w-10 shrink-0 place-items-center border border-foreground bg-foreground text-background transition-colors mt-0.5">
                             <Icon className="h-4 w-4" />
                           </div>
                           <div>
@@ -293,7 +306,7 @@ export default function ExperienceSection() {
                 playClickSound()
                 setShowAll((current) => !current)
               }}
-              className="paper-button inline-flex items-center gap-2 h-11 border-2 border-foreground bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
+              className="paper-button inline-flex items-center gap-2 h-11 border-2 border-border/80 bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:border-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
             >
               {showAll ? "SHOW FEWER" : `LOAD MORE (${hiddenCount} MORE)`}
               {showAll ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
