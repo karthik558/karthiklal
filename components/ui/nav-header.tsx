@@ -25,9 +25,9 @@ export default function NavHeader() {
   const navItems = [
     { label: 'HOME', href: '/', sectionId: 'home' },
     { label: 'ABOUT', href: '/#about', sectionId: 'about' },
-    { label: 'PROJECTS', href: '/projects', sectionId: 'portfolio' },
+    { label: 'PROJECTS', href: '/#portfolio', sectionId: 'portfolio' },
     { label: 'SERVICES', href: '/#services', sectionId: 'services' },
-    { label: 'STORIES', href: '/stories', sectionId: 'stories' },
+    { label: 'STORIES', href: '/#stories', sectionId: 'stories' },
     { label: 'BLOG', href: '/blog', sectionId: '' },
     { label: 'CONTACT', href: '/contact', sectionId: '' }
   ]
