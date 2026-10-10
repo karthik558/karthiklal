@@ -95,10 +95,7 @@ export default function PortfolioGallerySection() {
             <h2 className="section-title">FEATURED DESIGNS</h2>
           </div>
 
-          <div className="flex max-w-md flex-col items-start gap-5 md:items-end">
-            <p className="font-sans text-sm font-light leading-relaxed text-muted-foreground md:text-right">
-              A curated selection of identity, interface, and visual-system work—built to communicate clearly and leave a distinct impression.
-            </p>
+          <div className="flex items-center">
             <AnimatedButton
               href={behanceUrl}
               target="_blank"

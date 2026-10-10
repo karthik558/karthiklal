@@ -67,10 +67,6 @@ export default function ServicesSection() {
               WHAT I DELIVER
             </h2>
           </div>
-
-          <p className="max-w-md font-sans text-sm text-muted-foreground font-light leading-relaxed">
-            End-to-end technical execution from initial security hardening to full-stack platform launches.
-          </p>
         </div>
 
         {/* Accordion / Cards List */}

@@ -73,9 +73,6 @@ export default function BlogPage() {
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             BLOG &amp; INSIGHTS
           </h1>
-          <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-            Notes, tutorials, and deep-dives on cybersecurity, network infrastructure, software engineering, and systems administration.
-          </p>
         </div>
 
         {/* Toolbar: Search & Filters */}

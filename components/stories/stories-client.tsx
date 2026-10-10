@@ -71,9 +71,6 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             STORIES &amp; NARRATIVES
           </h1>
-          <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-            A curated collection of literary fiction, emotional novellas, and personal reflections exploring human relationships and quiet truths.
-          </p>
         </div>
 
         {/* Toolbar: Search & Filters */}

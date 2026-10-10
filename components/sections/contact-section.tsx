@@ -160,9 +160,6 @@ export default function ContactSection() {
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             GET IN TOUCH
           </h1>
-          <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-            Have an IT project, security vulnerability assessment, or full-stack web build inquiry? Submit a message below or email directly.
-          </p>
         </div>
 
         {/* Main Grid */}

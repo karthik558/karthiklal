@@ -129,9 +129,6 @@ export default function CertificationsSection() {
             </div>
             <h2 className="section-title">CERTIFICATIONS</h2>
           </div>
-          <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
-            Explore verified credentials by issue year, status, and awarding organization.
-          </p>
         </div>
 
         {/* Paper Controls Sheet */}

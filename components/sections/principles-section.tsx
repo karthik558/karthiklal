@@ -59,9 +59,6 @@ export default function PrinciplesSection() {
             </div>
             <h2 className="section-title">HOW I BUILD</h2>
           </div>
-          <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground md:text-base">
-            Five principles connecting cybersecurity, engineering, and visual design into one practical way of working.
-          </p>
         </div>
 
         <div className="paper-sheet grid border-2 border-foreground lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)]">

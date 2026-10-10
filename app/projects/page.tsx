@@ -102,9 +102,6 @@ export default function ProjectsPage() {
           <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
             PROJECT ARCHIVE
           </h1>
-          <p className="mt-4 max-w-2xl font-sans text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-            A comprehensive directory of full stack web applications, penetration testing frameworks, security tools, and systems engineering specimens.
-          </p>
         </div>
 
         {/* Toolbar: Search & Filters */}

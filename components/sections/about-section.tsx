@@ -51,10 +51,6 @@ export default function AboutSection() {
               ABOUT ME
             </h2>
           </div>
-
-          <p className="max-w-md font-sans text-base text-muted-foreground font-light leading-relaxed">
-            Cybersecurity research, engineering, and visual design brought together to create secure, useful, and memorable digital experiences.
-          </p>
         </div>
 
         {/* Top Editorial Row */}

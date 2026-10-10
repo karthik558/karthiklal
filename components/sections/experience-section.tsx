@@ -89,9 +89,6 @@ export default function ExperienceSection() {
             </div>
             <h2 className="section-title">EXPERIENCE &amp; ROLES</h2>
           </div>
-          <p className="max-w-md text-sm font-light leading-relaxed text-muted-foreground">
-            Explore a verified chronology of professional roles and education from 2018 to the present.
-          </p>
         </div>
 
         {/* Paper Controls Sheet */}

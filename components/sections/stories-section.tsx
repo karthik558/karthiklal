@@ -53,10 +53,7 @@ export default function StoriesSection() {
             </h2>
           </div>
 
-          <div className="flex max-w-md flex-col items-start gap-5 md:items-end">
-            <p className="font-sans text-sm font-light leading-relaxed text-muted-foreground md:text-right">
-              A curated collection of literary fiction, emotional novellas, and personal reflections exploring human relationships and quiet truths.
-            </p>
+          <div className="flex items-center">
             <AnimatedButton
               href="/stories"
               variant="outline"

@@ -23,13 +23,9 @@ export default function CtaSection() {
             11 // INITIATE COLLABORATION
           </div>
 
-          <h2 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-8">
+          <h2 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-10">
             HAVE A PROJECT IN MIND?
           </h2>
-
-          <p className="max-w-2xl mx-auto font-sans text-base sm:text-lg text-muted-foreground font-light leading-relaxed mb-10">
-            Whether you need enterprise IT management, a thorough security audit, or a high-performance web platform — let&apos;s work together.
-          </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <AnimatedButton
