@@ -78,8 +78,10 @@ export default function TestimonialsSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="section-kicker">
-              08 // CLIENT FEEDBACK & REVIEWS
+            <div className="mb-3">
+              <span className="paper-stamp">
+                08 // CLIENT FEEDBACK &amp; REVIEWS
+              </span>
             </div>
             <h2 className="section-title">
               TESTIMONIALS

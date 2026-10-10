@@ -19,8 +19,10 @@ export default function CtaSection() {
       <div className="section-container">
         <div className="border-2 border-foreground bg-card p-8 sm:p-12 md:p-16 text-center">
           
-          <div className="section-kicker mb-4">
-            11 // INITIATE COLLABORATION
+          <div className="mb-4">
+            <span className="paper-stamp">
+              11 // INITIATE COLLABORATION
+            </span>
           </div>
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-10">

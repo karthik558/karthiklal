@@ -339,12 +339,6 @@ export default function CertificationsSection() {
             </AnimatedButton>
           </div>
         )}
-
-        {/* Footer Note */}
-        <div className="mt-8 flex flex-col justify-between gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground sm:flex-row border-t border-border/60 pt-4">
-          <span>Timeline reflects issue dates recorded in the credential archive.</span>
-          <span>Select any credential to open official verification &amp; registry inspection.</span>
-        </div>
       </div>
 
       {/* Credential Verification Modal */}

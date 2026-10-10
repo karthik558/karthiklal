@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { Briefcase, CalendarRange, GraduationCap } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
@@ -244,14 +243,6 @@ export default function ExperienceSection() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-
-        {/* Bottom Archival Footer */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-4 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-          <span>{visible.length} RECORD{visible.length === 1 ? "" : "S"} DISPLAYED</span>
-          <Link href="/projects" className="paper-button inline-flex items-center gap-1.5 border border-border bg-card px-3 py-1.5 text-foreground hover:border-foreground hover:underline">
-            EXPLORE PROJECT ARCHIVE →
-          </Link>
         </div>
       </div>
     </section>
