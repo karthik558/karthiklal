@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Briefcase, CalendarRange, GraduationCap } from "lucide-react"
+import { Briefcase, CalendarRange, ChevronDown, ChevronUp, GraduationCap } from "lucide-react"
 import experiencesData from "@/public/data/experiences.json"
+import { playClickSound } from "@/lib/sound-fx"
 
 type Track = "all" | "work" | "education"
 type TimelineItem = {
@@ -39,27 +40,30 @@ const trackOptions: { value: Track; label: string }[] = [
   { value: "education", label: "Education" },
 ]
 
+const INITIAL_ITEMS = 2
+
 export default function ExperienceSection() {
   const [track, setTrack] = useState<Track>("all")
-  const [selectedYear, setSelectedYear] = useState<number | null>(2026)
+  const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [showAll, setShowAll] = useState(false)
 
   const filtered = useMemo(
     () =>
       timeline
         .filter((item) => (track === "all" ? true : item.type === track))
         .sort((a, b) => {
-          const order = { work: 0, education: 1 }
-          return order[a.type] - order[b.type] || b.startYear - a.startYear
+          // 1. Current pursuits first
+          if (a.current !== b.current) return a.current ? -1 : 1
+          // 2. If both are current, put work first then education (latest work & latest education)
+          if (a.current && b.current) {
+            const typeOrder = { work: 0, education: 1 }
+            return typeOrder[a.type] - typeOrder[b.type]
+          }
+          // 3. For past roles, sort by startYear descending, then endYear descending
+          if (b.startYear !== a.startYear) return b.startYear - a.startYear
+          return b.endYear - a.endYear
         }),
     [track]
-  )
-
-  const visible = useMemo(
-    () =>
-      selectedYear === null
-        ? filtered
-        : filtered.filter((item) => selectedYear >= item.startYear && selectedYear <= item.endYear),
-    [filtered, selectedYear]
   )
 
   const activeYears = useMemo(
@@ -72,8 +76,30 @@ export default function ExperienceSection() {
     [filtered]
   )
 
+  const selectedRoles = useMemo(
+    () =>
+      selectedYear === null
+        ? filtered
+        : filtered.filter((item) => selectedYear >= item.startYear && selectedYear <= item.endYear),
+    [filtered, selectedYear]
+  )
+
+  const visible =
+    selectedYear !== null || showAll
+      ? selectedRoles
+      : selectedRoles.slice(0, INITIAL_ITEMS)
+  const hiddenCount = selectedRoles.length - visible.length
+
+  const selectTrack = (nextTrack: Track) => {
+    playClickSound()
+    setTrack(nextTrack)
+    setShowAll(false)
+  }
+
   const selectYear = (year: number) => {
+    playClickSound()
     setSelectedYear((current) => (current === year ? null : year))
+    setShowAll(false)
   }
 
   return (
@@ -102,7 +128,7 @@ export default function ExperienceSection() {
                 <button
                   key={option.value}
                   type="button"
-                  onClick={() => setTrack(option.value)}
+                  onClick={() => selectTrack(option.value)}
                   aria-pressed={track === option.value}
                   className={`paper-button font-mono text-xs uppercase tracking-wider px-4 py-2 border-2 transition-all duration-150 cursor-pointer ${
                     track === option.value
@@ -123,6 +149,19 @@ export default function ExperienceSection() {
               <span className="font-display text-2xl sm:text-3xl font-black uppercase text-foreground">
                 {selectedYear ?? "ALL YEARS"}
               </span>
+              {selectedYear !== null && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClickSound()
+                    setSelectedYear(null)
+                  }}
+                  className="paper-button font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 border border-border bg-background hover:bg-foreground hover:text-background transition-colors cursor-pointer"
+                  title="Show all years"
+                >
+                  RESET
+                </button>
+              )}
             </div>
           </div>
 
@@ -244,6 +283,23 @@ export default function ExperienceSection() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Load More Button */}
+        {(hiddenCount > 0 || showAll) && selectedRoles.length > INITIAL_ITEMS && selectedYear === null && (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                playClickSound()
+                setShowAll((current) => !current)
+              }}
+              className="paper-button inline-flex items-center gap-2 h-11 border-2 border-foreground bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
+            >
+              {showAll ? "SHOW FEWER" : `LOAD MORE (${hiddenCount} MORE)`}
+              {showAll ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

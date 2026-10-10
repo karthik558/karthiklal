@@ -49,7 +49,7 @@ const filterOptions: { label: string; value: CredentialFilter }[] = [
 
 export default function CertificationsSection() {
   const [filter, setFilter] = useState<CredentialFilter>("all")
-  const [selectedYear, setSelectedYear] = useState<number | null>(2026)
+  const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [showAll, setShowAll] = useState(false)
   const [copiedId, setCopiedId] = useState<number | null>(null)
   const [inspectedCredential, setInspectedCredential] = useState<Certification | null>(null)
@@ -86,7 +86,7 @@ export default function CertificationsSection() {
   )
 
   const visible =
-    selectedYear === null || showAll
+    showAll
       ? selectedCredentials
       : selectedCredentials.slice(0, INITIAL_ITEMS)
   const hiddenCount = selectedCredentials.length - visible.length
@@ -95,12 +95,7 @@ export default function CertificationsSection() {
     playClickSound()
     setFilter(nextFilter)
     setShowAll(false)
-
-    if (nextFilter === "expired") {
-      setSelectedYear(2021)
-      return
-    }
-    setSelectedYear(2026)
+    setSelectedYear(null)
   }
 
   const selectYear = (year: number) => {
@@ -164,6 +159,19 @@ export default function CertificationsSection() {
               <span className="font-display text-2xl sm:text-3xl font-black uppercase text-foreground">
                 {selectedYear ?? "ALL YEARS"}
               </span>
+              {selectedYear !== null && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClickSound()
+                    setSelectedYear(null)
+                  }}
+                  className="paper-button font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 border border-border bg-background hover:bg-foreground hover:text-background transition-colors cursor-pointer"
+                  title="Show all years"
+                >
+                  RESET
+                </button>
+              )}
             </div>
           </div>
 
@@ -324,7 +332,7 @@ export default function CertificationsSection() {
         </AnimatePresence>
 
         {/* Load More Button */}
-        {selectedYear !== null && (hiddenCount > 0 || showAll) && (
+        {(hiddenCount > 0 || showAll) && selectedCredentials.length > INITIAL_ITEMS && (
           <div className="mt-8 text-center">
             <AnimatedButton
               onClick={() => {
@@ -334,7 +342,7 @@ export default function CertificationsSection() {
               variant="outline"
               className="paper-button h-11 border-2 border-foreground bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer"
             >
-              {showAll ? "Show fewer credentials" : `Load ${hiddenCount} more credentials`}
+              {showAll ? "Show fewer credentials" : `Load more (${hiddenCount} more)`}
               {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
             </AnimatedButton>
           </div>

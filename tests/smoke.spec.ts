@@ -200,18 +200,18 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(page.locator("#principles").getByText("Progressive loading", { exact: false })).toBeVisible()
 
   const experience = page.locator("#experience")
-  await expect(experience.getByText("2026", { exact: true }).first()).toBeVisible()
-  await expect(experience.getByRole("button", { name: "Credentials" })).toHaveCount(0)
-  await experience.getByRole("button", { name: "2026, selected; activate to show all years" }).click()
   await expect(experience.getByText("ALL YEARS", { exact: true })).toBeVisible()
+  await expect(experience.getByRole("button", { name: "Credentials" })).toHaveCount(0)
+  const loadMoreExperience = experience.getByRole("button", { name: /LOAD MORE/i })
+  if (await loadMoreExperience.isVisible()) {
+    await loadMoreExperience.click()
+  }
   await expect(experience.locator("article")).toHaveCount(10)
 
   const certifications = page.locator("#certifications")
-  await certifications.getByRole("button", { name: "Archived", exact: true }).click()
-  await expect(certifications.getByRole("button", { name: "2021, selected; activate to show all years" })).toHaveAttribute("aria-pressed", "true")
-  await expect(certifications.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
-  await certifications.getByRole("button", { name: "2021, selected; activate to show all years" }).click()
   await expect(certifications.getByText("ALL YEARS", { exact: true })).toBeVisible()
+  await certifications.getByRole("button", { name: "Archived", exact: true }).click()
+  await expect(certifications.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
 
   await expect(page.getByRole("button", { name: "Open experience controls" })).toHaveCount(0)
 
