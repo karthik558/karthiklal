@@ -1,7 +1,6 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import Link from "next/link"
 import {
   ArrowDownRight,
   Download,
@@ -60,12 +59,6 @@ export default function HeroSectionStatic() {
       <div className="container relative z-10 mx-auto max-w-6xl px-4 md:px-6 my-auto">
         <motion.div style={{ y: contentY, opacity: heroOpacity }} className="flex flex-col items-center text-center">
           
-          {/* Paper Folio Volume Stamp */}
-          <div className="mb-3 flex items-center justify-center">
-            <span className="paper-stamp">
-              EST. 2019 // ARCHIVAL FOLIO VOL. 07 // KERALA, IN
-            </span>
-          </div>
 
           {/* Main Title - KARTHIK LAL (Single Line, KARTHIK Solid, LAL Stroke) */}
           <div className="py-2 text-center w-full select-none overflow-hidden">
@@ -173,18 +166,6 @@ export default function HeroSectionStatic() {
         </motion.div>
       </div>
 
-      {/* Hero Bottom Bar */}
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 pt-4 border-t border-border/80 flex items-center justify-between font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
-        <span>00 // INTRODUCTION</span>
-        <Link href="/projects/1" className="flex items-center gap-2 text-foreground transition-colors hover:underline sm:hidden">
-          <span>FEATURED // GITHUB BURNER</span>
-          <ArrowDownRight className="h-3.5 w-3.5 -rotate-90" />
-        </Link>
-        <a href="#about" className="hidden items-center gap-2 hover:text-foreground transition-colors sm:flex">
-          <span>SCROLL DOWN</span>
-          <ArrowDownRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-bounce" />
-        </a>
-      </div>
     </section>
   )
 }

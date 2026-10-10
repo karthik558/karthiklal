@@ -36,7 +36,7 @@ export default function Footer() {
             <div>
               <div className="mb-3">
                 <span className="paper-stamp">
-                  ARCHIVAL IMPRINT // 2019–2026
+                  OFFICIAL PORTFOLIO // VERIFIED
                 </span>
               </div>
               <div className="font-display text-3xl font-black uppercase tracking-tighter text-foreground leading-none">
