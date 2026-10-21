@@ -26,7 +26,7 @@ test("homepage fits small screens and disables parallax for reduced motion", asy
   await expect(page.locator(".hero-word > span").first()).toHaveCSS("animation-name", "none")
 })
 
-test("mobile hero keeps the portrait beside the name with actions below", async ({ page }) => {
+test("mobile hero uses a full-width portrait behind readable content", async ({ page }) => {
   for (const width of [320, 390, 430, 639]) {
     await page.setViewportSize({ width, height: 844 })
     await page.goto("/")
@@ -37,10 +37,11 @@ test("mobile hero keeps the portrait beside the name with actions below", async 
     expect(name).not.toBeNull()
     expect(portrait).not.toBeNull()
     expect(actions).not.toBeNull()
-    expect(portrait!.x).toBeGreaterThanOrEqual(name!.x + name!.width)
+    expect(portrait!.width).toBeGreaterThanOrEqual(width)
     expect(portrait!.y).toBeLessThan(name!.y + name!.height)
     expect(portrait!.y + portrait!.height).toBeGreaterThan(name!.y)
-    expect(actions!.y).toBeGreaterThan(portrait!.y + portrait!.height)
+    expect(actions!.y).toBeGreaterThan(name!.y + name!.height)
+    await expect(page.getByRole("link", { name: "EXPLORE WORK", exact: true })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     if (width === 390) await page.screenshot({ path: "/tmp/karthik-mobile-fixed.png" })
   }

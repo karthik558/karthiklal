@@ -44,7 +44,7 @@ export default function HeroSectionStatic() {
               <motion.div className="hero-orbit" style={{ rotate: reduced ? -18 : orbitRotate }} />
             </motion.div>
             <motion.div className="hero-portrait" style={{ y: reduced ? 0 : portraitY }}>
-              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 1024px) 38vw, (min-width: 640px) 55vw, 32vw" className="object-cover" />
+              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 1024px) 38vw, (min-width: 640px) 55vw, 100vw" className="object-cover" />
               <div className="hero-portrait-shade" />
             </motion.div>
             <div className="hero-note"><span className="hero-note-icon">✳</span><span>BUILT WITH CURIOSITY.<br />BACKED BY EXPERIENCE.</span></div>
