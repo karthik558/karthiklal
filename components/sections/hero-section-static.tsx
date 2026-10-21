@@ -14,8 +14,17 @@ export default function HeroSectionStatic() {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24 })
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 35,
+    damping: 20,
+    mass: 1.2,
+    restDelta: 0.0001,
+    restSpeed: 0.0001,
+  })
   const orbitRotate = useTransform(smoothProgress, [0, 1], [-18, 48])
+  // Use scroll position so retracing the scroll always retraces the same orbit.
+  const starX = useTransform(smoothProgress, value => `${50 + 50 * Math.cos((-180 + value * 120) * Math.PI / 180)}%`)
+  const starY = useTransform(smoothProgress, value => `${50 + 50 * Math.sin((-180 + value * 120) * Math.PI / 180)}%`)
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -90])
   const portraitY = useTransform(smoothProgress, [0, 1], [0, 65])
   const socials = [...SOCIALS_DATA.socials].filter(s => s.active).sort((a, b) => a.priority - b.priority)
@@ -42,6 +51,15 @@ export default function HeroSectionStatic() {
           <div className="hero-art">
             <motion.div className="hero-orbit-track" style={{ y: reduced ? 0 : portraitY }} aria-hidden="true">
               <motion.div className="hero-orbit" style={{ rotate: reduced ? -18 : orbitRotate }} />
+            </motion.div>
+            <motion.div className="hero-orbit-track hero-orbit-star-track" style={{ y: reduced ? 0 : portraitY }} aria-hidden="true">
+              <motion.div className="hero-orbit-star-plane" style={{ rotate: reduced ? -18 : orbitRotate }}>
+                <motion.div className="hero-orbit-star-position" style={{ x: reduced ? "0%" : starX, y: reduced ? "50%" : starY }}>
+                  <span className="hero-orbit-star">
+                    <svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 0 24 14 36 4 26 16 40 20 26 24 36 36 24 26 20 40 16 26 4 36 14 24 0 20 14 16 4 4 16 14Z" /></svg>
+                  </span>
+                </motion.div>
+              </motion.div>
             </motion.div>
             <motion.div className="hero-portrait" style={{ y: reduced ? 0 : portraitY }}>
               <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 1024px) 38vw, (min-width: 640px) 55vw, 100vw" className="object-cover" />
