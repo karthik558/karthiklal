@@ -7,12 +7,9 @@ import { motion } from "framer-motion"
 import {
   ArrowLeft,
   ArrowRight,
-  Blocks,
   Braces,
   CheckCircle2,
   ExternalLink,
-  Eye,
-  EyeOff,
   FileText,
   Github,
   Layers3,
@@ -48,7 +45,6 @@ const chapters = [
 ]
 
 export default function ProjectCaseStudy({ project, previousProject, nextProject }: Props) {
-  const [xray, setXray] = useState(false)
   const [activeChapter, setActiveChapter] = useState("brief")
   const [progress, setProgress] = useState(0)
   const evidence = useMemo(() => getProjectEvidence(project), [project])
@@ -112,17 +108,6 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
           <Link href="/projects" className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-4 w-4" /> Project directory
           </Link>
-          <button
-            type="button"
-            onClick={() => setXray((current) => !current)}
-            aria-pressed={xray}
-            className={`inline-flex min-h-11 items-center gap-2 border-2 px-4 font-mono text-[10px] font-black uppercase tracking-widest transition-colors ${
-              xray ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
-            }`}
-          >
-            {xray ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            X-Ray process {xray ? "on" : "off"}
-          </button>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
@@ -202,17 +187,6 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
                 {String(project.id).padStart(2, "0")}
               </span>
             </div>
-            {xray && (
-              <div className="pointer-events-none absolute inset-0">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.2)_1px,transparent_1px)] bg-[size:8.333%_12.5%]" />
-                <div className="absolute left-[8.3%] top-[12.5%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
-                  12-column responsive frame
-                </div>
-                <div className="absolute bottom-[12.5%] right-[8.3%] border border-white bg-black/80 px-3 py-2 font-mono text-[9px] font-bold uppercase tracking-widest text-white">
-                  Content-safe boundary
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -289,22 +263,6 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
                 </div>
               ))}
             </div>
-            {xray && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-8 border-2 border-dashed border-foreground bg-muted/50 p-6 sm:p-8">
-                <div className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-widest">
-                  <Blocks className="h-4 w-4" /> X-RAY / COMPONENT LOGIC
-                </div>
-                <div className="mt-6 grid gap-3 font-mono text-[10px] sm:grid-cols-4">
-                  {["INPUT + INTENT", "VALIDATION", "SYSTEM ACTION", "VISIBLE FEEDBACK"].map((item, index) => (
-                    <div key={item} className="relative border border-border bg-background p-4">
-                      <span className="text-muted-foreground">0{index + 1}</span>
-                      <div className="mt-3 font-bold">{item}</div>
-                      {index < 3 && <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-5 w-5 -translate-y-1/2 bg-background md:block" />}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
           </section>
 
           <section id="build" className="scroll-mt-32 border-b border-border py-20">

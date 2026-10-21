@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, Eye, EyeOff, Maximize2, SlidersHorizontal, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, SlidersHorizontal, X } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { getBehanceUrl } from "@/lib/static-data"
 import featuredDesignsData from "@/public/data/featured-designs.json"
@@ -25,7 +25,6 @@ export default function PortfolioGallerySection() {
   const [selectedImage, setSelectedImage] = useState<(typeof portfolioItems)[number] | null>(null)
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [filter, setFilter] = useState<DesignFilter>("ALL")
-  const [processMode, setProcessMode] = useState(false)
   const railRef = useRef<HTMLDivElement>(null)
   const filteredItems = useMemo(
     () => filter === "ALL" ? portfolioItems : portfolioItems.filter((item) => designCategory(item.discipline) === filter),
@@ -129,17 +128,6 @@ export default function PortfolioGallerySection() {
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => setProcessMode((current) => !current)}
-            aria-pressed={processMode}
-            className={`inline-flex min-h-10 shrink-0 items-center justify-center gap-2 border px-3 font-mono text-[9px] font-black uppercase tracking-widest transition-colors ${
-              processMode ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
-            }`}
-          >
-            {processMode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            PROCESS LAYER {processMode ? "ON" : "OFF"}
-          </button>
         </div>
 
         <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.75fr)_minmax(300px,0.75fr)]">
@@ -165,27 +153,6 @@ export default function PortfolioGallerySection() {
             </AnimatePresence>
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
-            <AnimatePresence>
-              {processMode && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="pointer-events-none absolute inset-0"
-                >
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.24)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.2)_1px,transparent_1px)] bg-[size:12.5%_12.5%]" />
-                  <div className="absolute left-[12.5%] top-[25%] border border-white/80 bg-black/75 px-3 py-2 font-mono text-[8px] font-black uppercase tracking-widest text-white">
-                    Focal hierarchy
-                  </div>
-                  <div className="absolute bottom-[20%] left-[37.5%] border border-white/80 bg-black/75 px-3 py-2 font-mono text-[8px] font-black uppercase tracking-widest text-white">
-                    Message-safe area
-                  </div>
-                  <div className="absolute right-[8%] top-[12%] font-mono text-[8px] font-black uppercase tracking-[0.2em] text-white">
-                    X-RAY / COMPOSITION GRID
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
             <div className="absolute left-4 top-4 border border-white/30 bg-black/65 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md sm:left-6 sm:top-6">
               SELECTED / {String(galleryIndex + 1).padStart(2, "0")}
             </div>

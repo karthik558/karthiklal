@@ -216,15 +216,13 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(page.getByRole("button", { name: "Open experience controls" })).toHaveCount(0)
 
   const interfaceFilter = page.getByRole("button", { name: "INTERFACE", exact: true })
+  await expect(page.getByRole("button", { name: /PROCESS LAYER/i })).toHaveCount(0)
   await interfaceFilter.click()
   await expect(interfaceFilter).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByRole("heading", { name: "Creator Profile UI" })).toBeVisible()
 
   await page.goto("/projects/1")
-  const xrayToggle = page.getByRole("button", { name: "X-Ray process off" })
-  await xrayToggle.click()
-  await expect(page.getByRole("button", { name: "X-Ray process on" })).toHaveAttribute("aria-pressed", "true")
-  await expect(page.getByText("X-RAY / COMPONENT LOGIC", { exact: true })).toBeVisible()
+  await expect(page.getByRole("button", { name: /X-Ray process/i })).toHaveCount(0)
   await expect(page.getByText(/Project evidence/)).toBeVisible()
   await expect(page.getByRole("heading", { name: "Director's Notes" })).toBeVisible()
 })
