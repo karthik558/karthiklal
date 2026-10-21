@@ -20,14 +20,14 @@ export default function NavHeader() {
   const drawerRef = useRef<HTMLDivElement>(null)
 
   const pathname = usePathname()
-  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'stories'])
+  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'portfolio-gallery'])
 
   const navItems = [
     { label: 'HOME', href: '/', sectionId: 'home' },
     { label: 'ABOUT', href: '/#about', sectionId: 'about' },
     { label: 'PROJECTS', href: '/#portfolio', sectionId: 'portfolio' },
     { label: 'SERVICES', href: '/#services', sectionId: 'services' },
-    { label: 'STORIES', href: '/#stories', sectionId: 'stories' },
+    { label: 'DESIGNS', href: '/#portfolio-gallery', sectionId: 'portfolio-gallery' },
     { label: 'BLOG', href: '/blog', sectionId: '' },
     { label: 'CONTACT', href: '/contact', sectionId: '' }
   ]

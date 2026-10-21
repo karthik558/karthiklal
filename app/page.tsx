@@ -13,7 +13,6 @@ const ExperienceSection = dynamic(() => import("@/components/sections/experience
 const CertificationsSection = dynamic(() => import("@/components/sections/certifications-section"))
 const SkillsSection = dynamic(() => import("@/components/sections/skills-section"))
 const TestimonialsSection = dynamic(() => import("@/components/sections/testimonials-section"))
-const StoriesSection = dynamic(() => import("@/components/sections/stories-section"))
 const CtaSection = dynamic(() => import("@/components/sections/cta-section"))
 
 // Enhanced Structured Data for SEO - targeting "Karthik Lal" searches
@@ -163,8 +162,6 @@ export default function Home() {
       <CertificationsSection />
       <TestimonialsSection />
       <PortfolioGallerySection />
-      <StoriesSection />
-      <MarqueeSection variant="closing" />
       <CtaSection />
     </div>
   )

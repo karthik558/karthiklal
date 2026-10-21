@@ -70,27 +70,27 @@ input, textarea, [contenteditable="true"] {
   }
 
   .dark {
-    --background: 28 10% 8.5%;
+    --background: 28 10% 7%;
     --foreground: 38 24% 92%;
-    --card: 28 8% 12%;
+    --card: 28 8% 10%;
     --card-foreground: 38 24% 92%;
-    --popover: 28 8% 12%;
+    --popover: 28 8% 10%;
     --popover-foreground: 38 24% 92%;
     --primary: 12 52% 58%;
-    --primary-foreground: 28 10% 8.5%;
-    --secondary: 28 8% 16%;
+    --primary-foreground: 28 10% 7%;
+    --secondary: 28 8% 13%;
     --secondary-foreground: 38 24% 92%;
-    --muted: 28 8% 17%;
+    --muted: 28 8% 14%;
     --muted-foreground: 35 10% 64%;
     --accent: 12 52% 58%;
-    --accent-foreground: 28 10% 8.5%;
+    --accent-foreground: 28 10% 7%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
     --border: 28 8% 22%;
     --input: 28 8% 22%;
     --ring: 12 52% 58%;
     --primary-rgb: 211 101 85;
-    --paper-grain-opacity: 0.085;
+    --paper-grain-opacity: 0.055;
     --paper-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35), 0 5px 16px -2px rgba(0, 0, 0, 0.5), 0 14px 32px -6px rgba(0, 0, 0, 0.45);
     --paper-shadow-hover: 1px 1px 0 rgba(0, 0, 0, 0.45), 0 10px 24px -2px rgba(0, 0, 0, 0.6), 0 24px 40px -6px rgba(0, 0, 0, 0.55);
   }
