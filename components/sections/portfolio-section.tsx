@@ -2,6 +2,7 @@
 
 import { useState, type UIEvent } from "react"
 import Image from "next/image"
+import ParallaxImage from "@/components/ui/parallax-image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Github, Eye, X, ExternalLink } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
@@ -113,14 +114,7 @@ export default function PortfolioSection() {
                   className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-border/80 bg-muted z-10"
                   style={{ viewTransitionName: `project-${project.id}` }}
                 >
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover grayscale contrast-125 transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
-                    priority={index === 0}
-                  />
+                  <ParallaxImage src={project.image} alt={project.title} sizes="(min-width: 1024px) 50vw, 100vw" />
                   
                   {/* Badges */}
                   <div className="absolute top-4 left-4 flex items-center gap-2 z-20">

@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react"
-import Image from "next/image"
+import ParallaxImage from "@/components/ui/parallax-image"
 
 const stats = [
   {
@@ -57,14 +57,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
           {/* Portrait Image Block with Washi Tape and Brass Paper Clip */}
           <div className="paper-sheet paper-tape paper-clip lg:col-span-4 relative group overflow-hidden border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 min-h-[380px] lg:min-h-full">
-            <Image
-              src="/user/about.jpg"
-              alt="Karthik Lal"
-              fill
-              sizes="(min-width: 1024px) 33vw, 100vw"
-              className="object-cover grayscale contrast-125 transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:contrast-100"
-              priority
-            />
+            <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 33vw, 100vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
             <div className="absolute bottom-0 left-0 p-6 z-10">
               <span className="inline-block bg-foreground text-background font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest mb-2 shadow-sm">

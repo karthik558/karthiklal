@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import HomeMotion from '@/components/home-motion'
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
 
@@ -139,7 +140,8 @@ export default function Home() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative home-experience">
+      <HomeMotion />
       {/* Enhanced Structured Data for SEO */}
       <script
         type="application/ld+json"

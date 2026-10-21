@@ -1,171 +1,67 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import {
-  ArrowDownRight,
-  Download,
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  Mail,
-} from "lucide-react"
-
+import { useRef } from "react"
+import Image from "next/image"
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
+import { ArrowDownRight, ArrowUpRight, Download, Facebook, Github, Instagram, Linkedin, Mail } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { TextScramble } from "@/components/ui/text-scramble"
 import { XIcon } from "@/components/ui/icons"
 import { SOCIALS_DATA } from "@/lib/static-data"
-import ScrollVideo from "@/components/scroll-video"
 
-const iconMap = {
-  Github,
-  Linkedin,
-  Mail,
-  Twitter: XIcon,
-  Instagram,
-  Facebook,
-}
-
-interface Social {
-  id: number
-  name: string
-  icon: keyof typeof iconMap
-  url: string
-  username: string
-  active: boolean
-  priority: number
-}
+const iconMap = { Github, Linkedin, Mail, Twitter: XIcon, Instagram, Facebook }
 
 export default function HeroSectionStatic() {
-  const { scrollY } = useScroll()
-
-  const socials: Social[] = (SOCIALS_DATA.socials as Social[])
-    .filter((social: Social) => social.active)
-    .sort((a: Social, b: Social) => a.priority - b.priority)
-
-  const contentY = useTransform(scrollY, [0, 500], ["0px", "-60px"])
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4])
+  const ref = useRef<HTMLElement>(null)
+  const reduced = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -90])
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 100])
+  const orbitRotate = useTransform(scrollYProgress, [0, 1], [-18, 65])
+  const socials = [...SOCIALS_DATA.socials].filter(s => s.active).sort((a, b) => a.priority - b.priority)
 
   return (
-    <section id="home" className="relative flex min-h-[100svh] flex-col justify-center items-center overflow-hidden bg-transparent pt-28 pb-20 md:pt-36 md:pb-24">
-      {/* Background Video - Hero Section Only */}
-      <ScrollVideo />
-
-      {/* Hero Section Gradient Overlay for optimal readability */}
-      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/92 via-background/70 to-background z-[1]" />
-      </div>
-
-      <div className="container relative z-10 mx-auto max-w-6xl px-4 md:px-6 my-auto">
-        <motion.div style={{ y: contentY, opacity: heroOpacity }} className="flex flex-col items-center text-center">
-          
-
-          {/* Main Title - KARTHIK LAL (Single Line, KARTHIK Solid, LAL Stroke) */}
-          <div className="py-2 text-center w-full select-none overflow-hidden">
-            <h1 className="flex flex-nowrap items-center justify-center whitespace-nowrap font-display text-[clamp(2.25rem,8.5vw,11.5rem)] font-black uppercase tracking-tighter leading-none">
-              {/* KARTHIK - Solid Bold */}
-              <span className="flex text-foreground">
-                {"KARTHIK".split("").map((char, index) => (
-                  <span
-                    key={index}
-                    className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-
-              {/* Space */}
-              <span className="inline-block w-[0.25em]" />
-
-              {/* LAL - Crisp Visible Stroke Outline */}
-              <span
-                className="flex transition-all duration-300 hover:!text-foreground"
-                style={{
-                  WebkitTextStroke: "2px hsl(var(--foreground))",
-                  WebkitTextFillColor: "transparent",
-                  color: "transparent",
-                }}
-              >
-                {"LAL".split("").map((char, index) => (
-                  <span
-                    key={index}
-                    className="inline-block transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-            </h1>
-          </div>
-
-          {/* Subtitle Statement & Tech Domain Pills - Centered */}
-          <div className="mt-6 sm:mt-10 flex flex-col items-center text-center max-w-4xl">
-            <div className="flex flex-col items-center text-center">
-              <p className="max-w-sm px-1 font-sans text-base font-light leading-relaxed text-muted-foreground sm:hidden">
-                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
-              </p>
-              <p className="hidden max-w-3xl font-sans text-xl font-light leading-relaxed text-muted-foreground sm:block md:text-2xl">
-                Specialized in <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Cybersecurity</strong>, <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">IT Infrastructure</strong>, and high-performance <strong className="font-semibold text-foreground underline decoration-foreground/30 underline-offset-4">Full Stack Development</strong>, with enterprise experience since 2019.
-              </p>
-
-              <div className="mt-5 flex flex-wrap justify-center gap-2.5 font-mono text-[10px] sm:mt-6 sm:text-xs">
-                {["IT MANAGER", "CYBERSECURITY SPECIALIST", "SECURE SYSTEMS"].map((badge, idx) => (
-                  <span key={idx} className="paper-sheet border-2 border-border/80 px-3.5 py-1.5 text-foreground font-semibold uppercase tracking-wider">
-                    <TextScramble text={badge} trigger="both" speed={30} />
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Action Buttons & Social Links - Centered */}
-            <div className="mt-8 sm:mt-10 flex flex-col items-center gap-6">
-              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-                <AnimatedButton
-                  href="/#portfolio"
-                  variant="primary"
-                  className="h-12 px-6 sm:h-14 sm:px-8"
-                >
-                  EXPLORE WORK <ArrowDownRight className="ml-2 h-4 w-4" />
-                </AnimatedButton>
-
-                <AnimatedButton
-                  href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=drive_link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outline"
-                  className="h-12 px-6 sm:h-14 sm:px-8 border-border/80 hover:border-foreground/80 bg-background/80 backdrop-blur-sm"
-                >
-                  DOWNLOAD CV <Download className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-                </AnimatedButton>
-              </div>
-
-              {/* Social Icon Grid - Centered */}
-              <div className="flex items-center justify-center gap-2 pt-2">
-                {socials.map((social) => {
-                  const IconComponent = iconMap[social.icon]
-                  if (!IconComponent) return null
-
-                  return (
-                    <a
-                      key={social.id}
-                      href={social.url}
-                      target={social.name !== "Email" ? "_blank" : undefined}
-                      rel={social.name !== "Email" ? "noopener noreferrer" : undefined}
-                      className="flex h-10 w-10 items-center justify-center border border-border bg-card text-foreground transition-all duration-200 hover:bg-foreground hover:text-background sm:h-11 sm:w-11"
-                      title={social.name}
-                      aria-label={social.name}
-                    >
-                      <IconComponent className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
-                    </a>
-                  )
-                })}
-              </div>
+    <section ref={ref} id="home" className="kinetic-hero">
+      <div className="hero-grid" aria-hidden="true" />
+      <div className="section-container relative z-10">
+        <div className="hero-eyebrow">
+          <span><i /> ENGINEERING DIGITAL CONFIDENCE</span>
+          <span className="hidden sm:block">KERALA, INDIA ↗ WORLDWIDE</span>
+        </div>
+        <div className="hero-composition">
+          <div className="hero-copy">
+            <motion.div className="hero-title-block" style={{ y: reduced ? 0 : titleY }}>
+              <p className="hero-intro">IT manager. Ethical hacker. Builder.</p>
+              <h1 className="hero-name" aria-label="Karthik Lal">
+                <span className="hero-word" aria-hidden="true"><span>KARTHIK</span></span>
+                <span className="hero-word hero-name-outline" aria-hidden="true"><span>LAL<span className="hero-period">.</span></span></span>
+              </h1>
+            </motion.div>
+            <p className="hero-description">Secure systems.<br /><span>Thoughtful digital experiences.</span><br />I bring both worlds together.</p>
+            <div className="hero-actions">
+              <AnimatedButton href="/#portfolio" variant="primary">EXPLORE WORK <ArrowUpRight className="h-4 w-4" /></AnimatedButton>
+              <AnimatedButton href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=drive_link" target="_blank" rel="noopener noreferrer" variant="outline">DOWNLOAD CV <Download className="h-4 w-4" /></AnimatedButton>
             </div>
           </div>
-        </motion.div>
+          <div className="hero-art">
+            <motion.div className="hero-orbit" style={{ rotate: reduced ? -18 : orbitRotate }} aria-hidden="true" />
+            <motion.div className="hero-portrait" style={{ y: reduced ? 0 : portraitY }}>
+              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 1024px) 38vw, (min-width: 640px) 55vw, 32vw" className="object-cover" />
+              <div className="hero-portrait-shade" />
+              <span className="hero-photo-index">01 / THE HUMAN BEHIND THE SYSTEMS</span>
+            </motion.div>
+            <div className="hero-note"><span className="hero-note-icon">✳</span><span>BUILT WITH CURIOSITY.<br />BACKED BY EXPERIENCE.</span></div>
+            <div className="hero-experience"><strong>2019</strong><span>BUILDING & SECURING<br />SINCE</span></div>
+          </div>
+        </div>
+        <div className="hero-baseline">
+          <a href="#about" className="hero-scroll">SCROLL TO DISCOVER <ArrowDownRight className="h-5 w-5" /></a>
+          <span className="hidden lg:block">CYBERSECURITY / INFRASTRUCTURE / DEVELOPMENT</span>
+          <div className="flex gap-2">{socials.map(social => {
+            const Icon = iconMap[social.icon as keyof typeof iconMap]
+            return Icon ? <a key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name} className="hero-social"><Icon className="h-4 w-4" /></a> : null
+          })}</div>
+        </div>
       </div>
-
     </section>
   )
 }
