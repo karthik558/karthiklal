@@ -1,0 +1,42 @@
+import { test, expect } from "@playwright/test"
+
+for (const width of [390, 1440]) {
+  test(`career and credential filters work at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.emulateMedia({ reducedMotion: "reduce" })
+    await page.goto("/")
+    await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
+    const experience = page.locator("#experience")
+    await experience.getByRole("button", { name: "Education", exact: true }).click()
+    await expect(experience.locator("article").first()).toContainText("EDUCATION")
+    await experience.getByRole("combobox").selectOption("2018")
+    await expect(experience.getByRole("combobox")).toHaveValue("2018")
+    await experience.getByRole("combobox").selectOption("all")
+    await experience.getByRole("button", { name: "All roles", exact: true }).click()
+    await expect(experience.locator(".registry-list")).toHaveCSS("opacity", "1")
+    await expect(experience.locator("article").first()).toContainText("PROFESSIONAL EXPERIENCE")
+    await experience.scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `/tmp/experience-${width}.png` })
+    const credentials = page.locator("#certifications")
+    await credentials.getByRole("button", { name: "Archived", exact: true }).click()
+    await expect(credentials.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
+    await credentials.getByRole("button", { name: "INSPECT", exact: true }).first().click()
+    await expect(page.getByRole("dialog")).toBeVisible()
+    await page.getByRole("button", { name: "Close credential details" }).click()
+    await expect(page.getByRole("dialog")).toBeHidden()
+    await credentials.getByRole("button", { name: "All credentials", exact: true }).click()
+    await expect(credentials.locator("article")).toHaveCount(2)
+    await expect(credentials.locator("article").first().locator("..")).toHaveCSS("opacity", "1")
+    await credentials.scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `/tmp/credentials-${width}.png` })
+    for (const section of [experience, credentials]) {
+      const rows = section.locator("article")
+      const first = await rows.nth(0).boundingBox()
+      const second = await rows.nth(1).boundingBox()
+      expect(first).not.toBeNull()
+      expect(second).not.toBeNull()
+      expect(second!.y).toBeGreaterThanOrEqual(first!.y + first!.height - 1)
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
+}

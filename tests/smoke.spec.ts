@@ -200,7 +200,7 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(page.locator("#principles").getByText("Progressive loading", { exact: false })).toBeVisible()
 
   const experience = page.locator("#experience")
-  await expect(experience.getByText("ALL YEARS", { exact: true })).toBeVisible()
+  await expect(experience.getByRole("combobox", { name: "Career track year" })).toHaveValue("all")
   await expect(experience.getByRole("button", { name: "Credentials" })).toHaveCount(0)
   const loadMoreExperience = experience.getByRole("button", { name: /LOAD MORE/i })
   if (await loadMoreExperience.isVisible()) {
@@ -209,7 +209,7 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(experience.locator("article")).toHaveCount(10)
 
   const certifications = page.locator("#certifications")
-  await expect(certifications.getByText("ALL YEARS", { exact: true })).toBeVisible()
+  await expect(certifications.getByRole("combobox", { name: "Credential status year" })).toHaveValue("all")
   await certifications.getByRole("button", { name: "Archived", exact: true }).click()
   await expect(certifications.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
 

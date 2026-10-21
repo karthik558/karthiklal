@@ -1160,3 +1160,62 @@ body {
   .heading-reveal { opacity: 1; transform: none; transition: none; }
   .hero-portrait img, .hero-social { transition: none; }
 }
+
+/* Career timeline and credential collection */
+.registry-intro { max-width: 620px; margin: -8px 0 32px; color: hsl(var(--muted-foreground)); font-size: clamp(15px, 1.4vw, 18px); line-height: 1.75; }
+.registry-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid hsl(var(--border)); }
+.registry-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.registry-tabs button { min-height: 44px; padding: 10px 16px; font: 11px var(--font-mono, monospace); border-radius: 4px; transition: background .2s, color .2s; }
+.registry-tabs button[aria-pressed="true"] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+.registry-tabs button[aria-pressed="false"] { color: hsl(var(--muted-foreground)); }
+.registry-tabs button:hover { background: hsl(var(--primary) / .12); color: hsl(var(--foreground)); }
+.registry-year { display: flex; align-items: center; gap: 18px; }
+.registry-count { font: 10px var(--font-mono, monospace); color: hsl(var(--muted-foreground)); white-space: nowrap; }
+.registry-year select { min-height: 44px; max-width: 100%; padding: 10px 30px 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 4px; background: hsl(var(--card)); color: hsl(var(--foreground)); font: 11px var(--font-mono, monospace); cursor: pointer; }
+.registry-status { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--primary)); background: hsl(var(--primary) / .08); border: 1px solid hsl(var(--primary) / .22); border-radius: 30px; padding: 5px 9px; font: 9px var(--font-mono, monospace); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+.registry-status::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+.registry-status-archived { color: hsl(var(--muted-foreground)); border-color: hsl(var(--border)); background: hsl(var(--muted)); }
+.registry-kicker { font: 10px/1.7 var(--font-mono, monospace); letter-spacing: .12em; color: hsl(var(--muted-foreground)); text-transform: uppercase; }
+.credential-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; border-top: 1px solid hsl(var(--border)); }
+.credential-actions button, .credential-actions a { min-height: 44px; box-shadow: none; border-width: 1px; border-radius: 3px; }
+.credential-actions a { min-width: 44px; justify-content: center; }
+@media (max-width: 639px) {
+  .registry-intro { margin-bottom: 24px; }
+  .registry-toolbar { gap: 16px; margin-bottom: 24px; }
+  .registry-tabs { width: 100%; gap: 2px; }
+  .registry-tabs button { padding-inline: 10px; font-size: 10px; }
+  .registry-year { width: 100%; justify-content: space-between; }
+  .registry-kicker { font-size: 9px; }
+}
+
+/* Shared editorial list for career history and credentials. */
+.registry-list { position: relative; }
+.registry-entry { position: relative; display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 2fr) auto; gap: 32px; padding: 32px 24px 36px 0; border-bottom: 1px solid hsl(var(--border)); transition: background .25s; }
+.registry-entry:first-child { padding-top: 12px; }
+.registry-entry:hover, .registry-entry:focus-within { background: hsl(var(--primary) / .035); }
+.registry-entry-meta { position: relative; padding-left: 54px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; font: 11px/1.7 var(--font-mono, monospace); }
+.registry-entry-meta::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: -37px; width: 1px; background: hsl(var(--border)); }
+.registry-entry:last-child .registry-entry-meta::before { bottom: 0; }
+.registry-node { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid hsl(var(--border)); border-radius: 50%; background: hsl(var(--card)); color: hsl(var(--muted-foreground)); }
+.registry-entry[data-current] .registry-node { color: hsl(var(--primary)); border-color: hsl(var(--primary) / .4); background: hsl(var(--primary) / .08); }
+.registry-entry-detail { min-width: 0; }
+.registry-entry-detail h3 { margin: 10px 0; font: 700 clamp(22px, 2.5vw, 34px)/1.2 var(--font-display), sans-serif; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.registry-entry-detail > p:not(.registry-kicker) { color: hsl(var(--muted-foreground)); font-size: 14px; line-height: 1.7; }
+.registry-index { font: 500 32px var(--font-display), sans-serif; color: hsl(var(--border)); }
+.registry-entry .credential-actions { align-self: center; justify-content: flex-end; max-width: 240px; padding: 0; border: 0; }
+@media (min-width: 640px) and (max-width: 1023px) {
+  .registry-entry-credential { grid-template-columns: minmax(160px, .7fr) minmax(0, 2fr); }
+  .registry-entry-credential .credential-actions { grid-column: 2; justify-content: flex-start; max-width: none; }
+}
+@media (max-width: 639px) {
+  .registry-entry { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 24px 0 28px 48px; }
+  .registry-entry-meta { padding-left: 0; position: static; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 10px; }
+  .registry-node { top: 24px; width: 32px; height: 32px; }
+  .registry-entry:first-child .registry-node { top: 12px; }
+  .registry-entry-meta::before { left: 15px; top: 58px; bottom: -25px; }
+  .registry-entry:first-child .registry-entry-meta::before { top: 46px; }
+  .registry-index { display: none; }
+  .registry-entry-detail h3 { font-size: 23px; }
+  .registry-entry-detail > p:not(.registry-kicker) { font-size: 13px; }
+  .registry-entry .credential-actions { justify-content: flex-start; max-width: none; gap: 10px; }
+}

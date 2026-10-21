@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import {
   Award,
   Check,
@@ -10,9 +10,9 @@ import {
   Copy,
   ExternalLink,
   Eye,
-  ShieldCheck,
   X,
 } from "lucide-react"
+import RegistryFilters from "@/components/ui/registry-filters"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 import { playClickSound, playModalOpenSound, playSuccessSound } from "@/lib/sound-fx"
@@ -30,7 +30,7 @@ interface Certification {
 
 type CredentialFilter = "all" | "active" | "expired"
 
-const INITIAL_ITEMS = 3
+const INITIAL_ITEMS = 2
 const certifications = CERTIFICATIONS_DATA.certifications as Certification[]
 const years = Array.from({ length: 8 }, (_, index) => 2019 + index)
 
@@ -48,6 +48,7 @@ const filterOptions: { label: string; value: CredentialFilter }[] = [
 ]
 
 export default function CertificationsSection() {
+  const reduced = useReducedMotion()
   const [filter, setFilter] = useState<CredentialFilter>("all")
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [showAll, setShowAll] = useState(false)
@@ -69,11 +70,6 @@ export default function CertificationsSection() {
         .filter((item) => (filter === "all" ? true : item.status === filter))
         .sort((a, b) => getIssueTime(b.date) - getIssueTime(a.date) || a.id - b.id),
     [filter]
-  )
-
-  const activeYears = useMemo(
-    () => new Set(filtered.map((item) => getIssueYear(item.date))),
-    [filtered]
   )
 
   const selectedCredentials = useMemo(
@@ -98,7 +94,7 @@ export default function CertificationsSection() {
     setSelectedYear(null)
   }
 
-  const selectYear = (year: number) => {
+  const selectYear = (year: number | null) => {
     playClickSound()
     setSelectedYear((current) => (current === year ? null : year))
     setShowAll(false)
@@ -126,98 +122,18 @@ export default function CertificationsSection() {
           </div>
         </div>
 
-        {/* Paper Controls Sheet */}
-        <div className="paper-sheet border-2 border-border/80 bg-card p-5 sm:p-7 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-border">
-            {/* Status Filter Buttons */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground mr-1 hidden sm:inline">
-                STATUS:
-              </span>
-              {filterOptions.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => selectFilter(option.value)}
-                  aria-pressed={filter === option.value}
-                  className={`paper-button font-mono text-xs uppercase tracking-wider px-4 py-2 border-2 transition-all duration-150 cursor-pointer ${
-                    filter === option.value
-                      ? "border-foreground bg-foreground text-background font-bold"
-                      : "border-border bg-background text-foreground hover:border-foreground"
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
+        <p className="registry-intro">Always learning. A collection of professional credentials across security, technology, and leadership.</p>
+        <RegistryFilters label="Credential status" options={filterOptions} value={filter} onChange={selectFilter} years={years} selectedYear={selectedYear} onYearChange={selectYear} count={selectedCredentials.length} />
 
-            {/* Selected Year Display */}
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                FILTER:
-              </span>
-              <span className="font-display text-2xl sm:text-3xl font-black uppercase text-foreground">
-                {selectedYear ?? "ALL YEARS"}
-              </span>
-              {selectedYear !== null && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    playClickSound()
-                    setSelectedYear(null)
-                  }}
-                  className="paper-button font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 border border-border bg-background hover:bg-foreground hover:text-background transition-colors cursor-pointer"
-                  title="Show all years"
-                >
-                  RESET
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Timeline Years Ruler */}
-          <div className="pt-6">
-            <div className="flex items-center justify-between text-muted-foreground font-mono text-[10px] uppercase tracking-wider mb-3">
-              <span>SELECT ISSUE YEAR (SELECT ACTIVE AGAIN TO RESET)</span>
-              <span>2019 — 2026</span>
-            </div>
-            <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-              {years.map((year) => {
-                const selected = selectedYear === year
-                const available = activeYears.has(year)
-
-                return (
-                  <button
-                    key={year}
-                    type="button"
-                    onClick={() => selectYear(year)}
-                    aria-pressed={selected}
-                    aria-label={`${year}${selected ? ", selected; activate to show all years" : ""}`}
-                    className={`paper-button font-mono text-xs py-2 px-1 text-center border-2 transition-all duration-150 cursor-pointer ${
-                      selected
-                        ? "border-foreground bg-foreground text-background font-bold shadow-xs"
-                        : available
-                          ? "border-foreground/60 bg-background text-foreground hover:border-foreground"
-                          : "border-border/60 bg-muted/30 text-muted-foreground/40 hover:border-border"
-                    }`}
-                  >
-                    {year}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Credentials Grid */}
+        {/* Credentials List */}
         <AnimatePresence mode="wait">
           {visible.length > 0 ? (
             <motion.div
               key={`${filter}-${selectedYear}-${showAll}`}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: reduced ? 0 : 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              exit={{ opacity: 0, y: reduced ? 0 : -6 }}
+              className="registry-list"
             >
               {visible.map((item) => {
                 const isActive = item.status === "active"
@@ -226,58 +142,22 @@ export default function CertificationsSection() {
                 return (
                   <article
                     key={item.id}
-                    className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card p-6 hover:border-foreground/80 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                    className="registry-entry registry-entry-credential"
+                    data-current={isActive || undefined}
                   >
-                    {/* Background Giant Stroke Number Watermark */}
-                    <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
-                      <span
-                        className="font-display text-7xl sm:text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
-                        style={{
-                          WebkitTextStroke: "2.5px hsl(var(--foreground))",
-                          WebkitTextFillColor: "transparent",
-                        }}
-                      >
-                        {String(item.id).padStart(2, "0")}
-                      </span>
+                    <div className="registry-entry-meta">
+                      <span className="registry-node"><Award className="h-4 w-4" /></span>
+                      <span>Issued {item.date}</span>
+                      <span className={`registry-status ${isActive ? "" : "registry-status-archived"}`}>{isActive ? "Active" : "Archived"}</span>
                     </div>
-
-                    <div className="relative z-10 flex flex-col justify-between h-full">
-                      {/* Top Header: Issuer Tag & Status Badge */}
-                      <div className="flex items-center justify-between gap-2 mb-4">
-                        <span className="paper-tag font-bold text-[10px] truncate max-w-[180px]">
-                          {item.issuer}
-                        </span>
-                        <span
-                          className={`border px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider ${
-                            isActive
-                              ? "border-foreground bg-foreground text-background"
-                              : "border-border bg-muted/50 text-muted-foreground"
-                          }`}
-                        >
-                          {item.status}
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="font-display text-lg sm:text-xl font-black leading-snug text-foreground group-hover:underline">
-                        {item.title}
-                      </h3>
-
-                      {/* Dates */}
-                      <div className="mt-5 pt-4 border-t border-dashed border-border/80 flex flex-col gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                        <div className="flex justify-between items-center">
-                          <span>ISSUED:</span>
-                          <span className="font-bold text-foreground">{item.date}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span>EXPIRY:</span>
-                          <span className="font-bold text-foreground">{item.expiryDate}</span>
-                        </div>
-                      </div>
+                    <div className="registry-entry-detail">
+                      <p className="registry-kicker">{item.issuer}</p>
+                      <h3>{item.title}</h3>
+                      <p>Expiry: {item.expiryDate}</p>
                     </div>
 
                     {/* Bottom Actions Footer */}
-                    <div className="mt-6 pt-4 border-t border-border flex items-center justify-between gap-2">
+                    <div className="credential-actions">
                       {canCopy ? (
                         <button
                           type="button"
@@ -293,7 +173,7 @@ export default function CertificationsSection() {
                         </button>
                       ) : (
                         <span className="inline-flex items-center gap-1 border border-border/60 bg-muted/30 px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-                          <ShieldCheck className="h-3.5 w-3.5" /> VERIFIED
+                          <Award className="h-3.5 w-3.5" /> CREDENTIAL
                         </span>
                       )}
 
@@ -337,7 +217,7 @@ export default function CertificationsSection() {
                 <Award className="mx-auto h-7 w-7 text-muted-foreground" />
                 <h3 className="mt-4 font-display text-2xl font-black uppercase">No credential in this year</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Choose a marked year or change the status filter.
+                  Choose another year or change the status filter.
                 </p>
               </div>
             </motion.div>
