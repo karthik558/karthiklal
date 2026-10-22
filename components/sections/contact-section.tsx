@@ -1,20 +1,19 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import dynamic from "next/dynamic"
-import { Send, Check, Copy, ChevronDown } from "lucide-react"
+import { Send, Check, Copy } from "lucide-react"
 import { toast } from "sonner"
 import { PROFILE_DATA, PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
-const PROJECT_TYPES = [
+const SUGGESTED_TOPICS = [
   "Security audit",
   "Web development",
   "IT consulting",
   "Infrastructure and cloud",
   "Design and branding",
-  "Other / General inquiry",
+  "General inquiry",
 ] as const
-
 
 const ContactSuccessModal = dynamic(
   () => import("@/components/ui/contact-success-modal").then((mod) => mod.ContactSuccessModal),
@@ -26,76 +25,13 @@ export default function ContactSection() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [senderName, setSenderName] = useState("")
   const [copied, setCopied] = useState(false)
-  const [selectedSubject, setSelectedSubject] = useState("")
-  const [isSelectOpen, setIsSelectOpen] = useState(false)
-  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [subject, setSubject] = useState("")
   const [subjectError, setSubjectError] = useState(false)
   const [messageLength, setMessageLength] = useState(0)
-  const selectContainerRef = useRef<HTMLDivElement>(null)
-  const selectButtonRef = useRef<HTMLButtonElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
   const emailInputRef = useRef<HTMLInputElement>(null)
+  const subjectInputRef = useRef<HTMLInputElement>(null)
   const messageInputRef = useRef<HTMLTextAreaElement>(null)
-
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-      if (selectContainerRef.current && !selectContainerRef.current.contains(e.target as Node)) {
-        setIsSelectOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handleOutsideClick)
-    document.addEventListener("touchstart", handleOutsideClick)
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick)
-      document.removeEventListener("touchstart", handleOutsideClick)
-    }
-  }, [])
-
-  const handleSelectKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault()
-      if (!isSelectOpen) {
-        setIsSelectOpen(true)
-        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
-      } else {
-        setHighlightedIndex((prev) => (prev < PROJECT_TYPES.length - 1 ? prev + 1 : 0))
-      }
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault()
-      if (!isSelectOpen) {
-        setIsSelectOpen(true)
-        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : PROJECT_TYPES.length - 1)
-      } else {
-        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : PROJECT_TYPES.length - 1))
-      }
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault()
-      if (isSelectOpen && highlightedIndex >= 0 && highlightedIndex < PROJECT_TYPES.length) {
-        setSelectedSubject(PROJECT_TYPES[highlightedIndex])
-        setSubjectError(false)
-        setIsSelectOpen(false)
-      } else {
-        setIsSelectOpen((prev) => !prev)
-        if (!isSelectOpen) {
-          setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
-        }
-      }
-    } else if (e.key === "Escape") {
-      if (isSelectOpen) {
-        e.preventDefault()
-        setIsSelectOpen(false)
-      }
-    } else if (e.key === "Tab") {
-      setIsSelectOpen(false)
-    }
-  }
-
-  const selectOption = (type: string) => {
-    setSelectedSubject(type)
-    setSubjectError(false)
-    setIsSelectOpen(false)
-    selectButtonRef.current?.focus()
-  }
 
   const email = PROFILE_DATA.personalInfo.email || "contact@karthiklal.in"
 
@@ -112,7 +48,7 @@ export default function ContactSection() {
     const formData = new FormData(form)
     const name = (formData.get("name") as string)?.trim() || ""
     const emailValue = (formData.get("email") as string)?.trim() || ""
-    const subject = (formData.get("subject") as string)?.trim() || selectedSubject.trim()
+    const subjectValue = (formData.get("subject") as string)?.trim() || subject.trim()
     const message = (formData.get("message") as string)?.trim() || ""
     const website = (formData.get("website") as string) || ""
 
@@ -132,11 +68,11 @@ export default function ContactSection() {
       return
     }
 
-    if (!subject) {
+    if (subjectValue.length < 2) {
       setSubjectError(true)
-      selectButtonRef.current?.focus()
-      toast.error("Project type required", {
-        description: "Please choose a project type from the list.",
+      subjectInputRef.current?.focus()
+      toast.error("Subject is required", {
+        description: "Please enter or select a subject for your message.",
       })
       return
     }
@@ -156,7 +92,7 @@ export default function ContactSection() {
       const data = {
         name,
         email: emailValue,
-        subject,
+        subject: subjectValue,
         message,
         website,
       }
@@ -177,7 +113,7 @@ export default function ContactSection() {
 
       setSenderName(name)
       setShowSuccessModal(true)
-      setSelectedSubject("")
+      setSubject("")
       setMessageLength(0)
       setSubjectError(false)
       form.reset()
@@ -300,7 +236,7 @@ export default function ContactSection() {
               <form
                 onSubmit={handleSubmit}
                 onReset={() => {
-                  setSelectedSubject("")
+                  setSubject("")
                   setSubjectError(false)
                   setMessageLength(0)
                 }}
@@ -344,95 +280,87 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label
-                  id="contact-subject-label"
-                  htmlFor="contact-subject"
-                  className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs cursor-pointer select-none"
-                >
-                  PROJECT TYPE *
-                </label>
-                <div ref={selectContainerRef} className="relative">
-                  <button
-                    ref={selectButtonRef}
-                    type="button"
+                <div className="flex items-center justify-between mb-2">
+                  <label
+                    id="contact-subject-label"
+                    htmlFor="contact-subject"
+                    className="block uppercase tracking-wider text-muted-foreground font-mono text-xs cursor-pointer select-none"
+                  >
+                    SUBJECT *
+                  </label>
+                  <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+                    TYPE OR SELECT TOPIC
+                  </span>
+                </div>
+
+                <div className="relative">
+                  <input
+                    ref={subjectInputRef}
                     id="contact-subject"
-                    aria-labelledby="contact-subject-label"
-                    aria-haspopup="listbox"
-                    aria-expanded={isSelectOpen}
-                    data-invalid={subjectError ? "true" : undefined}
-                    aria-describedby={subjectError ? "contact-subject-error" : undefined}
-                    data-cursor-type="select"
-                    onClick={() => {
-                      setIsSelectOpen((prev) => !prev)
+                    name="subject"
+                    required
+                    type="text"
+                    minLength={2}
+                    maxLength={120}
+                    value={subject}
+                    onChange={(e) => {
+                      setSubject(e.target.value)
                       if (subjectError) setSubjectError(false)
-                      if (!isSelectOpen) {
-                        setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
-                      }
                     }}
-                    onKeyDown={handleSelectKeyDown}
-                    className={`w-full bg-background border-2 p-3.5 text-foreground flex items-center justify-between font-mono text-xs transition-colors focus:outline-none select-none cursor-pointer ${
+                    placeholder="e.g. Web development, Security audit, or custom subject..."
+                    list="subject-suggestions"
+                    data-cursor-type="text"
+                    aria-describedby={subjectError ? "contact-subject-error" : undefined}
+                    className={`w-full bg-background border-2 p-3.5 text-foreground font-mono text-xs focus:outline-none transition-colors ${
                       subjectError
-                        ? "border-destructive ring-1 ring-destructive text-destructive"
-                        : isSelectOpen
-                        ? "border-foreground"
+                        ? "border-destructive ring-1 ring-destructive text-destructive placeholder:text-destructive/60"
                         : "border-border hover:border-foreground/70 focus:border-foreground"
                     }`}
-                  >
-                    <span className={selectedSubject ? "text-foreground font-bold uppercase tracking-wider" : subjectError ? "text-destructive font-semibold uppercase tracking-wider" : "text-muted-foreground uppercase tracking-wider"}>
-                      {selectedSubject || "Select a project type"}
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 shrink-0 ml-2 ${
-                        subjectError ? "text-destructive" : "text-foreground"
-                      } ${isSelectOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-
-                  <input
-                    type="hidden"
-                    name="subject"
-                    value={selectedSubject}
-                    required
                   />
 
-                  {subjectError && (
-                    <p id="contact-subject-error" className="mt-1.5 font-mono text-[11px] font-bold text-destructive uppercase tracking-wider flex items-center gap-1">
-                      * Please select a project type from the list
-                    </p>
-                  )}
+                  <datalist id="subject-suggestions">
+                    {SUGGESTED_TOPICS.map((topic) => (
+                      <option key={topic} value={topic} />
+                    ))}
+                  </datalist>
+                </div>
 
-                  {isSelectOpen && (
-                    <ul
-                      role="listbox"
-                      aria-labelledby="contact-subject-label"
-                      className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 bg-card border-2 border-border/80 shadow-2xl py-1 divide-y divide-border/60 max-h-64 overflow-y-auto font-mono text-xs animate-in fade-in-0 duration-150"
-                    >
-                      {PROJECT_TYPES.map((type, idx) => {
-                        const isSelected = selectedSubject === type
-                        const isHighlighted = highlightedIndex === idx
-                        return (
-                          <li
-                            key={type}
-                            role="option"
-                            aria-selected={isSelected}
-                            data-cursor-type="button"
-                            onClick={() => selectOption(type)}
-                            onMouseEnter={() => setHighlightedIndex(idx)}
-                            className={`px-4 py-3 cursor-pointer flex items-center justify-between transition-colors select-none ${
-                              isSelected
-                                ? "bg-foreground text-background font-bold uppercase tracking-wider"
-                                : isHighlighted
-                                ? "bg-muted text-foreground uppercase tracking-wider font-semibold"
-                                : "text-foreground hover:bg-muted/60 uppercase tracking-wider"
-                            }`}
-                          >
-                            <span>{type}</span>
-                            {isSelected && <Check className="w-3.5 h-3.5 shrink-0 ml-2" />}
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  )}
+                {subjectError && (
+                  <p
+                    id="contact-subject-error"
+                    className="mt-1.5 font-mono text-[11px] font-bold text-destructive uppercase tracking-wider flex items-center gap-1"
+                  >
+                    * Please enter or select a subject for your message
+                  </p>
+                )}
+
+                {/* Quick Selection Chips */}
+                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono mr-1">
+                    TOPICS:
+                  </span>
+                  {SUGGESTED_TOPICS.map((topic) => {
+                    const isSelected = subject.trim().toLowerCase() === topic.toLowerCase()
+                    return (
+                      <button
+                        key={topic}
+                        type="button"
+                        data-cursor-type="button"
+                        onClick={() => {
+                          setSubject(topic)
+                          if (subjectError) setSubjectError(false)
+                          subjectInputRef.current?.focus()
+                        }}
+                        className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider border transition-all cursor-pointer select-none ${
+                          isSelected
+                            ? "bg-foreground text-background border-foreground font-bold shadow-sm"
+                            : "bg-background border-border text-muted-foreground hover:text-foreground hover:border-foreground"
+                        }`}
+                      >
+                        {topic}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 

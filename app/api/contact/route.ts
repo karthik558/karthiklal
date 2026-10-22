@@ -7,7 +7,7 @@ export const runtime = "edge"
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(80, "Name cannot exceed 80 characters"),
   email: z.string().trim().email("Please provide a valid email address").max(254),
-  subject: z.string().trim().min(2, "Please select or provide a project type").max(120),
+  subject: z.string().trim().min(2, "Please enter a subject").max(120),
   message: z.string().trim().min(10, "Message must be at least 10 characters long").max(5000, "Message cannot exceed 5000 characters"),
   website: z.string().max(200).optional().default(""),
 })
