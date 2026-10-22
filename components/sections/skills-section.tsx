@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { ChevronDown, Code2, Cpu, Palette, Shield, Terminal, Wrench } from "lucide-react"
+import { ArrowUpRight, ChevronDown, Code2, Cpu, Palette, Shield, Terminal, Wrench } from "lucide-react"
 import skillsData from "@/public/data/skills.json"
 
 const iconMap = { Code2, Terminal, Shield, Cpu, Palette, Wrench }
@@ -18,6 +18,7 @@ export default function SkillsSection() {
             <div className="mb-3"><span className="paper-stamp">05 // EXPERTISE &amp; TOOLKIT</span></div>
             <h2 className="section-title">SKILLS &amp; EXPERTISE</h2>
           </div>
+          <a href="https://github.com/karthik558" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold underline decoration-primary underline-offset-8 hover:text-primary">Explore my GitHub <ArrowUpRight className="h-4 w-4" /></a>
         </div>
         <div className="grid items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
           {skillsData.skillCategories.map((category, index) => {

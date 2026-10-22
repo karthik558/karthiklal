@@ -1,130 +1,64 @@
-"use client"
-
-import { useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { ArrowUpRight, Gauge, Layers3, ScanEye, ShieldCheck, TriangleAlert } from "lucide-react"
+import { Gauge, ScanEye, ShieldCheck, Target, CheckCheck } from "lucide-react"
 
 const principles = [
-  {
-    title: "Security is part of UX",
-    short: "Trust must be visible.",
-    description: "Security decisions should reduce uncertainty, protect people by default, and communicate system state without adding friction.",
-    practice: "Least privilege, clear feedback, guarded defaults, and privacy-aware interaction design.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Clarity before decoration",
-    short: "Every element earns its place.",
-    description: "Visual craft is strongest when hierarchy, language, and interaction make the next action immediately understandable.",
-    practice: "Direct copy, deliberate contrast, restrained motion, and interfaces organized around intent.",
-    icon: ScanEye,
-  },
-  {
-    title: "Build for failure",
-    short: "Resilience is designed early.",
-    description: "Networks drop, dependencies fail, and people make mistakes. Recovery should be an intentional part of the product.",
-    practice: "Safe fallbacks, useful error states, timeouts, validation, and observable system behavior.",
-    icon: TriangleAlert,
-  },
-  {
-    title: "Systems, not screens",
-    short: "Consistency must scale.",
-    description: "A durable product is a connected set of rules, components, data structures, and decisions—not a collection of isolated pages.",
-    practice: "Reusable primitives, typed content, shared patterns, and maintainable technical boundaries.",
-    icon: Layers3,
-  },
-  {
-    title: "Performance is a feature",
-    short: "Speed shapes perception.",
-    description: "A product cannot feel premium if it delays the person using it. Performance, accessibility, and bandwidth are design constraints.",
-    practice: "Progressive loading, responsive media, reduced-motion support, and efficient client behavior.",
-    icon: Gauge,
-  },
+  { title: "Make it clear", description: "Simple choices. Intuitive interfaces.", icon: ScanEye },
+  { title: "Build in trust", description: "Secure defaults. Reliable foundations.", icon: ShieldCheck },
+  { title: "Keep it fast", description: "Responsive screens. Efficient systems.", icon: Gauge },
 ]
 
-export default function PrinciplesSection() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const active = principles[activeIndex]
-  const ActiveIcon = active.icon
-
+function TreeConnector({ merge = false }: { merge?: boolean }) {
   return (
-    <section id="principles" className="section-shell overflow-hidden border-t-2 border-border">
+    <svg viewBox="0 0 1200 64" preserveAspectRatio="none" className="hidden h-16 w-full overflow-visible text-primary/50 md:block" fill="none" aria-hidden="true">
+      <defs><marker id={merge ? "build-merge-arrow" : "build-branch-arrow"} markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="m1 1 3 2.5L1 6" stroke="currentColor" strokeWidth="1.2" fill="none" /></marker></defs>
+      {merge ? (
+        <>
+          <path d="M200 0v20q0 12 12 12h776q12 0 12-12V0M600 0v32" stroke="currentColor" vectorEffect="non-scaling-stroke" />
+          <path d="M600 32v29" stroke="currentColor" vectorEffect="non-scaling-stroke" markerEnd="url(#build-merge-arrow)" />
+        </>
+      ) : (
+        <>
+          <path d="M600 0v24M200 61V36q0-12 12-12h776q12 0 12 12v25M600 24v37" stroke="currentColor" vectorEffect="non-scaling-stroke" />
+          {[200, 600, 1000].map(x => <path key={x} d={`M${x} 55v6`} stroke="currentColor" vectorEffect="non-scaling-stroke" markerEnd="url(#build-branch-arrow)" />)}
+        </>
+      )}
+    </svg>
+  )
+}
+
+export default function PrinciplesSection() {
+  return (
+    <section id="principles" className="section-shell border-t-2 border-border">
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <div className="mb-3">
-              <span className="paper-stamp">
-                02 // OPERATING PRINCIPLES
-              </span>
-            </div>
-            <h2 className="section-title">HOW I BUILD</h2>
+            <div className="mb-3"><span className="paper-stamp">02 // HOW I THINK</span></div>
+            <h2 className="section-title max-w-4xl !text-4xl sm:!text-5xl lg:!text-6xl">HOW DO I BUILD ?<br className="hidden sm:block" /></h2>
           </div>
         </div>
-
-        <div className="paper-sheet grid border-2 border-border/80 lg:grid-cols-[minmax(300px,.75fr)_minmax(0,1.25fr)] overflow-hidden">
-          <div className="border-b-2 border-border/80 bg-card lg:border-b-0 lg:border-r-2">
-            {principles.map((principle, index) => {
-              const Icon = principle.icon
-              const selected = activeIndex === index
-              return (
-                <button
-                  key={principle.title}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-pressed={selected}
-                  className={`group flex w-full items-center gap-4 border-b border-border px-5 py-5 text-left transition-colors last:border-b-0 sm:px-7 ${
-                    selected ? "bg-foreground text-background" : "bg-card text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <span className={`grid h-10 w-10 shrink-0 place-items-center border ${selected ? "border-background/35" : "border-border"}`}>
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-display text-lg font-black uppercase sm:text-xl">{principle.title}</span>
-                    <span className={`mt-1 block font-mono text-[9px] font-bold uppercase tracking-widest ${selected ? "text-background/60" : "text-muted-foreground"}`}>
-                      {principle.short}
-                    </span>
-                  </span>
-                  <ArrowUpRight className={`h-4 w-4 shrink-0 transition-transform ${selected ? "translate-x-0.5 -translate-y-0.5" : "group-hover:translate-x-0.5 group-hover:-translate-y-0.5"}`} />
-                </button>
-              )
-            })}
+        <div role="group" aria-label="My approach: understand the problem, design for clarity, security and speed, then test and refine">
+          <div className="mx-auto flex max-w-md items-center justify-center gap-3 border border-primary/40 bg-primary/[0.06] px-5 py-5 text-center">
+            <Target aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
+            <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">Understand the problem.</p>
           </div>
-
-          <div className="relative flex min-h-[460px] flex-col justify-between overflow-hidden bg-background p-7 sm:p-10 lg:min-h-[520px] lg:p-14">
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/.22)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/.18)_1px,transparent_1px)] bg-[size:48px_48px]" />
-            <div className="pointer-events-none absolute -right-5 -top-10 font-display text-[13rem] font-black leading-none text-foreground/[0.035]">
-              {String(activeIndex + 1).padStart(2, "0")}
-            </div>
-
-            <AnimatePresence initial={false} mode="wait">
-              <motion.div
-                key={active.title}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 flex flex-1 flex-col justify-between"
-              >
-                <div>
-                  <div className="mb-10 flex items-center justify-between border-b border-border pb-5 font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                    <span>PRINCIPLE / {String(activeIndex + 1).padStart(2, "0")}</span>
-                    <ActiveIcon className="h-5 w-5 text-foreground" />
-                  </div>
-                  <h3 className="max-w-3xl font-display text-4xl font-black uppercase leading-[.95] tracking-tight sm:text-6xl lg:text-7xl">
-                    {active.title}
-                  </h3>
-                  <p className="mt-8 max-w-2xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg">
-                    {active.description}
-                  </p>
+          <TreeConnector />
+          <svg aria-hidden="true" viewBox="0 0 360 32" preserveAspectRatio="none" className="h-8 w-full text-primary/50 md:hidden" fill="none"><path d="M180 0v8q0 8-8 8H20q-8 0-8 8v8" stroke="currentColor" vectorEffect="non-scaling-stroke" /></svg>
+          <div className="relative ml-3 grid gap-3 border-l border-primary/40 pl-6 md:ml-0 md:grid-cols-3 md:gap-4 md:border-0 md:p-0">
+            {principles.map(({ title, description, icon: Icon }) => (
+              <article key={title} className="relative min-w-0 border border-border bg-card/60 p-5 sm:p-6">
+                <svg aria-hidden="true" viewBox="0 0 24 12" className="absolute -left-[25px] top-1/2 h-3 w-6 -translate-y-1/2 text-primary/60 md:hidden" fill="none"><path d="M0 6h22m-4-4 4 4-4 4" stroke="currentColor" /></svg>
+                <div className="flex items-center gap-3">
+                  <Icon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
+                  <h3 className="font-display text-xl font-bold tracking-tight">{title}</h3>
                 </div>
-
-                <div className="mt-12 border-l-2 border-border pl-5">
-                  <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">IN PRACTICE</div>
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground">{active.practice}</p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
+              </article>
+            ))}
+          </div>
+          <TreeConnector merge />
+          <svg aria-hidden="true" viewBox="0 0 360 32" preserveAspectRatio="none" className="h-8 w-full text-primary/50 md:hidden" fill="none"><path d="M12 0v8q0 8 8 8h152q8 0 8 8v6m-4-4 4 4 4-4" stroke="currentColor" vectorEffect="non-scaling-stroke" /></svg>
+          <div className="mx-auto flex max-w-md items-center justify-center gap-3 border border-foreground/30 bg-card px-5 py-5 text-center">
+            <CheckCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
+            <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">Test. Refine. Deliver.</p>
           </div>
         </div>
       </div>

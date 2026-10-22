@@ -196,8 +196,8 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
 
   await expect(page.locator("#principles")).toBeAttached()
-  await page.getByRole("button", { name: /Performance is a feature/i }).click()
-  await expect(page.locator("#principles").getByText("Progressive loading", { exact: false })).toBeVisible()
+  await expect(page.locator("#principles article")).toHaveCount(3)
+  await expect(page.locator("#principles").getByRole("heading", { name: "Keep it fast" })).toBeVisible()
 
   const experience = page.locator("#experience")
   await expect(experience.getByRole("combobox", { name: "Career track year" })).toHaveText("All years")

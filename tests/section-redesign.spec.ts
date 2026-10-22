@@ -17,17 +17,19 @@ test('redesigned sections fit small screens and keep their content accessible', 
     await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'contain')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     if (width === 390 || width === 1440) {
-      for (const id of ['portfolio-gallery', 'skills', 'services']) {
+      for (const id of ['portfolio-gallery', 'skills', 'services', 'principles']) {
         await page.locator('#' + id).scrollIntoViewIfNeeded()
         await page.locator('#' + id).screenshot({ path: `/tmp/redesign-${width}-${id}.png` })
       }
     }
   }
+  await expect(page.locator('#principles article')).toHaveCount(3)
   const skills = page.locator('#skills')
   await skills.getByRole('button', { name: 'More tools — Programming Languages', exact: true }).click()
-  await expect(skills.getByText('C · C++ · Bash · Shell Scripting', { exact: true })).toBeVisible()
+  await expect(skills.getByText('C · C++ · Bash · Shell Scripting', { exact: false })).toBeVisible()
+  await expect(skills.getByText('PowerShell', { exact: false })).toBeVisible()
   await skills.getByRole('button', { name: 'Fewer tools — Programming Languages', exact: true }).click()
-  await expect(skills.getByText('C · C++ · Bash · Shell Scripting', { exact: true })).toBeHidden()
+  await expect(skills.getByText('C · C++ · Bash · Shell Scripting', { exact: false })).toBeHidden()
   const services = page.locator('#services')
   const webService = services.getByRole('button', { name: 'Web development', exact: true })
   await webService.click()
