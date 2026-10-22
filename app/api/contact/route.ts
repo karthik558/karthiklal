@@ -115,17 +115,146 @@ export async function POST(request: NextRequest) {
   const safeSubject = escapeHtml(subject)
   const safeMessage = escapeHtml(message)
 
+  const receivedAt = new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date())
+
   const html = `
     <!doctype html>
     <html lang="en">
-      <body style="margin:0;padding:32px;background:#09090b;color:#f4f4f5;font-family:Arial,sans-serif">
-        <main style="max-width:620px;margin:auto;padding:32px;background:#18181b;border:2px solid #3f3f46">
-          <p style="font:700 11px monospace;letter-spacing:2px;color:#a1a1aa">NEW PORTFOLIO INQUIRY</p>
-          <h1 style="font-size:28px">New inquiry from ${safeName}</h1>
-          <p><strong>Email:</strong> <a style="color:#fff" href="mailto:${safeEmail}">${safeEmail}</a></p>
-          <p><strong>Subject:</strong> ${safeSubject}</p>
-          <div style="white-space:pre-wrap;padding:20px;background:#09090b;border:1px solid #3f3f46">${safeMessage}</div>
-        </main>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      <body style="margin: 0; padding: 40px 16px; background-color: #0a0908; color: #ece6de; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 620px; margin: 0 auto; background-color: #161412; border: 2px solid #3a342e; box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.45);">
+          <!-- Top Airmail Dispatch Stripe -->
+          <tr>
+            <td style="height: 8px; background: repeating-linear-gradient(-45deg, #ba3d2c 0px, #ba3d2c 14px, #f3efe9 14px, #f3efe9 20px, #2c4f7c 20px, #2c4f7c 34px, #f3efe9 34px, #f3efe9 40px); font-size: 0; line-height: 0;">&nbsp;</td>
+          </tr>
+
+          <!-- Memo Header Section -->
+          <tr>
+            <td style="padding: 32px 32px 24px 32px; border-bottom: 2px solid #2a2520;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="vertical-align: top;">
+                    <div style="display: inline-block; padding: 4px 10px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #e85a48; background-color: rgba(232, 90, 72, 0.12); border: 1.5px dashed #e85a48;">
+                      COMMUNICATION DISPATCH // 09
+                    </div>
+                  </td>
+                  <td style="text-align: right; vertical-align: top; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 700; color: #9c9284; letter-spacing: 1.5px; text-transform: uppercase;">
+                    IST (UTC+5:30)
+                  </td>
+                </tr>
+              </table>
+
+              <h1 style="margin: 20px 0 4px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 26px; font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; text-transform: uppercase; color: #ffffff;">
+                NEW PORTFOLIO INQUIRY
+              </h1>
+              <p style="margin: 0; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 700; color: #ba3d2c; letter-spacing: 1px; text-transform: uppercase;">
+                TRANSMISSION MEMO // REGISTERED
+              </p>
+            </td>
+          </tr>
+
+          <!-- Sender Dossier Specs Table -->
+          <tr>
+            <td style="padding: 24px 32px; background-color: #12100e;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #332d27; border-collapse: collapse;">
+                <tr>
+                  <td style="width: 120px; padding: 10px 14px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; color: #a19788; text-transform: uppercase; letter-spacing: 1.5px; background-color: #1e1a17; border-bottom: 1px solid #2d2722;">
+                    FROM
+                  </td>
+                  <td style="padding: 10px 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; background-color: #181513; border-bottom: 1px solid #2d2722;">
+                    ${safeName}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 120px; padding: 10px 14px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; color: #a19788; text-transform: uppercase; letter-spacing: 1.5px; background-color: #1e1a17; border-bottom: 1px solid #2d2722;">
+                    EMAIL
+                  </td>
+                  <td style="padding: 10px 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 700; background-color: #181513; border-bottom: 1px solid #2d2722;">
+                    <a href="mailto:${safeEmail}" style="color: #e85a48; text-decoration: none; border-bottom: 1px dotted #e85a48;">${safeEmail}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 120px; padding: 10px 14px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; color: #a19788; text-transform: uppercase; letter-spacing: 1.5px; background-color: #1e1a17; border-bottom: 1px solid #2d2722;">
+                    SUBJECT
+                  </td>
+                  <td style="padding: 10px 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; background-color: #181513; border-bottom: 1px solid #2d2722;">
+                    <span style="display: inline-block; padding: 2px 8px; background-color: #26211c; border: 1px solid #4a4036; color: #f0eae1; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      ${safeSubject}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 120px; padding: 10px 14px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; color: #a19788; text-transform: uppercase; letter-spacing: 1.5px; background-color: #1e1a17;">
+                    RECEIVED
+                  </td>
+                  <td style="padding: 10px 14px; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 600; color: #c4bbb0; background-color: #181513;">
+                    ${receivedAt} // IST
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Message Content Box -->
+          <tr>
+            <td style="padding: 12px 32px 32px 32px; background-color: #161412;">
+              <div style="margin-bottom: 8px; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #a19788;">
+                // MESSAGE DISPATCH BODY
+              </div>
+              <div style="padding: 22px; background-color: #0c0b0a; border: 1.5px solid #38312b; color: #eae4dc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-break: break-word;">${safeMessage}</div>
+            </td>
+          </tr>
+
+          <!-- Action Button Area -->
+          <tr>
+            <td style="padding: 0 32px 32px 32px; background-color: #161412;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                <tr>
+                  <td style="text-align: left;">
+                    <a href="mailto:${safeEmail}?subject=Re:%20${encodeURIComponent(subject)}" style="display: inline-block; padding: 14px 28px; background-color: #ba3d2c; color: #ffffff; font-family: 'Courier New', Courier, monospace; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; border: 2px solid #ba3d2c; box-shadow: 3px 3px 0px #000000;">
+                      REPLY TO SENDER &rarr;
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="https://karthiklal.in" style="display: inline-block; padding: 14px 20px; background-color: #1e1a17; color: #eae4dc; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; border: 1.5px solid #38312b;">
+                      VIEW PORTFOLIO
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer Section -->
+          <tr>
+            <td style="padding: 24px 32px; background-color: #0d0c0a; border-top: 2px solid #2a2520; text-align: center;">
+              <p style="margin: 0 0 6px 0; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #f0eae1;">
+                KARTHIK LAL // PORTFOLIO DISPATCH
+              </p>
+              <p style="margin: 0 0 12px 0; font-family: 'Courier New', Courier, monospace; font-size: 10px; color: #7d7366; letter-spacing: 1px; text-transform: uppercase;">
+                KERALA, INDIA &bull; IST (UTC+5:30) &bull; DEV@KARTHIKLAL.IN
+              </p>
+              <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 10px; color: #5e564c; line-height: 1.5;">
+                This email was generated from the contact memo dispatch form on <a href="https://karthiklal.in" style="color: #9c9284; text-decoration: underline;">karthiklal.in</a>. All responses will be delivered directly to the sender.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Bottom Airmail Dispatch Stripe -->
+          <tr>
+            <td style="height: 8px; background: repeating-linear-gradient(-45deg, #ba3d2c 0px, #ba3d2c 14px, #f3efe9 14px, #f3efe9 20px, #2c4f7c 20px, #2c4f7c 34px, #f3efe9 34px, #f3efe9 40px); font-size: 0; line-height: 0;">&nbsp;</td>
+          </tr>
+        </table>
       </body>
     </html>
   `
