@@ -1,5 +1,6 @@
 "use client"
 
+import { buttonVariants } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ArrowUpRight, LayoutGrid, Rows, Star } from "lucide-react"
@@ -83,13 +84,12 @@ export default function TestimonialsSection() {
 
           <div className="flex flex-wrap items-center gap-3">
             {/* View Mode Toggle Button */}
-            <div className="flex items-center border-2 border-border bg-card p-1">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => switchView("carousel")}
-                className={`paper-button flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer ${
-                  viewMode === "carousel" ? "bg-foreground text-background font-bold" : "text-muted-foreground hover:text-foreground"
-                }`}
+                aria-pressed={viewMode === "carousel"}
+                className={buttonVariants({ variant: viewMode === "carousel" ? "default" : "outline", size: "sm" })}
                 title="Slideshow View"
               >
                 <Rows className="w-3.5 h-3.5" /> SLIDES
@@ -97,9 +97,8 @@ export default function TestimonialsSection() {
               <button
                 type="button"
                 onClick={() => switchView("grid")}
-                className={`paper-button flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer ${
-                  viewMode === "grid" ? "bg-foreground text-background font-bold" : "text-muted-foreground hover:text-foreground"
-                }`}
+                aria-pressed={viewMode === "grid"}
+                className={buttonVariants({ variant: viewMode === "grid" ? "default" : "outline", size: "sm" })}
                 title="All Reviews Grid View"
               >
                 <LayoutGrid className="w-3.5 h-3.5" /> ALL ({testimonials.length})

@@ -5,6 +5,7 @@ import Image from "next/image"
 import ParallaxImage from "@/components/ui/parallax-image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Github, Eye, X, ExternalLink } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import ProjectTransitionLink from "@/components/projects/project-transition-link"
 import projectsData from "@/public/data/projects.json"
@@ -69,11 +70,7 @@ export default function PortfolioSection() {
                   setArchiveIndex(0)
                 }}
                 aria-pressed={filter === cat}
-                className={`font-mono text-xs uppercase tracking-wider px-4 py-2 border transition-all duration-200 ${
-                  filter === cat
-                    ? "border-foreground bg-foreground text-background font-bold shadow-sm"
-                    : "border-border bg-card text-muted-foreground hover:border-foreground/50 hover:text-foreground"
-                }`}
+                className={buttonVariants({ variant: filter === cat ? "default" : "outline", size: "sm", className: "shrink-0" })}
               >
                 {cat}
               </button>

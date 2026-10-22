@@ -12,6 +12,7 @@ import {
   Eye,
   X,
 } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import RegistryFilters from "@/components/ui/registry-filters"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
@@ -162,7 +163,7 @@ export default function CertificationsSection() {
                         <button
                           type="button"
                           onClick={() => handleCopy(item.id, item.credentialId)}
-                          className="paper-button inline-flex items-center gap-1.5 border border-border bg-background px-2.5 py-1.5 font-mono text-[9px] font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-foreground transition-colors cursor-pointer"
+                          className={buttonVariants({ variant: "outline", size: "sm" })}
                         >
                           {copiedId === item.id ? (
                             <Check className="h-3.5 w-3.5 text-foreground" />
@@ -184,7 +185,7 @@ export default function CertificationsSection() {
                             playModalOpenSound()
                             setInspectedCredential(item)
                           }}
-                          className="paper-button inline-flex items-center gap-1 border-2 border-foreground bg-foreground px-3 py-1.5 font-mono text-[9px] font-bold uppercase tracking-wider text-background hover:bg-background hover:text-foreground transition-colors cursor-pointer"
+                          className={buttonVariants({ variant: "default", size: "sm" })}
                         >
                           INSPECT <Eye className="h-3.5 w-3.5" />
                         </button>
@@ -194,7 +195,7 @@ export default function CertificationsSection() {
                             href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="paper-button inline-flex items-center border-2 border-border bg-card p-1.5 font-mono text-[9px] font-bold uppercase hover:border-foreground hover:bg-background transition-colors"
+                            className={buttonVariants({ variant: "outline", size: "icon" })}
                             aria-label={`Verify ${item.title}`}
                           >
                             <ExternalLink className="h-3.5 w-3.5" />
@@ -261,7 +262,7 @@ export default function CertificationsSection() {
                   playClickSound()
                   setInspectedCredential(null)
                 }}
-                className="paper-button absolute right-4 top-4 border-2 border-foreground bg-foreground p-1.5 text-background transition-transform hover:scale-105 cursor-pointer"
+                className={`${buttonVariants({ size: "icon" })} absolute right-4 top-4`}
                 aria-label="Close credential details"
               >
                 <X className="h-4 w-4" />
@@ -312,7 +313,7 @@ export default function CertificationsSection() {
                   <button
                     type="button"
                     onClick={() => handleCopy(inspectedCredential.id, inspectedCredential.credentialId)}
-                    className="paper-button inline-flex h-10 items-center gap-2 border-2 border-border bg-background px-4 font-mono text-xs font-bold uppercase text-foreground hover:border-foreground cursor-pointer"
+                    className={buttonVariants({ variant: "outline", size: "default" })}
                   >
                     {copiedId === inspectedCredential.id ? <Check className="h-4 w-4 text-foreground" /> : <Copy className="h-4 w-4" />}
                     {copiedId === inspectedCredential.id ? "COPIED ID" : "COPY ID"}
@@ -324,7 +325,7 @@ export default function CertificationsSection() {
                     href={inspectedCredential.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="paper-button inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-5 font-mono text-xs font-bold uppercase text-background transition-all hover:bg-background hover:text-foreground cursor-pointer"
+                    className={buttonVariants({ variant: "default", size: "default" })}
                   >
                     VERIFY PORTAL <ExternalLink className="h-4 w-4" />
                   </a>

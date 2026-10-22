@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import SmoothLink from "@/components/smooth-link";
 import { cn } from "@/lib/utils";
@@ -31,10 +32,10 @@ export const AnimatedButton = ({
   const baseStyles = "group inline-flex items-center justify-center gap-2 rounded-none px-6 py-3.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider select-none cursor-pointer paper-button";
   
   // Primary: Solid fill -> Inverts cleanly on hover
-  const primaryStyles = "border-2 border-foreground bg-foreground text-background hover:bg-background hover:text-foreground";
+  const primaryStyles = buttonVariants({ variant: "default" });
   
   // Outline: Glass/Card fill -> Inverts cleanly on hover
-  const outlineStyles = "border-2 border-border bg-card text-foreground hover:border-foreground hover:bg-foreground hover:text-background";
+  const outlineStyles = buttonVariants({ variant: "outline" });
 
   const content = (
     <span className="relative z-10 flex items-center gap-2 text-inherit">
@@ -50,26 +51,26 @@ export const AnimatedButton = ({
   if (href) {
     if (href.startsWith("/#")) {
       element = (
-        <SmoothLink href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+        <SmoothLink href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
           {content}
         </SmoothLink>
       );
     } else if (isExternal) {
       element = (
-        <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+        <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
           {content}
         </a>
       );
     } else {
       element = (
-        <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
+        <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
           {content}
         </Link>
       );
     }
   } else {
     element = (
-      <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...props}>
+      <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)} {...props}>
         {content}
       </button>
     );

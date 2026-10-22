@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, SlidersHorizontal, X } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { getBehanceUrl } from "@/lib/static-data"
 import featuredDesignsData from "@/public/data/featured-designs.json"
@@ -120,9 +121,7 @@ export default function PortfolioGallerySection() {
                 type="button"
                 onClick={() => updateFilter(item)}
                 aria-pressed={filter === item}
-                className={`shrink-0 border px-3 py-2 font-mono text-[9px] font-black uppercase tracking-widest transition-colors ${
-                  filter === item ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
-                }`}
+                className={buttonVariants({ variant: filter === item ? "default" : "outline", size: "sm", className: "shrink-0" })}
               >
                 {item}
               </button>
