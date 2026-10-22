@@ -130,8 +130,8 @@ export default function PortfolioGallerySection() {
           </div>
         </div>
 
-        <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.75fr)_minmax(300px,0.75fr)]">
-          <div className="relative min-h-[330px] overflow-hidden border-b border-border bg-muted sm:min-h-[500px] lg:min-h-[620px] lg:border-b-0 lg:border-r">
+        <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+          <div className="relative aspect-square overflow-hidden border-b border-border bg-muted/40 lg:aspect-auto lg:min-h-[520px] lg:border-b-0 lg:border-r">
             <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={activeItem.image}
@@ -139,23 +139,19 @@ export default function PortfolioGallerySection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.995 }}
                 transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0"
+                className="absolute inset-x-4 bottom-20 top-4 sm:inset-x-6 sm:top-6"
               >
                 <Image
                   src={activeItem.image}
                   alt={activeItem.title}
                   fill
                   priority={galleryIndex === 0}
-                  sizes="(min-width: 1280px) 820px, (min-width: 1024px) 65vw, 100vw"
-                  className="object-cover"
+                  sizes="(min-width: 1280px) 700px, (min-width: 1024px) 55vw, 100vw"
+                  className="object-contain"
                 />
               </motion.div>
             </AnimatePresence>
 
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
-            <div className="absolute left-4 top-4 border border-white/30 bg-black/65 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md sm:left-6 sm:top-6">
-              SELECTED / {String(galleryIndex + 1).padStart(2, "0")}
-            </div>
             <button
               type="button"
               onClick={() => setSelectedImage(activeItem)}
@@ -166,14 +162,7 @@ export default function PortfolioGallerySection() {
             </button>
           </div>
 
-          <div className="relative flex min-h-[430px] flex-col justify-between p-6 sm:min-h-[440px] sm:p-8 lg:min-h-[620px] lg:p-10">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-3 -top-8 select-none font-display text-[10rem] font-black leading-none text-foreground/[0.035] sm:text-[13rem]"
-            >
-              {String(galleryIndex + 1).padStart(2, "0")}
-            </div>
-
+          <div className="relative flex min-w-0 flex-col justify-between p-5 sm:p-8 lg:p-10">
             <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={activeItem.title}
@@ -183,23 +172,23 @@ export default function PortfolioGallerySection() {
                 transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-10"
               >
-                <div className="mb-7 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                <div className="mb-5 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   <span>DESIGN STUDY</span>
                   <span>{String(galleryIndex + 1).padStart(2, "0")} / {String(filteredItems.length).padStart(2, "0")}</span>
                 </div>
                 <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
                   {activeItem.discipline}
                 </p>
-                <h3 className="line-clamp-3 min-h-[6.5rem] max-w-sm font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-foreground sm:min-h-[8.6rem] sm:text-5xl lg:min-h-[10.75rem] lg:text-6xl">
+                <h3 className="break-words font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl xl:text-5xl">
                   {activeItem.title}
                 </h3>
-                <p className="mt-6 line-clamp-3 min-h-[4.5rem] max-w-sm text-sm font-light leading-relaxed text-muted-foreground">
+                <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
                   {activeItem.description}
                 </p>
               </motion.div>
             </AnimatePresence>
 
-            <div className="relative z-10 mt-10">
+            <div className="relative z-10 mt-6 lg:mt-10">
               <div className="mb-5 h-px overflow-hidden bg-border">
                 <div
                   className="h-full origin-left bg-foreground transition-[width] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
@@ -208,7 +197,7 @@ export default function PortfolioGallerySection() {
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  USE ARROWS TO EXPLORE
+                  EXPLORE DESIGNS
                 </span>
                 <div className="flex gap-2">
                   <button

@@ -8,43 +8,27 @@ import servicesData from "@/public/data/services.json"
 
 const iconMap = { Shield, Code2, Cloud, Palette }
 
-const serviceDetails: Record<string, { deliverables: string[]; highlight: string }> = {
+const serviceDetails: Record<string, { title: string; outcome: string; deliverables: string[] }> = {
   "Network Security & Penetration Testing": {
-    deliverables: [
-      "Full Network Penetration Testing & Vulnerability Assessment",
-      "WAF & Firewall Security Rule Configurations",
-      "DDoS Defense & Incident Response Planning",
-      "PCI-DSS Compliance Audits & Staff Training"
-    ],
-    highlight: "Securing corporate networks and hospitality infrastructures against zero-day threats."
+    title: "Security & penetration testing",
+    outcome: "Find weaknesses, strengthen your defenses, and prepare your team to respond.",
+    deliverables: ["Network testing & vulnerability assessment", "Firewall configuration & threat protection", "Incident response & security training"],
   },
   "Full Stack Web Development": {
-    deliverables: [
-      "Custom Next.js & React Web Application Engineering",
-      "High-Performance API Design & Supabase Backend Systems",
-      "Framer Motion Micro-Interactions & Responsive UI/UX",
-      "SEO Optimization, Analytics & Cloudflare Deployment"
-    ],
-    highlight: "Building hyper-fast, scalable digital products that deliver real user engagement."
+    title: "Web development",
+    outcome: "Turn your idea into a responsive application that is fast, usable, and easy to maintain.",
+    deliverables: ["React & Next.js applications", "APIs, databases & integrations", "Performance, SEO & deployment"],
   },
   "Cloud Hosting & Virtualization": {
-    deliverables: [
-      "VMware ESXi Cluster Setup & Server Virtualization",
-      "AWS / Cloudflare Zero-Trust Network Architecture",
-      "Disaster Recovery, Automated Backups & High Availability",
-      "Linux Server Administration & System Performance Tuning"
-    ],
-    highlight: "Ensuring 99.9% uptime SLAs across server clusters and distributed networks."
+    title: "Cloud & infrastructure",
+    outcome: "Keep your systems dependable, with infrastructure built for daily operations and recovery.",
+    deliverables: ["Cloud hosting & server virtualization", "Backups & disaster recovery", "Linux administration & monitoring"],
   },
   "Graphic Design & Branding": {
-    deliverables: [
-      "Comprehensive Visual Identity & Brand Guidelines",
-      "Ui/UX Wireframing & Interactive Prototypes",
-      "High-Resolution Print & Digital Marketing Collateral",
-      "Social Media Visual Systems & Video Post-Production"
-    ],
-    highlight: "Crafting memorable, bold visual languages for brands and digital products."
-  }
+    title: "Design & branding",
+    outcome: "Give your brand a consistent visual identity across screens, campaigns, and print.",
+    deliverables: ["Visual identity & brand guidelines", "Interface design & prototypes", "Digital campaigns & print collateral"],
+  },
 }
 
 export default function ServicesSection() {
@@ -69,140 +53,60 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* Accordion / Cards List */}
-        <div className="space-y-6">
-          {servicesData.services.map((service, index) => {
+        <div className="border-t border-border">
+          {servicesData.services.map(service => {
             const Icon = iconMap[service.icon as keyof typeof iconMap] || Shield
-            const details = serviceDetails[service.title] || { deliverables: [], highlight: "" }
+            const details = serviceDetails[service.title] || { title: service.title, outcome: service.description, deliverables: [] }
             const isExpanded = expandedId === service.id
-            const numStr = String(index + 1).padStart(2, "0")
             const panelId = `service-details-${service.id}`
-
+            const headingId = `service-heading-${service.id}`
             return (
-              <motion.article
-                key={service.id}
-                layout="position"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  opacity: { duration: 0.4, delay: index * 0.05 },
-                  y: { duration: 0.4, delay: index * 0.05 },
-                  layout: { duration: prefersReducedMotion ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] },
-                }}
-                className={`paper-sheet group relative border-2 transition-all duration-300 overflow-hidden ${
-                  isExpanded ? "border-foreground/70 bg-card shadow-lg" : "border-border/80 bg-card hover:border-foreground/60"
-                }`}
-              >
-                {/* Background Giant Stroke Number Watermark */}
-                <div className="absolute right-4 bottom-0 pointer-events-none select-none overflow-hidden opacity-[0.06] dark:opacity-[0.1] z-0 transition-opacity duration-300 group-hover:opacity-20">
-                  <span
-                    className="font-display text-8xl md:text-9xl font-black uppercase tracking-tighter text-transparent leading-none block"
-                    style={{
-                      WebkitTextStroke: "2.5px hsl(var(--foreground))",
-                      WebkitTextFillColor: "transparent",
-                    }}
+              <article key={service.id} className="border-b border-border">
+                <h3>
+                  <button
+                    id={headingId}
+                    type="button"
+                    onClick={() => setExpandedId(isExpanded ? null : service.id)}
+                    aria-expanded={isExpanded}
+                    aria-controls={panelId}
+                    className="flex w-full items-center gap-4 py-6 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary sm:gap-6 sm:py-8"
                   >
-                    {numStr}
-                  </span>
-                </div>
-
-                {/* Accordion Header */}
-                <button
-                  type="button"
-                  onClick={() => setExpandedId(isExpanded ? null : service.id)}
-                  aria-expanded={isExpanded}
-                  aria-controls={panelId}
-                  className="w-full p-6 md:p-8 flex items-center justify-between text-left focus:outline-none relative z-10"
-                >
-                  <div className="flex items-center gap-6">
-                    <span className="font-mono text-xl md:text-2xl font-black text-muted-foreground">
-                      [{numStr}]
+                    <Icon className="hidden h-6 w-6 shrink-0 text-primary sm:block" strokeWidth={1.5} />
+                    <span className="min-w-0 flex-1 font-display text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{details.title}</span>
+                    <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${isExpanded ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}>
+                      <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                     </span>
-
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 border border-foreground bg-foreground text-background hidden sm:block">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <h3 className="font-display text-2xl md:text-3xl font-black text-foreground">
-                        {service.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-xs uppercase text-muted-foreground hidden md:block">
-                      {isExpanded ? "COLLAPSE" : "EXPAND DETAILS"}
-                    </span>
-                    <div className={`p-2 border border-border transition-transform duration-300 ${isExpanded ? "rotate-180 bg-foreground text-background" : "bg-background text-foreground"}`}>
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                </button>
-
-                {/* Accordion Expanded Content */}
+                  </button>
+                </h3>
                 <AnimatePresence initial={false}>
                   {isExpanded && (
                     <motion.div
                       id={panelId}
                       role="region"
+                      aria-labelledby={headingId}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{
-                        height: {
-                          duration: prefersReducedMotion ? 0 : 0.52,
-                          ease: [0.22, 1, 0.36, 1],
-                        },
-                        opacity: {
-                          duration: prefersReducedMotion ? 0 : 0.28,
-                          delay: isExpanded && !prefersReducedMotion ? 0.08 : 0,
-                        },
-                      }}
-                      className="relative z-10 overflow-hidden"
+                      transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
                     >
-                      <div className="border-t border-border bg-background px-6 py-8 md:px-8">
-                        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-                          <div className="lg:col-span-6">
-                            <div className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                              SERVICE OVERVIEW
-                            </div>
-                            <p className="mb-6 font-sans text-base font-light leading-relaxed text-foreground">
-                              {service.description}
-                            </p>
-
-                            <div className="border-l-2 border-border bg-card/60 p-4 font-sans text-sm italic leading-relaxed text-foreground/90">
-                              &ldquo;{details.highlight}&rdquo;
-                            </div>
-                          </div>
-
-                          <div className="lg:col-span-6">
-                            <div className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                              KEY DELIVERABLES
-                            </div>
-
-                            <div className="mb-8 space-y-2.5">
-                              {details.deliverables.map((item, idx) => (
-                                <div key={idx} className="flex items-start gap-3 font-sans text-sm text-foreground">
-                                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" />
-                                  <span>{item}</span>
-                                </div>
-                              ))}
-                            </div>
-
-                            <Link
-                              href="/contact"
-                              className="inline-flex items-center gap-2 border-2 border-foreground bg-foreground px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all duration-300 hover:bg-background hover:text-foreground"
-                            >
-                              INITIATE SERVICE INQUIRY <ArrowUpRight className="h-4 w-4" />
-                            </Link>
-                          </div>
+                      <div className="grid gap-6 pb-8 sm:pl-12 lg:grid-cols-2 lg:gap-16">
+                        <div>
+                          <p className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">{details.outcome}</p>
+                          <Link href="/contact" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold underline decoration-primary underline-offset-8 hover:text-primary">
+                            Let’s talk <ArrowUpRight className="h-4 w-4" />
+                          </Link>
                         </div>
+                        <ul className="space-y-3">
+                          {details.deliverables.map(item => (
+                            <li key={item} className="flex items-start gap-3 text-sm leading-relaxed sm:text-base"><Check className="mt-1 h-4 w-4 shrink-0 text-primary" /><span>{item}</span></li>
+                          ))}
+                        </ul>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.article>
+              </article>
             )
           })}
         </div>
