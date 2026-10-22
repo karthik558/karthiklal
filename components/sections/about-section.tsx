@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { MapPin } from "lucide-react"
 import ParallaxImage from "@/components/ui/parallax-image"
+import { playHoverSound } from "@/lib/sound-fx"
 
 const stats = [
   {
@@ -122,14 +123,17 @@ export default function AboutSection() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: statIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={reduced ? undefined : { y: -3 }}
-              className="paper-sheet paper-index-card group flex flex-col justify-center border-2 border-border/80 hover:border-foreground/80 p-5 md:p-6 transition-all duration-300"
+              onMouseEnter={() => playHoverSound()}
+              className="paper-sheet paper-index-card group flex flex-col justify-between border-2 border-border/80 hover:border-foreground/80 p-5 md:p-6 transition-all duration-300"
             >
-              <div className="font-display text-4xl font-black text-foreground md:text-5xl">
-                {stat.value}
-                {stat.suffix && <span className="text-muted-foreground">{stat.suffix}</span>}
-              </div>
-              <div className="mt-2 min-h-8 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground md:text-xs">
-                {stat.label}
+              <div>
+                <div className="font-display text-4xl font-black text-foreground md:text-5xl">
+                  {stat.value}
+                  {stat.suffix && <span className="text-muted-foreground">{stat.suffix}</span>}
+                </div>
+                <div className="mt-2 min-h-8 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground md:text-xs">
+                  {stat.label}
+                </div>
               </div>
 
               <div
@@ -157,28 +161,21 @@ export default function AboutSection() {
                           key={`${stat.label}-${index}`}
                           className="relative flex h-full min-w-1 flex-1 items-end"
                         >
-                          <motion.span
-                            initial={reduced ? undefined : { scaleY: 0 }}
-                            whileInView={reduced ? undefined : { scaleY: 1 }}
-                            viewport={{ once: true, margin: "-20px" }}
-                            transition={{
-                              duration: 0.6,
-                              delay: statIdx * 0.08 + index * 0.035,
-                              ease: [0.16, 1, 0.3, 1],
-                            }}
-                            className={`relative block w-full origin-bottom transition-colors duration-300 ${
+                          <span
+                            className={`relative block w-full origin-bottom scale-y-[0.55] transition-all duration-500 ease-out group-hover:scale-y-100 motion-reduce:scale-y-100 motion-reduce:transition-none ${
                               isLatest
                                 ? "bg-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]"
-                                : "bg-foreground/25 group-hover:bg-foreground/70"
+                                : "bg-foreground/20 group-hover:bg-foreground/70"
                             }`}
                             style={{
                               height: `${height}%`,
+                              transitionDelay: `${index * 45}ms`,
                             }}
                           >
                             {isLatest && (
                               <span className="absolute -top-1.5 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-card bg-foreground transition-transform duration-300 group-hover:scale-125 motion-reduce:transition-none" />
                             )}
-                          </motion.span>
+                          </span>
                         </span>
                       )
                     })}
@@ -196,4 +193,3 @@ export default function AboutSection() {
     </section>
   )
 }
-
