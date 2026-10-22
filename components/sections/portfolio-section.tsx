@@ -112,7 +112,12 @@ export default function PortfolioSection() {
                   className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-border/80 bg-muted z-10"
                   style={{ viewTransitionName: `project-${project.id}` }}
                 >
-                  <ParallaxImage src={project.image} alt={project.title} sizes="(min-width: 1024px) 50vw, 100vw" />
+                  <ParallaxImage
+                    src={project.image}
+                    alt={project.title}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    loading="eager"
+                  />
                   
                   {/* Badges */}
                   <div className="absolute top-4 left-4 flex items-center gap-2 z-20">

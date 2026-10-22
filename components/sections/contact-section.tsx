@@ -29,8 +29,13 @@ export default function ContactSection() {
   const [selectedSubject, setSelectedSubject] = useState("")
   const [isSelectOpen, setIsSelectOpen] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [subjectError, setSubjectError] = useState(false)
+  const [messageLength, setMessageLength] = useState(0)
   const selectContainerRef = useRef<HTMLDivElement>(null)
   const selectButtonRef = useRef<HTMLButtonElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const messageInputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
@@ -67,6 +72,7 @@ export default function ContactSection() {
       e.preventDefault()
       if (isSelectOpen && highlightedIndex >= 0 && highlightedIndex < PROJECT_TYPES.length) {
         setSelectedSubject(PROJECT_TYPES[highlightedIndex])
+        setSubjectError(false)
         setIsSelectOpen(false)
       } else {
         setIsSelectOpen((prev) => !prev)
@@ -86,6 +92,7 @@ export default function ContactSection() {
 
   const selectOption = (type: string) => {
     setSelectedSubject(type)
+    setSubjectError(false)
     setIsSelectOpen(false)
     selectButtonRef.current?.focus()
   }
@@ -100,21 +107,58 @@ export default function ContactSection() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const name = (formData.get("name") as string)?.trim() || ""
+    const emailValue = (formData.get("email") as string)?.trim() || ""
+    const subject = (formData.get("subject") as string)?.trim() || selectedSubject.trim()
+    const message = (formData.get("message") as string)?.trim() || ""
+    const website = (formData.get("website") as string) || ""
+
+    if (name.length < 2) {
+      nameInputRef.current?.focus()
+      toast.error("Name is required", {
+        description: "Please enter your full name (minimum 2 characters).",
+      })
+      return
+    }
+
+    if (!emailValue || !emailValue.includes("@")) {
+      emailInputRef.current?.focus()
+      toast.error("Valid email is required", {
+        description: "Please enter a valid email address.",
+      })
+      return
+    }
+
+    if (!subject) {
+      setSubjectError(true)
+      selectButtonRef.current?.focus()
+      toast.error("Project type required", {
+        description: "Please choose a project type from the list.",
+      })
+      return
+    }
+
+    if (message.length < 10) {
+      messageInputRef.current?.focus()
+      toast.error("Message is too short", {
+        description: "Please provide at least 10 characters describing your inquiry.",
+      })
+      return
+    }
+
     setIsLoading(true)
+    setSubjectError(false)
 
     try {
-      const form = event.currentTarget
-      const formData = new FormData(form)
       const data = {
-        name: formData.get("name") as string,
-        email: formData.get("email") as string,
-        subject: (formData.get("subject") as string) || selectedSubject,
-        message: formData.get("message") as string,
-        website: formData.get("website") as string,
-      }
-
-      if (!data.name?.trim() || !data.email?.trim() || !data.subject?.trim() || !data.message?.trim()) {
-        throw new Error("All fields are required")
+        name,
+        email: emailValue,
+        subject,
+        message,
+        website,
       }
 
       const controller = new AbortController()
@@ -127,11 +171,15 @@ export default function ContactSection() {
       }).finally(() => window.clearTimeout(timeout))
 
       const responseData = await response.json().catch(() => ({}))
-      if (!response.ok) throw new Error(responseData.error || "Failed to submit message")
+      if (!response.ok) {
+        throw new Error(responseData.error || "Failed to submit message")
+      }
 
-      setSenderName(data.name)
+      setSenderName(name)
       setShowSuccessModal(true)
       setSelectedSubject("")
+      setMessageLength(0)
+      setSubjectError(false)
       form.reset()
     } catch (error) {
       toast.error("Message not sent", {
@@ -249,20 +297,30 @@ export default function ContactSection() {
                 <span className="paper-tag font-bold">REGISTERED DISPATCH // IST</span>
               </div>
 
-              <form onSubmit={handleSubmit} onReset={() => setSelectedSubject("")} className="space-y-6 font-mono text-xs">
-              <div className="hidden" aria-hidden="true">
+              <form
+                onSubmit={handleSubmit}
+                onReset={() => {
+                  setSelectedSubject("")
+                  setSubjectError(false)
+                  setMessageLength(0)
+                }}
+                className="space-y-6 font-mono text-xs"
+              >
+              <div className="opacity-0 absolute -z-50 pointer-events-none select-none h-0 w-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
                 <label htmlFor="website">Website</label>
-                <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                <input id="website" name="website" type="text" tabIndex={-1} autoComplete="new-password" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="contact-name" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR NAME *</label>
                   <input
+                    ref={nameInputRef}
                     id="contact-name"
                     name="name"
                     required
                     type="text"
                     autoComplete="name"
+                    minLength={2}
                     maxLength={80}
                     placeholder="Enter your full name"
                     className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
@@ -272,6 +330,7 @@ export default function ContactSection() {
                 <div>
                   <label htmlFor="contact-email" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">YOUR EMAIL *</label>
                   <input
+                    ref={emailInputRef}
                     id="contact-email"
                     name="email"
                     required
@@ -300,25 +359,32 @@ export default function ContactSection() {
                     aria-labelledby="contact-subject-label"
                     aria-haspopup="listbox"
                     aria-expanded={isSelectOpen}
+                    data-invalid={subjectError ? "true" : undefined}
+                    aria-describedby={subjectError ? "contact-subject-error" : undefined}
                     data-cursor-type="select"
                     onClick={() => {
                       setIsSelectOpen((prev) => !prev)
+                      if (subjectError) setSubjectError(false)
                       if (!isSelectOpen) {
                         setHighlightedIndex(selectedSubject ? PROJECT_TYPES.indexOf(selectedSubject as (typeof PROJECT_TYPES)[number]) : 0)
                       }
                     }}
                     onKeyDown={handleSelectKeyDown}
                     className={`w-full bg-background border-2 p-3.5 text-foreground flex items-center justify-between font-mono text-xs transition-colors focus:outline-none select-none cursor-pointer ${
-                      isSelectOpen ? "border-foreground" : "border-border hover:border-foreground/70 focus:border-foreground"
+                      subjectError
+                        ? "border-destructive ring-1 ring-destructive text-destructive"
+                        : isSelectOpen
+                        ? "border-foreground"
+                        : "border-border hover:border-foreground/70 focus:border-foreground"
                     }`}
                   >
-                    <span className={selectedSubject ? "text-foreground font-bold uppercase tracking-wider" : "text-muted-foreground uppercase tracking-wider"}>
+                    <span className={selectedSubject ? "text-foreground font-bold uppercase tracking-wider" : subjectError ? "text-destructive font-semibold uppercase tracking-wider" : "text-muted-foreground uppercase tracking-wider"}>
                       {selectedSubject || "Select a project type"}
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 text-foreground transition-transform duration-200 shrink-0 ml-2 ${
-                        isSelectOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-4 h-4 transition-transform duration-200 shrink-0 ml-2 ${
+                        subjectError ? "text-destructive" : "text-foreground"
+                      } ${isSelectOpen ? "rotate-180" : ""}`}
                     />
                   </button>
 
@@ -328,6 +394,12 @@ export default function ContactSection() {
                     value={selectedSubject}
                     required
                   />
+
+                  {subjectError && (
+                    <p id="contact-subject-error" className="mt-1.5 font-mono text-[11px] font-bold text-destructive uppercase tracking-wider flex items-center gap-1">
+                      * Please select a project type from the list
+                    </p>
+                  )}
 
                   {isSelectOpen && (
                     <ul
@@ -365,14 +437,26 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="contact-message" className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs">MESSAGE DETAILS *</label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    required
-                    maxLength={5000}
+                <div className="flex items-center justify-between mb-2">
+                  <label htmlFor="contact-message" className="block uppercase tracking-wider text-muted-foreground font-mono text-xs">
+                    MESSAGE DETAILS *
+                  </label>
+                  <span className={`font-mono text-[10px] ${messageLength > 0 && messageLength < 10 ? "text-destructive font-bold" : "text-muted-foreground"}`}>
+                    {messageLength > 0 && messageLength < 10
+                      ? `MIN 10 CHARS (${messageLength}/10)`
+                      : `${messageLength}/5000`}
+                  </span>
+                </div>
+                <textarea
+                  ref={messageInputRef}
+                  id="contact-message"
+                  name="message"
+                  required
+                  minLength={10}
+                  maxLength={5000}
                   rows={6}
-                  placeholder="Enter your message details and technical requirements..."
+                  onChange={(e) => setMessageLength(e.target.value.length)}
+                  placeholder="Enter your message details and technical requirements (minimum 10 characters)..."
                   className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>

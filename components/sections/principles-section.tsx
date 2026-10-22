@@ -83,8 +83,8 @@ export default function PrinciplesSection() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={reduced ? undefined : { y: -4, borderColor: "hsl(var(--primary))" }}
-                className="group relative min-w-0 border border-border bg-card/60 p-5 sm:p-6 transition-all duration-300 hover:shadow-[2px_2px_0px_hsl(var(--primary))]"
+                whileHover={reduced ? undefined : { y: -4 }}
+                className="group relative min-w-0 border border-border hover:border-primary bg-card/60 p-5 sm:p-6 transition-all duration-300 hover:shadow-[2px_2px_0px_hsl(var(--primary))]"
               >
                 <svg aria-hidden="true" viewBox="0 0 26 12" className="absolute -left-[26px] top-1/2 h-3 w-[26px] -translate-y-1/2 text-primary/50 md:hidden" fill="none"><path d="M0 6h24m-4-4 4 4-4 4" stroke="currentColor" /></svg>
                 <div className="flex items-center gap-3">

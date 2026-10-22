@@ -14,6 +14,11 @@ export function getClientKey(request: Request) {
 }
 
 export function rateLimit(key: string, limit: number, windowMs: number) {
+  // In development, do not aggressively rate limit local testing
+  if (process.env.NODE_ENV === "development") {
+    return { allowed: true, remaining: limit, retryAfter: 0 }
+  }
+
   const now = Date.now()
   const current = entries.get(key)
 
@@ -36,4 +41,8 @@ export function rateLimit(key: string, limit: number, windowMs: number) {
     remaining: Math.max(0, limit - current.count),
     retryAfter,
   }
+}
+
+export function resetRateLimits() {
+  entries.clear()
 }

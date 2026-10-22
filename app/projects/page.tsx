@@ -218,6 +218,7 @@ export default function ProjectsPage() {
                     <ProjectTransitionLink
                       href={`/projects/${featuredProject.id}`}
                       projectId={featuredProject.id}
+                      shareElement={false}
                       ariaLabel={`View ${featuredProject.title} case study`}
                       className="paper-button inline-flex h-11 items-center gap-2 border-2 border-foreground bg-foreground px-6 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                     >
@@ -309,6 +310,7 @@ export default function ProjectsPage() {
                           <ProjectTransitionLink
                             href={detailUrl}
                             projectId={project.id}
+                            shareElement={false}
                             className="paper-button inline-flex h-10 items-center gap-2 border-2 border-foreground bg-foreground px-4 font-mono text-xs font-bold uppercase tracking-wider text-background transition-colors hover:bg-background hover:text-foreground cursor-pointer shadow-sm"
                           >
                             CASE STUDY <ArrowUpRight className="w-3.5 h-3.5" />

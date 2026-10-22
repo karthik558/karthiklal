@@ -5,10 +5,10 @@ import { getClientKey, rateLimit } from "@/lib/rate-limit"
 export const runtime = "edge"
 
 const contactSchema = z.object({
-  name: z.string().trim().min(2).max(80),
-  email: z.string().trim().email().max(254),
-  subject: z.string().trim().min(2).max(120),
-  message: z.string().trim().min(10).max(5000),
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(80, "Name cannot exceed 80 characters"),
+  email: z.string().trim().email("Please provide a valid email address").max(254),
+  subject: z.string().trim().min(2, "Please select or provide a project type").max(120),
+  message: z.string().trim().min(10, "Message must be at least 10 characters long").max(5000, "Message cannot exceed 5000 characters"),
   website: z.string().max(200).optional().default(""),
 })
 
@@ -26,6 +26,7 @@ const wait = (milliseconds: number) =>
 
 async function sendWithRetry(payload: Record<string, unknown>) {
   let lastStatus = 503
+  let lastErrorMessage = ""
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const controller = new AbortController()
@@ -45,6 +46,8 @@ async function sendWithRetry(payload: Record<string, unknown>) {
       if (response.ok) return response.json()
 
       lastStatus = response.status
+      const errorJson = (await response.json().catch(() => ({}))) as { message?: string }
+      lastErrorMessage = errorJson.message || response.statusText
       if (response.status < 500 && response.status !== 429) break
     } catch (error) {
       if (attempt === 2) throw error
@@ -55,13 +58,13 @@ async function sendWithRetry(payload: Record<string, unknown>) {
     await wait(250 * (2 ** attempt))
   }
 
-  throw new Error(`Email provider unavailable (${lastStatus})`)
+  throw new Error(`Email provider error (${lastStatus}): ${lastErrorMessage || "Service unavailable"}`)
 }
 
 export async function POST(request: NextRequest) {
   const requestId = crypto.randomUUID()
   const clientKey = getClientKey(request)
-  const limit = rateLimit(`contact:${clientKey}`, 5, 10 * 60 * 1000)
+  const limit = rateLimit(`contact:${clientKey}`, 15, 10 * 60 * 1000)
 
   if (!limit.allowed) {
     console.warn(JSON.stringify({ event: "contact_rate_limited", requestId }))
@@ -86,8 +89,9 @@ export async function POST(request: NextRequest) {
 
   const parsed = contactSchema.safeParse(rawBody)
   if (!parsed.success) {
+    const firstIssue = parsed.error.issues[0]
     return NextResponse.json(
-      { error: "Please check the form fields and try again." },
+      { error: firstIssue?.message || "Please check the form fields and try again." },
       { status: 400, headers: { "Cache-Control": "no-store" } },
     )
   }
@@ -145,7 +149,7 @@ export async function POST(request: NextRequest) {
     console.error(JSON.stringify({
       event: "contact_provider_error",
       requestId,
-      error: error instanceof Error ? error.name : "UnknownError",
+      error: error instanceof Error ? error.message : "UnknownError",
     }))
     return NextResponse.json(
       { error: "The message could not be sent right now. Please try again later." },
