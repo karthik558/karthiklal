@@ -129,7 +129,13 @@ export default function PortfolioGallerySection() {
           </div>
         </div>
 
-        <div className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="grid overflow-hidden border border-border/80 bg-card/60 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]"
+        >
           <div className="relative aspect-square overflow-hidden border-b border-border bg-muted/40 lg:aspect-auto lg:min-h-[520px] lg:border-b-0 lg:border-r">
             <AnimatePresence initial={false} mode="wait">
               <motion.div
@@ -221,7 +227,7 @@ export default function PortfolioGallerySection() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <div className="mt-5 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
           <span>{filter === "ALL" ? "COMPLETE ARCHIVE" : `${filter} ARCHIVE`} {"//"} {filteredItems.length} STUDIES</span>
@@ -229,8 +235,12 @@ export default function PortfolioGallerySection() {
           <span className="hidden sm:inline">SELECT A STUDY // SWIPE OR SCROLL</span>
         </div>
 
-        <div
+        <motion.div
           ref={railRef}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           role="tablist"
           aria-label="Choose a featured design"
           className="mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -271,7 +281,7 @@ export default function PortfolioGallerySection() {
               </button>
             )
           })}
-        </div>
+        </motion.div>
       </div>
 
       <AnimatePresence>

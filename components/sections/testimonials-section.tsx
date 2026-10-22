@@ -130,7 +130,11 @@ export default function TestimonialsSection() {
 
         {/* Carousel View: Stacked Paper Sheet Memo */}
         {viewMode === "carousel" ? (
-          <div
+          <motion.div
+            initial={reduceMotion ? undefined : { opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className="group relative pt-6 pb-2"
@@ -220,7 +224,7 @@ export default function TestimonialsSection() {
                 />
               ))}
             </div>
-          </div>
+          </motion.div>
         ) : (
           /* Grid View: Clean Paper Sheets Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 pt-4">

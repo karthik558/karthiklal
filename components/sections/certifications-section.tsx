@@ -136,13 +136,17 @@ export default function CertificationsSection() {
               exit={{ opacity: 0, y: reduced ? 0 : -6 }}
               className="registry-list"
             >
-              {visible.map((item) => {
+              {visible.map((item, index) => {
                 const isActive = item.status === "active"
                 const canCopy = Boolean(item.credentialId && item.credentialId !== "Not Available")
 
                 return (
-                  <article
+                  <motion.article
                     key={item.id}
+                    initial={reduced ? undefined : { opacity: 0, x: -18 }}
+                    whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     className="registry-entry registry-entry-credential"
                     data-current={isActive || undefined}
                   >
@@ -203,7 +207,7 @@ export default function CertificationsSection() {
                         )}
                       </div>
                     </div>
-                  </article>
+                  </motion.article>
                 )
               })}
             </motion.div>

@@ -126,7 +126,15 @@ export default function ExperienceSection() {
                   const Icon = item.type === "work" ? Briefcase : GraduationCap
 
                   return (
-                    <article key={item.id} className="registry-entry" data-current={item.current || undefined}>
+                    <motion.article
+                      key={item.id}
+                      initial={reduced ? undefined : { opacity: 0, x: -18 }}
+                      whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-30px" }}
+                      transition={{ duration: 0.5, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+                      className="registry-entry"
+                      data-current={item.current || undefined}
+                    >
                       <div className="registry-entry-meta">
                         <span className="registry-node"><Icon className="h-4 w-4" /></span>
                         <span>{item.duration}</span>
@@ -138,7 +146,7 @@ export default function ExperienceSection() {
                         <p>{item.organization}</p>
                       </div>
                       <span className="registry-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                    </article>
+                    </motion.article>
                   )
                 })}
               </motion.div>

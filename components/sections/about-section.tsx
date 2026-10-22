@@ -1,3 +1,6 @@
+"use client"
+
+import { motion, useReducedMotion } from "framer-motion"
 import { MapPin } from "lucide-react"
 import ParallaxImage from "@/components/ui/parallax-image"
 
@@ -35,6 +38,8 @@ const stats = [
 ]
 
 export default function AboutSection() {
+  const reduced = useReducedMotion()
+
   return (
     <section id="about" className="section-shell border-t-2 border-border">
       <div className="section-container">
@@ -56,7 +61,13 @@ export default function AboutSection() {
         {/* Top Editorial Row */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
           {/* Portrait Image Block with Washi Tape and Brass Paper Clip */}
-          <div className="paper-sheet paper-tape paper-clip lg:col-span-4 relative group overflow-hidden border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 min-h-[380px] lg:min-h-full">
+          <motion.div
+            initial={reduced ? undefined : { opacity: 0, x: -30 }}
+            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="paper-sheet paper-tape paper-clip lg:col-span-4 relative group overflow-hidden border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 min-h-[380px] lg:min-h-full"
+          >
             <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 33vw, 100vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
             <div className="absolute bottom-0 left-0 p-6 z-10">
@@ -68,10 +79,16 @@ export default function AboutSection() {
                 <MapPin className="w-3 h-3 text-foreground" /> KERALA, INDIA
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Profile Statement with Folded Corner */}
-          <div className="paper-sheet paper-folded-corner lg:col-span-8 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-10 flex flex-col justify-between">
+          <motion.div
+            initial={reduced ? undefined : { opacity: 0, x: 30 }}
+            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="paper-sheet paper-folded-corner lg:col-span-8 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-10 flex flex-col justify-between"
+          >
             <div>
               <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
                 <span className="paper-tag">ARCHIVAL DOSSIER // REF: KL-2026</span>
@@ -92,14 +109,19 @@ export default function AboutSection() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Stats Grid Bar - Styled as Library Catalog Index Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((stat) => (
-            <article
+          {stats.map((stat, statIdx) => (
+            <motion.article
               key={stat.label}
+              initial={reduced ? undefined : { opacity: 0, y: 24 }}
+              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: statIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={reduced ? undefined : { y: -3 }}
               className="paper-sheet paper-index-card group flex flex-col justify-center border-2 border-border/80 hover:border-foreground/80 p-5 md:p-6 transition-all duration-300"
             >
               <div className="font-display text-4xl font-black text-foreground md:text-5xl">
@@ -135,21 +157,28 @@ export default function AboutSection() {
                           key={`${stat.label}-${index}`}
                           className="relative flex h-full min-w-1 flex-1 items-end"
                         >
-                          <span
-                            className={`relative block w-full origin-bottom scale-y-[0.55] transition-all duration-500 ease-out group-hover:scale-y-100 motion-reduce:scale-y-100 motion-reduce:transition-none ${
+                          <motion.span
+                            initial={reduced ? undefined : { scaleY: 0 }}
+                            whileInView={reduced ? undefined : { scaleY: 1 }}
+                            viewport={{ once: true, margin: "-20px" }}
+                            transition={{
+                              duration: 0.6,
+                              delay: statIdx * 0.08 + index * 0.035,
+                              ease: [0.16, 1, 0.3, 1],
+                            }}
+                            className={`relative block w-full origin-bottom transition-colors duration-300 ${
                               isLatest
                                 ? "bg-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]"
-                                : "bg-foreground/20 group-hover:bg-foreground/70"
+                                : "bg-foreground/25 group-hover:bg-foreground/70"
                             }`}
                             style={{
                               height: `${height}%`,
-                              transitionDelay: `${index * 45}ms`,
                             }}
                           >
                             {isLatest && (
                               <span className="absolute -top-1.5 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-card bg-foreground transition-transform duration-300 group-hover:scale-125 motion-reduce:transition-none" />
                             )}
-                          </span>
+                          </motion.span>
                         </span>
                       )
                     })}
@@ -160,10 +189,11 @@ export default function AboutSection() {
                   <span>NOW</span>
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>
     </section>
   )
 }
+

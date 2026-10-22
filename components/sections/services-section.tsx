@@ -54,14 +54,21 @@ export default function ServicesSection() {
         </div>
 
         <div className="border-t border-border">
-          {servicesData.services.map(service => {
+          {servicesData.services.map((service, index) => {
             const Icon = iconMap[service.icon as keyof typeof iconMap] || Shield
             const details = serviceDetails[service.title] || { title: service.title, outcome: service.description, deliverables: [] }
             const isExpanded = expandedId === service.id
             const panelId = `service-details-${service.id}`
             const headingId = `service-heading-${service.id}`
             return (
-              <article key={service.id} className="border-b border-border">
+              <motion.article
+                key={service.id}
+                initial={prefersReducedMotion ? undefined : { opacity: 0, y: 18 }}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="border-b border-border"
+              >
                 <h3>
                   <button
                     id={headingId}
@@ -106,7 +113,7 @@ export default function ServicesSection() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </article>
+              </motion.article>
             )
           })}
         </div>

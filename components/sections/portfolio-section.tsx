@@ -87,10 +87,11 @@ export default function PortfolioSection() {
             return (
               <motion.article
                 key={project.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 35, rotate: index === 0 ? -1 : 1 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.65, delay: index * 0.14, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -4 }}
                 className="paper-sheet paper-folded-corner group relative flex flex-col justify-between border-2 border-border/80 bg-card transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden"
               >
                 {/* Background Giant Stroke Number Watermark */}
@@ -235,6 +236,11 @@ export default function PortfolioSection() {
                 return (
                   <motion.article
                     key={project.id}
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.55, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    whileHover={{ y: -3 }}
                     className="paper-sheet paper-folded-corner group relative flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden border-2 border-border/80 bg-card p-0 transition-all duration-300 hover:border-foreground/80 sm:w-[360px] sm:max-w-none md:w-[380px]"
                   >
                     {/* Background Giant Stroke Number Watermark */}
