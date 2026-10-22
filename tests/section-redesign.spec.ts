@@ -16,6 +16,22 @@ test('redesigned sections fit small screens and keep their content accessible', 
     await expect.poll(() => gallery.locator('img').first().evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true)
     await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'contain')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    if (width < 768) {
+      const tree = page.getByRole('group', { name: /My approach: understand the problem/ })
+      const alignment = await tree.evaluate(el => {
+        const rows = Array.from(el.children).filter(child => child.tagName === 'DIV')
+        const trunk = rows[2].getBoundingClientRect()
+        const finish = rows[4].getBoundingClientRect()
+        const path = rows[3].querySelector('path')!
+        const start = path.getPointAtLength(0).matrixTransform(path.getScreenCTM()!)
+        // The merge stem sits at the SVG's right edge, centered on the final box.
+        const svg = rows[3].querySelector('svg')!.getBoundingClientRect()
+        return { railOffset: Math.abs(start.x - trunk.left), railGap: Math.abs(start.y - trunk.bottom), centerOffset: Math.abs(svg.right - (finish.left + finish.width / 2)) }
+      })
+      expect(alignment.railOffset).toBeLessThan(1)
+      expect(alignment.railGap).toBeLessThan(1)
+      expect(alignment.centerOffset).toBeLessThan(1)
+    }
     if (width === 390 || width === 1440) {
       for (const id of ['portfolio-gallery', 'skills', 'services', 'principles']) {
         await page.locator('#' + id).scrollIntoViewIfNeeded()

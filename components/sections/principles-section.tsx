@@ -25,6 +25,16 @@ function TreeConnector({ merge = false }: { merge?: boolean }) {
   )
 }
 
+function MobileTreeConnector({ merge = false }: { merge?: boolean }) {
+  return (
+    <div aria-hidden="true" className="relative h-8 md:hidden">
+      <svg viewBox="0 0 100 32" preserveAspectRatio="none" className="absolute left-3 top-0 h-8 w-[calc(50%-12px)] overflow-visible text-primary/50" fill="none">
+        <path d={merge ? "M0 0v8q0 8 8 8h84q8 0 8 8v8m-4-4 4 4 4-4" : "M100 0v8q0 8-8 8H8q-8 0-8 8v8"} stroke="currentColor" vectorEffect="non-scaling-stroke" />
+      </svg>
+    </div>
+  )
+}
+
 export default function PrinciplesSection() {
   return (
     <section id="principles" className="section-shell border-t-2 border-border">
@@ -41,11 +51,11 @@ export default function PrinciplesSection() {
             <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">Understand the problem.</p>
           </div>
           <TreeConnector />
-          <svg aria-hidden="true" viewBox="0 0 360 32" preserveAspectRatio="none" className="h-8 w-full text-primary/50 md:hidden" fill="none"><path d="M180 0v8q0 8-8 8H20q-8 0-8 8v8" stroke="currentColor" vectorEffect="non-scaling-stroke" /></svg>
-          <div className="relative ml-3 grid gap-3 border-l border-primary/40 pl-6 md:ml-0 md:grid-cols-3 md:gap-4 md:border-0 md:p-0">
+          <MobileTreeConnector />
+          <div className="relative ml-3 grid gap-3 border-l border-primary/50 pl-6 md:ml-0 md:grid-cols-3 md:gap-4 md:border-0 md:p-0">
             {principles.map(({ title, description, icon: Icon }) => (
               <article key={title} className="relative min-w-0 border border-border bg-card/60 p-5 sm:p-6">
-                <svg aria-hidden="true" viewBox="0 0 24 12" className="absolute -left-[25px] top-1/2 h-3 w-6 -translate-y-1/2 text-primary/60 md:hidden" fill="none"><path d="M0 6h22m-4-4 4 4-4 4" stroke="currentColor" /></svg>
+                <svg aria-hidden="true" viewBox="0 0 26 12" className="absolute -left-[26px] top-1/2 h-3 w-[26px] -translate-y-1/2 text-primary/50 md:hidden" fill="none"><path d="M0 6h24m-4-4 4 4-4 4" stroke="currentColor" /></svg>
                 <div className="flex items-center gap-3">
                   <Icon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
                   <h3 className="font-display text-xl font-bold tracking-tight">{title}</h3>
@@ -55,7 +65,7 @@ export default function PrinciplesSection() {
             ))}
           </div>
           <TreeConnector merge />
-          <svg aria-hidden="true" viewBox="0 0 360 32" preserveAspectRatio="none" className="h-8 w-full text-primary/50 md:hidden" fill="none"><path d="M12 0v8q0 8 8 8h152q8 0 8 8v6m-4-4 4 4 4-4" stroke="currentColor" vectorEffect="non-scaling-stroke" /></svg>
+          <MobileTreeConnector merge />
           <div className="mx-auto flex max-w-md items-center justify-center gap-3 border border-foreground/30 bg-card px-5 py-5 text-center">
             <CheckCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
             <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">Test. Refine. Deliver.</p>
