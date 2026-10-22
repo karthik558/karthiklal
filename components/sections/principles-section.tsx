@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { useRef } from "react"
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion"
 import { Gauge, ScanEye, ShieldCheck, Target, CheckCheck } from "lucide-react"
 
 const principles = [
@@ -9,83 +10,26 @@ const principles = [
   { title: "Keep it fast", description: "Responsive screens. Efficient systems.", icon: Gauge },
 ]
 
-function TreeConnector({ merge = false }: { merge?: boolean }) {
+function ScrollConnector({ progress, merge = false, mobile = false }: { progress: MotionValue<number>; merge?: boolean; mobile?: boolean }) {
   const reduced = useReducedMotion()
+  const stage = useTransform(progress, merge ? [0.64, 0.94] : [0.08, 0.4], [0, 1])
+  const offset = useTransform(stage, value => 0.12 - value)
+  const opacity = useTransform(stage, [0, 0.03, 0.97, 1], [0, 1, 1, 0])
+  const paths = mobile
+    ? [merge ? "M0 0v8q0 8 8 8h84q8 0 8 8v8" : "M100 0v8q0 8-8 8H8q-8 0-8 8v8"]
+    : merge
+      ? ["M200 0v20q0 12 12 12h376q12 0 12 12v17", "M600 0v61", "M1000 0v20q0 12-12 12H612q-12 0-12 12v17"]
+      : ["M600 0v12q0 12-12 12H212q-12 0-12 12v25", "M600 0v61", "M600 0v12q0 12 12 12h376q12 0 12 12v25"]
 
   return (
-    <svg viewBox="0 0 1200 64" preserveAspectRatio="none" className="hidden h-16 w-full overflow-visible text-primary/60 md:block" fill="none" aria-hidden="true">
-      <defs>
-        <marker id={merge ? "build-merge-arrow" : "build-branch-arrow"} markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-          <path d="m1 1 3 2.5L1 6" stroke="currentColor" strokeWidth="1.2" fill="none" />
-        </marker>
-      </defs>
-      {merge ? (
-        <>
-          <motion.path
-            d="M200 0v20q0 12 12 12h776q12 0 12-12V0M600 0v32"
-            stroke="currentColor"
-            vectorEffect="non-scaling-stroke"
-            initial={reduced ? undefined : { pathLength: 0, opacity: 0.2 }}
-            whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          />
-          <motion.path
-            d="M600 32v29"
-            stroke="currentColor"
-            vectorEffect="non-scaling-stroke"
-            markerEnd="url(#build-merge-arrow)"
-            initial={reduced ? undefined : { pathLength: 0, opacity: 0.2 }}
-            whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-          />
-        </>
-      ) : (
-        <>
-          <motion.path
-            d="M600 0v24M200 61V36q0-12 12-12h776q12 0 12 12v25M600 24v37"
-            stroke="currentColor"
-            vectorEffect="non-scaling-stroke"
-            initial={reduced ? undefined : { pathLength: 0, opacity: 0.2 }}
-            whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          />
-          {[200, 600, 1000].map((x, i) => (
-            <motion.path
-              key={x}
-              d={`M${x} 55v6`}
-              stroke="currentColor"
-              vectorEffect="non-scaling-stroke"
-              markerEnd="url(#build-branch-arrow)"
-              initial={reduced ? undefined : { opacity: 0 }}
-              whileInView={reduced ? undefined : { opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
-            />
-          ))}
-        </>
-      )}
-    </svg>
-  )
-}
-
-function MobileTreeConnector({ merge = false }: { merge?: boolean }) {
-  const reduced = useReducedMotion()
-
-  return (
-    <div aria-hidden="true" className="relative h-8 md:hidden">
-      <svg viewBox="0 0 100 32" preserveAspectRatio="none" className="absolute left-3 top-0 h-8 w-[calc(50%-12px)] overflow-visible text-primary/60" fill="none">
-        <motion.path
-          d={merge ? "M0 0v8q0 8 8 8h84q8 0 8 8v8m-4-4 4 4 4-4" : "M100 0v8q0 8-8 8H8q-8 0-8 8v8"}
-          stroke="currentColor"
-          vectorEffect="non-scaling-stroke"
-          initial={reduced ? undefined : { pathLength: 0, opacity: 0.2 }}
-          whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-          viewport={{ once: true, margin: "-30px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        />
+    <div aria-hidden="true" className={mobile ? "relative h-8 md:hidden" : "hidden h-16 md:block"}>
+      <svg viewBox={mobile ? "0 0 100 32" : "0 0 1200 64"} preserveAspectRatio="none" className={mobile ? "build-path absolute left-3 top-0 h-8 w-[calc(50%-12px)] overflow-visible" : "build-path h-16 w-full overflow-visible"} fill="none">
+        <g className="build-path-track">
+          {paths.map(d => <path key={d} d={d} stroke="currentColor" vectorEffect="non-scaling-stroke" />)}
+        </g>
+        {!reduced && <motion.g className="build-path-light" style={{ opacity }}>
+          {paths.map(d => <motion.path key={d} d={d} pathLength="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="0.12 1" style={{ strokeDashoffset: offset }} vectorEffect="non-scaling-stroke" />)}
+        </motion.g>}
       </svg>
     </div>
   )
@@ -93,6 +37,12 @@ function MobileTreeConnector({ merge = false }: { merge?: boolean }) {
 
 export default function PrinciplesSection() {
   const reduced = useReducedMotion()
+  const diagramRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: diagramRef, offset: ["start 70%", "end 45%"] })
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 })
+  const gridPosition = useTransform(progress, [0.4, 0.64], ["0%", "100%"])
+  const gridOpacity = useTransform(progress, [0.4, 0.43, 0.61, 0.64], [0, 1, 1, 0])
+  const deliveryGlow = useTransform(progress, [0.9, 1], ["0 0 0px hsl(var(--primary) / 0)", "0 0 20px hsl(var(--primary) / .18)"])
 
   return (
     <section id="principles" className="section-shell border-t-2 border-border">
@@ -103,7 +53,7 @@ export default function PrinciplesSection() {
             <h2 className="section-title max-w-4xl !text-4xl sm:!text-5xl lg:!text-6xl">HOW DO I BUILD ?<br className="hidden sm:block" /></h2>
           </div>
         </div>
-        <div role="group" aria-label="My approach: understand the problem, design for clarity, security and speed, then test and refine">
+        <div ref={diagramRef} role="group" aria-label="My approach: understand the problem, design for clarity, security and speed, then test and refine">
           {/* Step 1: Understand */}
           <motion.div
             initial={reduced ? undefined : { opacity: 0, y: 16 }}
@@ -112,20 +62,20 @@ export default function PrinciplesSection() {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="group mx-auto flex max-w-md items-center justify-center gap-3 border border-primary/40 bg-primary/[0.06] px-5 py-5 text-center shadow-xs transition-colors hover:border-primary"
           >
-            <motion.div
-              animate={reduced ? undefined : { scale: [1, 1.15, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <div>
               <Target aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" strokeWidth={1.5} />
-            </motion.div>
+            </div>
             <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">Understand the problem.</p>
           </motion.div>
 
-          <TreeConnector />
-          <MobileTreeConnector />
+          <ScrollConnector progress={progress} />
+          <ScrollConnector progress={progress} mobile />
 
           {/* Step 2: Three Core Principles Grid */}
           <div className="relative ml-3 grid gap-3 border-l border-primary/50 pl-6 md:ml-0 md:grid-cols-3 md:gap-4 md:border-0 md:p-0">
+            {!reduced && <div aria-hidden="true" className="absolute -left-px inset-y-0 w-px md:hidden">
+              <motion.div className="build-mobile-light absolute h-12 w-px -translate-y-full" style={{ top: gridPosition, opacity: gridOpacity }} />
+            </div>}
             {principles.map(({ title, description, icon: Icon }, index) => (
               <motion.article
                 key={title}
@@ -148,8 +98,8 @@ export default function PrinciplesSection() {
             ))}
           </div>
 
-          <TreeConnector merge />
-          <MobileTreeConnector merge />
+          <ScrollConnector progress={progress} merge />
+          <ScrollConnector progress={progress} mobile merge />
 
           {/* Step 3: Deliver */}
           <motion.div
@@ -157,6 +107,7 @@ export default function PrinciplesSection() {
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            style={reduced ? undefined : { boxShadow: deliveryGlow }}
             className="group mx-auto flex max-w-md items-center justify-center gap-3 border border-foreground/30 bg-card px-5 py-5 text-center shadow-xs transition-colors hover:border-primary"
           >
             <CheckCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-primary transition-transform duration-300 group-hover:scale-115" strokeWidth={1.75} />

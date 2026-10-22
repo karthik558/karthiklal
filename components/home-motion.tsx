@@ -29,5 +29,7 @@ export default function HomeMotion() {
     }
   }, [reduced])
 
-  return <motion.div aria-hidden="true" className="reading-progress" style={{ scaleX: reduced ? scrollYProgress : progress }} />
+  return <>
+    <motion.div aria-hidden="true" className="reading-progress" style={{ scaleX: reduced ? scrollYProgress : progress }} />
+  </>
 }

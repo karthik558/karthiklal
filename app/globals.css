@@ -1180,8 +1180,8 @@ body {
 .registry-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .registry-year { display: flex; align-items: center; gap: 18px; }
 .registry-count { font: 10px var(--font-mono, monospace); color: hsl(var(--muted-foreground)); white-space: nowrap; }
-.registry-status { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--primary)); background: hsl(var(--primary) / .08); border: 1px solid hsl(var(--primary) / .22); border-radius: 30px; padding: 5px 9px; font: 9px var(--font-mono, monospace); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
-.registry-status::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+.registry-status { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--primary)); background: hsl(var(--primary) / .08); border: 1px solid hsl(var(--primary) / .22); border-radius: 0; padding: 5px 9px; font: 9px var(--font-mono, monospace); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+.registry-status::before { content: ''; width: 4px; height: 4px; background: currentColor; }
 .registry-status-archived { color: hsl(var(--muted-foreground)); border-color: hsl(var(--border)); background: hsl(var(--muted)); }
 .registry-kicker { font: 10px/1.7 var(--font-mono, monospace); letter-spacing: .12em; color: hsl(var(--muted-foreground)); text-transform: uppercase; }
 .credential-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; border-top: 1px solid hsl(var(--border)); }
@@ -1202,7 +1202,7 @@ body {
 .registry-entry-meta { position: relative; padding-left: 54px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; font: 11px/1.7 var(--font-mono, monospace); }
 .registry-entry-meta::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: -37px; width: 1px; background: hsl(var(--border)); }
 .registry-entry:last-child .registry-entry-meta::before { bottom: 0; }
-.registry-node { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid hsl(var(--border)); border-radius: 50%; background: hsl(var(--card)); color: hsl(var(--muted-foreground)); }
+.registry-node { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid hsl(var(--border)); border-radius: 0; background: hsl(var(--card)); color: hsl(var(--muted-foreground)); }
 .registry-entry[data-current] .registry-node { color: hsl(var(--primary)); border-color: hsl(var(--primary) / .4); background: hsl(var(--primary) / .08); }
 .registry-entry-detail { min-width: 0; }
 .registry-entry-detail h3 { margin: 10px 0; font: 700 clamp(22px, 2.5vw, 34px)/1.2 var(--font-display), sans-serif; letter-spacing: -.035em; overflow-wrap: anywhere; }
@@ -1224,4 +1224,13 @@ body {
   .registry-entry-detail h3 { font-size: 23px; }
   .registry-entry-detail > p:not(.registry-kicker) { font-size: 13px; }
   .registry-entry .credential-actions { justify-content: flex-start; max-width: none; gap: 10px; }
+}
+
+/* Scroll-linked light through the How I Build diagram. */
+.build-path-track { color: hsl(var(--primary) / .22); }
+.build-path-light { color: hsl(var(--primary)); filter: drop-shadow(0 0 3px hsl(var(--primary) / .65)) drop-shadow(0 0 8px hsl(var(--primary) / .35)); }
+.build-mobile-light { background: hsl(var(--primary)); box-shadow: 0 0 8px hsl(var(--primary) / .65); }
+@media (prefers-reduced-motion: reduce) {
+  .build-path-light { filter: none; }
+  .build-mobile-light { box-shadow: none; }
 }
