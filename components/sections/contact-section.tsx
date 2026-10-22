@@ -1,18 +1,19 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { Send, Check, Copy } from "lucide-react"
+import { Send, Check, Copy, ChevronDown } from "lucide-react"
 import { toast } from "sonner"
 import { PROFILE_DATA, PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
-const SUGGESTED_TOPICS = [
+const SUBJECT_OPTIONS = [
   "Security audit",
   "Web development",
   "IT consulting",
   "Infrastructure and cloud",
   "Design and branding",
   "General inquiry",
+  "Other / Custom subject",
 ] as const
 
 const ContactSuccessModal = dynamic(
@@ -25,13 +26,92 @@ export default function ContactSection() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [senderName, setSenderName] = useState("")
   const [copied, setCopied] = useState(false)
-  const [subject, setSubject] = useState("")
+  const [selectedSubject, setSelectedSubject] = useState("")
+  const [customSubject, setCustomSubject] = useState("")
+  const [isSelectOpen, setIsSelectOpen] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const [subjectError, setSubjectError] = useState(false)
   const [messageLength, setMessageLength] = useState(0)
+  const selectContainerRef = useRef<HTMLDivElement>(null)
+  const selectButtonRef = useRef<HTMLButtonElement>(null)
+  const customInputRef = useRef<HTMLInputElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
   const emailInputRef = useRef<HTMLInputElement>(null)
-  const subjectInputRef = useRef<HTMLInputElement>(null)
   const messageInputRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (selectContainerRef.current && !selectContainerRef.current.contains(e.target as Node)) {
+        setIsSelectOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick)
+    document.addEventListener("touchstart", handleOutsideClick)
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick)
+      document.removeEventListener("touchstart", handleOutsideClick)
+    }
+  }, [])
+
+  const handleSelectKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault()
+      if (!isSelectOpen) {
+        setIsSelectOpen(true)
+        setHighlightedIndex(
+          selectedSubject
+            ? SUBJECT_OPTIONS.indexOf(selectedSubject as (typeof SUBJECT_OPTIONS)[number])
+            : 0
+        )
+      } else {
+        setHighlightedIndex((prev) => (prev < SUBJECT_OPTIONS.length - 1 ? prev + 1 : 0))
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault()
+      if (!isSelectOpen) {
+        setIsSelectOpen(true)
+        setHighlightedIndex(
+          selectedSubject
+            ? SUBJECT_OPTIONS.indexOf(selectedSubject as (typeof SUBJECT_OPTIONS)[number])
+            : SUBJECT_OPTIONS.length - 1
+        )
+      } else {
+        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : SUBJECT_OPTIONS.length - 1))
+      }
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      if (isSelectOpen && highlightedIndex >= 0 && highlightedIndex < SUBJECT_OPTIONS.length) {
+        chooseOption(SUBJECT_OPTIONS[highlightedIndex])
+      } else {
+        setIsSelectOpen((prev) => !prev)
+        if (!isSelectOpen) {
+          setHighlightedIndex(
+            selectedSubject
+              ? SUBJECT_OPTIONS.indexOf(selectedSubject as (typeof SUBJECT_OPTIONS)[number])
+              : 0
+          )
+        }
+      }
+    } else if (e.key === "Escape") {
+      if (isSelectOpen) {
+        e.preventDefault()
+        setIsSelectOpen(false)
+      }
+    } else if (e.key === "Tab") {
+      setIsSelectOpen(false)
+    }
+  }
+
+  const chooseOption = (option: string) => {
+    setSelectedSubject(option)
+    setSubjectError(false)
+    setIsSelectOpen(false)
+    if (option === "Other / Custom subject") {
+      setTimeout(() => customInputRef.current?.focus(), 50)
+    } else {
+      selectButtonRef.current?.focus()
+    }
+  }
 
   const email = PROFILE_DATA.personalInfo.email || "contact@karthiklal.in"
 
@@ -48,9 +128,13 @@ export default function ContactSection() {
     const formData = new FormData(form)
     const name = (formData.get("name") as string)?.trim() || ""
     const emailValue = (formData.get("email") as string)?.trim() || ""
-    const subjectValue = (formData.get("subject") as string)?.trim() || subject.trim()
     const message = (formData.get("message") as string)?.trim() || ""
     const website = (formData.get("website") as string) || ""
+
+    const effectiveSubject =
+      selectedSubject === "Other / Custom subject"
+        ? customSubject.trim()
+        : selectedSubject.trim()
 
     if (name.length < 2) {
       nameInputRef.current?.focus()
@@ -68,11 +152,20 @@ export default function ContactSection() {
       return
     }
 
-    if (subjectValue.length < 2) {
+    if (!selectedSubject) {
       setSubjectError(true)
-      subjectInputRef.current?.focus()
+      selectButtonRef.current?.focus()
       toast.error("Subject is required", {
-        description: "Please enter or select a subject for your message.",
+        description: "Please select a subject from the list.",
+      })
+      return
+    }
+
+    if (selectedSubject === "Other / Custom subject" && effectiveSubject.length < 2) {
+      setSubjectError(true)
+      customInputRef.current?.focus()
+      toast.error("Custom subject required", {
+        description: "Please enter your custom subject (minimum 2 characters).",
       })
       return
     }
@@ -92,7 +185,7 @@ export default function ContactSection() {
       const data = {
         name,
         email: emailValue,
-        subject: subjectValue,
+        subject: effectiveSubject,
         message,
         website,
       }
@@ -113,7 +206,8 @@ export default function ContactSection() {
 
       setSenderName(name)
       setShowSuccessModal(true)
-      setSubject("")
+      setSelectedSubject("")
+      setCustomSubject("")
       setMessageLength(0)
       setSubjectError(false)
       form.reset()
@@ -236,7 +330,8 @@ export default function ContactSection() {
               <form
                 onSubmit={handleSubmit}
                 onReset={() => {
-                  setSubject("")
+                  setSelectedSubject("")
+                  setCustomSubject("")
                   setSubjectError(false)
                   setMessageLength(0)
                 }}
@@ -280,88 +375,144 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label
-                    id="contact-subject-label"
-                    htmlFor="contact-subject"
-                    className="block uppercase tracking-wider text-muted-foreground font-mono text-xs cursor-pointer select-none"
-                  >
-                    SUBJECT *
-                  </label>
-                  <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
-                    TYPE OR SELECT TOPIC
-                  </span>
-                </div>
-
-                <div className="relative">
-                  <input
-                    ref={subjectInputRef}
+                <label
+                  id="contact-subject-label"
+                  htmlFor="contact-subject"
+                  className="block uppercase tracking-wider text-muted-foreground mb-2 font-mono text-xs cursor-pointer select-none"
+                >
+                  SUBJECT *
+                </label>
+                <div ref={selectContainerRef} className="relative">
+                  <button
+                    ref={selectButtonRef}
+                    type="button"
                     id="contact-subject"
-                    name="subject"
-                    required
-                    type="text"
-                    minLength={2}
-                    maxLength={120}
-                    value={subject}
-                    onChange={(e) => {
-                      setSubject(e.target.value)
-                      if (subjectError) setSubjectError(false)
-                    }}
-                    placeholder="e.g. Web development, Security audit, or custom subject..."
-                    list="subject-suggestions"
-                    data-cursor-type="text"
+                    role="combobox"
+                    aria-labelledby="contact-subject-label"
+                    aria-haspopup="listbox"
+                    aria-expanded={isSelectOpen}
+                    aria-controls="contact-subject-list"
+                    data-invalid={subjectError ? "true" : undefined}
                     aria-describedby={subjectError ? "contact-subject-error" : undefined}
-                    className={`w-full bg-background border-2 p-3.5 text-foreground font-mono text-xs focus:outline-none transition-colors ${
+                    data-cursor-type="select"
+                    onClick={() => {
+                      setIsSelectOpen((prev) => !prev)
+                      if (subjectError) setSubjectError(false)
+                      if (!isSelectOpen) {
+                        setHighlightedIndex(
+                          selectedSubject
+                            ? SUBJECT_OPTIONS.indexOf(selectedSubject as (typeof SUBJECT_OPTIONS)[number])
+                            : 0
+                        )
+                      }
+                    }}
+                    onKeyDown={handleSelectKeyDown}
+                    className={`w-full bg-background border-2 p-3.5 text-foreground flex items-center justify-between font-mono text-xs transition-all focus:outline-none select-none cursor-pointer ${
                       subjectError
-                        ? "border-destructive ring-1 ring-destructive text-destructive placeholder:text-destructive/60"
-                        : "border-border hover:border-foreground/70 focus:border-foreground"
+                        ? "border-destructive ring-1 ring-destructive text-destructive"
+                        : isSelectOpen
+                        ? "border-foreground shadow-[4px_4px_0_hsl(var(--border))]"
+                        : "border-border hover:border-foreground/80 focus:border-foreground"
                     }`}
+                  >
+                    <span
+                      className={
+                        selectedSubject
+                          ? "text-foreground font-bold uppercase tracking-wider"
+                          : subjectError
+                          ? "text-destructive font-semibold uppercase tracking-wider"
+                          : "text-muted-foreground uppercase tracking-wider"
+                      }
+                    >
+                      {selectedSubject || "Select a subject"}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-200 shrink-0 ml-2 ${
+                        subjectError ? "text-destructive" : "text-foreground"
+                      } ${isSelectOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+
+                  <input
+                    type="hidden"
+                    name="subject"
+                    value={selectedSubject === "Other / Custom subject" ? customSubject : selectedSubject}
                   />
 
-                  <datalist id="subject-suggestions">
-                    {SUGGESTED_TOPICS.map((topic) => (
-                      <option key={topic} value={topic} />
-                    ))}
-                  </datalist>
+                  {subjectError && !isSelectOpen && (
+                    <p
+                      id="contact-subject-error"
+                      className="mt-1.5 font-mono text-[11px] font-bold text-destructive uppercase tracking-wider flex items-center gap-1"
+                    >
+                      * Please select or specify a subject for your inquiry
+                    </p>
+                  )}
+
+                  {isSelectOpen && (
+                    <ul
+                      id="contact-subject-list"
+                      role="listbox"
+                      aria-labelledby="contact-subject-label"
+                      data-lenis-prevent
+                      className="absolute left-0 right-0 top-[calc(100%+6px)] z-50 max-h-64 w-full overflow-y-auto overscroll-contain border-2 border-foreground bg-card p-1 shadow-[4px_4px_0_hsl(var(--border))] divide-y divide-border/60 font-mono text-xs animate-in fade-in-0 duration-150"
+                    >
+                      {SUBJECT_OPTIONS.map((option, idx) => {
+                        const isSelected = selectedSubject === option
+                        const isHighlighted = highlightedIndex === idx
+                        return (
+                          <li
+                            key={option}
+                            id={`contact-subject-option-${idx}`}
+                            role="option"
+                            aria-selected={isSelected}
+                            data-cursor-type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => chooseOption(option)}
+                            onMouseEnter={() => setHighlightedIndex(idx)}
+                            className={`flex min-h-11 cursor-pointer items-center justify-between gap-4 px-3.5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors select-none ${
+                              isSelected
+                                ? "bg-foreground text-background"
+                                : isHighlighted
+                                ? "bg-muted text-foreground"
+                                : "text-foreground hover:bg-muted/60"
+                            }`}
+                          >
+                            <span>{option}</span>
+                            {isSelected && <Check aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
                 </div>
 
-                {subjectError && (
-                  <p
-                    id="contact-subject-error"
-                    className="mt-1.5 font-mono text-[11px] font-bold text-destructive uppercase tracking-wider flex items-center gap-1"
-                  >
-                    * Please enter or select a subject for your message
-                  </p>
+                {/* Custom Subject Input - smoothly revealed when "Other / Custom subject" is selected */}
+                {selectedSubject === "Other / Custom subject" && (
+                  <div className="mt-3 animate-in fade-in-0 slide-in-from-top-1 duration-150">
+                    <label
+                      htmlFor="custom-subject"
+                      className="block uppercase tracking-wider text-muted-foreground mb-1.5 font-mono text-[11px]"
+                    >
+                      SPECIFY CUSTOM SUBJECT *
+                    </label>
+                    <input
+                      ref={customInputRef}
+                      id="custom-subject"
+                      name="custom_subject"
+                      required
+                      type="text"
+                      minLength={2}
+                      maxLength={120}
+                      value={customSubject}
+                      onChange={(e) => {
+                        setCustomSubject(e.target.value)
+                        if (subjectError) setSubjectError(false)
+                      }}
+                      placeholder="Enter your custom subject..."
+                      className="w-full bg-background border-2 border-border p-3.5 text-foreground font-mono text-xs focus:outline-none focus:border-foreground"
+                    />
+                  </div>
                 )}
-
-                {/* Quick Selection Chips */}
-                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono mr-1">
-                    TOPICS:
-                  </span>
-                  {SUGGESTED_TOPICS.map((topic) => {
-                    const isSelected = subject.trim().toLowerCase() === topic.toLowerCase()
-                    return (
-                      <button
-                        key={topic}
-                        type="button"
-                        data-cursor-type="button"
-                        onClick={() => {
-                          setSubject(topic)
-                          if (subjectError) setSubjectError(false)
-                          subjectInputRef.current?.focus()
-                        }}
-                        className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider border transition-all cursor-pointer select-none ${
-                          isSelected
-                            ? "bg-foreground text-background border-foreground font-bold shadow-sm"
-                            : "bg-background border-border text-muted-foreground hover:text-foreground hover:border-foreground"
-                        }`}
-                      >
-                        {topic}
-                      </button>
-                    )
-                  })}
-                </div>
               </div>
 
               <div>

@@ -149,7 +149,7 @@ test("desktop custom cursor keeps the SVG and uses motion-only interaction state
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
   const subjectField = page.getByLabel("SUBJECT *", { exact: true })
   await subjectField.hover()
-  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "text")
+  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "select")
 
   const nameField = page.getByLabel("YOUR NAME *", { exact: true })
   await nameField.hover()
