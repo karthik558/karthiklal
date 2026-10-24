@@ -14,11 +14,11 @@ function FlowerSeparator() {
   return (
     <span
       aria-hidden="true"
-      className="marquee-separator relative mx-6 inline-flex h-[0.6em] w-[0.6em] shrink-0 items-center justify-center select-none rounded-full md:mx-8 lg:mx-10"
+      className="marquee-separator relative mx-6 inline-flex h-[0.6em] w-[0.6em] shrink-0 items-center justify-center select-none rounded-full text-primary text-[hsl(var(--primary))] md:mx-8 lg:mx-10"
     >
       <svg
         viewBox="0 0 24 24"
-        className="h-full w-full fill-current"
+        className="h-full w-full fill-[hsl(var(--primary))] text-primary"
         aria-hidden="true"
       >
         <g transform="translate(12, 12)">
@@ -67,6 +67,7 @@ const marqueeStyles = `
   animation: marquee-flower-spin-continuous 8s linear infinite;
   transform-origin: center center;
   border-radius: 50%;
+  color: hsl(var(--primary));
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.25s ease,
               border-radius 0.25s ease;

@@ -108,10 +108,10 @@ export default function NavHeader() {
 
   return (
     <div className="relative flex w-full items-center justify-center font-mono text-xs uppercase pointer-events-none">
-      {/* Unified Desktop Navigation Island (Centered, Paper Style, Compact) */}
-      <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-1.5 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-1.5 py-1 shadow-xs">
+      {/* Unified Desktop Navigation Island (Centered, Paper Style, Compact & Slim) */}
+      <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-2 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-2 py-0.5 shadow-xs">
         <nav aria-label="Desktop navigation">
-          <ul className="flex items-center gap-0.5">
+          <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const active = isItemActive(item)
               return (
@@ -120,7 +120,7 @@ export default function NavHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "nav-item h-[26px] px-2.5 flex items-center justify-center font-mono text-[10.5px] font-bold uppercase tracking-wider transition-colors select-none",
+                      "nav-item h-[30px] px-3 flex items-center justify-center font-mono text-[10px] font-bold uppercase tracking-wider transition-colors select-none",
                       active
                         ? "bg-foreground text-background shadow-xs font-black"
                         : "text-muted-foreground hover:text-foreground hover:bg-background/80"
@@ -134,9 +134,9 @@ export default function NavHeader() {
           </ul>
         </nav>
 
-        <div className="h-3.5 w-px bg-border/80 mx-0.5" aria-hidden="true" />
+        <div className="h-4 w-px bg-border/80 mx-1" aria-hidden="true" />
 
-        <div className="nav-utilities flex items-center gap-1">
+        <div className="nav-utilities flex items-center gap-1.5">
           <SoundToggle size="sm" />
           <ThemeToggleAnimated size="sm" />
         </div>

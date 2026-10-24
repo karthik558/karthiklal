@@ -32,7 +32,7 @@ export function ThemeToggleAnimated({ size = "default", className }: ThemeToggle
     return (
       <div
         className={cn(
-          isSm ? "h-9 w-[68px] border border-border bg-card" : "h-11 w-[84px] border border-border bg-card",
+          isSm ? "h-[30px] w-[58px] border border-border bg-card" : "h-11 w-[84px] border border-border bg-card",
           className
         )}
         aria-hidden="true"
@@ -86,7 +86,7 @@ export function ThemeToggleAnimated({ size = "default", className }: ThemeToggle
     <div
       className={cn(
         "relative flex items-center overflow-hidden transition-colors select-none",
-        isSm ? "h-9 w-[68px] shrink-0 border border-border bg-card p-px" : "h-11 w-[84px] shrink-0 border border-border bg-card p-px",
+        isSm ? "h-[30px] w-[58px] shrink-0 border border-border bg-card p-px" : "h-11 w-[84px] shrink-0 border border-border bg-card p-px",
         className
       )}
       role="group"
@@ -95,10 +95,10 @@ export function ThemeToggleAnimated({ size = "default", className }: ThemeToggle
       <motion.div
         className={cn(
           "absolute left-px top-px z-0 bg-foreground",
-          isSm ? "h-8 w-8 shrink-0" : "h-10 w-10 shrink-0"
+          isSm ? "h-[28px] w-[28px] shrink-0" : "h-10 w-10 shrink-0"
         )}
         initial={false}
-        animate={{ x: isDark ? (isSm ? 32 : 40) : 0 }}
+        animate={{ x: isDark ? (isSm ? 28 : 40) : 0 }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       />
 
@@ -109,7 +109,7 @@ export function ThemeToggleAnimated({ size = "default", className }: ThemeToggle
         aria-pressed={!isDark}
         className={cn(
           "relative z-10 grid place-items-center transition-colors cursor-pointer",
-          isSm ? "h-8 w-8 shrink-0" : "h-10 w-10 shrink-0",
+          isSm ? "h-[28px] w-[28px] shrink-0" : "h-10 w-10 shrink-0",
           !isDark ? "text-background" : "text-muted-foreground hover:text-foreground"
         )}
       >
@@ -129,7 +129,7 @@ export function ThemeToggleAnimated({ size = "default", className }: ThemeToggle
         aria-pressed={isDark}
         className={cn(
           "relative z-10 grid place-items-center transition-colors cursor-pointer",
-          isSm ? "h-8 w-8 shrink-0" : "h-10 w-10 shrink-0",
+          isSm ? "h-[28px] w-[28px] shrink-0" : "h-10 w-10 shrink-0",
           isDark ? "text-background" : "text-muted-foreground hover:text-foreground"
         )}
       >
