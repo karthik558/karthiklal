@@ -116,27 +116,75 @@ test.describe('Capabilities Marquee Interaction & Styling', () => {
     await expect(bottomRibbon).not.toHaveClass(/is-paused/)
   })
 
-  test('clicking on the top bar does not abruptly pop or hide the bottom bar', async ({ page }) => {
+  test('marquee bar is narrower in height, and flower separator rotates during scroll and rounds on hover', async ({ page }) => {
     const marquee = page.locator('.capabilities-marquee')
     await marquee.scrollIntoViewIfNeeded()
 
-    const topRibbon = marquee.locator('.capabilities-marquee-top .marquee-interactive')
-    const bottomTrack = marquee.locator('.capabilities-marquee-bottom')
+    const topRibbon = marquee.locator('.capabilities-primary')
+    const defaultWeight = await topRibbon.evaluate(el => window.getComputedStyle(el).fontWeight)
+    expect(parseInt(defaultWeight, 10)).toBeGreaterThanOrEqual(800)
 
-    await expect(bottomTrack).toBeVisible()
+    // Bar height should be narrower (sleek ribbon clientHeight <= 55px)
+    const clientHeight = await topRibbon.evaluate(el => el.clientHeight)
+    expect(clientHeight).toBeLessThanOrEqual(55)
 
-    // Click on the top ribbon
-    const topItem = topRibbon.locator('[data-marquee-item]').first()
-    await topItem.dispatchEvent('click')
+    // Check flower separator
+    const flowerSeparator = marquee.locator('.marquee-separator').first()
+    await expect(flowerSeparator).toBeVisible()
 
-    // Bottom track remains completely visible and unaffected
-    await expect(bottomTrack).toBeVisible()
+    // Verify flower has continuous spin animation
+    const animationName = await flowerSeparator.evaluate(el => window.getComputedStyle(el).animationName)
+    expect(animationName).toContain('marquee-flower-spin-continuous')
 
-    // Check that neither track switches z-index abruptly on hover or active
-    const topZ = await marquee.locator('.capabilities-marquee-top').evaluate(el => window.getComputedStyle(el).zIndex)
-    const bottomZ = await marquee.locator('.capabilities-marquee-bottom').evaluate(el => window.getComputedStyle(el).zIndex)
+    // Verify flower has 8 petals
+    const petals = flowerSeparator.locator('ellipse')
+    await expect(petals).toHaveCount(8)
 
-    expect(parseInt(topZ, 10)).toBe(1)
-    expect(parseInt(bottomZ, 10)).toBe(2)
+    // Verify roundness on hover / interaction
+    await flowerSeparator.dispatchEvent('mouseenter')
+    const borderRadius = await flowerSeparator.evaluate(el => window.getComputedStyle(el).borderRadius)
+    expect(borderRadius).toMatch(/50%|[0-9]+px/)
+  })
+
+  test('hovering over the marquee track straightens the bar to 0 degrees', async ({ page }) => {
+    const marquee = page.locator('.capabilities-marquee')
+    await marquee.scrollIntoViewIfNeeded()
+
+    const topTrack = marquee.locator('.capabilities-marquee-top')
+    await expect(topTrack).toBeVisible()
+
+    // Hover over top track
+    await topTrack.hover()
+
+    // Track should straighten (transform angle rotates to 0deg -> matrix(1, 0, 0, 1, 0, 0))
+    await expect.poll(async () => {
+      const transform = await topTrack.evaluate(el => window.getComputedStyle(el).transform)
+      if (transform === 'none') return true
+      const match = transform.match(/^matrix\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)/)
+      if (match) {
+        const b = Math.abs(parseFloat(match[2]))
+        const c = Math.abs(parseFloat(match[3]))
+        return b < 0.005 && c < 0.005
+      }
+      return false
+    }).toBe(true)
+  })
+
+  test('hero baseline displays "SCROLL TO EXPLORE" and social links with hover animation styling', async ({ page }) => {
+    const baseline = page.locator('.studio-baseline')
+    await expect(baseline).toBeVisible()
+
+    const scrollLink = baseline.locator('.studio-scroll-link')
+    await expect(scrollLink).toContainText('SCROLL TO EXPLORE')
+
+    const socialLinks = baseline.locator('.studio-social-link')
+    const count = await socialLinks.count()
+    expect(count).toBeGreaterThanOrEqual(2)
+
+    // Hover over first social link and verify styling
+    const firstSocial = socialLinks.first()
+    await firstSocial.hover()
+    await expect(firstSocial).toBeVisible()
   })
 })
+

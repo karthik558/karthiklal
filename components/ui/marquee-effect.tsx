@@ -10,11 +10,29 @@ type MarqueeAnimationProps = {
   baseVelocity: number
 }
 
-function SignalSeparator() {
+function FlowerSeparator() {
   return (
-    <span aria-hidden="true" className="marquee-separator relative mx-6 h-[0.55em] w-[0.55em] shrink-0 select-none md:mx-8 lg:mx-10">
-      <span className="absolute inset-0 rotate-45 border-[0.09em] border-current opacity-60" />
-      <span className="absolute left-1/2 top-1/2 h-[0.18em] w-[0.18em] -translate-x-1/2 -translate-y-1/2 rounded-full bg-current" />
+    <span
+      aria-hidden="true"
+      className="marquee-separator relative mx-4 inline-flex h-[0.75em] w-[0.75em] shrink-0 items-center justify-center select-none rounded-full md:mx-6 lg:mx-7"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="h-full w-full fill-current"
+        aria-hidden="true"
+      >
+        <g transform="translate(12, 12)">
+          <circle cx="0" cy="0" r="2.6" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(45)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(90)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(135)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(180)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(225)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(270)" />
+          <ellipse cx="0" cy="-6" rx="2.2" ry="3.8" transform="rotate(315)" />
+        </g>
+      </svg>
     </span>
   )
 }
@@ -28,15 +46,30 @@ const marqueeStyles = `
   0% { transform: translateX(-100%); }
   100% { transform: translateX(0); }
 }
-@keyframes marquee-signal-spin {
-  from { transform: rotate(0deg) scale(0.85); }
-  to { transform: rotate(180deg) scale(1); }
+@keyframes marquee-flower-spin-continuous {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes marquee-flower-hover-spin {
+  0% { transform: rotate(0deg) scale(1); border-radius: 40%; }
+  50% { transform: rotate(180deg) scale(1.35); border-radius: 50%; }
+  100% { transform: rotate(360deg) scale(1.25); border-radius: 50%; }
 }
 .animate-marquee-left {
   animation: marquee-scroll-left var(--duration) linear infinite;
 }
 .animate-marquee-right {
   animation: marquee-scroll-right var(--duration) linear infinite;
+}
+
+/* Continuous rotation while scrolling, with smooth rounding */
+.marquee-separator {
+  animation: marquee-flower-spin-continuous 8s linear infinite;
+  transform-origin: center center;
+  border-radius: 50%;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-radius 0.25s ease;
 }
 
 /* Pause applies ONLY to this specific track when hovered or when an item is clicked/active */
@@ -47,15 +80,24 @@ const marqueeStyles = `
   animation-play-state: paused;
 }
 
+/* Hover over track or flower: round and rotate dynamically */
 .marquee-interactive:hover .marquee-separator {
-  animation: marquee-signal-spin 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: marquee-flower-hover-spin 750ms cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
+  border-radius: 50%;
+}
+
+.marquee-separator:hover {
+  animation: marquee-flower-hover-spin 600ms cubic-bezier(0.2, 0.9, 0.3, 1.2) infinite alternate !important;
+  border-radius: 50% !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee-left,
   .animate-marquee-right,
-  .marquee-interactive:hover .marquee-separator {
-    animation: none;
+  .marquee-separator,
+  .marquee-interactive:hover .marquee-separator,
+  .marquee-separator:hover {
+    animation: none !important;
   }
 }
 `
@@ -68,7 +110,7 @@ export function MarqueeAnimation({
 }: MarqueeAnimationProps) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const items = children.split("•").map((item) => item.trim()).filter(Boolean)
-  const duration = `${Math.max(5, 52 / Math.abs(baseVelocity))}s`
+  const duration = `${Math.max(5, 46 / Math.abs(baseVelocity))}s`
   const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right"
 
   const sequence = (
@@ -85,7 +127,7 @@ export function MarqueeAnimation({
             >
               {item}
             </span>
-            <SignalSeparator />
+            <FlowerSeparator />
           </span>
         )
       })}
