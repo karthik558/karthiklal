@@ -1,13 +1,21 @@
 import { expect, test } from '@playwright/test'
 
-test('portfolio books support page turns, filters, and full-view dismissal', async ({ page }) => {
+test('vertical collections scroll over images, filter, and dismiss previews', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
   const work = page.locator('#portfolio')
-  await work.getByRole('button', { name: 'Next selected work page' }).click()
-  await expect(work.locator('.book-controls [role=status]')).toHaveText(/^02 /)
-  await work.getByRole('button', { name: 'Previous selected work page' }).click()
-  await expect(work.locator('.book-controls [role=status]')).toHaveText(/^01 /)
+  await expect(work.locator('.stack-card')).toHaveCount(10)
+  const artwork = work.locator('.book-art').first()
+  await artwork.scrollIntoViewIfNeeded()
+  await artwork.hover()
+  const before = await page.evaluate(() => window.scrollY)
+  await page.mouse.wheel(0, 500)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(before + 100)
+  await work.evaluate(element => {
+    const top = element.getBoundingClientRect().top + window.scrollY
+    if (window.lenis) window.lenis.scrollTo(top, { immediate: true })
+    else window.scrollTo(0, top)
+  })
   await work.locator('.book-view').first().click()
   await expect(work.locator('dialog')).toBeVisible()
   await page.keyboard.press('Escape')
@@ -16,7 +24,10 @@ test('portfolio books support page turns, filters, and full-view dismissal', asy
   const designs = page.locator('#portfolio-gallery')
   await designs.getByRole('button', { name: 'INTERFACE', exact: true }).click()
   await expect(designs.getByRole('heading', { name: 'Creator Profile UI' })).toBeVisible()
-  await expect(designs.locator('.book-controls [role=status]')).toHaveText(/^01 /)
+  await designs.locator('.book-art').first().hover()
+  const designBefore = await page.evaluate(() => window.scrollY)
+  await page.mouse.wheel(0, 450)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(designBefore + 100)
 })
 
 test('mobile cover, testimonial navigation, and text return link work', async ({ page }) => {
@@ -36,4 +47,17 @@ test('mobile cover, testimonial navigation, and text return link work', async ({
   await page.getByRole('link', { name: 'Back to top', exact: true }).click()
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+})
+
+
+test('cards pin at the viewport edge and release on short screens', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  const first = page.locator('#portfolio .stack-card').first()
+  await first.evaluate(element => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY + 300))
+  await expect.poll(async () => Math.round((await first.boundingBox())!.y)).toBe(96)
+  await page.setViewportSize({ width: 1440, height: 500 })
+  await expect(first).toHaveCSS('position', 'relative')
+  await expect(first).toHaveCSS('top', '0px')
 })

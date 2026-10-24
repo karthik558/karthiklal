@@ -109,7 +109,8 @@ export default function NavHeader() {
   return (
     <div className="relative flex w-full items-center justify-center font-mono text-xs uppercase pointer-events-none">
       {/* Unified Desktop Navigation Island (Centered, Paper Style, Compact) */}
-      <div className="pointer-events-auto hidden lg:flex items-center gap-1.5 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-1.5 py-1 shadow-xs">
+      <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-1.5 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-1.5 py-1 shadow-xs">
+        <SmoothLink href="/" aria-label="Karthik Lal home" className="nav-monogram">KL<span>↗</span></SmoothLink>
         <nav aria-label="Desktop navigation">
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
@@ -118,8 +119,9 @@ export default function NavHeader() {
                 <li key={item.href}>
                   <SmoothLink
                     href={item.href}
+                    aria-current={active ? "page" : undefined}
                     className={cn(
-                      "h-[26px] px-2.5 flex items-center justify-center font-mono text-[10.5px] font-bold uppercase tracking-wider transition-colors select-none",
+                      "nav-item h-[26px] px-2.5 flex items-center justify-center font-mono text-[10.5px] font-bold uppercase tracking-wider transition-colors select-none",
                       active
                         ? "bg-foreground text-background shadow-xs font-black"
                         : "text-muted-foreground hover:text-foreground hover:bg-background/80"
@@ -147,7 +149,7 @@ export default function NavHeader() {
           ref={menuButtonRef}
           type="button"
           onClick={() => setIsOpen(true)}
-          className="paper-button flex items-center justify-center gap-1.5 h-[34px] px-3 border border-border/80 bg-card/90 backdrop-blur-md text-foreground font-mono text-[11px] font-bold uppercase tracking-wider hover:border-foreground transition-colors cursor-pointer shadow-xs"
+          className="mobile-nav-trigger paper-button flex items-center justify-center gap-1.5 h-[34px] px-3 border border-border/80 bg-card/90 backdrop-blur-md text-foreground font-mono text-[11px] font-bold uppercase tracking-wider hover:border-foreground transition-colors cursor-pointer shadow-xs"
           aria-label="Open menu"
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"

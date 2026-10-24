@@ -29,7 +29,7 @@ html.lenis-smooth body {
 
 /* Ensure body allows for smooth scrolling */
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Ensure natural mouse cursor always works reliably across the site */
@@ -472,11 +472,11 @@ html {
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Interactive hover effects */
@@ -1449,3 +1449,34 @@ body {
  .studio-baseline > div a { width:36px; min-height:44px; padding:8px; justify-content:center; }
  .studio-baseline svg { flex-shrink:0; }
 }
+
+/* Native document scrolling, including directly over artwork and controls. */
+.portfolio-stack { position:relative; }
+.stack-intro { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:18px 0; border-top:1px solid hsl(var(--border)); margin-bottom:18px; font:10px/1.5 monospace; letter-spacing:.1em; text-transform:uppercase; color:hsl(var(--muted-foreground)); }
+.stack-intro > span:last-child { display:flex; gap:12px; align-items:center; }
+.stack-stage { position:relative; display:flex; flex-direction:column; gap:64px; padding-bottom:32px; }
+.stack-card { position:var(--stack-position,relative); top:var(--stack-top,0px); display:grid; grid-template-columns:1fr 1fr; width:100%; min-width:0; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:6px; box-shadow:0 -8px 30px -20px #0008,0 5px 0 -1px hsl(var(--card)),0 6px 0 hsl(var(--border)); scroll-margin-top:130px; }
+.stack-card:has(:focus-visible) { z-index:100 !important; }
+.stack-card .book-image-page { min-height:480px; }
+.stack-card .book-running-head { color:hsl(var(--primary)); }
+.stack-card .book-view { padding:0 12px; border:1px solid hsl(var(--border)); border-radius:30px; font-size:9px; }
+.stack-card .book-view:hover { border-color:hsl(var(--primary)); color:hsl(var(--primary)); }
+.book-filters { gap:8px; padding:0 0 12px; }
+.book-filters button { border:1px solid hsl(var(--border)); border-radius:30px; padding:12px 18px; transition:background .2s,color .2s; }
+.book-filters button[aria-pressed=true] { color:hsl(var(--background)); background:hsl(var(--foreground)); border-color:hsl(var(--foreground)); }
+.book-filters button:hover:not([aria-pressed=true]) { background:hsl(var(--card)); border-color:hsl(var(--primary)); }
+.studio-navigation { border-radius:40px; padding:7px 10px; gap:10px; box-shadow:0 5px 24px -14px #0008; }
+.nav-monogram { display:flex; align-items:center; gap:6px; font:700 16px var(--font-display),sans-serif; padding:0 12px 0 7px; border-right:1px solid hsl(var(--border)); }
+.nav-monogram span { color:hsl(var(--primary)); font-size:13px; }
+.studio-navigation .nav-item { height:34px; padding-inline:12px; border-radius:24px; font-size:10px; letter-spacing:.06em; }
+.studio-navigation .nav-item[aria-current=page] { background:hsl(var(--foreground)); color:hsl(var(--background)); box-shadow:none; }
+.mobile-nav-trigger { border-radius:30px; min-height:42px; padding-inline:16px; box-shadow:none; }
+.registry-tabs { gap:4px; padding:4px; border:1px solid hsl(var(--border)); border-radius:30px; background:hsl(var(--card)); }
+.registry-tabs .paper-button { border:0; border-radius:24px; box-shadow:none; background:transparent; color:hsl(var(--muted-foreground)); min-height:40px; }
+.registry-tabs .paper-button[aria-pressed=true] { background:hsl(var(--foreground)); color:hsl(var(--background)); }
+.registry-tabs .paper-button:hover { transform:none; color:hsl(var(--primary)); }
+.registry-tabs .paper-button[aria-pressed=true]:hover { color:hsl(var(--background)); }
+.credential-actions .paper-button { border-width:1px; border-radius:24px; box-shadow:none; min-height:40px; font-size:10px; }
+.registry-year [role=combobox] { border-width:1px; border-radius:24px; box-shadow:none; }
+@media(max-width:899px) { .stack-card { position:relative; top:auto; grid-template-columns:1fr; }.stack-card .book-image-page { min-height:350px; border-right:0; border-bottom:1px solid hsl(var(--border)); }.stack-stage { gap:32px; }.stack-intro { font-size:8px; }.registry-tabs { flex-wrap:wrap; border-radius:18px; } }
+@media(prefers-reduced-motion:reduce) { .stack-card { position:relative; top:auto; }.book-filters button { transition:none; } }

@@ -1,10 +1,9 @@
 "use client"
 
-import { useRef, useState, type UIEvent } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useReducedMotion } from "framer-motion"
-import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, X } from "lucide-react"
+import { ArrowDown, ArrowUpRight, Maximize2, X } from "lucide-react"
 
 export interface BookEntry {
   id: string
@@ -17,40 +16,35 @@ export interface BookEntry {
   repository?: string
 }
 
-export default function PortfolioBook({ entries, label }: { entries: BookEntry[]; label: string }) {
-  const rail = useRef<HTMLDivElement>(null)
+export default function PortfolioStack({ entries, label }: { entries: BookEntry[]; label: string }) {
+  const stack = useRef<HTMLDivElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
-  const [page, setPage] = useState(0)
   const [preview, setPreview] = useState<BookEntry | null>(null)
-  const reduced = useReducedMotion()
 
-  function turnTo(index: number) {
-    const element = rail.current
-    if (!element) return
-    element.scrollTo({ left: index * element.clientWidth, behavior: reduced ? "instant" : "smooth" })
-  }
-
-  function onScroll(event: UIEvent<HTMLDivElement>) {
-    const element = event.currentTarget
-    setPage(Math.round(element.scrollLeft / element.clientWidth))
-    for (const child of Array.from(element.children) as HTMLElement[]) {
-      const distance = (child.offsetLeft - element.scrollLeft) / element.clientWidth
-      child.style.setProperty("--page-angle", reduced ? "0deg" : `${Math.max(-1, Math.min(1, distance)) * -8}deg`)
-    }
-  }
+  useEffect(() => {
+    const cards = Array.from(stack.current?.querySelectorAll<HTMLElement>(".stack-card") ?? [])
+    // Tall cards remain in normal flow so their content can always be reached.
+    const update = () => cards.forEach((card, index) => {
+      const top = 96 + Math.min(index, 3) * 8
+      const fits = window.innerWidth >= 900 && card.offsetHeight + top + 24 < window.innerHeight
+      card.style.setProperty("--stack-position", fits ? "sticky" : "relative")
+      card.style.setProperty("--stack-top", `${fits ? top : 0}px`)
+    })
+    const observer = new ResizeObserver(update)
+    cards.forEach(card => observer.observe(card))
+    window.addEventListener("resize", update)
+    update()
+    return () => { observer.disconnect(); window.removeEventListener("resize", update) }
+  }, [entries])
 
   if (!entries.length) return <p className="py-12">No entries in this collection.</p>
 
   return (
-    <div className="portfolio-book">
-      <div className="book-binding"><span>{label}</span><span>AN OPEN COLLECTION</span></div>
-      <div ref={rail} className="book-rail" onScroll={onScroll} role="region" aria-label={label} tabIndex={0} data-lenis-prevent onKeyDown={event => {
-        if (event.target !== event.currentTarget) return
-        if (event.key === "ArrowRight") { event.preventDefault(); turnTo(Math.min(entries.length - 1, page + 1)) }
-        if (event.key === "ArrowLeft") { event.preventDefault(); turnTo(Math.max(0, page - 1)) }
-      }}>
+    <div className="portfolio-stack">
+      <div className="stack-intro"><span>{entries.length} {label.toLowerCase()}</span><span>SCROLL TO EXPLORE <ArrowDown size={14} /></span></div>
+      <div ref={stack} className="stack-stage" role="region" aria-label={label}>
         {entries.map((entry, index) => (
-          <article className="book-spread" key={entry.id} aria-label={`Page ${index + 1}: ${entry.title}`}>
+          <article className="stack-card" key={entry.id} aria-label={`${index + 1}: ${entry.title}`} style={{ zIndex: index + 1 }}>
             <div className="book-image-page">
               <span className="book-running-head">{label} / PLATE {String(index + 1).padStart(2, "0")}</span>
               <div className="book-art"><Image src={entry.image} alt={entry.title} fill sizes="(min-width: 900px) 50vw, 100vw" className="object-contain" /></div>
@@ -70,10 +64,6 @@ export default function PortfolioBook({ entries, label }: { entries: BookEntry[]
             </div>
           </article>
         ))}
-      </div>
-      <div className="book-controls">
-        <p className="studio-label">SWIPE OR TURN THE PAGE</p>
-        <div><button onClick={() => turnTo(page - 1)} disabled={page === 0} aria-label={`Previous ${label.toLowerCase()} page`}><ArrowLeft size={18} /></button><span role="status" aria-live="polite">{String(page + 1).padStart(2, "0")} / {String(entries.length).padStart(2, "0")}</span><button onClick={() => turnTo(page + 1)} disabled={page === entries.length - 1} aria-label={`Next ${label.toLowerCase()} page`}><ArrowRight size={18} /></button></div>
       </div>
       <dialog ref={dialog} className="book-preview" onClick={event => { if (event.target === event.currentTarget) dialog.current?.close() }}>
         <div className="book-preview-inner"><div className="book-controls"><span>{preview?.title}</span><button onClick={() => dialog.current?.close()} aria-label="Close preview"><X size={22} /></button></div>{preview && <div className="book-preview-image"><Image src={preview.image} alt={preview.title} fill sizes="95vw" className="object-contain" /></div>}</div>
