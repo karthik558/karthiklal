@@ -231,12 +231,12 @@ export default function NavHeader() {
               <div className="border-t border-border/80 pt-4 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-muted-foreground p-2.5 border border-border/60 bg-card/60">
                   <span className="font-bold uppercase tracking-wider text-[11px]">SOUND FX</span>
-                  <SoundToggle size="sm" />
+                  <SoundToggle size="default" />
                 </div>
 
                 <div className="flex items-center justify-between text-muted-foreground p-2.5 border border-border/60 bg-card/60">
                   <span className="font-bold uppercase tracking-wider text-[11px]">THEME MODE</span>
-                  <ThemeToggleAnimated size="sm" />
+                  <ThemeToggleAnimated size="default" />
                 </div>
 
                 <a
