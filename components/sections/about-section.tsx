@@ -43,7 +43,7 @@ export default function AboutSection() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="section-shell border-t-2 border-border">
+    <section id="about" className="section-shell border-t border-border">
       <div className="section-container">
         
         {/* Section Header */}

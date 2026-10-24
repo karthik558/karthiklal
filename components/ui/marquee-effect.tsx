@@ -14,7 +14,7 @@ function FlowerSeparator() {
   return (
     <span
       aria-hidden="true"
-      className="marquee-separator relative mx-4 inline-flex h-[0.75em] w-[0.75em] shrink-0 items-center justify-center select-none rounded-full md:mx-6 lg:mx-7"
+      className="marquee-separator relative mx-6 inline-flex h-[0.6em] w-[0.6em] shrink-0 items-center justify-center select-none rounded-full md:mx-8 lg:mx-10"
     >
       <svg
         viewBox="0 0 24 24"
@@ -110,7 +110,7 @@ export function MarqueeAnimation({
 }: MarqueeAnimationProps) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const items = children.split("•").map((item) => item.trim()).filter(Boolean)
-  const duration = `${Math.max(5, 46 / Math.abs(baseVelocity))}s`
+  const duration = `${Math.max(5, 50 / Math.abs(baseVelocity))}s`
   const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right"
 
   const sequence = (

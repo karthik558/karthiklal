@@ -43,6 +43,10 @@ test.describe('Capabilities Marquee Interaction & Styling', () => {
 
     // Verify registration cross lines above Karthik have been removed
     await expect(page.locator('.studio-registration')).toHaveCount(0)
+
+    // Marquee has transparent background and no borders (clean overlap between landing & about)
+    const marqueeBorderTop = await marquee.evaluate(el => window.getComputedStyle(el).borderTopWidth)
+    expect(marqueeBorderTop).toBe('0px')
   })
 
   test('text remains clearly visible and high-contrast in both light and dark mode', async ({ page }) => {
@@ -96,7 +100,7 @@ test.describe('Capabilities Marquee Interaction & Styling', () => {
       return parseInt(weight, 10)
     }).toBeGreaterThanOrEqual(700)
 
-    // The text pops up and scales bigger
+    // The text pops up and scales bigger with counter-rotation so it is straight on screen
     const transform = await curiousItem.evaluate(el => window.getComputedStyle(el).transform)
     expect(transform).not.toBe('none')
 
@@ -124,9 +128,9 @@ test.describe('Capabilities Marquee Interaction & Styling', () => {
     const defaultWeight = await topRibbon.evaluate(el => window.getComputedStyle(el).fontWeight)
     expect(parseInt(defaultWeight, 10)).toBeGreaterThanOrEqual(800)
 
-    // Bar height should be narrower (sleek ribbon clientHeight <= 55px)
+    // Bar height matches reference py-3 md:py-4 lg:text-4xl (clientHeight <= 85px)
     const clientHeight = await topRibbon.evaluate(el => el.clientHeight)
-    expect(clientHeight).toBeLessThanOrEqual(55)
+    expect(clientHeight).toBeLessThanOrEqual(85)
 
     // Check flower separator
     const flowerSeparator = marquee.locator('.marquee-separator').first()

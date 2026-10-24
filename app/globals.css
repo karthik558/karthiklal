@@ -1603,53 +1603,33 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
   flex-direction: column;
   gap: 12px;
   overflow: hidden;
-  padding: 24px 0;
-  border-block: 1px solid hsl(var(--border) / 0.6);
-  background: hsl(var(--background));
+  padding: 16px 0;
+  border: none !important;
+  border-block: none !important;
+  background: transparent !important;
 }
 .capabilities-marquee-track {
   position: relative;
   flex-shrink: 0;
-  width: 104%;
-  margin-left: -2%;
   z-index: 1;
-  border-radius: 6px;
   transform-origin: center center;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .capabilities-marquee-top {
-  transform: rotate(-0.75deg);
+  transform: rotate(-0.65deg);
 }
 .capabilities-marquee-bottom {
-  transform: rotate(0.75deg);
+  transform: rotate(0.65deg);
   z-index: 2;
 }
 
-/* Hover or active on item: straighten the entire bar horizontally */
-.capabilities-marquee-top:hover,
-.capabilities-marquee-top:has(.marquee-item:hover),
-.capabilities-marquee-top:has([data-active="true"]) {
-  transform: rotate(0deg);
+/* Hover on track straightens it */
+.capabilities-marquee-top:hover {
+  transform: rotate(0deg) !important;
 }
 
-.capabilities-marquee-bottom:hover,
-.capabilities-marquee-bottom:has(.marquee-item:hover),
-.capabilities-marquee-bottom:has([data-active="true"]) {
-  transform: rotate(0deg);
-}
-
-/* Narrower, sleek ribbon bar */
-.capabilities-primary,
-.capabilities-secondary {
-  padding: 8px 0;
-  font-family: var(--font-display), -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 800;
-  font-style: normal;
-  font-size: clamp(15px, 1.7vw, 22px);
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.18);
+.capabilities-marquee-bottom:hover {
+  transform: rotate(0deg) !important;
 }
 
 /* Primary Dark Ribbon - Uses the deep dark website tone with pure white text */
@@ -1671,12 +1651,12 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
   border-block: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-/* Phrase items: interactive, rounds and tilts slightly on hover */
+/* Phrase items: interactive, click to bold & pop up */
 .capabilities-marquee .marquee-item {
   display: inline-block;
   transform-origin: center;
   cursor: pointer;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 9999px;
   transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2),
               color 0.2s ease,
@@ -1686,13 +1666,28 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 }
 .capabilities-marquee .marquee-item:hover {
   border-radius: 9999px;
-  transform: translateY(-2px) scale(1.06) rotate(-1deg);
+  transform: translateY(-2px) scale(1.05);
 }
-.capabilities-marquee .marquee-item[data-active="true"] {
+
+/* Counter-rotate selected item so it is ALWAYS 100% straight on screen, even while ribbon is at an angle! */
+.capabilities-marquee-top .marquee-item[data-active="true"] {
   font-weight: 900 !important;
   border-radius: 9999px;
+  transform: translateY(-3px) scale(1.12) rotate(0.65deg) !important;
+}
+.capabilities-marquee-top:hover .marquee-item[data-active="true"] {
   transform: translateY(-3px) scale(1.12) rotate(0deg) !important;
 }
+
+.capabilities-marquee-bottom .marquee-item[data-active="true"] {
+  font-weight: 900 !important;
+  border-radius: 9999px;
+  transform: translateY(-3px) scale(1.12) rotate(-0.65deg) !important;
+}
+.capabilities-marquee-bottom:hover .marquee-item[data-active="true"] {
+  transform: translateY(-3px) scale(1.12) rotate(0deg) !important;
+}
+
 .capabilities-secondary .marquee-item[data-active="true"] {
   color: #121110;
   background: rgba(18, 17, 16, 0.08);
@@ -1720,21 +1715,27 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 }
 
 @media (max-width: 600px) {
-  .capabilities-marquee {
-    gap: 10px;
-    padding: 20px 0;
-  }
   .capabilities-marquee-top {
-    transform: rotate(-1.2deg);
+    transform: rotate(-1deg);
   }
   .capabilities-marquee-bottom {
-    transform: rotate(1.2deg);
+    transform: rotate(1deg);
   }
-  .capabilities-marquee-top:hover,
-  .capabilities-marquee-top:has([data-active="true"]),
-  .capabilities-marquee-bottom:hover,
-  .capabilities-marquee-bottom:has([data-active="true"]) {
-    transform: rotate(0deg);
+  .capabilities-marquee-top:hover {
+    transform: rotate(0deg) !important;
+  }
+  .capabilities-marquee-bottom:hover {
+    transform: rotate(0deg) !important;
+  }
+  .capabilities-marquee-top .marquee-item[data-active="true"] {
+    transform: translateY(-2px) scale(1.1) rotate(1deg) !important;
+  }
+  .capabilities-marquee-bottom .marquee-item[data-active="true"] {
+    transform: translateY(-2px) scale(1.1) rotate(-1deg) !important;
+  }
+  .capabilities-marquee-top:hover .marquee-item[data-active="true"],
+  .capabilities-marquee-bottom:hover .marquee-item[data-active="true"] {
+    transform: translateY(-2px) scale(1.1) rotate(0deg) !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {
