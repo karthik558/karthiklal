@@ -1710,19 +1710,17 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
 }
 
-/* Flower separator hover roundness, rotation, and website accent color */
+/* Flower separator: consistent website accent color, clean without hover color flash/glow */
 .marquee-separator,
 .capabilities-primary .marquee-separator,
 .capabilities-secondary .marquee-separator {
   color: hsl(var(--primary)) !important;
 }
-.capabilities-primary .marquee-separator:hover {
-  background: hsl(var(--primary) / 0.16);
-  box-shadow: 0 0 10px hsl(var(--primary) / 0.35);
-}
+.marquee-separator:hover,
+.capabilities-primary .marquee-separator:hover,
 .capabilities-secondary .marquee-separator:hover {
-  background: hsl(var(--primary) / 0.12);
-  box-shadow: 0 0 10px hsl(var(--primary) / 0.25);
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 600px) {

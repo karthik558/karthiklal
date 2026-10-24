@@ -14,7 +14,7 @@ function FlowerSeparator() {
   return (
     <span
       aria-hidden="true"
-      className="marquee-separator relative mx-6 inline-flex h-[0.6em] w-[0.6em] shrink-0 items-center justify-center select-none rounded-full text-primary text-[hsl(var(--primary))] md:mx-8 lg:mx-10"
+      className="marquee-separator relative mx-6 inline-flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center select-none rounded-full text-primary text-[hsl(var(--primary))] md:mx-8 lg:mx-10"
     >
       <svg
         viewBox="0 0 24 24"
@@ -68,8 +68,9 @@ const marqueeStyles = `
   transform-origin: center center;
   border-radius: 50%;
   color: hsl(var(--primary));
+  background: transparent !important;
+  box-shadow: none !important;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.25s ease,
               border-radius 0.25s ease;
 }
 
@@ -85,11 +86,15 @@ const marqueeStyles = `
 .marquee-interactive:hover .marquee-separator {
   animation: marquee-flower-hover-spin 750ms cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
   border-radius: 50%;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .marquee-separator:hover {
   animation: marquee-flower-hover-spin 600ms cubic-bezier(0.2, 0.9, 0.3, 1.2) infinite alternate !important;
   border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
