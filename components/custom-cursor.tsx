@@ -141,7 +141,7 @@ export default function CustomCursor() {
     window.addEventListener("pointerup", release, { passive: true })
     window.addEventListener("pointerleave", hide)
     document.addEventListener("mouseleave", hide)
-    document.addEventListener("mouseenter", (e) => handleMove(e), { passive: true })
+    document.addEventListener("mouseenter", handleMove, { passive: true })
     document.addEventListener("visibilitychange", visibility)
     window.addEventListener("blur", handleBlur)
 
@@ -154,6 +154,7 @@ export default function CustomCursor() {
       window.removeEventListener("pointerup", release)
       window.removeEventListener("pointerleave", hide)
       document.removeEventListener("mouseleave", hide)
+      document.removeEventListener("mouseenter", handleMove)
       document.removeEventListener("visibilitychange", visibility)
       window.removeEventListener("blur", handleBlur)
     }

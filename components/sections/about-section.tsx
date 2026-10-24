@@ -85,10 +85,6 @@ export default function AboutSection() {
             className="paper-sheet paper-folded-corner lg:col-span-8 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-10 flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
-                <span className="paper-tag">ARCHIVAL DOSSIER // REF: KL-2026</span>
-                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest">RESEARCH // SEC // DESIGN</span>
-              </div>
               <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6">
                 Securing digital landscapes while crafting intuitive, visually compelling experiences.
               </h3>

@@ -1534,3 +1534,14 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .heading-reveal .editorial-heading .studio-serif { display:inline-block; opacity:0; transform:translateY(16px); transition:opacity .7s .12s ease,transform .7s .12s cubic-bezier(.16,1,.3,1); }
 .heading-arrived .editorial-heading .studio-serif { opacity:1; transform:none; }
 @media(prefers-reduced-motion:reduce) { .heading-reveal .section-heading-label,.heading-reveal .editorial-heading .studio-serif { opacity:1; transform:none; transition:none; } }
+
+/* Native modal dialogs occupy the browser top layer, above the custom cursor. */
+@media (pointer: fine) and (hover: hover) {
+  html.has-custom-cursor dialog:modal,
+  html.has-custom-cursor dialog:modal *,
+  html.has-custom-cursor dialog:modal::backdrop { cursor:auto !important; }
+  html.has-custom-cursor dialog:modal :is(button,a,button *) { cursor:pointer !important; }
+  html.has-custom-cursor:has(dialog:modal) .custom-cursor-layer { visibility:hidden; }
+}
+.book-preview .book-controls > span { min-width:0; overflow-wrap:anywhere; }
+.book-preview .book-controls > button { flex-shrink:0; }

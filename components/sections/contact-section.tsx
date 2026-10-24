@@ -323,7 +323,7 @@ export default function ContactSection() {
             <div className="relative z-10">
               <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
                 <span className="paper-tag">TRANSMISSION MEMO</span>
-                <span className="paper-tag font-bold">REGISTERED DISPATCH // IST</span>
+                <span className="paper-tag font-bold hidden sm:inline-block">REGISTERED DISPATCH // IST</span>
               </div>
 
               <form

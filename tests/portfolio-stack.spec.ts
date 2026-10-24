@@ -71,3 +71,23 @@ test('cards pin at the viewport edge and release on short screens', async ({ pag
   await expect(first).toHaveCSS('position', 'relative')
   await expect(first).toHaveCSS('top', '0px')
 })
+
+
+test('full-view previews retain a pointer and restore the custom cursor on close', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  for (const id of ['portfolio', 'portfolio-gallery']) {
+    const section = page.locator(`#${id}`)
+    await section.locator('.book-view').first().click()
+    const dialog = section.locator('dialog')
+    await expect(dialog).toBeVisible()
+    await dialog.locator('.book-preview-image').hover()
+    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', 'auto')
+    await expect(page.locator('.custom-cursor-layer')).toHaveCSS('visibility', 'hidden')
+    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', 'pointer')
+    await dialog.getByRole('button', { name: 'Close preview' }).click()
+    await expect(dialog).not.toBeVisible()
+    await expect(page.locator('.custom-cursor-layer')).toHaveCSS('visibility', 'visible')
+    await expect(section.locator('.book-view').first()).toBeFocused()
+  }
+})
