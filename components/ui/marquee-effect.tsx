@@ -45,15 +45,13 @@ const marqueeStyles = `
   animation-play-state: paused;
 }
 .marquee-item {
-  transition: opacity 240ms ease, transform 240ms ease, letter-spacing 240ms ease;
+  transition: opacity 240ms ease;
 }
 .marquee-interactive:hover .marquee-item {
   opacity: 0.42;
 }
 .marquee-interactive:hover .marquee-item:hover {
   opacity: 1;
-  transform: translateY(-0.08em) scale(1.025);
-  letter-spacing: 0.02em;
 }
 .marquee-interactive:hover .marquee-separator {
   animation: marquee-signal-spin 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
