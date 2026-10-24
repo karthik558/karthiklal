@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowLeft, ArrowUpRight, Home, Mail, MoveUpRight } from "lucide-react"
@@ -53,25 +54,7 @@ export default function NotFoundPage() {
               This address leads nowhere
             </motion.p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.14, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-[28vw] font-black uppercase leading-[0.72] tracking-[-0.09em] text-foreground sm:text-[24vw] lg:text-[15rem] xl:text-[17rem]"
-              aria-label="Error 404"
-            >
-              <span>4</span>
-              <span
-                className="inline-block"
-                style={{
-                  WebkitTextStroke: "clamp(1.5px, 0.2vw, 3px) hsl(var(--foreground))",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                0
-              </span>
-              <span>4</span>
-            </motion.h1>
+            <EditorialHeading title="Page not found." accent="Let’s find your way." />
           </div>
 
           <motion.div

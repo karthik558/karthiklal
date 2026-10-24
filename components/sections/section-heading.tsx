@@ -1,3 +1,5 @@
+import EditorialHeading from "@/components/ui/editorial-heading"
+
 interface SectionHeadingProps {
   number: string
   label: string
@@ -9,7 +11,7 @@ export default function SectionHeading({ number, label, title, accent }: Section
   return (
     <div className="section-heading-copy">
       <p className="studio-label section-heading-label">{number} / {label}</p>
-      <h2 className="section-title">{title}<br /><span className="studio-serif">{accent}</span></h2>
+      <EditorialHeading as="h2" title={title} accent={accent} />
     </div>
   )
 }

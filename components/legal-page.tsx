@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -65,18 +66,7 @@ export function LegalPage({
               <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground sm:text-xs">
                 Karthik Lal // Legal & trust
               </p>
-              <h1 className="font-display text-[15vw] font-black uppercase leading-[0.78] tracking-[-0.075em] text-foreground sm:text-[6.5rem] lg:text-[8.2rem] xl:text-[9.5rem]">
-                <span className="block">{title}</span>
-                <span
-                  className="block"
-                  style={{
-                    WebkitTextStroke: "clamp(1.5px, 0.15vw, 2.5px) hsl(var(--foreground))",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {outlinedTitle}
-                </span>
-              </h1>
+              <EditorialHeading title={title} accent={outlinedTitle} />
             </div>
 
             <div className="lg:col-span-4 lg:pb-1">

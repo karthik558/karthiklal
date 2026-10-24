@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import { useState, useRef, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { Send, Check, Copy, ChevronDown } from "lucide-react"
@@ -225,19 +226,17 @@ export default function ContactSection() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
+    <div className="contact-page min-h-screen bg-background pt-32 pb-28 border-t border-border">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
           <div className="mb-3">
-            <span className="paper-stamp">
+            <span className="studio-label">
               COMMUNICATION DISPATCH // 09
             </span>
           </div>
-          <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            GET IN TOUCH
-          </h1>
+          <EditorialHeading title="Let’s start" accent="a conversation." />
         </div>
 
         {/* Main Grid */}

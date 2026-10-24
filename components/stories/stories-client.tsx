@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import React, { useState, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -64,13 +65,11 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
           <div className="mb-3">
-            <span className="paper-stamp">
+            <span className="studio-label">
               LITERARY ARCHIVE // STORIES &amp; FOLIOS
             </span>
           </div>
-          <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            STORIES &amp; NARRATIVES
-          </h1>
+          <EditorialHeading title="Stories to get" accent="lost in." />
         </div>
 
         {/* Toolbar: Search & Filters */}

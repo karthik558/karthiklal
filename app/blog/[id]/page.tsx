@@ -1,3 +1,4 @@
+import EditorialHeading from "@/components/ui/editorial-heading"
 import { ArrowLeft, Calendar, Clock, Github } from "lucide-react"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
@@ -158,9 +159,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
               </span>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight text-foreground">
-              {blog.title}
-            </h1>
+            <EditorialHeading title={blog.title} />
 
             <div className="flex flex-wrap items-center gap-6 font-mono text-xs uppercase text-muted-foreground border-t border-border pt-4">
               <div className="flex items-center gap-2">

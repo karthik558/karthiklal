@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -121,9 +122,7 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
               <span className="bg-foreground px-3 py-1.5 text-background">{project.category}</span>
               <span className="text-muted-foreground">ENGINEERING // SECURITY</span>
             </div>
-            <h1 className="max-w-5xl font-display text-5xl font-black uppercase leading-[0.85] tracking-[-0.045em] sm:text-7xl md:text-8xl lg:text-[7rem]">
-              {project.title}
-            </h1>
+            <EditorialHeading title={project.title} />
           </div>
           <div className="lg:col-span-4">
             <p className="border-l-2 border-foreground pl-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg">

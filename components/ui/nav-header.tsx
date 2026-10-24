@@ -110,7 +110,6 @@ export default function NavHeader() {
     <div className="relative flex w-full items-center justify-center font-mono text-xs uppercase pointer-events-none">
       {/* Unified Desktop Navigation Island (Centered, Paper Style, Compact) */}
       <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-1.5 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-1.5 py-1 shadow-xs">
-        <SmoothLink href="/" aria-label="Karthik Lal home" className="nav-monogram">KL<span>↗</span></SmoothLink>
         <nav aria-label="Desktop navigation">
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
@@ -137,7 +136,7 @@ export default function NavHeader() {
 
         <div className="h-3.5 w-px bg-border/80 mx-0.5" aria-hidden="true" />
 
-        <div className="flex items-center gap-1">
+        <div className="nav-utilities flex items-center gap-1">
           <SoundToggle size="sm" />
           <ThemeToggleAnimated size="sm" />
         </div>

@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -95,13 +96,11 @@ export default function ProjectsPage() {
         {/* Page Hero Header */}
         <div className="mb-14 border-b border-border pb-10">
           <div className="mb-3">
-            <span className="paper-stamp">
+            <span className="studio-label">
               PROJECT DOSSIERS // ARCHIVE &amp; SPECIMENS
             </span>
           </div>
-          <h1 className="font-display text-5xl font-black uppercase tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            PROJECT ARCHIVE
-          </h1>
+          <EditorialHeading title="Built with purpose." accent="The project archive." />
         </div>
 
         {/* Toolbar: Search & Filters */}

@@ -31,7 +31,7 @@ export function SoundToggle({ size = "default", className }: SoundToggleProps = 
     return (
       <div
         className={cn(
-          isSm ? "w-[26px] h-[26px] border border-border/80 bg-card/60" : "w-9 h-9 border-2 border-border bg-card",
+          "w-11 h-11 border border-border bg-card",
           className
         )}
         aria-hidden="true"
@@ -109,7 +109,7 @@ export function SoundToggle({ size = "default", className }: SoundToggleProps = 
       data-testid="sound-toggle-btn"
       className={cn(
         "relative flex items-center justify-center transition-all duration-200 cursor-pointer select-none",
-        isSm ? "h-[26px] w-[26px] border border-border/80 shadow-2xs" : "h-9 w-9 border-2",
+        "h-11 w-11 shrink-0 border border-border",
         getThemeClasses(),
         className
       )}

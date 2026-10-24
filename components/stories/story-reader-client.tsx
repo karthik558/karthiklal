@@ -1,5 +1,6 @@
 "use client"
 
+import EditorialHeading from "@/components/ui/editorial-heading"
 import React from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -34,9 +35,7 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               {story.category} • {story.readTime} • {story.totalPages} PAGES
             </div>
-            <h1 className="font-display text-4xl sm:text-6xl font-black uppercase text-foreground leading-tight">
-              {story.title}
-            </h1>
+            <EditorialHeading title={story.title} />
             {story.englishTitle && (
               <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 {story.englishTitle}
