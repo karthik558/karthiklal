@@ -23,7 +23,6 @@ export default function HeroSectionStatic() {
       <div className="section-container">
         <div className="studio-hero-grid">
           <div className="studio-copy">
-            <div className="studio-registration" aria-hidden="true"><span>+</span><i /><span>+</span></div>
             <p className="studio-label">IT MANAGER · ETHICAL HACKER · BUILDER</p>
             <h1>KARTHIK<br /><span>LAL</span></h1>
             <div className="studio-statement"><span aria-hidden="true">↳</span><p>I build things that <em>work beautifully.</em><br />And systems you can trust.</p></div>
