@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import JournalSection from '@/components/sections/journal-section'
 import HomeMotion from '@/components/home-motion'
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
@@ -156,12 +157,13 @@ export default function Home() {
       <AboutSection />
       <PrinciplesSection />
       <PortfolioSection />
+      <PortfolioGallerySection />
       <ServicesSection />
       <SkillsSection />
       <ExperienceSection />
       <CertificationsSection />
       <TestimonialsSection />
-      <PortfolioGallerySection />
+      <JournalSection />
       <CtaSection />
     </div>
   )

@@ -1,82 +1,51 @@
 "use client"
 
 import { useRef } from "react"
-import Image from "next/image"
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
-import { ArrowDownRight, ArrowUpRight, Download, Facebook, Github, Instagram, Linkedin, Mail } from "lucide-react"
+import Image from "next/image"
+import { ArrowDownRight, ArrowUpRight, Download, Facebook, Github, Instagram, Linkedin } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
-import { XIcon } from "@/components/ui/icons"
 import { SOCIALS_DATA } from "@/lib/static-data"
 
-const iconMap = { Github, Linkedin, Mail, Twitter: XIcon, Instagram, Facebook }
+const icons = { Github, Linkedin, Instagram, Facebook }
 
 export default function HeroSectionStatic() {
-  const ref = useRef<HTMLElement>(null)
-  const reduced = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 35,
-    damping: 20,
-    mass: 1.2,
-    restDelta: 0.0001,
-    restSpeed: 0.0001,
-  })
-  const orbitRotate = useTransform(smoothProgress, [0, 1], [-18, 48])
-  // Use scroll position so retracing the scroll always retraces the same orbit.
-  const starX = useTransform(smoothProgress, value => `${50 + 50 * Math.cos((-180 + value * 120) * Math.PI / 180)}%`)
-  const starY = useTransform(smoothProgress, value => `${50 + 50 * Math.sin((-180 + value * 120) * Math.PI / 180)}%`)
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -90])
-  const portraitY = useTransform(smoothProgress, [0, 1], [0, 65])
-  const socials = [...SOCIALS_DATA.socials].filter(s => s.active).sort((a, b) => a.priority - b.priority)
+  const heroRef = useRef<HTMLElement>(null)
+  const reducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const orbitProgress = useSpring(scrollYProgress, { stiffness: 35, damping: 22, mass: 1.1 })
+  // The ellipse and marker share coordinates, so resizing never detaches the star.
+  const starX = useTransform(orbitProgress, value => 250 + 245 * Math.cos((145 + value * 150) * Math.PI / 180))
+  const starY = useTransform(orbitProgress, value => 300 + 270 * Math.sin((145 + value * 150) * Math.PI / 180))
 
   return (
-    <section ref={ref} id="home" className="kinetic-hero">
-      <div className="hero-grid" aria-hidden="true" />
-      <div className="section-container relative z-10">
-        <div className="hero-composition">
-          <div className="hero-copy">
-            <motion.div className="hero-title-block" style={{ y: reduced ? 0 : titleY }}>
-              <p className="hero-intro">IT manager. Ethical hacker. Builder.</p>
-              <h1 className="hero-name" aria-label="Karthik Lal">
-                <span className="hero-word" aria-hidden="true"><span>KARTHIK</span></span>
-                <span className="hero-word hero-name-outline" aria-hidden="true"><span>LAL<span className="hero-period" /></span></span>
-              </h1>
-            </motion.div>
-            <p className="hero-description">Secure systems.<br /><span>Thoughtful digital experiences.</span><br />I bring both worlds together.</p>
+    <section ref={heroRef} id="home" className="studio-hero">
+      <div className="section-container">
+        <div className="studio-hero-grid">
+          <div className="studio-copy">
+            <div className="studio-registration" aria-hidden="true"><span>+</span><i /><span>+</span></div>
+            <p className="studio-label">IT MANAGER · ETHICAL HACKER · BUILDER</p>
+            <h1>KARTHIK<br /><span>LAL</span></h1>
+            <div className="studio-statement"><span aria-hidden="true">↳</span><p>I build things that <em>work beautifully.</em><br />And systems you can trust.</p></div>
             <div className="hero-actions">
               <AnimatedButton href="/#portfolio" variant="primary">EXPLORE WORK <ArrowUpRight className="h-4 w-4" /></AnimatedButton>
               <AnimatedButton href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=drive_link" target="_blank" rel="noopener noreferrer" variant="outline">DOWNLOAD CV <Download className="h-4 w-4" /></AnimatedButton>
             </div>
+            <div className="studio-disciplines"><a href="#services">01 / SECURITY</a><a href="#portfolio">02 / DEVELOPMENT</a><a href="#portfolio-gallery">03 / DESIGN</a></div>
           </div>
-          <div className="hero-art">
-            <motion.div className="hero-orbit-track" style={{ y: reduced ? 0 : portraitY }} aria-hidden="true">
-              <motion.div className="hero-orbit" style={{ rotate: reduced ? -18 : orbitRotate }} />
-            </motion.div>
-            <motion.div className="hero-orbit-track hero-orbit-star-track" style={{ y: reduced ? 0 : portraitY }} aria-hidden="true">
-              <motion.div className="hero-orbit-star-plane" style={{ rotate: reduced ? -18 : orbitRotate }}>
-                <motion.div className="hero-orbit-star-position" style={{ x: reduced ? "0%" : starX, y: reduced ? "50%" : starY }}>
-                  <span className="hero-orbit-star">
-                    <svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 0 24 14 36 4 26 16 40 20 26 24 36 36 24 26 20 40 16 26 4 36 14 24 0 20 14 16 4 4 16 14Z" /></svg>
-                  </span>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-            <motion.div className="hero-portrait" style={{ y: reduced ? 0 : portraitY }}>
-              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 1024px) 38vw, (min-width: 640px) 55vw, 100vw" className="object-cover" />
-              <div className="hero-portrait-shade" />
-            </motion.div>
-            <div className="hero-note"><span className="hero-note-icon">✳</span><span>BUILT WITH CURIOSITY.<br />BACKED BY EXPERIENCE.</span></div>
-            <div className="hero-experience"><strong>2019</strong><span>BUILDING & SECURING<br />SINCE</span></div>
+          <div className="studio-portrait-wrap">
+            <svg className="studio-orbit" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="250" cy="300" rx="245" ry="270" fill="none" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" /></svg>
+            <figure className="studio-portrait">
+              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
+            </figure>
+            <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
+              <motion.g style={{ x: reducedMotion ? 49.3 : starX, y: reducedMotion ? 454.9 : starY }}>
+                <path d="M0-28V28M-28 0H28M-20-20L20 20M-20 20L20-20M-11-26L11 26M-26-11L26 11M-26 11L26-11M-11 26L11-26" fill="none" stroke="currentColor" strokeWidth="2.5" />
+              </motion.g>
+            </svg>
           </div>
         </div>
-        <div className="hero-baseline">
-          <a href="#about" className="hero-scroll">SCROLL TO DISCOVER <ArrowDownRight className="h-5 w-5" /></a>
-          <span className="hidden lg:block">CYBERSECURITY / INFRASTRUCTURE / DEVELOPMENT</span>
-          <div className="flex gap-2">{socials.map(social => {
-            const Icon = iconMap[social.icon as keyof typeof iconMap]
-            return Icon ? <a key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name} className="hero-social"><Icon className="h-4 w-4" /></a> : null
-          })}</div>
-        </div>
+        <div className="studio-baseline"><a href="#about">MEET THE MAKER <ArrowDownRight size={16} /></a><span>BUILDING & SECURING SINCE 2019</span><div>{SOCIALS_DATA.socials.filter(s => s.active).sort((a,b) => a.priority-b.priority).map(s => { const Icon = icons[s.icon as keyof typeof icons]; return Icon ? <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}><Icon size={17} /></a> : null })}</div></div>
       </div>
     </section>
   )

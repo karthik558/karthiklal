@@ -1,5 +1,6 @@
 "use client"
 
+import SectionHeading from "@/components/sections/section-heading"
 import { motion, useReducedMotion } from "framer-motion"
 import { MapPin } from "lucide-react"
 import ParallaxImage from "@/components/ui/parallax-image"
@@ -48,14 +49,7 @@ export default function AboutSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="mb-3">
-              <span className="paper-stamp">
-                01 // PHILOSOPHY &amp; CAPABILITIES
-              </span>
-            </div>
-            <h2 className="section-title">
-              ABOUT ME
-            </h2>
+            <SectionHeading number="01" label="PHILOSOPHY &amp; CAPABILITIES" title="A curious mind." accent="A practical approach." />
           </div>
         </div>
 

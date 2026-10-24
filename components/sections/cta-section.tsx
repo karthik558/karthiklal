@@ -56,8 +56,8 @@ export default function CtaSection() {
 
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-center gap-2">
-              <span className="paper-stamp">
-                11 // INITIATE COLLABORATION
+              <span className="studio-label section-heading-label">
+                11 / INITIATE COLLABORATION
               </span>
             </div>
 
@@ -66,9 +66,9 @@ export default function CtaSection() {
               whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black uppercase tracking-tighter leading-none text-foreground mb-10"
+              className="section-title mb-10"
             >
-              HAVE A PROJECT IN MIND?
+              Have something in mind?<br /><span className="studio-serif">Let’s build it.</span>
             </motion.h2>
 
             <motion.div

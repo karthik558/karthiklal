@@ -1,5 +1,6 @@
 "use client"
 
+import SectionHeading from "@/components/sections/section-heading"
 import { useMemo, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { Briefcase, CalendarRange, ChevronDown, ChevronUp, GraduationCap } from "lucide-react"
@@ -99,12 +100,7 @@ export default function ExperienceSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <div className="mb-3">
-              <span className="paper-stamp">
-                06 // CAREER REGISTRY
-              </span>
-            </div>
-            <h2 className="section-title">EXPERIENCE &amp; ROLES</h2>
+            <SectionHeading number="07" label="CAREER &amp; EXPERIENCE" title="Learning by doing." accent="Growing with every role." />
           </div>
         </div>
 

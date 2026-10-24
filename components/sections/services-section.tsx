@@ -1,5 +1,6 @@
 "use client"
 
+import SectionHeading from "@/components/sections/section-heading"
 import { useState } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { ArrowUpRight, Check, Shield, Code2, Cloud, Palette, ChevronDown } from "lucide-react"
@@ -42,15 +43,9 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="mb-3">
-              <span className="paper-stamp">
-                04 // SERVICES &amp; CAPABILITIES
-              </span>
-            </div>
-            <h2 className="section-title">
-              WHAT I DELIVER
-            </h2>
+            <SectionHeading number="05" label="SERVICES &amp; CAPABILITIES" title="Built around" accent="what you need." />
           </div>
+          <p className="studio-section-intro">From the infrastructure behind your business to the interface your customers use. Practical expertise, connected from end to end.</p>
         </div>
 
         <div className="border-t border-border">

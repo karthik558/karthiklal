@@ -1,5 +1,6 @@
 "use client"
 
+import SectionHeading from "@/components/sections/section-heading"
 import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import {
@@ -114,12 +115,7 @@ export default function CertificationsSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <div className="mb-3">
-              <span className="paper-stamp">
-                07 // CREDENTIAL REGISTRY
-              </span>
-            </div>
-            <h2 className="section-title">CERTIFICATIONS</h2>
+            <SectionHeading number="08" label="CREDENTIALS" title="Knowledge earned." accent="Practice backed." />
           </div>
         </div>
 

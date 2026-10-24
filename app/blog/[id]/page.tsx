@@ -1,4 +1,6 @@
 import { ArrowLeft, Calendar, Clock, Github } from "lucide-react"
+import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { ShareButton } from "@/components/blog/share-button"
@@ -39,6 +41,12 @@ export function generateStaticParams() {
   return blogs.map((blog) => ({ id: blog.id }))
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const post = blogs.find(post => post.id === id)
+  return post ? { title: post.title, description: post.excerpt, openGraph: { title: post.title, description: post.excerpt, type: "article", images: [post.image] } } : {}
+}
+
 export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const blog = blogs.find((candidate) => candidate.id === id)
@@ -62,13 +70,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         const className = headingClasses[block.level as keyof typeof headingClasses] || headingClasses[2]
 
         if (block.level === 1) {
-          return <h1 key={index} className={className}>{block.text}</h1>
+          return <h2 id={`section-${index}`} key={index} className={className}>{block.text}</h2>
         } else if (block.level === 3) {
-          return <h3 key={index} className={className}>{block.text}</h3>
+          return <h3 id={`section-${index}`} key={index} className={className}>{block.text}</h3>
         } else if (block.level === 4) {
-          return <h4 key={index} className={className}>{block.text}</h4>
+          return <h4 id={`section-${index}`} key={index} className={className}>{block.text}</h4>
         } else {
-          return <h2 key={index} className={className}>{block.text}</h2>
+          return <h2 id={`section-${index}`} key={index} className={className}>{block.text}</h2>
         }
 
       case 'image':
@@ -123,22 +131,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
     }
   }
 
-  if (!blog) {
-    return (
-      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border text-center">
-        <div className="container mx-auto max-w-4xl px-4 font-mono">
-          <h1 className="font-display text-4xl font-black uppercase text-foreground mb-4">ARTICLE NOT FOUND</h1>
-          <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-bold text-xs uppercase">
-            <ArrowLeft className="w-4 h-4" /> RETURN TO BLOG
-          </Link>
-        </div>
-      </div>
-    )
-  }
+  if (!blog) notFound()
+  const headings = blog.content.map((block,index) => ({...block,index})).filter(block => block.type === "heading")
+  const related = blogs.filter(post => post.id !== blog.id).sort((a,b) => Number(b.category === blog.category)-Number(a.category === blog.category) || Date.parse(b.date)-Date.parse(a.date)).slice(0,2)
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-28 border-t border-border">
-      <div className="container mx-auto max-w-5xl px-4 md:px-6">
+    <div className="article-page min-h-screen bg-background pt-32 pb-28 border-t border-border">
+      <div className="container mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Back Navigation */}
         <div className="mb-8 font-mono text-xs font-bold uppercase">
@@ -206,6 +205,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             </div>
           </header>
 
+          <div className="article-reading-layout">
+          <aside className="article-contents"><p className="studio-label">IN THIS ARTICLE</p><nav aria-label="Table of contents">{headings.map(block => <a key={block.index} href={`#section-${block.index}`}>{block.text}</a>)}</nav><p className="studio-label">WRITTEN BY<br />{blog.author}</p></aside>
+          <div className="article-prose">
           {/* Abstract / Excerpt */}
           <div className="border-2 border-border/80 bg-card p-6 md:p-8 font-sans text-base md:text-lg leading-relaxed text-foreground font-medium">
             {blog.excerpt}
@@ -216,6 +218,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             {blog.content.map((block, index) => renderContentBlock(block, index))}
           </div>
 
+          </div></div>
           {/* Share & Footer */}
           <footer className="border-t-2 border-border pt-8 mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs uppercase">
             <ShareButton title={blog.title} excerpt={blog.excerpt} />
@@ -225,6 +228,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             </Link>
           </footer>
         </article>
+        <section className="article-related"><p className="studio-label">KEEP EXPLORING</p><h2>Another rabbit hole.</h2><div>{related.map(post => <Link key={post.id} href={`/blog/${post.id}`}><span className="studio-label">{post.category} / {post.readTime}</span><h3>{post.title} ↗</h3></Link>)}</div></section>
       </div>
     </div>
   )
