@@ -1340,8 +1340,9 @@ body {
 .journal-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px 28px; }
 .journal-card { min-width:0; display:flex; flex-direction:column; }
 .journal-card-image { display:block; position:relative; aspect-ratio:1.5; overflow:hidden; background:hsl(var(--muted)); margin-bottom:22px; }
-.journal-card-image img { transition:transform .4s; }
-@media (prefers-reduced-motion:no-preference) { .journal-card:hover img { transform:scale(1.035); } }
+.journal-card-image img { filter:grayscale(1) contrast(1.25); transition:filter .6s cubic-bezier(.16,1,.3,1), transform .4s ease; }
+.journal-card-image:hover img, .journal-card-image:focus-visible img { filter:grayscale(0) contrast(1); }
+@media (prefers-reduced-motion:no-preference) { .journal-card-image:hover img, .journal-card-image:focus-visible img { transform:scale(1.035); } }
 .journal-card h3 { font-family:var(--font-display),sans-serif; font-size:24px; line-height:1.25; letter-spacing:-.035em; font-weight:600; margin:10px 0 20px; }
 .journal-card:hover h3 { color:hsl(var(--primary)); }
 .journal-preview { border-top:1px solid hsl(var(--border)); }
@@ -1351,7 +1352,10 @@ body {
 .journal-masthead > div { display:flex; justify-content:space-between; gap:25px; align-items:end; }
 .journal-masthead > div > p { font-size:15px; line-height:1.8; color:hsl(var(--muted-foreground)); }
 .journal-feature { display:grid; grid-template-columns:1.25fr 1fr; background:hsl(var(--card)); border:1px solid hsl(var(--border)); }
-.journal-feature-image { position:relative; min-height:430px; }
+.journal-feature-image { position:relative; min-height:430px; overflow:hidden; }
+.journal-feature-image img { filter:grayscale(1) contrast(1.25); transition:filter .7s cubic-bezier(.16,1,.3,1), transform .5s ease; }
+.journal-feature-image:hover img, .journal-feature-image:focus-visible img { filter:grayscale(0) contrast(1); }
+@media (prefers-reduced-motion:no-preference) { .journal-feature-image:hover img, .journal-feature-image:focus-visible img { transform:scale(1.03); } }
 .journal-feature-copy { padding:42px; display:flex; flex-direction:column; align-items:start; gap:22px; }
 .journal-feature h2 { font:600 clamp(26px,3vw,42px)/1.12 var(--font-display),sans-serif; letter-spacing:-.04em; }
 .journal-feature-copy > p:not(.studio-label) { font-size:14px; line-height:1.85; color:hsl(var(--muted-foreground)); }
@@ -1390,6 +1394,8 @@ body {
 .article-prose p,.article-prose li { line-height:1.95; }
 .article-prose h2,.article-prose h3,.article-prose h4 { scroll-margin-top:110px; letter-spacing:-.03em; }
 .article-prose pre { border:1px solid hsl(var(--border)); border-radius:0; }
+.article-page header .relative img, .article-prose .my-8 img { filter:grayscale(1) contrast(1.25); transition:filter .7s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.article-page header .relative:hover img, .article-prose .my-8:hover img { filter:grayscale(0) contrast(1); }
 .article-related { border-top:1px solid hsl(var(--border)); margin-top:70px; padding-top:40px; }
 .article-related > h2 { font:500 36px var(--font-display),sans-serif; margin:16px 0 25px; }
 .article-related > div { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
@@ -1758,6 +1764,9 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 }
 .stack-card .book-image-page { padding:0; background:hsl(var(--muted)); }
 .stack-card .book-art { margin:0; min-height:480px; width:100%; overflow:hidden; }
+.stack-card .book-art img { filter:grayscale(1) contrast(1.25); transition:filter .7s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.stack-card .book-art:hover img, .stack-card .book-art:focus-within img { filter:grayscale(0) contrast(1); }
+@media (prefers-reduced-motion:no-preference) { .stack-card .book-art:hover img, .stack-card .book-art:focus-within img { transform:scale(1.04); } }
 .stack-card .book-view { position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; background:transparent; display:block; }
 .art-preview-label { position:absolute; bottom:16px; left:16px; display:flex; gap:8px; align-items:center; padding:12px 16px; background:#171717; color:#fff; border:1px solid #ffffff60; }
 .stack-card .book-view:focus-visible { outline:3px solid hsl(var(--primary)); outline-offset:-4px; }

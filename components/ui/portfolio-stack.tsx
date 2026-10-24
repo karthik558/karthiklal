@@ -48,8 +48,8 @@ export default function PortfolioStack({ entries, label }: { entries: BookEntry[
         {entries.map((entry, index) => (
           <article className="stack-card" key={entry.id} aria-label={`${index + 1}: ${entry.title}`} style={{ zIndex: index + 1 }}>
             <div className="book-image-page">
-              <div className="book-art">
-                <Image src={entry.image} alt={entry.title} fill sizes="(min-width: 900px) 50vw, 100vw" className="object-cover" />
+              <div className="book-art group/art">
+                <Image src={entry.image} alt={entry.title} fill sizes="(min-width: 900px) 50vw, 100vw" className="object-cover grayscale contrast-125 transition-all duration-700 group-hover/art:grayscale-0 group-hover/art:contrast-100 group-hover/art:scale-105" />
                 <button className="book-view" onClick={() => { setPreview(entry); dialog.current?.showModal() }} aria-label={`View ${entry.title} full screen`}>
                   <span className="art-preview-label"><Maximize2 size={14} /> FULL VIEW</span>
                 </button>

@@ -83,13 +83,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       case 'image':
         return (
           <div key={index} className="my-8">
-            <div className="relative rounded-lg overflow-hidden shadow-lg">
+            <div className="relative rounded-lg overflow-hidden shadow-lg group/contentimg">
               <Image
                 src={block.src || '/placeholder.svg'}
                 alt={block.alt || ''}
                 width={800}
                 height={400}
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-cover grayscale contrast-125 transition-all duration-700 group-hover/contentimg:grayscale-0 group-hover/contentimg:contrast-100 group-hover/contentimg:scale-[1.02]"
               />
             </div>
             {block.caption && (
@@ -192,13 +192,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
               </a>
             )}
 
-            <div className="relative border-2 border-border/80 bg-card overflow-hidden">
+            <div className="relative border-2 border-border/80 bg-card overflow-hidden group/hero">
               <Image
                 src={blog.image}
                 alt={blog.title}
                 width={1200}
                 height={600}
-                className="w-full h-72 md:h-[480px] object-cover"
+                className="w-full h-72 md:h-[480px] object-cover grayscale contrast-125 transition-all duration-700 group-hover/hero:grayscale-0 group-hover/hero:contrast-100 group-hover/hero:scale-[1.02]"
                 priority
               />
             </div>

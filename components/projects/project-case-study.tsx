@@ -168,14 +168,14 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
             </div>
           </div>
 
-          <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[16/9] max-h-[460px] md:max-h-[520px] w-full overflow-hidden bg-muted">
+          <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[16/9] max-h-[460px] md:max-h-[520px] w-full overflow-hidden bg-muted group">
             <Image
               src={project.image}
               alt={project.title}
               fill
               priority
               sizes="(min-width: 1280px) 1200px, 100vw"
-              className="object-cover object-top"
+              className="object-cover object-top grayscale contrast-125 transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-[1.02]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 text-white sm:bottom-6 sm:left-6 sm:right-6">
