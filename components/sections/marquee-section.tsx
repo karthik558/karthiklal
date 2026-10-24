@@ -10,7 +10,7 @@ export default function MarqueeSection() {
       </div>
       <div className="capabilities-marquee-track">
         <MarqueeAnimation direction="right" baseVelocity={1.3} className="capabilities-secondary">
-          {"CURIOUS MIND • CLEAR THINKING • THOUGHTFUL DETAILS • ALWAYS EXPLORING •"}
+          {"Curious mind • Clear thinking • Thoughtful details • Always exploring •"}
         </MarqueeAnimation>
       </div>
     </section>

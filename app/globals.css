@@ -1535,13 +1535,44 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .heading-arrived .editorial-heading .studio-serif { opacity:1; transform:none; }
 @media(prefers-reduced-motion:reduce) { .heading-reveal .section-heading-label,.heading-reveal .editorial-heading .studio-serif { opacity:1; transform:none; transition:none; } }
 
-/* Native modal dialogs occupy the browser top layer, above the custom cursor. */
+/* Keep a native fallback only until the cursor has entered the top-layer dialog. */
 @media (pointer: fine) and (hover: hover) {
-  html.has-custom-cursor dialog:modal,
-  html.has-custom-cursor dialog:modal *,
-  html.has-custom-cursor dialog:modal::backdrop { cursor:auto !important; }
-  html.has-custom-cursor dialog:modal :is(button,a,button *) { cursor:pointer !important; }
-  html.has-custom-cursor:has(dialog:modal) .custom-cursor-layer { visibility:hidden; }
+  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer)),
+  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer)) *,
+  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer))::backdrop { cursor:auto !important; }
+  html.has-custom-cursor dialog:modal:has(.custom-cursor-layer)::backdrop { cursor:none !important; }
 }
 .book-preview .book-controls > span { min-width:0; overflow-wrap:anywhere; }
 .book-preview .book-controls > button { flex-shrink:0; }
+
+/* Two matching ribbons cross without changing text metrics during interaction. */
+.capabilities-marquee { display:grid; grid-template-columns:minmax(0,1fr); align-items:center; padding:80px 0; gap:0; }
+.capabilities-marquee-track { min-width:0; grid-area:1 / 1; width:110%; margin-left:-5%; transform:rotate(-4deg); }
+.capabilities-marquee-track + .capabilities-marquee-track { transform:rotate(4deg); }
+.capabilities-primary,.capabilities-secondary { padding:18px 0; font:italic 400 clamp(28px,3.4vw,48px)/1.2 Georgia,'Times New Roman',serif; letter-spacing:-.025em; text-transform:none; }
+.capabilities-primary { background:#171717; color:#f5f3ee; border-block:1px solid #666; }
+.capabilities-secondary { background:#f5f3ee; color:#171717; border-block:1px solid #bbb; }
+.capabilities-marquee-track:hover,.capabilities-marquee-track:focus-within { z-index:2; }
+.capabilities-marquee :is(.marquee-item,.marquee-item:hover) { opacity:1; }
+.capabilities-marquee:hover :is(.animate-marquee-left,.animate-marquee-right),.capabilities-marquee:focus-within :is(.animate-marquee-left,.animate-marquee-right) { animation-play-state:paused; }
+.stack-card .book-image-page { padding:0; background:hsl(var(--muted)); }
+.stack-card .book-art { margin:0; min-height:480px; width:100%; overflow:hidden; }
+.stack-card .book-view { position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; background:transparent; display:block; }
+.art-preview-label { position:absolute; bottom:16px; left:16px; display:flex; gap:8px; align-items:center; padding:12px 16px; background:#171717; color:#fff; border:1px solid #ffffff60; }
+.stack-card .book-view:focus-visible { outline:3px solid hsl(var(--primary)); outline-offset:-4px; }
+@media(max-width:899px) {
+ .stack-card { position:var(--stack-position,relative); top:var(--stack-top,0px); }
+ .stack-card .book-image-page { min-height:0; }
+ .stack-card .book-art { min-height:0; height:clamp(220px,60vw,360px); flex:auto; }
+ .stack-card .book-copy-page { padding:22px; }
+ .stack-card .book-copy-page h3 { font-size:28px; margin:14px 0; }
+ .stack-card .book-description { line-height:1.6; }
+ .stack-card .book-tags { margin-top:14px; }
+ .stack-card .book-links { margin:20px 0; }
+ .stack-card .book-page-footer { padding-top:16px; }
+}
+@media(prefers-reduced-motion:reduce) { .stack-card { position:relative; top:auto; }.capabilities-marquee-track { transform:none; }.capabilities-marquee { display:flex; padding:24px 0; gap:12px; } }
+@media(max-width:600px) and (prefers-reduced-motion:no-preference) {
+ .capabilities-marquee-track { transform:translateY(-24px) rotate(-8deg); }
+ .capabilities-marquee-track + .capabilities-marquee-track { transform:translateY(24px) rotate(8deg); }
+}

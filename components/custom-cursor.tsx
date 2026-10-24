@@ -38,12 +38,16 @@ export default function CustomCursor() {
   useEffect(() => {
     if (typeof document === "undefined") return
     const updateTarget = () => {
-      setPortalTarget(document.fullscreenElement || document.body)
+      const dialogs = document.querySelectorAll("dialog:modal")
+      setPortalTarget(dialogs[dialogs.length - 1] || document.fullscreenElement || document.body)
     }
     updateTarget()
+    const observer = new MutationObserver(updateTarget)
+    observer.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["open"] })
     document.addEventListener("fullscreenchange", updateTarget)
     document.addEventListener("webkitfullscreenchange", updateTarget)
     return () => {
+      observer.disconnect()
       document.removeEventListener("fullscreenchange", updateTarget)
       document.removeEventListener("webkitfullscreenchange", updateTarget)
     }

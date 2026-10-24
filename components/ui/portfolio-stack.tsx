@@ -23,10 +23,12 @@ export default function PortfolioStack({ entries, label }: { entries: BookEntry[
 
   useEffect(() => {
     const cards = Array.from(stack.current?.querySelectorAll<HTMLElement>(".stack-card") ?? [])
-    // Tall cards remain in normal flow so their content can always be reached.
+    // On phones, pin tall cards only after their lower content reaches the viewport.
     const update = () => cards.forEach((card, index) => {
-      const top = 96 + Math.min(index, 3) * 8
-      const fits = window.innerWidth >= 900 && card.offsetHeight + top + 24 < window.innerHeight
+      const mobile = window.innerWidth < 900
+      const baseTop = (mobile ? 72 : 96) + Math.min(index, 3) * 8
+      const top = mobile ? Math.min(baseTop, window.innerHeight - card.offsetHeight - 24) : baseTop
+      const fits = mobile || card.offsetHeight + top + 24 < window.innerHeight
       card.style.setProperty("--stack-position", fits ? "sticky" : "relative")
       card.style.setProperty("--stack-top", `${fits ? top : 0}px`)
     })
@@ -46,10 +48,12 @@ export default function PortfolioStack({ entries, label }: { entries: BookEntry[
         {entries.map((entry, index) => (
           <article className="stack-card" key={entry.id} aria-label={`${index + 1}: ${entry.title}`} style={{ zIndex: index + 1 }}>
             <div className="book-image-page">
-              <span className="book-running-head">{label} / PLATE {String(index + 1).padStart(2, "0")}</span>
-              <div className="book-art"><Image src={entry.image} alt={entry.title} fill sizes="(min-width: 900px) 50vw, 100vw" className="object-contain" /></div>
-              <button className="book-view" onClick={() => { setPreview(entry); dialog.current?.showModal() }} aria-label={`View ${entry.title} full screen`}><Maximize2 size={14} /> FULL VIEW</button>
-              <span className="book-folio">{String(index * 2 + 1).padStart(2, "0")}</span>
+              <div className="book-art">
+                <Image src={entry.image} alt={entry.title} fill sizes="(min-width: 900px) 50vw, 100vw" className="object-cover" />
+                <button className="book-view" onClick={() => { setPreview(entry); dialog.current?.showModal() }} aria-label={`View ${entry.title} full screen`}>
+                  <span className="art-preview-label"><Maximize2 size={14} /> FULL VIEW</span>
+                </button>
+              </div>
             </div>
             <div className="book-copy-page">
               <p className="studio-label">{entry.category}</p>

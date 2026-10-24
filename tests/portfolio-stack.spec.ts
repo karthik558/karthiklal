@@ -82,12 +82,32 @@ test('full-view previews retain a pointer and restore the custom cursor on close
     const dialog = section.locator('dialog')
     await expect(dialog).toBeVisible()
     await dialog.locator('.book-preview-image').hover()
-    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', 'auto')
-    await expect(page.locator('.custom-cursor-layer')).toHaveCSS('visibility', 'hidden')
-    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', 'pointer')
+    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', 'none')
+    await expect(dialog.locator('.custom-cursor-layer')).toBeAttached()
+    await expect(dialog.getByTestId('svg-cursor')).toHaveCSS('opacity', '1')
+    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', 'none')
     await dialog.getByRole('button', { name: 'Close preview' }).click()
     await expect(dialog).not.toBeVisible()
     await expect(page.locator('.custom-cursor-layer')).toHaveCSS('visibility', 'visible')
     await expect(section.locator('.book-view').first()).toBeFocused()
+  }
+})
+
+test('mobile cards reveal their content before stacking', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  for (const id of ['portfolio', 'portfolio-gallery']) {
+    const card = page.locator(`#${id} .stack-card`).first()
+    await expect(card).toHaveCSS('position', 'sticky')
+    const top = await card.evaluate(e => parseFloat(getComputedStyle(e).top))
+    await card.evaluate((e, offset) => {
+      const y = e.getBoundingClientRect().top + window.scrollY - offset + 20
+      if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
+      else window.scrollTo(0, y)
+    }, top)
+    await expect.poll(async () => Math.round((await card.boundingBox())!.y)).toBe(Math.round(top))
+    const box = await card.boundingBox()
+    expect(box!.y + box!.height).toBeLessThanOrEqual(844)
   }
 })
