@@ -14,11 +14,11 @@ function FlowerSeparator() {
   return (
     <span
       aria-hidden="true"
-      className="marquee-separator relative mx-6 inline-flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center select-none rounded-full text-primary text-[hsl(var(--primary))] md:mx-8 lg:mx-10"
+      className="marquee-separator relative mx-6 inline-flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center select-none rounded-full text-primary md:mx-8 lg:mx-10"
     >
       <svg
         viewBox="0 0 24 24"
-        className="h-full w-full fill-[hsl(var(--primary))] text-primary"
+        className="h-full w-full fill-primary text-primary"
         aria-hidden="true"
       >
         <g transform="translate(12, 12)">
