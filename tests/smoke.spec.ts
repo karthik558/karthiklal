@@ -78,9 +78,8 @@ test("project and blog client navigation has no failed RSC requests", async ({ p
 test("project discovery state survives a case-study visit", async ({ page }) => {
   await page.goto("/projects")
 
-  const firstTechnologyLabel = page.locator("main article").first().locator("span").first()
-  await expect(firstTechnologyLabel).toHaveClass(/border/)
-  await expect(firstTechnologyLabel).not.toHaveClass(/rounded-full/)
+  const firstProjectImage = page.locator("main article").first().locator("img")
+  await expect(firstProjectImage).toHaveCSS("object-fit", "cover")
 
   const securityFilter = page.getByRole("button", { name: "Security Tools", exact: true })
   await securityFilter.click()

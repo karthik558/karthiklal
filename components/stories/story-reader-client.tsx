@@ -22,8 +22,8 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
   return (
     <>
       {/* Semantic Fallback Container for SEO Crawlers & Initial Paint */}
-      <div className="min-h-screen bg-background pt-32 pb-24 border-t border-border">
-        <div className="container mx-auto max-w-4xl px-4 md:px-6">
+      <div className="page-shell story-detail">
+        <div className="section-container">
           <Link
             href="/stories"
             className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground mb-8"
@@ -31,7 +31,7 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
             <ArrowLeft className="w-4 h-4" /> ALL STORIES
           </Link>
 
-          <article className="paper-sheet border-2 border-border/80 bg-card p-6 sm:p-10 md:p-12 space-y-6">
+          <article className="space-y-6">
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
               {story.category} • {story.readTime} • {story.totalPages} PAGES
             </div>
@@ -42,7 +42,7 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
               </p>
             )}
             {story.coverImage && (
-              <div className="relative aspect-[16/9] w-full overflow-hidden border-2 border-border/80 my-6">
+              <div className="article-cover">
                 <Image
                   src={story.coverImage}
                   alt={story.title}

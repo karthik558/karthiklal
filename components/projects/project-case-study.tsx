@@ -1,22 +1,11 @@
 "use client"
 
-import EditorialHeading from "@/components/ui/editorial-heading"
+import PageIntro from "@/components/ui/page-intro"
 import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import {
-  ArrowLeft,
-  ArrowRight,
-  Braces,
-  CheckCircle2,
-  ExternalLink,
-  FileText,
-  Github,
-  Layers3,
-  MessageSquareQuote,
-  ShieldCheck,
-} from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Github } from "lucide-react"
 import { getProjectEvidence } from "@/lib/project-evidence"
 import ProjectTransitionLink from "@/components/projects/project-transition-link"
 
@@ -98,273 +87,30 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
           ["03", "BUILD FOR CHANGE", "Modular components and typed data structures allow the product to grow without visual drift."],
         ]
 
-  return (
-    <article className="min-h-screen bg-background pb-28 pt-28">
-      <div className="fixed inset-x-0 top-0 z-[9998] h-[2px] bg-border">
-        <motion.div className="h-full origin-left bg-foreground" style={{ width: `${progress}%` }} />
-      </div>
-
-      <header className="container mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-16">
-        <div className="mb-9 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-5">
-          <Link href="/projects" className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="h-4 w-4" /> Project directory
-          </Link>
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <div className="mb-4">
-              <span className="paper-stamp">
-                CASE STUDY SPECIMEN // {String(project.id).padStart(2, "0")}
-              </span>
-            </div>
-            <div className="mb-5 flex flex-wrap items-center gap-3 font-mono text-[10px] font-black uppercase tracking-[0.18em]">
-              <span className="bg-foreground px-3 py-1.5 text-background">{project.category}</span>
-              <span className="text-muted-foreground">ENGINEERING // SECURITY</span>
-            </div>
-            <EditorialHeading title={project.title} />
-          </div>
-          <div className="lg:col-span-4">
-            <p className="border-l-2 border-foreground pl-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg">
-              {project.description}
-            </p>
-          </div>
-        </div>
-      </header>
-
-      {/* Contained, Proportionate Case Study Specimen View */}
-      <div className="container mx-auto max-w-7xl px-4 md:px-6">
-        <div
-          className="paper-sheet relative overflow-hidden border-2 border-border/80 bg-card shadow-lg hover:border-foreground/80 transition-all duration-300"
-          style={{ viewTransitionName: `project-${project.id}` }}
-        >
-          {/* Top Dossier Specimen Meta Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-border/80 bg-muted/40 px-4 py-2.5 font-mono text-[11px] uppercase tracking-wider">
-            <div className="flex items-center gap-3">
-              <span className="font-bold text-foreground">SPECIMEN // {project.category}</span>
-              <span className="text-muted-foreground">REF: PRJ-{String(project.id).padStart(3, "0")}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-bold text-foreground hover:underline"
-                >
-                  LIVE SYSTEM <ExternalLink className="h-3 w-3" />
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-bold text-muted-foreground hover:text-foreground"
-                >
-                  SOURCE <Github className="h-3 w-3" />
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[16/9] max-h-[460px] md:max-h-[520px] w-full overflow-hidden bg-muted group">
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              priority
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              className="object-cover object-top grayscale contrast-125 transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-[1.02]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 text-white sm:bottom-6 sm:left-6 sm:right-6">
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] bg-black/60 px-3 py-1 backdrop-blur-sm border border-white/20">
-                PRIMARY EXPERIENCE // PRODUCTION VIEW
-              </span>
-              <span className="font-display text-4xl font-black sm:text-6xl text-white drop-shadow-md">
-                {String(project.id).padStart(2, "0")}
-              </span>
-            </div>
-          </div>
+  return <article className="page-shell project-case-study">
+    <div className="reading-progress" aria-hidden="true"><motion.div style={{ width: `${progress}%` }} /></div>
+    <div className="section-container">
+      <Link href="/projects" className="studio-text-link page-back"><ArrowLeft size={15} /> ALL PROJECTS</Link>
+      <PageIntro label={`CASE STUDY / ${project.category}`} title={project.title} accent="Behind the build." description={project.description} />
+      <div className="case-cover" style={{ viewTransitionName: `project-${project.id}` }}><Image src={project.image} alt={project.title} fill priority sizes="(min-width: 1280px) 1200px, 100vw" className="object-cover" /></div>
+      <div className="case-summary"><span className="studio-label">{project.technologies.slice(0, 4).join(" / ")}</span><div>{project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW LIVE <ArrowUpRight size={16} /></a>}{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-text-link">SOURCE <Github size={15} /></a>}</div></div>
+      <div className="case-reading-layout">
+        <aside><nav aria-label="Case study chapters" className="case-index"><p className="studio-label">IN THIS PROJECT</p>{chapters.map((chapter,index) => <a key={chapter.id} href={`#${chapter.id}`} aria-current={activeChapter === chapter.id ? "location" : undefined}><span>{String(index + 1).padStart(2,"0")}</span>{chapter.label}</a>)}</nav></aside>
+        <div className="case-prose">
+          <section id="brief"><p className="studio-label">01 / THE BRIEF</p><h2>The problem worth solving.</h2><p>{evidence.challenge}</p><p>{evidence.response}</p>
+            <p className="studio-label case-evidence-label">Project evidence / published build</p><div className="case-facts">{evidence.facts.map(fact => <div key={`${fact.value}-${fact.label}`}><strong>{fact.value}</strong><span className="studio-label">{fact.label}</span><p>{fact.detail}</p></div>)}</div>
+          </section>
+          <section id="system"><p className="studio-label">02 / THE SYSTEM</p><h2>Decisions with purpose.</h2><div className="case-insights">{insights.map(([number,title,copy]) => <div key={title}><span className="studio-label">{number}</span><h3>{title.toLowerCase()}</h3><p>{copy}</p></div>)}</div></section>
+          <section id="build"><p className="studio-label">03 / THE BUILD</p><h2>How it comes together.</h2><div className="case-technologies">{project.technologies.map((tech,index) => <div key={tech}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><span>{tech}</span></div>)}</div>
+            <div className="case-notes"><p className="studio-label">DECISIONS / OBSERVATIONS</p><h3>Director&apos;s Notes</h3>{evidence.notes.map((note,index) => <article key={note.decision}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><div><h4>{note.decision}</h4><p>{note.signal}</p><p>{note.rationale}</p></div></article>)}</div>
+          </section>
+          <section id="outcome"><p className="studio-label">04 / THE OUTCOME</p><h2>What the work delivers.</h2><p>{evidence.outcome}</p><div className="case-actions">{project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="studio-text-link">LAUNCH PROJECT <ArrowUpRight size={17} /></a>}{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW SOURCE <Github size={16} /></a>}</div></section>
         </div>
       </div>
-
-      <div className="container mx-auto grid max-w-7xl gap-12 px-4 py-20 md:px-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:py-28">
-        <aside className="hidden lg:block">
-          <div className="sticky top-32">
-            <div className="mb-4 font-mono text-[9px] font-bold uppercase tracking-[0.22em] text-muted-foreground">CASE STUDY INDEX</div>
-            <nav className="border-l border-t border-border">
-              {chapters.map((chapter, index) => (
-                <a
-                  key={chapter.id}
-                  href={`#${chapter.id}`}
-                  className={`flex items-center justify-between border-b border-r px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                    activeChapter === chapter.id ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-foreground"
-                  }`}
-                >
-                  <span>{String(index + 1).padStart(2, "0")} / {chapter.label}</span>
-                </a>
-              ))}
-            </nav>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {project.technologies.slice(0, 7).map((tech) => (
-                <span key={tech} className="border border-border px-2 py-1 font-mono text-[9px] font-bold uppercase">{tech}</span>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        <div>
-          <section id="brief" className="scroll-mt-32 border-b border-border pb-20">
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <FileText className="h-4 w-4" /> 01 / THE BRIEF
-            </div>
-            <h2 className="max-w-4xl font-display text-4xl font-black uppercase leading-tight sm:text-6xl">
-              TURN A COMPLEX WORKFLOW INTO A CLEAR, RELIABLE EXPERIENCE.
-            </h2>
-            <div className="mt-9 grid gap-6 md:grid-cols-2">
-              <p className="text-base font-light leading-relaxed text-muted-foreground">
-                {evidence.challenge}
-              </p>
-              <p className="text-base font-light leading-relaxed text-muted-foreground">
-                {evidence.response}
-              </p>
-            </div>
-
-            <div className="mt-12">
-              <div className="mb-4 flex items-center gap-2 font-mono text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                <CheckCircle2 className="h-4 w-4" /> Project evidence / sourced from the published build
-              </div>
-              <div className="grid border-l border-t border-border sm:grid-cols-3">
-                {evidence.facts.map((fact) => (
-                  <div key={`${fact.value}-${fact.label}`} className="min-h-44 border-b border-r border-border bg-card p-5 sm:p-6">
-                    <div className="font-display text-3xl font-black uppercase sm:text-4xl">{fact.value}</div>
-                    <div className="mt-5 font-mono text-[9px] font-black uppercase tracking-widest">{fact.label}</div>
-                    <p className="mt-2 text-xs font-light leading-relaxed text-muted-foreground">{fact.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section id="system" className="scroll-mt-32 border-b border-border py-20">
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <Layers3 className="h-4 w-4" /> 02 / THE SYSTEM
-            </div>
-            <h2 className="font-display text-4xl font-black uppercase sm:text-6xl">DECISIONS, NOT DECORATION.</h2>
-            <div className="mt-10 grid border-l border-t border-border md:grid-cols-3">
-              {insights.map(([number, title, copy]) => (
-                <div key={title} className="min-h-64 border-b border-r border-border bg-card p-6 sm:p-8">
-                  <div className="font-mono text-[10px] font-black text-muted-foreground">{number} {"//"}</div>
-                  <h3 className="mt-8 font-display text-2xl font-black uppercase">{title}</h3>
-                  <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">{copy}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section id="build" className="scroll-mt-32 border-b border-border py-20">
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <Braces className="h-4 w-4" /> 03 / THE BUILD
-            </div>
-            <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-              <div>
-                <h2 className="font-display text-4xl font-black uppercase sm:text-6xl">ENGINEERED AS A SYSTEM.</h2>
-                <p className="mt-6 text-base font-light leading-relaxed text-muted-foreground">
-                  A modular architecture keeps visual rules, data, and interaction states consistent. Responsive behavior is designed at component level instead of patched at page level.
-                </p>
-              </div>
-              <div className="border-2 border-foreground bg-foreground p-6 font-mono text-[10px] leading-loose text-background sm:p-8">
-                <div className="mb-4 flex items-center justify-between border-b border-background/30 pb-3">
-                  <span>STACK.MANIFEST</span><span>PRODUCTION</span>
-                </div>
-                {project.technologies.map((tech, index) => (
-                  <div key={tech} className="flex justify-between border-b border-background/15 py-2">
-                    <span>{String(index + 1).padStart(2, "0")} / {tech.toUpperCase()}</span>
-                    <span>ACTIVE</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-16 border-2 border-border/80 bg-card overflow-hidden">
-              <div className="flex flex-col justify-between gap-4 border-b-2 border-border/80 bg-foreground p-5 text-background sm:flex-row sm:items-center sm:p-6">
-                <div>
-                  <div className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-background/60">Decision record</div>
-                  <h3 className="mt-2 font-display text-3xl font-black uppercase">Director&apos;s Notes</h3>
-                </div>
-                <MessageSquareQuote className="h-8 w-8" />
-              </div>
-              <div className="grid lg:grid-cols-3">
-                {evidence.notes.map((note, index) => (
-                  <article key={note.decision} className="border-b border-border p-5 last:border-b-0 sm:p-6 lg:min-h-72 lg:border-b-0 lg:border-r lg:last:border-r-0">
-                    <div className="font-mono text-[9px] font-black uppercase tracking-widest text-muted-foreground">
-                      {String(index + 1).padStart(2, "0")} / observed signal
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{note.signal}</p>
-                    <h4 className="mt-8 font-display text-2xl font-black uppercase">{note.decision}</h4>
-                    <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">{note.rationale}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section id="outcome" className="scroll-mt-32 pt-20">
-            <div className="mb-5 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <ShieldCheck className="h-4 w-4" /> 04 / THE OUTCOME
-            </div>
-            <h2 className="max-w-4xl font-display text-4xl font-black uppercase leading-tight sm:text-6xl">
-              A FASTER, CLEARER AND MORE RESILIENT PRODUCT FOUNDATION.
-            </h2>
-            <p className="mt-7 max-w-3xl text-base font-light leading-relaxed text-muted-foreground">{evidence.outcome}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              {project.link && (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 border-2 border-foreground bg-foreground px-5 font-mono text-[10px] font-black uppercase tracking-widest text-background hover:bg-background hover:text-foreground">
-                  Launch project <ExternalLink className="h-4 w-4" />
-                </a>
-              )}
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 border-2 border-border bg-card px-5 font-mono text-[10px] font-black uppercase tracking-widest hover:border-foreground">
-                  View source <Github className="h-4 w-4" />
-                </a>
-              )}
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <nav className="container mx-auto grid max-w-7xl gap-4 border-t-2 border-foreground px-4 pt-10 md:grid-cols-2 md:px-6">
-        <ProjectTransitionLink
-          href={`/projects/${previousProject.id}`}
-          projectId={previousProject.id}
-          ariaLabel={`Previous case study: ${previousProject.title}`}
-          className="group grid min-h-48 grid-cols-[112px_minmax(0,1fr)] overflow-hidden border border-border bg-card transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
-        >
-          <span className="relative block overflow-hidden border-r border-border">
-            <Image src={previousProject.image} alt="" fill sizes="112px" className="object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
-          </span>
-          <span className="p-5 sm:p-6">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65"><ArrowLeft className="mr-2 inline h-4 w-4" />Previous case</span>
-            <span className="mt-5 block font-display text-2xl font-black uppercase">{previousProject.title}</span>
-          </span>
-        </ProjectTransitionLink>
-        <ProjectTransitionLink
-          href={`/projects/${nextProject.id}`}
-          projectId={nextProject.id}
-          ariaLabel={`Next case study: ${nextProject.title}`}
-          className="group grid min-h-48 grid-cols-[minmax(0,1fr)_112px] overflow-hidden border border-border bg-card text-right transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
-        >
-          <span className="p-5 sm:p-6">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-background/65">Next case<ArrowRight className="ml-2 inline h-4 w-4" /></span>
-            <span className="mt-5 block font-display text-2xl font-black uppercase">{nextProject.title}</span>
-          </span>
-          <span className="relative block overflow-hidden border-l border-border">
-            <Image src={nextProject.image} alt="" fill sizes="112px" className="object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
-          </span>
-        </ProjectTransitionLink>
+      <nav className="case-pagination" aria-label="More projects">
+        <ProjectTransitionLink href={`/projects/${previousProject.id}`} projectId={previousProject.id} ariaLabel={`Previous case study: ${previousProject.title}`} className="case-pagination-link"><span className="studio-label"><ArrowLeft size={15} /> PREVIOUS PROJECT</span><strong>{previousProject.title}</strong></ProjectTransitionLink>
+        <ProjectTransitionLink href={`/projects/${nextProject.id}`} projectId={nextProject.id} ariaLabel={`Next case study: ${nextProject.title}`} className="case-pagination-link"><span className="studio-label">NEXT PROJECT <ArrowRight size={15} /></span><strong>{nextProject.title}</strong></ProjectTransitionLink>
       </nav>
-    </article>
-  )
+    </div>
+  </article>
 }

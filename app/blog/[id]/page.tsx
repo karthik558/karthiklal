@@ -1,5 +1,5 @@
-import EditorialHeading from "@/components/ui/editorial-heading"
-import { ArrowLeft, Calendar, Clock, Github } from "lucide-react"
+import PageIntro from "@/components/ui/page-intro"
+import { ArrowLeft, ArrowUpRight, Github } from "lucide-react"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import Image from "next/image"
@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
                 alt={block.alt || ''}
                 width={800}
                 height={400}
-                className="w-full h-auto object-cover grayscale contrast-125 transition-all duration-700 group-hover/contentimg:grayscale-0 group-hover/contentimg:contrast-100 group-hover/contentimg:scale-[1.02]"
+                className="w-full h-auto object-cover"
               />
             </div>
             {block.caption && (
@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
 
       case 'quote':
         return (
-          <blockquote key={index} className="border-l-4 border-l-foreground border-y border-r border-border pl-6 py-4 my-8 bg-card font-mono text-sm">
+          <blockquote key={index} className="article-pullquote">
             <p className="text-foreground italic text-base">&ldquo;{block.text}&rdquo;</p>
           </blockquote>
         )
@@ -136,99 +136,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
   const headings = blog.content.map((block,index) => ({...block,index})).filter(block => block.type === "heading")
   const related = blogs.filter(post => post.id !== blog.id).sort((a,b) => Number(b.category === blog.category)-Number(a.category === blog.category) || Date.parse(b.date)-Date.parse(a.date)).slice(0,2)
 
-  return (
-    <div className="article-page min-h-screen bg-background pt-32 pb-28 border-t border-border">
-      <div className="container mx-auto max-w-7xl px-4 md:px-6">
-        
-        {/* Back Navigation */}
-        <div className="mb-8 font-mono text-xs font-bold uppercase">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4" /> BACK TO ALL ARTICLES
-          </Link>
-        </div>
-
-        {/* Article Header */}
-        <article className="space-y-8">
-          <header className="border-b-2 border-border pb-10 space-y-6">
-            <div className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase">
-              <span className="bg-foreground text-background font-bold px-3 py-1">
-                {blog.category}
-              </span>
-              <span className="text-muted-foreground">
-                AUTHOR: {blog.author.toUpperCase()}
-              </span>
-            </div>
-
-            <EditorialHeading title={blog.title} />
-
-            <div className="flex flex-wrap items-center gap-6 font-mono text-xs uppercase text-muted-foreground border-t border-border pt-4">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>{new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>READ TIME: {blog.readTime.toUpperCase()}</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 font-mono text-xs uppercase">
-              {blog.tags.map((tag) => (
-                <span key={tag} className="border border-border bg-card px-2.5 py-1 text-foreground font-bold">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-
-            {blog.repository && (
-              <a
-                href={blog.repository}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-2 border border-border bg-card px-4 py-2 font-mono text-xs font-bold uppercase text-foreground transition-colors hover:border-foreground"
-              >
-                <Github className="h-4 w-4" />
-                View source repository
-              </a>
-            )}
-
-            <div className="relative border-2 border-border/80 bg-card overflow-hidden group/hero">
-              <Image
-                src={blog.image}
-                alt={blog.title}
-                width={1200}
-                height={600}
-                className="w-full h-72 md:h-[480px] object-cover grayscale contrast-125 transition-all duration-700 group-hover/hero:grayscale-0 group-hover/hero:contrast-100 group-hover/hero:scale-[1.02]"
-                priority
-              />
-            </div>
-          </header>
-
-          <div className="article-reading-layout">
-          <aside className="article-contents"><p className="studio-label">IN THIS ARTICLE</p><nav aria-label="Table of contents">{headings.map(block => <a key={block.index} href={`#section-${block.index}`}>{block.text}</a>)}</nav><p className="studio-label">WRITTEN BY<br />{blog.author}</p></aside>
-          <div className="article-prose">
-          {/* Abstract / Excerpt */}
-          <div className="border-2 border-border/80 bg-card p-6 md:p-8 font-sans text-base md:text-lg leading-relaxed text-foreground font-medium">
-            {blog.excerpt}
-          </div>
-
-          {/* Content Blocks */}
-          <div className="font-sans text-base md:text-lg leading-relaxed space-y-6">
-            {blog.content.map((block, index) => renderContentBlock(block, index))}
-          </div>
-
-          </div></div>
-          {/* Share & Footer */}
-          <footer className="border-t-2 border-border pt-8 mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs uppercase">
-            <ShareButton title={blog.title} excerpt={blog.excerpt} />
-
-            <Link href="/blog" className="px-6 py-3 bg-foreground text-background font-bold hover:bg-foreground/90 transition-colors">
-              VIEW ALL ARTICLES
-            </Link>
-          </footer>
-        </article>
-        <section className="article-related"><p className="studio-label">KEEP EXPLORING</p><h2>Another rabbit hole.</h2><div>{related.map(post => <Link key={post.id} href={`/blog/${post.id}`}><span className="studio-label">{post.category} / {post.readTime}</span><h3>{post.title} ↗</h3></Link>)}</div></section>
+  return <div className="article-page page-shell"><div className="section-container">
+    <Link href="/blog" className="studio-text-link page-back"><ArrowLeft size={15} /> BACK TO ALL ARTICLES</Link>
+    <article>
+      <PageIntro label={`THE JOURNAL / ${blog.category}`} title={blog.title} description={blog.excerpt} />
+      <div className="article-meta"><span>{blog.author}</span><time dateTime={blog.date}>{new Date(blog.date).toLocaleDateString('en-US', { year:'numeric',month:'short',day:'numeric',timeZone:'UTC' })}</time><span>{blog.readTime}</span>{blog.repository && <a href={blog.repository} target="_blank" rel="noopener noreferrer" className="studio-text-link"><Github size={15} /> View source repository</a>}</div>
+      <div className="article-cover"><Image src={blog.image} alt={blog.title} fill sizes="(min-width:1280px) 1200px, 100vw" className="object-cover" priority /></div>
+      <div className="article-reading-layout">
+        <aside className="article-contents"><p className="studio-label">IN THIS ARTICLE</p><nav aria-label="Table of contents">{headings.map(block => <a key={block.index} href={`#section-${block.index}`}>{block.text}</a>)}</nav><p className="studio-label">WRITTEN BY<br />{blog.author}</p></aside>
+        <div className="article-prose"><div className="article-body">{blog.content.map((block,index) => renderContentBlock(block,index))}</div><div className="article-tags">{blog.tags.map(tag => <span key={tag}>#{tag}</span>)}</div></div>
       </div>
-    </div>
-  )
+      <footer className="article-share"><ShareButton title={blog.title} excerpt={blog.excerpt} /><Link href="/blog" className="studio-text-link">VIEW ALL ARTICLES <ArrowUpRight size={16} /></Link></footer>
+    </article>
+    <section className="article-related"><p className="studio-label">KEEP EXPLORING</p><h2>Another rabbit hole.</h2><div>{related.map(post => <Link key={post.id} href={`/blog/${post.id}`}><span className="studio-label">{post.category} / {post.readTime}</span><h3>{post.title} ↗</h3></Link>)}</div></section>
+  </div></div>
 }

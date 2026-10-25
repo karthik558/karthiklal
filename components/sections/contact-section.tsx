@@ -1,6 +1,6 @@
 "use client"
 
-import EditorialHeading from "@/components/ui/editorial-heading"
+import PageIntro from "@/components/ui/page-intro"
 import { useState, useRef, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { Send, Check, Copy, ChevronDown } from "lucide-react"
@@ -226,46 +226,24 @@ export default function ContactSection() {
   }
 
   return (
-    <div className="contact-page min-h-screen bg-background pt-32 pb-28 border-t border-border">
-      <div className="container mx-auto max-w-7xl px-4 md:px-6">
-        
-        {/* Page Hero Header */}
-        <div className="mb-14 border-b border-border pb-10">
-          <div className="mb-3">
-            <span className="studio-label">
-              COMMUNICATION DISPATCH // 09
-            </span>
-          </div>
-          <EditorialHeading title="Let’s start" accent="a conversation." />
-        </div>
+    <div className="contact-page page-shell">
+      <div className="section-container">
 
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
+        <PageIntro label="CONTACT / LET’S TALK" title="Good things start" accent="with a conversation." description="A project, a question, or an idea worth exploring. Tell me what you have in mind." />
+
+        <div className="contact-layout">
+
           {/* Left Info Column */}
-          <div className="paper-sheet group relative lg:col-span-5 flex flex-col justify-between border-2 border-border/80 bg-card p-8 space-y-8 font-mono text-xs transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden">
-            {/* Background Giant Stroke Number Watermark */}
-            <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.09] z-0 transition-opacity duration-300 group-hover:opacity-20">
-              <span
-                className="font-display text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
-                style={{
-                  WebkitTextStroke: "2.5px hsl(var(--foreground))",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                10
-              </span>
-            </div>
-
+          <div className="contact-channels font-mono text-xs">
             <div className="relative z-10 flex flex-col justify-between h-full space-y-8">
               <div>
                 <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-                  <span className="paper-tag">DIRECT CHANNELS</span>
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest">DISPATCH</span>
+                  <span className="studio-label">FIND ME HERE</span>
+
                 </div>
 
                 <div className="space-y-4">
-                  <div className="p-4 border border-border bg-background space-y-2">
+                  <div className="contact-channel">
                     <div className="text-muted-foreground uppercase">EMAIL ADDRESS</div>
                     <div className="font-bold text-foreground text-sm uppercase">{email}</div>
                     <button
@@ -277,7 +255,7 @@ export default function ContactSection() {
                     </button>
                   </div>
 
-                  <div className="p-4 border border-border bg-background space-y-2">
+                  <div className="contact-channel">
                     <div className="text-muted-foreground uppercase">LOCATION & TIMEZONE</div>
                     <div className="font-bold text-foreground text-sm uppercase">KERALA, INDIA // IST (UTC+5:30)</div>
                   </div>
@@ -295,7 +273,7 @@ export default function ContactSection() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3 py-1.5 border border-border bg-background text-foreground hover:border-foreground uppercase font-bold text-[10px]"
+                      className="studio-text-link contact-social"
                     >
                       {s.name}
                     </a>
@@ -305,25 +283,12 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Right Form Column - Tactile Paper Memo */}
-          <div className="paper-sheet paper-folded-corner group relative lg:col-span-7 border-2 border-border/80 bg-card p-8 md:p-10 transition-all duration-300 hover:border-foreground/80 hover:shadow-xl overflow-hidden">
-            {/* Background Giant Stroke Watermark */}
-            <div className="absolute right-2 -bottom-2 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.09] z-0 transition-opacity duration-300 group-hover:opacity-20">
-              <span
-                className="font-display text-8xl font-black uppercase tracking-tighter text-transparent leading-none block"
-                style={{
-                  WebkitTextStroke: "2.5px hsl(var(--foreground))",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                MEMO
-              </span>
-            </div>
-
+          {/* Message form */}
+          <div className="contact-form-panel">
             <div className="relative z-10">
               <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-                <span className="paper-tag">TRANSMISSION MEMO</span>
-                <span className="paper-tag font-bold hidden sm:inline-block">REGISTERED DISPATCH // IST</span>
+                <span className="studio-label">TELL ME ABOUT IT</span>
+
               </div>
 
               <form
@@ -392,6 +357,7 @@ export default function ContactSection() {
                     aria-expanded={isSelectOpen}
                     aria-controls="contact-subject-list"
                     data-invalid={subjectError ? "true" : undefined}
+                    aria-invalid={subjectError || undefined}
                     aria-describedby={subjectError ? "contact-subject-error" : undefined}
                     data-cursor-type="select"
                     onClick={() => {
@@ -517,7 +483,7 @@ export default function ContactSection() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label htmlFor="contact-message" className="block uppercase tracking-wider text-muted-foreground font-mono text-xs">
-                    MESSAGE DETAILS *
+                    YOUR MESSAGE *
                   </label>
                   <span className={`font-mono text-[10px] ${messageLength > 0 && messageLength < 10 ? "text-destructive font-bold" : "text-muted-foreground"}`}>
                     {messageLength > 0 && messageLength < 10
@@ -534,7 +500,7 @@ export default function ContactSection() {
                   maxLength={5000}
                   rows={6}
                   onChange={(e) => setMessageLength(e.target.value.length)}
-                  placeholder="Enter your message details and technical requirements (minimum 10 characters)..."
+                  placeholder="What are you working on? Tell me a little about it."
                   className="w-full bg-background border-2 border-border p-3.5 text-foreground focus:outline-none focus:border-foreground"
                 />
               </div>
@@ -544,7 +510,7 @@ export default function ContactSection() {
                 disabled={isLoading}
                 className="paper-button w-full py-4 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider border-2 border-foreground hover:bg-background hover:text-foreground transition-all duration-300 flex items-center justify-center gap-2 select-none cursor-pointer"
               >
-                  {isLoading ? "TRANSMITTING MESSAGE..." : "TRANSMIT MESSAGE"} <Send className="w-4 h-4" />
+                  {isLoading ? "SENDING MESSAGE..." : "SEND MESSAGE"} <Send className="w-4 h-4" />
               </button>
 
               <div className="space-y-2 border-t border-border pt-5 text-[10px] leading-relaxed tracking-wide text-muted-foreground">

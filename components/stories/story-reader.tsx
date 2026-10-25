@@ -50,7 +50,7 @@ interface StoryReaderProps {
   onClose: () => void
 }
 
-type ReaderTheme = "midnight" | "sepia" | "light" | "espresso"
+type ReaderTheme = "site" | "midnight" | "sepia" | "light" | "espresso"
 
 interface ThemeConfig {
   name: string
@@ -70,6 +70,22 @@ interface ThemeConfig {
 }
 
 const THEMES: Record<ReaderTheme, ThemeConfig> = {
+  site: {
+    name: "Site theme",
+    bg: "hsl(var(--background))",
+    text: "hsl(var(--foreground))",
+    titleText: "hsl(var(--foreground))",
+    muted: "hsl(var(--muted-foreground))",
+    border: "hsl(var(--border))",
+    cardBg: "hsl(var(--background))",
+    accent: "hsl(var(--primary))",
+    highlightBg: "hsl(var(--primary) / .06)",
+    highlightBorder: "hsl(var(--primary) / .5)",
+    highlightText: "hsl(var(--foreground))",
+    btnBg: "transparent",
+    btnHoverBg: "hsl(var(--muted))",
+    btnText: "hsl(var(--foreground))",
+  },
   midnight: {
     name: "Midnight",
     bg: "#0c0c0e",
@@ -140,7 +156,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
   const [mounted, setMounted] = useState(false)
   // Page index (0-based)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
-  const [theme, setTheme] = useState<ReaderTheme>("midnight")
+  const [theme, setTheme] = useState<ReaderTheme>("site")
   const [fontSize, setFontSize] = useState<number>(19) // px
   const [lineHeight, setLineHeight] = useState<"normal" | "relaxed" | "loose">("relaxed")
   const [fontFamily, setFontFamily] = useState<"sans" | "serif">("sans")
@@ -409,7 +425,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
         backgroundColor: currentTheme.bg,
         color: currentTheme.text,
       }}
-      className="fixed inset-0 z-[999990] flex flex-col transition-colors duration-300 overflow-hidden font-sans select-text isolate"
+      className="story-reader fixed inset-0 z-[999990] flex flex-col transition-colors duration-300 overflow-hidden font-sans select-text isolate"
     >
       {/* Top Controls Header Bar - Sleek, Balanced, World-Class Mobile & Desktop Header */}
       <header
@@ -564,7 +580,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                       >
                         READER PREFERENCES
                       </span>
-                      <button onClick={() => setSettingsOpen(false)} className="hover:opacity-70 p-1">
+                      <button onClick={() => setSettingsOpen(false)} aria-label="Close reader settings" className="hover:opacity-70 p-1">
                         <X className="w-4 h-4" />
                       </button>
                     </div>
@@ -925,7 +941,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
               {/* Novella Hero Heading */}
               <div 
                 style={{ borderColor: currentTheme.border }}
-                className="text-center border-b pb-10 space-y-4"
+                className="reader-hero border-b pb-10 space-y-4"
               >
                 <span 
                   style={{ color: currentTheme.muted }}
@@ -971,7 +987,7 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
               {story.coverImage && (
                 <div 
                   style={{ borderColor: currentTheme.border }}
-                  className="w-full border-2 overflow-hidden shadow-md space-y-0"
+                  className="reader-cover w-full overflow-hidden space-y-0"
                 >
                   <div className="relative w-full aspect-[16/9] sm:aspect-[21/9]">
                     <Image
