@@ -8,6 +8,14 @@ import { AnimatedButton } from "@/components/ui/animated-button"
 import { SOCIALS_DATA } from "@/lib/static-data"
 
 const icons = { Github, Linkedin, Instagram, Facebook }
+const orbitPoint = (angle: number) => [
+  250 + 245 * Math.cos(angle * Math.PI / 180),
+  300 + 270 * Math.sin(angle * Math.PI / 180),
+] as const
+const flowerPath = Array.from({ length: 61 }, (_, index) => {
+  const [x, y] = orbitPoint(145 + index * 2.5)
+  return `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`
+}).join(" ")
 
 export default function HeroSectionStatic() {
   const heroRef = useRef<HTMLElement>(null)
@@ -15,8 +23,8 @@ export default function HeroSectionStatic() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const orbitProgress = useSpring(scrollYProgress, { stiffness: 35, damping: 22, mass: 1.1 })
   // The ellipse and marker share coordinates, so resizing never detaches the star.
-  const starX = useTransform(orbitProgress, value => 250 + 245 * Math.cos((145 + value * 150) * Math.PI / 180))
-  const starY = useTransform(orbitProgress, value => 300 + 270 * Math.sin((145 + value * 150) * Math.PI / 180))
+  const starX = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[0])
+  const starY = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[1])
 
   return (
     <section ref={heroRef} id="home" className="studio-hero">
@@ -37,6 +45,13 @@ export default function HeroSectionStatic() {
               <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
             </figure>
             <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
+              <path className="studio-flower-path-track" d={flowerPath} pathLength="1" />
+              <motion.path
+                className="studio-flower-path-progress"
+                d={flowerPath}
+                pathLength="1"
+                style={{ pathLength: reducedMotion ? 1 : orbitProgress }}
+              />
               <motion.g style={{ x: reducedMotion ? 49.3 : starX, y: reducedMotion ? 454.9 : starY }}>
                 <circle cx="0" cy="0" r="6" fill="currentColor" />
                 {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => (

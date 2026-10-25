@@ -1492,8 +1492,11 @@ body {
   .studio-portrait-wrap:hover .studio-portrait { transform: none; }
 }
 
-/* The flower follows the same invisible ellipse as before, without drawing a ring around the portrait. */
+/* An open route shows the flower's exact scroll trajectory without enclosing the portrait in a ring. */
 .studio-orbit-marker { position:absolute; inset:-5% -8%; width:116%; height:110%; overflow:visible; pointer-events:none; color:hsl(var(--primary)); }
+.studio-flower-path-track,.studio-flower-path-progress { fill:none; vector-effect:non-scaling-stroke; }
+.studio-flower-path-track { stroke:currentColor; stroke-width:1; opacity:.22; }
+.studio-flower-path-progress { stroke:currentColor; stroke-width:1.75; stroke-linecap:round; filter:drop-shadow(0 0 5px hsl(var(--primary) / .35)); }
 .studio-orbit-marker { z-index:2; }
 .studio-disciplines { display:flex; flex-wrap:wrap; gap:18px; margin-top:32px; font:9px/1.7 monospace; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
 .studio-disciplines a:hover { color:hsl(var(--primary)); }

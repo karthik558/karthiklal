@@ -5,7 +5,7 @@ import React from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, BookOpen } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import StoryReader, { type Story } from "@/components/stories/story-reader"
 
 interface StoryReaderClientProps {
