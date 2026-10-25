@@ -73,7 +73,7 @@ export default function ServicesSection() {
                     aria-controls={panelId}
                     className="flex w-full items-center gap-4 py-6 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary sm:gap-6 sm:py-8"
                   >
-                    <Icon className="hidden h-6 w-6 shrink-0 text-primary sm:block" strokeWidth={1.5} />
+                    <Icon className="service-icon hidden h-6 w-6 shrink-0 text-primary sm:block" aria-hidden="true" strokeWidth={1.5} />
                     <span className="min-w-0 flex-1 font-display text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{details.title}</span>
                     <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${isExpanded ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}>
                       <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />

@@ -4,8 +4,6 @@ import { useEffect } from "react"
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
 
 const revealSelector = [
-  ".content-tracks-kicker",
-  ".content-track-card",
   ".about-profile-facts > div",
   ".about-linkedin",
   ".about-practice-grid > article",
@@ -64,7 +62,7 @@ export default function HomeMotion() {
         if (observedElements.has(element)) return
         observedElements.add(element)
         element.classList.add("scroll-reveal")
-        if (element.matches(".content-track-card,.about-profile-facts > div,.about-practice-grid > article,.principle-grid > article,.journal-card")) {
+        if (element.matches(".about-profile-facts > div,.about-practice-grid > article,.principle-grid > article,.journal-card")) {
           element.classList.add("reveal-card")
         } else if (element.matches(".stack-card,.testimonial-letter")) {
           element.classList.add("reveal-feature")

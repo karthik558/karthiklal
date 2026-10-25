@@ -16,17 +16,8 @@ test('redesigned sections fit small screens and keep their content accessible', 
     await expect.poll(() => gallery.locator('img').first().evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true)
     await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'cover')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    if (width < 768) {
-      const tracks = page.locator('.content-track-card')
-      await expect(tracks).toHaveCount(3)
-      const boxes = await tracks.evaluateAll(elements => elements.map(element => {
-        const box = element.getBoundingClientRect()
-        return { top: box.top, bottom: box.bottom, left: box.left, right: box.right }
-      }))
-      expect(boxes[1].top).toBeGreaterThanOrEqual(boxes[0].bottom - 1)
-      expect(boxes[2].top).toBeGreaterThanOrEqual(boxes[1].bottom - 1)
-      expect(boxes.every(box => box.left >= 0 && box.right <= width)).toBe(true)
-    }
+    await expect(page.getByRole('navigation', { name: 'Explore work by discipline' })).toHaveCount(0)
+    await expect(page.locator('#about .about-practice-grid > article')).toHaveCount(3)
     if (width === 390 || width === 1440) {
       for (const id of ['portfolio-gallery', 'skills', 'services', 'principles']) {
         await page.locator('#' + id).scrollIntoViewIfNeeded()

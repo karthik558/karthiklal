@@ -85,7 +85,7 @@ test("homepage components reveal once and retain their hover behavior", async ({
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
 
-  const card = page.locator(".content-track-card").first()
+  const card = page.locator(".about-practice-grid > article").first()
   await expect(card).toHaveClass(/scroll-reveal/)
   await card.scrollIntoViewIfNeeded()
   await expect(card).toHaveClass(/reveal-arrived/)
