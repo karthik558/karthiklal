@@ -54,7 +54,7 @@ export default function CustomCursor() {
   }, [])
 
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine) and (hover: hover)").matches
+    const finePointer = window.matchMedia("(pointer: fine) and (hover: hover) and (min-width: 901px)").matches
     if (!finePointer) return
 
     const enableFrame = requestAnimationFrame(() => setIsFinePointer(true))

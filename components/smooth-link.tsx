@@ -10,9 +10,10 @@ interface SmoothLinkProps {
   children: React.ReactNode
   className?: string
   onClick?: () => void
+  "aria-current"?: React.AriaAttributes["aria-current"]
 }
 
-export default function SmoothLink({ href, children, className, onClick }: SmoothLinkProps) {
+export default function SmoothLink({ href, children, className, onClick, "aria-current": ariaCurrent }: SmoothLinkProps) {
   const pathname = usePathname()
   
   const handleClick = (e: React.MouseEvent) => {
@@ -63,7 +64,7 @@ export default function SmoothLink({ href, children, className, onClick }: Smoot
   }
 
   return (
-    <Link href={href} className={className} onClick={handleClick}>
+    <Link href={href} className={className} onClick={handleClick} aria-current={ariaCurrent}>
       {children}
     </Link>
   )

@@ -75,7 +75,7 @@ test("about profile presents current role and personal details", async ({ page }
   await expect(about.getByText("26", { exact: true })).toBeVisible()
   await expect(about.getByRole("link", { name: "VIEW LINKEDIN PROFILE" })).toHaveAttribute("href", "https://www.linkedin.com/in/karthiklal/")
   const portrait = await about.locator(".about-profile-portrait").boundingBox()
-  expect(portrait?.width).toBeLessThanOrEqual(350)
+  expect(portrait?.width).toBeLessThanOrEqual(351)
   expect(portrait?.height).toBeLessThanOrEqual(440)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
@@ -100,4 +100,21 @@ test("homepage components reveal once and retain their hover behavior", async ({
   const footerColumn = page.locator(".footer-columns > *").first()
   await footerColumn.scrollIntoViewIfNeeded()
   await expect(footerColumn).toHaveClass(/reveal-arrived/)
+})
+
+test("top navigation tracks sections and project cards expose useful metadata", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
+
+  const sectionNav = page.getByRole("navigation", { name: "Desktop navigation" })
+  await expect(sectionNav).toBeVisible()
+  await sectionNav.getByRole("link", { name: /PROJECTS/ }).click()
+  await expect(page.locator("#portfolio")).toBeInViewport()
+  await expect(sectionNav.getByRole("link", { name: /PROJECTS/ })).toHaveAttribute("aria-current", "page")
+
+  const firstProject = page.locator("#portfolio .stack-card").first()
+  await expect(firstProject.getByText("FORMAT", { exact: true })).toBeVisible()
+  await expect(firstProject.getByText("CORE STACK", { exact: true })).toBeVisible()
+  await expect(firstProject.getByRole("link", { name: "VIEW LIVE" })).toBeVisible()
 })

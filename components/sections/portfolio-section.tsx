@@ -14,7 +14,22 @@ export default function PortfolioSection() {
   return <section id="portfolio" className="section-shell border-t border-border"><div className="section-container">
     <div className="section-heading-row"><SectionHeading number="03" label="ENGINEERING PROJECTS" title="Systems and tools." accent="Built to perform." /><p className="studio-section-intro">Software, security, and infrastructure projects—each with the problem, decisions, and implementation kept in view.</p></div>
     <div className="book-filters">{["All", "Web Development", "Security", "Systems"].map(category => <button key={category} aria-pressed={filter === category} onClick={() => { setFilter(category); setShowAll(false) }}>{category}</button>)}</div>
-    <PortfolioStack key={filter} label="Selected work" entries={(showAll ? projects : projects.slice(0, 4)).map(project => ({ id: String(project.id), title: project.title, description: project.description, category: project.category, image: project.image, tags: project.technologies, href: `/projects/${project.id}`, repository: project.github }))} />
+    <PortfolioStack key={filter} label="Selected work" entries={(showAll ? projects : projects.slice(0, 4)).map(project => ({
+      id: String(project.id),
+      title: project.title,
+      description: project.description,
+      category: project.category,
+      image: project.image,
+      tags: project.technologies,
+      meta: [
+        { label: "FORMAT", value: "CASE STUDY" },
+        { label: "CORE STACK", value: project.technologies.slice(0, 2).join(" + ") },
+        { label: "SOURCE", value: project.github ? "AVAILABLE" : "PRIVATE" },
+      ],
+      href: `/projects/${project.id}`,
+      live: project.link,
+      repository: project.github,
+    }))} />
     {projects.length > 4 && <div className="collection-expand"><p className="studio-label">Showing {showAll ? projects.length : 4} of {projects.length} projects</p><button className="collection-expand-button" onClick={() => {
       if (!showAll) { setShowAll(true); return }
       setShowAll(false)

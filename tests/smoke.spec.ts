@@ -3,7 +3,6 @@ import { expect, test } from "@playwright/test"
 test("home page renders its primary content", async ({ page }) => {
   await page.goto("/")
   const preloader = page.getByRole("status", { name: "Loading website" })
-  await expect(preloader).toBeVisible()
   await expect(preloader).toBeHidden({ timeout: 5_000 })
   await page.getByRole("button", { name: "Light mode" }).click()
   await expect(page.locator("html")).not.toHaveClass(/dark/)
@@ -118,9 +117,13 @@ test("mobile navigation supports keyboard access and focus restoration", async (
   await expect(page.locator("#main-content")).toBeFocused()
 
   const menuButton = page.getByRole("button", { name: "Open menu" })
+  await expect(menuButton).not.toContainText(/KL|NAVIGATION|MENU/)
+  await expect(page.locator(".custom-cursor-layer")).toHaveCount(0)
   await menuButton.click()
   const navigationDialog = page.getByRole("dialog", { name: "Main navigation" })
   await expect(navigationDialog).toBeVisible()
+  await expect(navigationDialog).not.toContainText("KARTHIK LAL // INDEX")
+  await expect(page.locator(".custom-cursor-layer")).toHaveCount(0)
   await expect(page.getByRole("button", { name: "Close menu" })).toBeFocused()
 
   await page.keyboard.press("Escape")

@@ -66,6 +66,13 @@ export default function HomeMotion() {
         if (observedElements.has(element)) return
         observedElements.add(element)
         element.classList.add("scroll-reveal")
+        if (element.matches(".content-track-card,.about-profile-facts > div,.about-practice-grid > article,.principle-grid > article,.journal-card")) {
+          element.classList.add("reveal-card")
+        } else if (element.matches(".stack-card,.testimonial-letter")) {
+          element.classList.add("reveal-feature")
+        } else if (element.matches(".footer-columns > *,.footer-bottom")) {
+          element.classList.add("reveal-side")
+        }
         element.style.setProperty("--reveal-delay", `${(index % 4) * 70}ms`)
         revealObserver.observe(element)
       })
@@ -81,7 +88,7 @@ export default function HomeMotion() {
       revealObserver.disconnect()
       observedHeadings.forEach(heading => heading.classList.remove("heading-reveal", "heading-arrived"))
       observedElements.forEach(element => {
-        element.classList.remove("scroll-reveal", "reveal-arrived")
+        element.classList.remove("scroll-reveal", "reveal-arrived", "reveal-card", "reveal-feature", "reveal-side")
         element.style.removeProperty("--reveal-delay")
       })
     }

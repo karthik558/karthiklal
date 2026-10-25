@@ -12,7 +12,9 @@ export interface BookEntry {
   category: string
   image: string
   tags?: string[]
+  meta?: { label: string; value: string }[]
   href?: string
+  live?: string
   repository?: string
 }
 
@@ -58,10 +60,12 @@ export default function PortfolioStack({ entries, label }: { entries: BookEntry[
             <div className="book-copy-page">
               <p className="studio-label">{entry.category}</p>
               <h3>{entry.title}</h3>
+              {entry.meta && <dl className="book-meta">{entry.meta.map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
               <p className="book-description">{entry.description}</p>
               {entry.tags && <ul className="book-tags">{entry.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>}
               <div className="book-links">
                 {entry.href && <Link href={entry.href} className="studio-text-link">READ THE CASE STUDY <ArrowUpRight size={16} /></Link>}
+                {entry.live && <a href={entry.live} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW LIVE <ArrowUpRight size={16} /></a>}
                 {entry.repository && <a href={entry.repository} target="_blank" rel="noopener noreferrer" className="studio-text-link">SOURCE CODE <ArrowUpRight size={16} /></a>}
               </div>
               <div className="book-page-footer"><span>CRAFT / DETAIL / PURPOSE</span><span>{String(index * 2 + 2).padStart(2, "0")}</span></div>

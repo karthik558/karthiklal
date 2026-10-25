@@ -23,13 +23,13 @@ export default function NavHeader() {
   const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'portfolio-gallery'])
 
   const navItems = [
-    { label: 'HOME', href: '/', sectionId: 'home' },
-    { label: 'ABOUT', href: '/#about', sectionId: 'about' },
-    { label: 'PROJECTS', href: '/#portfolio', sectionId: 'portfolio' },
-    { label: 'SERVICES', href: '/#services', sectionId: 'services' },
-    { label: 'DESIGNS', href: '/#portfolio-gallery', sectionId: 'portfolio-gallery' },
-    { label: 'BLOG', href: '/blog', sectionId: '' },
-    { label: 'CONTACT', href: '/contact', sectionId: '' }
+    { number: '01', label: 'HOME', href: '/', sectionId: 'home' },
+    { number: '02', label: 'ABOUT', href: '/#about', sectionId: 'about' },
+    { number: '03', label: 'PROJECTS', href: '/#portfolio', sectionId: 'portfolio' },
+    { number: '04', label: 'SERVICES', href: '/#services', sectionId: 'services' },
+    { number: '05', label: 'DESIGNS', href: '/#portfolio-gallery', sectionId: 'portfolio-gallery' },
+    { number: '06', label: 'BLOG', href: '/blog', sectionId: '' },
+    { number: '07', label: 'CONTACT', href: '/contact', sectionId: '' }
   ]
 
   const isItemActive = (item: typeof navItems[0]) => {
@@ -126,7 +126,8 @@ export default function NavHeader() {
                         : "text-muted-foreground hover:text-foreground hover:bg-background/80"
                     )}
                   >
-                    {item.label}
+                    <span className="nav-item-index">{item.number}</span>
+                    <span>{item.label}</span>
                   </SmoothLink>
                 </li>
               )
@@ -153,8 +154,7 @@ export default function NavHeader() {
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"
         >
-          <Menu className="w-3.5 h-3.5" />
-          <span>MENU</span>
+          <Menu className="mobile-nav-icon" aria-hidden="true" />
         </button>
       </div>
 
@@ -176,10 +176,7 @@ export default function NavHeader() {
               className="pointer-events-auto fixed inset-0 z-[10000] flex flex-col justify-between bg-background p-6 lg:hidden overflow-y-auto"
             >
               {/* Header inside drawer */}
-              <div className="flex items-center justify-between border-b border-border/80 pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="paper-tag font-bold">INDEX // DIRECTORY</span>
-                </div>
+              <div className="flex items-center justify-end border-b border-border/80 pb-4">
                 <button
                   onClick={() => setIsOpen(false)}
                   className="paper-button p-1.5 border border-border bg-card text-foreground hover:border-foreground transition-colors cursor-pointer"
