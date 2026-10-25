@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type CSSProperties } from "react"
+import { useId, useState, type CSSProperties } from "react"
 import { cn } from "@/lib/utils"
 
 type MarqueeAnimationProps = {
@@ -114,6 +114,7 @@ export function MarqueeAnimation({
   direction = "left",
   baseVelocity = 10,
 }: MarqueeAnimationProps) {
+  const instructionsId = useId()
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const items = children.split("•").map((item) => item.trim()).filter(Boolean)
   const duration = `${Math.max(5, 50 / Math.abs(baseVelocity))}s`
@@ -143,9 +144,10 @@ export function MarqueeAnimation({
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: marqueeStyles }} />
+      <span id={instructionsId} className="sr-only">Click a phrase to pause and emphasize it. Click again or click the track to resume.</span>
       <div
         aria-label={items.join(", ")}
-        aria-description="Click a phrase to pause and emphasize it. Click again or click the track to resume."
+        aria-describedby={instructionsId}
         role="region"
         tabIndex={0}
         onClick={event => {

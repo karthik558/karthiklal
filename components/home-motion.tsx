@@ -18,7 +18,7 @@ export default function HomeMotion() {
         entry.target.classList.add("heading-arrived")
         observer.unobserve(entry.target)
       })
-    }, { threshold: 0.15 })
+    }, { threshold: 0.08, rootMargin: "0px 0px 12% 0px" })
     headings.forEach(heading => {
       heading.classList.add("heading-reveal")
       observer.observe(heading)

@@ -33,13 +33,15 @@ export default function HeroSectionStatic() {
             <div className="studio-disciplines"><a href="#services">01 / SECURITY</a><a href="#portfolio">02 / DEVELOPMENT</a><a href="#portfolio-gallery">03 / DESIGN</a></div>
           </div>
           <div className="studio-portrait-wrap">
-            <svg className="studio-orbit" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="250" cy="300" rx="245" ry="270" fill="none" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" /></svg>
             <figure className="studio-portrait">
               <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
             </figure>
             <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
               <motion.g style={{ x: reducedMotion ? 49.3 : starX, y: reducedMotion ? 454.9 : starY }}>
-                <path d="M0-28V28M-28 0H28M-20-20L20 20M-20 20L20-20M-11-26L11 26M-26-11L26 11M-26 11L26-11M-11 26L11-26" fill="none" stroke="currentColor" strokeWidth="2.5" />
+                <circle cx="0" cy="0" r="6" fill="currentColor" />
+                {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => (
+                  <ellipse key={angle} cx="0" cy="-14" rx="5" ry="9" fill="currentColor" transform={`rotate(${angle})`} />
+                ))}
               </motion.g>
             </svg>
           </div>

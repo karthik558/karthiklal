@@ -3,6 +3,7 @@ import JournalSection from '@/components/sections/journal-section'
 import HomeMotion from '@/components/home-motion'
 import HeroSectionStatic from "@/components/sections/hero-section-static"
 import MarqueeSection from "@/components/sections/marquee-section"
+import ContentTracksSection from "@/components/sections/content-tracks-section"
 
 // Dynamically import below-the-fold sections to optimize initial load
 const AboutSection = dynamic(() => import("@/components/sections/about-section"))
@@ -155,6 +156,7 @@ export default function Home() {
       <MarqueeSection />
       <AboutSection />
       <PrinciplesSection />
+      <ContentTracksSection />
       <PortfolioSection />
       <ServicesSection />
       <SkillsSection />
