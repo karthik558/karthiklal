@@ -13,7 +13,6 @@ const revealSelector = [
   "#portfolio .studio-section-intro",
   "#portfolio .book-filters",
   "#portfolio .stack-intro",
-  "#portfolio .stack-card",
   "#services .studio-section-intro",
   "#experience .registry-intro",
   "#certifications .registry-intro",
@@ -23,7 +22,6 @@ const revealSelector = [
   "#journal .journal-card",
   "#portfolio-gallery .book-filters",
   "#portfolio-gallery .stack-intro",
-  "#portfolio-gallery .stack-card",
   ".footer-columns > *",
   ".footer-bottom",
 ].join(",")

@@ -67,7 +67,7 @@ test('cards pin at the viewport edge and release on short screens', async ({ pag
   const first = page.locator('#portfolio .stack-card').first()
   await first.evaluate(element => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY + 300))
   await expect.poll(async () => Math.round((await first.boundingBox())!.y)).toBe(96)
-  await page.setViewportSize({ width: 1440, height: 500 })
+  await page.setViewportSize({ width: 1440, height: 400 })
   await expect(first).toHaveCSS('position', 'relative')
   await expect(first).toHaveCSS('top', '0px')
 })
@@ -110,4 +110,29 @@ test('mobile cards reveal their content before stacking', async ({ page }) => {
     const box = await card.boundingBox()
     expect(box!.y + box!.height).toBeLessThanOrEqual(844)
   }
+})
+
+
+test('incoming artwork smoothly scales the pinned card and reduced motion disables stacking', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  for (const id of ['portfolio', 'portfolio-gallery']) {
+    const cards = page.locator(`#${id} .stack-card`)
+    await cards.nth(1).evaluate(element => {
+      const y = element.getBoundingClientRect().top + window.scrollY - 360
+      if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
+      else window.scrollTo(0, y)
+    })
+    await expect.poll(() => cards.first().evaluate(element => Number(element.style.getPropertyValue('--stack-scale')))).toBeLessThan(.99)
+    await expect(cards.first()).toHaveCSS('position', 'sticky')
+    const first = await cards.first().boundingBox()
+    const second = await cards.nth(1).boundingBox()
+    expect(second!.y).toBeLessThan(first!.y + first!.height)
+    await expect(cards.first().locator('img')).toHaveCSS('object-fit', 'cover')
+    await expect(cards.first().locator('img')).toHaveCSS('filter', 'none')
+  }
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('#portfolio .stack-card').first()).toHaveCSS('position', 'relative')
+  await expect(page.locator('#portfolio .stack-card').first().locator('.stack-card-surface')).toHaveCSS('transform', 'none')
 })

@@ -102,7 +102,7 @@ test("homepage components reveal once and retain their hover behavior", async ({
   await expect(footerColumn).toHaveClass(/reveal-arrived/)
 })
 
-test("top navigation tracks sections and project cards expose useful metadata", async ({ page }) => {
+test("top navigation tracks sections and project cards expose concise captions", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
@@ -114,7 +114,7 @@ test("top navigation tracks sections and project cards expose useful metadata", 
   await expect(sectionNav.getByRole("link", { name: /PROJECTS/ })).toHaveAttribute("aria-current", "page")
 
   const firstProject = page.locator("#portfolio .stack-card").first()
-  await expect(firstProject.getByText("FORMAT", { exact: true })).toBeVisible()
-  await expect(firstProject.getByText("CORE STACK", { exact: true })).toBeVisible()
-  await expect(firstProject.getByRole("link", { name: "VIEW LIVE" })).toBeVisible()
+  await expect(firstProject.getByRole("heading", { name: "RustPing" })).toBeVisible()
+  await expect(firstProject.getByText("Software Development", { exact: true })).toBeVisible()
+  await expect(firstProject.getByRole("link", { name: "LIVE", exact: true })).toBeVisible()
 })

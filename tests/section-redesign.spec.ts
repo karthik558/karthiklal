@@ -14,7 +14,7 @@ test('redesigned sections fit small screens and keep their content accessible', 
     await expect(title).toHaveCSS('overflow', 'visible')
     await expect(title).toHaveCSS('-webkit-line-clamp', 'none')
     await expect.poll(() => gallery.locator('img').first().evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true)
-    await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'contain')
+    await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'cover')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     if (width < 768) {
       const tracks = page.locator('.content-track-card')

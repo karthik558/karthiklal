@@ -38,6 +38,13 @@ export default function AboutSection() {
           >
             <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 42vw, 100vw" />
             <div className="about-profile-shade" />
+            <div className="portrait-coordinate" aria-hidden="true">SYSTEMS / SECURITY / DESIGN</div>
+            <svg className="portrait-signal" viewBox="0 0 160 160" fill="none" aria-hidden="true">
+              <circle cx="80" cy="80" r="62" />
+              <circle cx="80" cy="80" r="42" strokeDasharray="2 8" />
+              <path d="M80 2v32m0 92v32M2 80h32m92 0h32" />
+              <path d="m58 80 15 15 30-34" className="portrait-signal-mark" />
+            </svg>
             <figcaption>
               <span>PROFILE / 2026</span>
               <div>
