@@ -17,7 +17,7 @@ test("hero flower follows the orbit while navigation remains usable", async ({ p
   await expect(page.locator("#portfolio")).toBeInViewport()
 })
 
-test("desktop portrait reveals its color on hover", async ({ page }) => {
+test("desktop portrait stays monochrome on hover", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
@@ -25,7 +25,7 @@ test("desktop portrait reveals its color on hover", async ({ page }) => {
   const image = page.locator(".studio-portrait img")
   await expect(image).toHaveCSS("filter", /grayscale\(1\)/)
   await page.locator(".studio-portrait-wrap").hover()
-  await expect(image).toHaveCSS("filter", "grayscale(0) contrast(1)")
+  await expect(image).toHaveCSS("filter", "grayscale(1) contrast(1.08)")
 })
 
 test("reduced motion keeps the hero stable", async ({ page }) => {
@@ -58,6 +58,24 @@ test("mobile hero keeps a full-width portrait behind readable content", async ({
     expect(portrait!.y + portrait!.height).toBeGreaterThan(name!.y)
     expect(actions!.y).toBeGreaterThan(name!.y + name!.height)
     await expect(page.getByRole("link", { name: "EXPLORE WORK", exact: true })).toBeVisible()
+    await expect(page.locator(".studio-copy")).toHaveCSS("color", "rgb(255, 255, 255)")
+    await expect(page.locator(".studio-copy")).toHaveCSS("z-index", "2")
+    await expect(page.locator(".studio-portrait-wrap")).toHaveCSS("z-index", "0")
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
+})
+
+test("about profile presents current role and personal details", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/#about")
+
+  const about = page.locator("#about")
+  await expect(about.getByRole("heading", { name: /complex systems calm/i })).toBeVisible()
+  await expect(about.getByText("IT MANAGER", { exact: true })).toBeVisible()
+  await expect(about.getByText("26", { exact: true })).toBeVisible()
+  await expect(about.getByRole("link", { name: "VIEW LINKEDIN PROFILE" })).toHaveAttribute("href", "https://www.linkedin.com/in/karthiklal/")
+  const portrait = await about.locator(".about-profile-portrait").boundingBox()
+  expect(portrait?.width).toBeLessThanOrEqual(350)
+  expect(portrait?.height).toBeLessThanOrEqual(440)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })

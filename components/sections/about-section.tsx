@@ -1,181 +1,96 @@
 "use client"
 
 import SectionHeading from "@/components/sections/section-heading"
-import { motion, useReducedMotion } from "framer-motion"
-import { MapPin } from "lucide-react"
 import ParallaxImage from "@/components/ui/parallax-image"
-import { playHoverSound } from "@/lib/sound-fx"
+import { motion, useReducedMotion } from "framer-motion"
+import { ArrowUpRight, Linkedin, MapPin } from "lucide-react"
 
-const stats = [
-  {
-    value: "2019",
-    label: "ENTERPRISE IT CAREER",
-    graphLabel: "YEARLY GROWTH",
-    graphValue: "07 YRS",
-    bars: [24, 34, 42, 52, 61, 73, 86, 100],
-  },
-  {
-    value: "50",
-    suffix: "+",
-    label: "SYSTEMS & NODES SECURED",
-    graphLabel: "SECURED ASSETS",
-    graphValue: "50+",
-    bars: [18, 30, 46, 39, 62, 75, 82, 100],
-  },
-  {
-    value: "99.9",
-    suffix: "%",
-    label: "INFRASTRUCTURE UPTIME",
-    graphLabel: "UPTIME SLA",
-    graphValue: "99.9%",
-    bars: [94, 96, 95, 98, 97, 99, 98, 100],
-  },
-  {
-    value: "23",
-    label: "PROJECTS IN PORTFOLIO",
-    graphLabel: "PROJECT OUTPUT",
-    graphValue: "23 TOTAL",
-    bars: [20, 38, 31, 54, 68, 61, 82, 100],
-  },
+const profileFacts = [
+  { value: "26", label: "AGE" },
+  { value: "IT MANAGER", label: "CURRENT ROLE", detail: "IHCL · MANGALORE" },
+  { value: "KERALA", label: "BASED IN", detail: "INDIA" },
+  { value: "MCA", label: "CURRENT STUDY", detail: "2025—2027" },
+]
+
+const practices = [
+  { number: "01", title: "Operate", text: "Keeping enterprise and hospitality technology dependable, practical, and ready for the people using it every day." },
+  { number: "02", title: "Secure", text: "Approaching infrastructure, networks, and software with an ethical-hacker mindset and security built in from the start." },
+  { number: "03", title: "Build", text: "Turning technical ideas into useful full-stack products, clear interfaces, and systems that are easier to trust." },
 ]
 
 export default function AboutSection() {
   const reduced = useReducedMotion()
 
   return (
-    <section id="about" className="section-shell border-t border-border">
+    <section id="about" className="about-profile section-shell border-t border-border">
       <div className="section-container">
-        
-        {/* Section Header */}
         <div className="section-heading-row">
-          <div>
-            <SectionHeading number="01" label="PHILOSOPHY &amp; CAPABILITIES" title="A curious mind." accent="A practical approach." />
-          </div>
+          <SectionHeading number="01" label="PROFILE &amp; PRACTICE" title="Technical by nature." accent="Human by design." />
         </div>
 
-        {/* Top Editorial Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-stretch">
-          {/* Portrait Image Block with Washi Tape and Brass Paper Clip */}
-          <motion.div
-            initial={reduced ? undefined : { opacity: 0, x: -30 }}
+        <div className="about-profile-layout">
+          <motion.figure
+            initial={reduced ? undefined : { opacity: 0, x: -72 }}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="paper-sheet paper-tape paper-clip lg:col-span-4 relative group overflow-hidden border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 min-h-[380px] lg:min-h-full"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="about-profile-portrait"
           >
-            <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 33vw, 100vw" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
-            <div className="absolute bottom-0 left-0 p-6 z-10">
-              <span className="inline-block bg-foreground text-background font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-widest mb-2 shadow-sm">
-                IT MANAGER // CEH
-              </span>
-              <h3 className="font-display text-2xl font-black uppercase text-foreground">KARTHIK LAL</h3>
-              <p className="font-mono text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
-                <MapPin className="w-3 h-3 text-foreground" /> KERALA, INDIA
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Profile Statement with Folded Corner */}
-          <motion.div
-            initial={reduced ? undefined : { opacity: 0, x: 30 }}
-            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="paper-sheet paper-folded-corner lg:col-span-8 border-2 border-border/80 hover:border-foreground/80 transition-all duration-300 p-6 md:p-10 flex flex-col justify-between"
-          >
-            <div>
-              <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground leading-snug mb-6">
-                Securing digital landscapes while crafting intuitive, visually compelling experiences.
-              </h3>
-              <div className="space-y-4 font-sans text-base leading-relaxed text-muted-foreground">
-                <p>
-                  I&apos;m a cybersecurity researcher, designer, and developer working at the intersection of technology and creativity.
-                  My experience spans Linux kernel development, full-stack web development, cybersecurity, and enterprise IT.
-                </p>
-                <p>
-                  From security tools and browser extensions to Rust-based network monitoring and print or web design, I approach every
-                  challenge with analytical thinking and artistic vision. Reverse engineering, security auditing, and refining UI/UX are
-                  all part of the same goal: creating work that is innovative, usable, and impactful.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Stats Grid Bar - Styled as Library Catalog Index Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((stat, statIdx) => (
-            <motion.article
-              key={stat.label}
-              initial={reduced ? undefined : { opacity: 0, y: 24 }}
-              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: statIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={reduced ? undefined : { y: -3 }}
-              onMouseEnter={() => playHoverSound()}
-              className="paper-sheet paper-index-card group flex flex-col justify-between border-2 border-border/80 hover:border-foreground/80 p-5 md:p-6 transition-all duration-300"
-            >
+            <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 42vw, 100vw" />
+            <div className="about-profile-shade" />
+            <figcaption>
+              <span>PROFILE / 2026</span>
               <div>
-                <div className="font-display text-4xl font-black text-foreground md:text-5xl">
-                  {stat.value}
-                  {stat.suffix && <span className="text-muted-foreground">{stat.suffix}</span>}
-                </div>
-                <div className="mt-2 min-h-8 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground md:text-xs">
-                  {stat.label}
-                </div>
+                <strong>KARTHIK LAL</strong>
+                <span><MapPin aria-hidden="true" /> KERALA, INDIA</span>
               </div>
+            </figcaption>
+          </motion.figure>
 
-              <div
-                className="mt-5 border-t border-border pt-3"
-                role="img"
-                aria-label={`${stat.graphLabel}: ${stat.graphValue}`}
-              >
-                <div className="mb-2 flex items-center justify-between font-mono text-[8px] font-bold uppercase tracking-widest text-muted-foreground md:text-[9px]">
-                  <span>{stat.graphLabel}</span>
-                  <span className="text-foreground transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transform-none">
-                    {stat.graphValue}
-                  </span>
-                </div>
-                <div className="relative h-16 border-b border-l border-border px-1 pt-1" aria-hidden="true">
-                  <span className="absolute inset-x-0 top-1/4 border-t border-dashed border-border/60" />
-                  <span className="absolute inset-x-0 top-1/2 border-t border-dashed border-border/60" />
-                  <span className="absolute inset-x-0 top-3/4 border-t border-dashed border-border/60" />
+          <motion.div
+            initial={reduced ? undefined : { opacity: 0, x: 72 }}
+            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="about-profile-copy"
+          >
+            <p className="studio-label">ABOUT / KARTHIK LAL</p>
+            <h3>I keep complex systems calm—and make digital work feel clear.</h3>
+            <div className="about-profile-intro">
+              <p>I&apos;m an IT Manager at The Indian Hotels Company Limited, working across enterprise technology, cybersecurity, and dependable day-to-day operations.</p>
+              <p>Outside the operational layer, I build full-stack products, security tools, and visual experiences. The disciplines change; the standard stays the same: useful, resilient, and thoughtfully made.</p>
+            </div>
 
-                  <div className="relative z-10 flex h-full items-end gap-1.5">
-                    {stat.bars.map((height, index) => {
-                      const isLatest = index === stat.bars.length - 1
+            <div className="about-profile-facts" aria-label="Profile facts">
+              {profileFacts.map(fact => (
+                <div key={fact.label}>
+                  <span>{fact.label}</span>
+                  <strong>{fact.value}</strong>
+                  {fact.detail && <small>{fact.detail}</small>}
+                </div>
+              ))}
+            </div>
 
-                      return (
-                        <span
-                          key={`${stat.label}-${index}`}
-                          className="relative flex h-full min-w-1 flex-1 items-end"
-                        >
-                          <span
-                            className={`relative block w-full origin-bottom scale-y-[0.55] transition-all duration-500 ease-out group-hover:scale-y-100 motion-reduce:scale-y-100 motion-reduce:transition-none ${
-                              isLatest
-                                ? "bg-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]"
-                                : "bg-foreground/20 group-hover:bg-foreground/70"
-                            }`}
-                            style={{
-                              height: `${height}%`,
-                              transitionDelay: `${index * 45}ms`,
-                            }}
-                          >
-                            {isLatest && (
-                              <span className="absolute -top-1.5 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-card bg-foreground transition-transform duration-300 group-hover:scale-125 motion-reduce:transition-none" />
-                            )}
-                          </span>
-                        </span>
-                      )
-                    })}
-                  </div>
-                </div>
-                <div className="mt-1 flex justify-between font-mono text-[7px] font-bold uppercase tracking-widest text-muted-foreground" aria-hidden="true">
-                  <span>START</span>
-                  <span>NOW</span>
-                </div>
-              </div>
+            <a className="about-linkedin" href="https://www.linkedin.com/in/karthiklal/" target="_blank" rel="noopener noreferrer">
+              <Linkedin aria-hidden="true" />
+              <span>VIEW LINKEDIN PROFILE</span>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          </motion.div>
+        </div>
+
+        <div className="about-practice-grid">
+          {practices.map((practice, index) => (
+            <motion.article
+              key={practice.title}
+              initial={reduced ? undefined : { opacity: 0, y: 34 }}
+              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.55, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span>{practice.number}</span>
+              <h4>{practice.title}</h4>
+              <p>{practice.text}</p>
             </motion.article>
           ))}
         </div>
