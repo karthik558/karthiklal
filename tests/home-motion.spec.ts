@@ -4,7 +4,7 @@ test("hero flower follows the orbit while navigation remains usable", async ({ p
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
 
-  const marker = page.locator(".studio-orbit-marker g")
+  const marker = page.locator(".studio-orbit-marker g").last()
   const markerPosition = () => marker.evaluate((element) => getComputedStyle(element).transform)
   const initialPosition = await markerPosition()
 
@@ -33,7 +33,7 @@ test("reduced motion keeps the hero stable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto("/")
 
-  const marker = page.locator(".studio-orbit-marker g")
+  const marker = page.locator(".studio-orbit-marker g").last()
   const initialPosition = await marker.evaluate((element) => getComputedStyle(element).transform)
   await page.evaluate(() => window.scrollTo(0, 300))
   await expect(marker).toHaveCSS("transform", initialPosition)
@@ -78,4 +78,26 @@ test("about profile presents current role and personal details", async ({ page }
   expect(portrait?.width).toBeLessThanOrEqual(350)
   expect(portrait?.height).toBeLessThanOrEqual(440)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+test("homepage components reveal once and retain their hover behavior", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
+
+  const card = page.locator(".content-track-card").first()
+  await expect(card).toHaveClass(/scroll-reveal/)
+  await card.scrollIntoViewIfNeeded()
+  await expect(card).toHaveClass(/reveal-arrived/)
+
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await expect(card).toHaveClass(/reveal-arrived/)
+
+  const journalCard = page.locator(".journal-card").first()
+  await journalCard.scrollIntoViewIfNeeded()
+  await expect(journalCard).toHaveClass(/reveal-arrived/)
+
+  const footerColumn = page.locator(".footer-columns > *").first()
+  await footerColumn.scrollIntoViewIfNeeded()
+  await expect(footerColumn).toHaveClass(/reveal-arrived/)
 })
