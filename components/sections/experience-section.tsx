@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { Briefcase, CalendarRange, ChevronDown, ChevronUp, GraduationCap } from "lucide-react"
 import RegistryFilters from "@/components/ui/registry-filters"
 import experiencesData from "@/public/data/experiences.json"
+import educationData from "@/public/data/education.json"
 import { playClickSound } from "@/lib/sound-fx"
 
 type Track = "all" | "work" | "education"
@@ -22,10 +23,15 @@ type TimelineItem = {
 
 const years = Array.from({ length: 10 }, (_, index) => 2018 + index)
 
-const timeline: TimelineItem[] = experiencesData.experiences.map((item) => {
+const combinedRecords = [
+  ...experiencesData.experiences.map((item) => ({ ...item, type: "work" as const, uid: `exp-${item.id}` })),
+  ...educationData.education.map((item) => ({ ...item, type: "education" as const, uid: `edu-${item.id}` }))
+]
+
+const timeline: TimelineItem[] = combinedRecords.map((item) => {
   const yearMatches = item.duration.match(/\b20\d{2}\b/g)?.map(Number) ?? [2019]
   return {
-    id: `experience-${item.id}`,
+    id: item.uid,
     title: item.title,
     organization: item.company,
     duration: item.duration,

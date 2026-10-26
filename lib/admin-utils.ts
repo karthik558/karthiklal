@@ -10,6 +10,7 @@ import {
   FileText, 
   Palette,
   BookOpen,
+  GraduationCap,
   Database
 } from "lucide-react"
 
@@ -19,6 +20,7 @@ export const getModelIcon = (modelName: string) => {
     case "socials": return Share2;
     case "certifications": return Award;
     case "experiences": return Briefcase;
+    case "education": return GraduationCap;
     case "projects": return FolderOpen;
     case "services": return Layers;
     case "skills": return Cpu;

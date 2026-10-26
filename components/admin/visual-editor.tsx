@@ -15,7 +15,9 @@ import {
   GripVertical,
   Edit3,
   Search,
-  Sparkles
+  Sparkles,
+  ArrowUp,
+  ChevronsUp
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -422,6 +424,35 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     }
   }
 
+  // Window & container auto-scroll during drag
+  useEffect(() => {
+    if (draggedIndex === null) return
+
+    const handleWindowDragOver = (e: DragEvent) => {
+      const scrollEl = document.getElementById("admin-main-scroll") || document.scrollingElement || document.documentElement
+      if (!scrollEl) return
+
+      const threshold = 130
+      const clientY = e.clientY
+      const viewportHeight = window.innerHeight
+
+      if (clientY < threshold) {
+        // Dragging near top: auto-scroll up
+        const intensity = Math.max(8, Math.min(28, Math.round((threshold - clientY) / 3)))
+        scrollEl.scrollTop -= intensity
+      } else if (clientY > viewportHeight - threshold) {
+        // Dragging near bottom: auto-scroll down
+        const intensity = Math.max(8, Math.min(28, Math.round((clientY - (viewportHeight - threshold)) / 3)))
+        scrollEl.scrollTop += intensity
+      }
+    }
+
+    window.addEventListener("dragover", handleWindowDragOver)
+    return () => {
+      window.removeEventListener("dragover", handleWindowDragOver)
+    }
+  }, [draggedIndex])
+
   // Drag & Drop handlers
   const handleDragStart = (e: React.DragEvent, index: number) => {
     setDraggedIndex(index)
@@ -472,6 +503,16 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
     newItems.splice(targetIndex, 0, moved)
 
     await reorderAndPersist(newItems, `✓ Moved item to position #${targetIndex + 1} & saved to JSON`)
+  }
+
+  // Move directly to top position (#01)
+  const moveToTop = async (fromIndex: number) => {
+    if (!arrayData || fromIndex <= 0) return
+    const itemTitle = String(arrayData[fromIndex].title || arrayData[fromIndex].name || `Item ${fromIndex + 1}`)
+    const newItems = [...arrayData]
+    const [moved] = newItems.splice(fromIndex, 1)
+    newItems.unshift(moved)
+    await reorderAndPersist(newItems, `✓ Moved "${itemTitle}" to first position (#01) & saved to JSON`)
   }
 
   // Drawer handlers
@@ -568,30 +609,31 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
         )}
       </AnimatePresence>
 
-      {/* Editorial Header Panel */}
-      <div className="border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md p-6 sm:p-8 shadow-xs sticky top-0 z-20 space-y-4">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 border-b border-border/70 pb-6">
+      {/* Editorial Header Panel (Compact & Non-Sticky to avoid obscuring drop targets) */}
+      <div className="border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md p-4 sm:p-5 shadow-xs relative z-10 mb-5 space-y-3">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5 border-b border-border/70 pb-3.5">
           <div>
-            <div className="studio-label text-[10px] text-primary font-mono tracking-widest mb-1.5 flex items-center gap-2">
+            <div className="studio-label text-[10px] text-primary font-mono tracking-widest mb-1 flex items-center gap-2">
               <span>EDITORIAL ARCHIVE</span>
               <span className="opacity-40">/</span>
               <span>{modelName.toUpperCase()}</span>
             </div>
-            <h1 className="editorial-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground uppercase">
+            <h1 className="editorial-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground uppercase">
               {modelName.replace("-", " ")} <span className="studio-serif font-normal italic text-primary">collection.</span>
             </h1>
             {isArrayModel && (
-              <p className="font-mono text-[11px] text-muted-foreground mt-1">
-                {arrayData?.length} {arrayData?.length === 1 ? 'record' : 'records'} · Drag any card to reorder to a specific position
+              <p className="font-mono text-[11px] text-muted-foreground mt-0.5">
+                {arrayData?.length} {arrayData?.length === 1 ? 'record' : 'records'} · Drag any card or use controls to reorder
               </p>
             )}
           </div>
           
-          <div className="flex items-center gap-2.5 w-full md:w-auto">
+          <div className="flex items-center gap-2 w-full md:w-auto">
             {isArrayModel && (
               <button
+                type="button"
                 onClick={openNewDrawer}
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 border border-border/80 bg-background/80 hover:bg-card hover:border-foreground text-foreground px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all"
+                className="flex-1 md:flex-none flex items-center justify-center gap-1.5 border border-border/80 bg-background/80 hover:bg-card hover:border-foreground text-foreground px-3.5 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all"
               >
                 <Plus className="w-3.5 h-3.5 text-primary" />
                 ADD RECORD
@@ -599,9 +641,10 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
             )}
             
             <button
+              type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 font-mono text-xs font-bold uppercase tracking-wider px-5 py-2.5 transition-all disabled:opacity-50 shadow-xs"
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 transition-all disabled:opacity-50 shadow-xs"
             >
               {isSaving ? (
                 <span>SAVING...</span>
@@ -620,20 +663,21 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
 
         {/* Search Bar for Array Models */}
         {isArrayModel && arrayData && arrayData.length > 3 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-0.5">
             <div className="relative w-full sm:max-w-md">
-              <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search collection by title, tag, or category..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-background/70 border border-border/80 pl-9 pr-8 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary transition-colors"
+                className="w-full bg-background/70 border border-border/80 pl-8 pr-8 py-1.5 text-xs font-mono text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary transition-colors"
               />
               {searchQuery && (
                 <button 
+                  type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5"
                   aria-label="Clear search"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -649,6 +693,30 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
           </div>
         )}
       </div>
+
+      {/* Dedicated Top Drop Target Zone (Position #01) */}
+      {isArrayModel && draggedIndex !== null && !searchQuery && (
+        <div
+          onDragOver={(e) => {
+            e.preventDefault()
+            e.dataTransfer.dropEffect = "move"
+            if (dragOverIndex !== -1) setDragOverIndex(-1)
+          }}
+          onDragLeave={() => {
+            if (dragOverIndex === -1) setDragOverIndex(null)
+          }}
+          onDrop={(e) => handleDrop(e, 0)}
+          className={cn(
+            "mb-4 border-2 border-dashed p-4 flex items-center justify-center gap-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer",
+            dragOverIndex === -1
+              ? "border-primary bg-primary/15 text-primary scale-[1.01] shadow-lg ring-2 ring-primary/40"
+              : "border-primary/60 bg-primary/5 text-primary hover:bg-primary/10"
+          )}
+        >
+          <ArrowUp className="w-4 h-4 animate-bounce text-primary" />
+          <span>DROP HERE TO PLACE AT FIRST POSITION (#01)</span>
+        </div>
+      )}
 
       {/* Main Content Area */}
       {isArrayModel ? (
@@ -706,11 +774,25 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                       </span>
                     </div>
 
-                    {typeof item.category === "string" && (
-                      <span className="studio-label text-[9px] text-primary truncate max-w-[140px]">
-                        {String(item.category)}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      {!isFirst && !searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => moveToTop(originalIndex)}
+                          className="text-[9px] font-bold text-muted-foreground hover:text-primary transition-colors border border-border/60 px-1.5 py-0.5 bg-background/50 flex items-center gap-0.5"
+                          title="Move directly to first position (#01)"
+                        >
+                          <ChevronsUp className="w-3 h-3 text-primary" />
+                          <span>TOP</span>
+                        </button>
+                      )}
+
+                      {typeof item.category === "string" && (
+                        <span className="studio-label text-[9px] text-primary truncate max-w-[120px]">
+                          {String(item.category)}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Thumbnail Preview Area (Editorial 16:10 Ratio) */}
@@ -732,12 +814,24 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                     {/* Hover Quick Edit Action Overlay */}
                     <div className="absolute inset-0 bg-background/85 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-3 z-10 backdrop-blur-xs">
                       <button 
+                        type="button"
                         onClick={() => openDrawer(originalIndex)}
-                        className="px-4 py-2 bg-foreground text-background font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm hover:bg-foreground/90 transition-colors"
+                        className="px-3.5 py-2 bg-foreground text-background font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm hover:bg-foreground/90 transition-colors"
                       >
                         <Edit3 className="w-3.5 h-3.5 text-primary" />
                         EDIT
                       </button>
+                      {!isFirst && !searchQuery && (
+                        <button 
+                          type="button"
+                          onClick={() => moveToTop(originalIndex)}
+                          className="px-3 py-2 border border-border/80 bg-card text-foreground font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1 shadow-sm hover:border-primary hover:text-primary transition-colors"
+                          title="Move to first position (#01)"
+                        >
+                          <ChevronsUp className="w-3.5 h-3.5 text-primary" />
+                          TOP
+                        </button>
+                      )}
                     </div>
                   </div>
                   
@@ -754,7 +848,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                       )}
                     </div>
 
-                    {/* Card Actions: Single-step arrows + Edit + Delete */}
+                    {/* Card Actions: Single-step arrows + Move to top + Edit + Delete */}
                     <div className="pt-2 border-t border-border/60 flex items-center justify-between text-muted-foreground font-mono text-xs">
                       {/* Step Up / Down Controls */}
                       <div className="flex items-center gap-1">
@@ -778,6 +872,18 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
                         >
                           <ChevronDown className="w-3.5 h-3.5" />
                         </button>
+                        {!isFirst && !searchQuery && (
+                          <button
+                            type="button"
+                            onClick={() => moveToTop(originalIndex)}
+                            className="px-1.5 py-1 text-[10px] border border-border/70 bg-background/60 text-muted-foreground hover:text-primary hover:border-primary transition-colors flex items-center gap-0.5"
+                            title="Move directly to first position (#01)"
+                            aria-label="Move to top"
+                          >
+                            <ChevronsUp className="w-3 h-3 text-primary" />
+                            <span>#1</span>
+                          </button>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-2">

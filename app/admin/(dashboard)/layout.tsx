@@ -62,7 +62,7 @@ export default async function AdminLayout({
         </header>
 
         {/* Scrollable Page Body */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
+        <main id="admin-main-scroll" className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
           <div className="max-w-7xl mx-auto min-h-[calc(100vh-10rem)]">
             {children}
           </div>

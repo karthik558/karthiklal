@@ -16,22 +16,47 @@ import { cn } from "@/lib/utils"
 import { getModelIcon } from "@/lib/admin-utils"
 import { ThemeToggleAnimated } from "@/components/theme-toggle-animated"
 
-const modelGroups = [
+interface ModelItem {
+  id: string
+  label: string
+}
+
+interface NavGroup {
+  kicker: string
+  items: ModelItem[]
+}
+
+const navGroups: NavGroup[] = [
   {
     kicker: "01 / PORTFOLIO WORK",
-    models: ["projects", "featured-designs", "stories", "blogs"]
+    items: [
+      { id: "projects", label: "Projects" },
+      { id: "featured-designs", label: "Design Work" },
+      { id: "stories", label: "Stories" },
+      { id: "blogs", label: "Journal & Blog" }
+    ]
   },
   {
     kicker: "02 / EXPERTISE & EXPERIENCE",
-    models: ["services", "skills", "experiences", "certifications"]
+    items: [
+      { id: "services", label: "Services" },
+      { id: "skills", label: "Technical Skills" },
+      { id: "experiences", label: "Work Experience" },
+      { id: "education", label: "Education" },
+      { id: "certifications", label: "Certifications" }
+    ]
   },
   {
     kicker: "03 / IDENTITY & COMMUNITY",
-    models: ["profile", "socials", "testimonials"]
+    items: [
+      { id: "profile", label: "Profile & Bio" },
+      { id: "socials", label: "Social Links" },
+      { id: "testimonials", label: "Testimonials" }
+    ]
   }
 ]
 
-export default function AdminSidebar({ models }: { models: string[] }) {
+export default function AdminSidebar({ models = [] }: { models?: string[] }) {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
@@ -41,13 +66,13 @@ export default function AdminSidebar({ models }: { models: string[] }) {
     return () => cancelAnimationFrame(closeFrame)
   }, [pathname])
 
-  // Collect any models not in the predefined groups
-  const knownModels = new Set(modelGroups.flatMap(g => g.models))
-  const extraModels = models.filter(m => !knownModels.has(m))
+  // Collect any dynamic models not in the predefined groups
+  const knownModelIds = new Set(navGroups.flatMap(g => g.items.map(i => i.id)))
+  const extraModels = (models || []).filter(m => !knownModelIds.has(m))
 
   return (
     <>
-      {/* Mobile Trigger Floating Button */}
+      {/* Mobile Floating Menu Button */}
       <button 
         onClick={() => setMobileOpen(true)}
         className="md:hidden fixed bottom-6 right-6 z-40 px-4 py-3 border border-border/80 bg-card/95 text-foreground font-mono text-[11px] font-bold uppercase tracking-wider shadow-xl backdrop-blur-md flex items-center gap-2"
@@ -135,10 +160,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
           </div>
 
           {/* Grouped Model Navigation */}
-          {modelGroups.map((group) => {
-            const availableModels = group.models.filter(m => models.includes(m))
-            if (availableModels.length === 0) return null
-
+          {navGroups.map((group) => {
             return (
               <div key={group.kicker} className="space-y-1">
                 {(!collapsed || mobileOpen) && (
@@ -147,16 +169,16 @@ export default function AdminSidebar({ models }: { models: string[] }) {
                   </p>
                 )}
                 <ul className="space-y-1">
-                  {availableModels.map((model, idx) => {
-                    const Icon = getModelIcon(model)
-                    const isActive = pathname === `/admin/${model}`
+                  {group.items.map((item, idx) => {
+                    const Icon = getModelIcon(item.id)
+                    const isActive = pathname === `/admin/${item.id}`
                     const indexStr = String(idx + 1).padStart(2, "0")
 
                     return (
-                      <li key={model}>
+                      <li key={item.id}>
                         <Link
-                          href={`/admin/${model}`}
-                          title={model.replace("-", " ")}
+                          href={`/admin/${item.id}`}
+                          title={item.label}
                           className={cn(
                             "nav-item flex items-center gap-2.5 px-3 py-2 border transition-all text-[11px] font-medium tracking-wider",
                             isActive 
@@ -170,7 +192,7 @@ export default function AdminSidebar({ models }: { models: string[] }) {
                           ) : null}
                           <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-background" : "text-primary")} />
                           {(!collapsed || mobileOpen) && (
-                            <span className="truncate">{model.replace("-", " ")}</span>
+                            <span className="truncate">{item.label}</span>
                           )}
                         </Link>
                       </li>

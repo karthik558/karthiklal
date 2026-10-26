@@ -41,34 +41,6 @@
       "company": "MaxTech Solutions, Kochi, Kerala",
       "duration": "Feb 2019 - Aug 2019",
       "type": "work"
-    },
-    {
-      "id": 7,
-      "title": "Master of Computer Applications (MCA)",
-      "company": "Uttaranchal University, Dehradun, Uttarakhand",
-      "duration": "Jan 2025 - Jan 2027 (Pursuing)",
-      "type": "education"
-    },
-    {
-      "id": 8,
-      "title": "Bachelor of Computer Application (BCA)",
-      "company": "Bharathiar University, Coimbatore, Tamil Nadu",
-      "duration": "Sep 2021 - Aug 2024",
-      "type": "education"
-    },
-    {
-      "id": 9,
-      "title": "Diploma in Web Designing & Animation (DWA)",
-      "company": "GTEC Educations, Haripad, Kerala",
-      "duration": "Sep 2019 - Dec 2019",
-      "type": "education"
-    },
-    {
-      "id": 10,
-      "title": "Zion Certified Computer Hardware and Networking Professional (ZCHNP)",
-      "company": "Zion IT Education Center, Kochi, Kerala",
-      "duration": "Apr 2018 - Jun 2019",
-      "type": "education"
     }
   ]
 }
