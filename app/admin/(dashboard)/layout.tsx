@@ -1,5 +1,7 @@
 import { promises as fs } from "fs"
 import path from "path"
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 import AdminSidebar from "@/components/admin/sidebar"
 
 export default async function AdminLayout({
@@ -19,41 +21,59 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-[100dvh] bg-background flex overflow-hidden font-mono antialiased text-foreground uppercase">
+    <div className="min-h-[100dvh] bg-background flex overflow-hidden font-sans antialiased text-foreground">
       
-      {/* Dynamic Collapsible Sidebar */}
+      {/* Editorial Collapsible Sidebar */}
       <AdminSidebar models={models} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-[100dvh] overflow-hidden bg-background relative z-10">
         
-        {/* Custom Top Header */}
-        <header className="h-16 shrink-0 border-b-2 border-border bg-card px-6 md:px-10 flex items-center justify-between relative z-20">
-          <div className="flex items-center gap-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-background bg-foreground px-3 py-1 border border-foreground">
-              ADMIN CONTROL PANEL
+        {/* Editorial Top Navigation Header */}
+        <header className="h-16 shrink-0 border-b border-border/80 bg-card/80 backdrop-blur-md px-6 md:px-10 flex items-center justify-between relative z-20 font-mono text-xs uppercase">
+          <div className="flex items-center gap-3">
+            <span className="studio-label text-[10px] text-muted-foreground hidden sm:inline">
+              STUDIO ARCHIVE
+            </span>
+            <span className="text-muted-foreground/40 hidden sm:inline">/</span>
+            <span className="studio-label text-[10px] text-primary font-bold">
+              CONTENT MANAGEMENT
             </span>
           </div>
           
-          <div className="flex items-center gap-4 font-mono text-xs">
-            {/* User Profile Badge */}
-            <div className="flex items-center gap-3 border-2 border-border bg-background px-3.5 py-1.5 font-bold">
-              <span className="text-muted-foreground hidden sm:inline">AUTHENTICATED USER:</span>
-              <span className="text-foreground">KARTHIK LAL</span>
-              <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/" 
+              target="_blank"
+              className="studio-text-link hidden sm:inline-flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors"
+            >
+              LIVE SITE <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+
+            <div className="h-4 w-px bg-border/80 hidden sm:block" />
+
+            {/* Authenticated User Badge */}
+            <div className="flex items-center gap-2.5 px-3 py-1.5 border border-border/80 bg-background/70 text-[10px] font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-muted-foreground hidden md:inline">OPERATOR:</span>
+              <span className="font-bold text-foreground">KARTHIK LAL</span>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-10 relative z-10">
-          <div className="max-w-6xl mx-auto min-h-[calc(100vh-8rem)]">
+        {/* Scrollable Page Body */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
+          <div className="max-w-7xl mx-auto min-h-[calc(100vh-10rem)]">
             {children}
           </div>
           
-          {/* Copyright Footer */}
-          <footer className="mt-12 pt-6 border-t-2 border-border text-center pb-8 text-xs text-muted-foreground font-mono uppercase">
+          {/* Editorial Footer */}
+          <footer className="mt-16 pt-8 border-t border-border/70 flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 text-[10px] text-muted-foreground font-mono uppercase">
             <p>
-              &copy; {new Date().getFullYear()} KARTHIK LAL // SECURE MANAGEMENT SYSTEM
+              &copy; {new Date().getFullYear()} KARTHIK LAL &mdash; STUDIO MANAGEMENT SYSTEM
+            </p>
+            <p className="opacity-75">
+              ALL DATA PERSISTED TO LOCAL JSON REPOSITORIES
             </p>
           </footer>
         </main>
@@ -61,4 +81,3 @@ export default async function AdminLayout({
     </div>
   )
 }
-
