@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     url: "https://karthiklal.in/projects",
     images: [
       {
-        url: "/user/hero.jpg",
+        url: "/user/hero.webp",
         width: 1200,
         height: 630,
         alt: "Karthik Lal's Project Portfolio - Web Development & Cybersecurity",

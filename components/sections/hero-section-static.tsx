@@ -42,7 +42,7 @@ export default function HeroSectionStatic() {
           </div>
           <div className="studio-portrait-wrap">
             <figure className="studio-portrait">
-              <Image src="/user/hero.jpg" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
+              <Image src="/user/hero.webp" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
             </figure>
             <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
               <path className="studio-flower-path-track" d={flowerPath} pathLength="1" />
