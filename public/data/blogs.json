@@ -201,7 +201,7 @@
         },
         {
           "type": "image",
-          "src": "/project/samsproject.jpg",
+          "src": "/project/samsproject.webp",
           "alt": "SAMS Dashboard Interface",
           "caption": "The SAMS dashboard providing a high-level overview of asset status."
         }
@@ -216,7 +216,7 @@
         "full-stack",
         "typescript"
       ],
-      "image": "/project/samsproject.jpg",
+      "image": "/project/samsproject.webp",
       "readTime": "5 min read",
       "featured": false
     },
@@ -261,7 +261,7 @@
         },
         {
           "type": "image",
-          "src": "/project/morphagent.jpeg",
+          "src": "/project/morphagent.webp",
           "alt": "MorphAgent Extension Interface",
           "caption": "MorphAgent's clean interface for selecting user agent profiles."
         }
@@ -276,7 +276,7 @@
         "security",
         "open-source"
       ],
-      "image": "/project/morphagent.jpeg",
+      "image": "/project/morphagent.webp",
       "readTime": "4 min read",
       "featured": false
     },
@@ -321,7 +321,7 @@
         },
         {
           "type": "image",
-          "src": "/project/rust-ping.jpg",
+          "src": "/project/rust-ping.webp",
           "alt": "RustPing Dashboard",
           "caption": "Monitoring network status in real-time with RustPing."
         }
@@ -336,7 +336,7 @@
         "performance",
         "system-programming"
       ],
-      "image": "/project/rust-ping.jpg",
+      "image": "/project/rust-ping.webp",
       "readTime": "6 min read",
       "featured": false
     },
@@ -389,7 +389,7 @@
         },
         {
           "type": "image",
-          "src": "/project/github-burner.jpg",
+          "src": "/project/github-burner.webp",
           "alt": "GitHub Burner interface across desktop and mobile screens",
           "caption": "GitHub Burner transforms repository data into a shareable AI-generated profile roast."
         }
@@ -404,7 +404,7 @@
         "typescript",
         "express"
       ],
-      "image": "/project/github-burner.jpg",
+      "image": "/project/github-burner.webp",
       "readTime": "7 min read",
       "featured": true,
       "repository": "https://github.com/karthik558/GithubBurner"
@@ -457,7 +457,7 @@
         },
         {
           "type": "image",
-          "src": "/project/rust-crypt.jpg",
+          "src": "/project/rust-crypt.webp",
           "alt": "Rust-Crypt file encryption project",
           "caption": "Rust-Crypt packages salt, nonce, and authenticated ciphertext into a portable encrypted file."
         }
@@ -472,7 +472,7 @@
         "cryptography",
         "cli"
       ],
-      "image": "/project/rust-crypt.jpg",
+      "image": "/project/rust-crypt.webp",
       "readTime": "7 min read",
       "featured": false,
       "repository": "https://github.com/karthik558/Rust-Crypt"
@@ -526,7 +526,7 @@
         },
         {
           "type": "image",
-          "src": "/project/guest-wifi.jpg",
+          "src": "/project/guest-wifi.webp",
           "alt": "GuestIT Portal hospitality support interface",
           "caption": "GuestIT Portal provides a direct request channel between hotel guests and IT operations."
         }
@@ -541,7 +541,7 @@
         "realtime",
         "typescript"
       ],
-      "image": "/project/guest-wifi.jpg",
+      "image": "/project/guest-wifi.webp",
       "readTime": "6 min read",
       "featured": false,
       "repository": "https://github.com/karthik558/GuestIT-Portal"
@@ -595,7 +595,7 @@
         },
         {
           "type": "image",
-          "src": "/project/invoicely.jpg",
+          "src": "/project/invoicely.webp",
           "alt": "Invoicely Studio invoice editing interface",
           "caption": "Invoicely Studio combines local-first data handling with customizable, print-ready invoices."
         }
@@ -610,7 +610,7 @@
         "pdf",
         "local-first"
       ],
-      "image": "/project/invoicely.jpg",
+      "image": "/project/invoicely.webp",
       "readTime": "6 min read",
       "featured": false,
       "repository": "https://github.com/karthik558/InvoicelyStudio"
