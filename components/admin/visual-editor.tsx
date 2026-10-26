@@ -15,7 +15,6 @@ import {
   GripVertical,
   Edit3,
   Search,
-  Sparkles,
   ArrowUp,
   ChevronsUp
 } from "lucide-react"
@@ -603,7 +602,7 @@ export default function VisualEditor({ initialData, onSave, modelName }: VisualE
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             className="fixed top-20 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 bg-foreground text-background font-mono text-xs font-bold uppercase tracking-wider shadow-2xl border border-primary/40 backdrop-blur-md"
           >
-            <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
+            <Check className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>{toastMessage}</span>
           </motion.div>
         )}

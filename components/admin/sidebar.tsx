@@ -95,31 +95,29 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex flex-col h-[100dvh] border-r border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md transition-all duration-300 font-mono text-xs uppercase shrink-0 md:relative md:translate-x-0 select-none",
           mobileOpen ? "translate-x-0 w-72 shadow-2xl" : "-translate-x-full md:w-64",
-          !mobileOpen && collapsed && "md:w-20"
+          !mobileOpen && collapsed && "md:w-16"
         )}
       >
-        {/* Monogram / Header Bar */}
+        {/* Header Bar */}
         <div className={cn(
-          "flex items-center justify-between p-4 sm:p-5 border-b border-border/80 min-h-[64px]",
-          !mobileOpen && collapsed && "md:flex-col md:gap-3 md:justify-center md:p-3"
+          "flex items-center border-b border-border/80 h-14 shrink-0 transition-all",
+          (!collapsed || mobileOpen) ? "justify-between px-4" : "justify-center px-2"
         )}>
-          <Link 
-            href="/admin" 
-            className={cn("flex items-center gap-2 group", !mobileOpen && collapsed && "md:justify-center")}
-            title="Karthik Lal CMS Dashboard"
-          >
-            <div className="nav-monogram">
-              KL <span>/ ADMIN</span>
-            </div>
-            {(!collapsed || mobileOpen) && (
-              <span className="studio-label text-[9px] text-primary border border-primary/30 px-1.5 py-0.5 bg-primary/5">
-                CMS
+          {(!collapsed || mobileOpen) && (
+            <Link 
+              href="/admin" 
+              className="flex items-center gap-2 group"
+              title="Admin Dashboard"
+            >
+              <span className="font-mono text-xs font-bold tracking-widest text-foreground uppercase">
+                ADMIN
               </span>
-            )}
-          </Link>
+            </Link>
+          )}
           
-          {/* Desktop Collapse Button */}
+          {/* Desktop Collapse / Expand Button */}
           <button 
+            type="button"
             onClick={() => setCollapsed(!collapsed)}
             className="hidden md:flex p-1.5 border border-border/80 bg-background/60 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors shrink-0"
             title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
@@ -130,6 +128,7 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
 
           {/* Mobile Close Button */}
           <button 
+            type="button"
             onClick={() => setMobileOpen(false)}
             className="md:hidden flex p-1.5 border border-border text-muted-foreground hover:text-foreground shrink-0"
             aria-label="Close Admin Menu"
@@ -139,19 +138,22 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
         </div>
 
         {/* Navigation List */}
-        <div className="flex-1 overflow-y-auto py-5 flex flex-col gap-6 px-3">
+        <div className={cn(
+          "flex-1 overflow-y-auto py-4 flex flex-col transition-all",
+          (!collapsed || mobileOpen) ? "gap-6 px-3" : "gap-3 px-2"
+        )}>
           
           {/* Main Dashboard Link */}
           <div>
             <Link
               href="/admin"
-              title="Dashboard Overview"
+              title="Dashboard"
               className={cn(
-                "nav-item flex items-center gap-2.5 px-3 py-2 border transition-all text-[11px] font-bold tracking-wider",
+                "nav-item flex items-center border transition-all text-[11px] font-bold tracking-wider",
+                (!collapsed || mobileOpen) ? "gap-2.5 px-3 py-2" : "justify-center p-2.5",
                 pathname === "/admin" 
                   ? "bg-foreground text-background border-foreground shadow-xs" 
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80",
-                (!mobileOpen && collapsed) && "md:justify-center md:px-2"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80"
               )}
             >
               <LayoutDashboard className="w-3.5 h-3.5 shrink-0 text-primary" />
@@ -160,13 +162,15 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
           </div>
 
           {/* Grouped Model Navigation */}
-          {navGroups.map((group) => {
+          {navGroups.map((group, groupIdx) => {
             return (
               <div key={group.kicker} className="space-y-1">
-                {(!collapsed || mobileOpen) && (
+                {(!collapsed || mobileOpen) ? (
                   <p className="studio-label text-[9px] px-2.5 mb-2 text-muted-foreground/90 font-mono tracking-widest">
                     {group.kicker}
                   </p>
+                ) : (
+                  groupIdx > 0 && <div className="h-px bg-border/40 my-1 mx-1" />
                 )}
                 <ul className="space-y-1">
                   {group.items.map((item, idx) => {
@@ -180,16 +184,16 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
                           href={`/admin/${item.id}`}
                           title={item.label}
                           className={cn(
-                            "nav-item flex items-center gap-2.5 px-3 py-2 border transition-all text-[11px] font-medium tracking-wider",
+                            "nav-item flex items-center border transition-all text-[11px] font-medium tracking-wider",
+                            (!collapsed || mobileOpen) ? "gap-2.5 px-3 py-2" : "justify-center p-2.5",
                             isActive 
                               ? "bg-foreground text-background border-foreground shadow-xs font-bold" 
-                              : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80",
-                            (!mobileOpen && collapsed) && "md:justify-center md:px-2"
+                              : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80"
                           )}
                         >
-                          {(!collapsed || mobileOpen) ? (
+                          {(!collapsed || mobileOpen) && (
                             <span className="text-[9px] font-mono opacity-60 w-4">{indexStr}</span>
-                          ) : null}
+                          )}
                           <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-background" : "text-primary")} />
                           {(!collapsed || mobileOpen) && (
                             <span className="truncate">{item.label}</span>
@@ -206,10 +210,12 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
           {/* Extra Models (if any dynamic ones exist) */}
           {extraModels.length > 0 && (
             <div className="space-y-1">
-              {(!collapsed || mobileOpen) && (
+              {(!collapsed || mobileOpen) ? (
                 <p className="studio-label text-[9px] px-2.5 mb-2 text-muted-foreground/90 font-mono tracking-widest">
                   OTHER MODULES
                 </p>
+              ) : (
+                <div className="h-px bg-border/40 my-1 mx-1" />
               )}
               <ul className="space-y-1">
                 {extraModels.map((model) => {
@@ -222,11 +228,11 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
                         href={`/admin/${model}`}
                         title={model.replace("-", " ")}
                         className={cn(
-                          "nav-item flex items-center gap-2.5 px-3 py-2 border transition-all text-[11px] font-medium tracking-wider",
+                          "nav-item flex items-center border transition-all text-[11px] font-medium tracking-wider",
+                          (!collapsed || mobileOpen) ? "gap-2.5 px-3 py-2" : "justify-center p-2.5",
                           isActive 
                             ? "bg-foreground text-background border-foreground shadow-xs font-bold" 
-                            : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80",
-                          (!mobileOpen && collapsed) && "md:justify-center md:px-2"
+                            : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/80 hover:border-border/80"
                         )}
                       >
                         <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-background" : "text-primary")} />
@@ -244,8 +250,11 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
         </div>
 
         {/* Footer / Controls */}
-        <div className="p-3 border-t border-border/80 flex flex-col gap-2 bg-card/60">
-          <div className={cn("flex items-center", (!mobileOpen && collapsed) ? "justify-center" : "justify-between px-2")}>
+        <div className={cn(
+          "border-t border-border/80 flex flex-col gap-2 bg-card/60 transition-all",
+          (!collapsed || mobileOpen) ? "p-3" : "p-2 items-center"
+        )}>
+          <div className={cn("flex items-center", (!mobileOpen && collapsed) ? "justify-center w-full" : "justify-between px-2")}>
             {(!collapsed || mobileOpen) && (
               <span className="studio-label text-[9px]">THEME</span>
             )}
@@ -256,8 +265,8 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
             href="/"
             title="View Live Portfolio Site"
             className={cn(
-              "flex items-center gap-2 px-3 py-2 border border-border/70 bg-background/60 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors text-[10px] font-bold tracking-wider",
-              (!mobileOpen && collapsed) && "md:justify-center md:px-2"
+              "flex items-center border border-border/70 bg-background/60 text-muted-foreground hover:text-foreground hover:border-foreground transition-colors text-[10px] font-bold tracking-wider",
+              (!collapsed || mobileOpen) ? "gap-2 px-3 py-2" : "justify-center p-2 w-full"
             )}
           >
             <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-primary" />
@@ -265,14 +274,15 @@ export default function AdminSidebar({ models = [] }: { models?: string[] }) {
           </Link>
           
           <button
+            type="button"
             onClick={async () => {
               await fetch('/api/admin/logout', { method: 'POST' })
               window.location.href = '/admin/login'
             }}
-            title="Log Out"
+            title="Sign Out"
             className={cn(
-              "flex items-center gap-2 px-3 py-2 border border-border/70 bg-background/60 text-muted-foreground hover:text-destructive hover:border-destructive/60 transition-colors text-[10px] font-bold tracking-wider w-full text-left",
-              (!mobileOpen && collapsed) && "md:justify-center md:px-2"
+              "flex items-center border border-border/70 bg-background/60 text-muted-foreground hover:text-destructive hover:border-destructive/60 transition-colors text-[10px] font-bold tracking-wider",
+              (!collapsed || mobileOpen) ? "gap-2 px-3 py-2 w-full text-left" : "justify-center p-2 w-full"
             )}
           >
             <LogOut className="w-3.5 h-3.5 shrink-0" />

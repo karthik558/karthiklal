@@ -29,15 +29,11 @@ export default async function AdminLayout({
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-[100dvh] overflow-hidden bg-background relative z-10">
         
-        {/* Editorial Top Navigation Header */}
-        <header className="h-16 shrink-0 border-b border-border/80 bg-card/80 backdrop-blur-md px-6 md:px-10 flex items-center justify-between relative z-20 font-mono text-xs uppercase">
-          <div className="flex items-center gap-3">
-            <span className="studio-label text-[10px] text-muted-foreground hidden sm:inline">
-              STUDIO ARCHIVE
-            </span>
-            <span className="text-muted-foreground/40 hidden sm:inline">/</span>
-            <span className="studio-label text-[10px] text-primary font-bold">
-              CONTENT MANAGEMENT
+        {/* Top Header */}
+        <header className="h-14 shrink-0 border-b border-border/80 bg-card/80 backdrop-blur-md px-6 md:px-8 flex items-center justify-between relative z-20 font-mono text-xs uppercase">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
+              ADMIN
             </span>
           </div>
           
@@ -45,19 +41,10 @@ export default async function AdminLayout({
             <Link 
               href="/" 
               target="_blank"
-              className="studio-text-link hidden sm:inline-flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors"
+              className="studio-text-link inline-flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-wider"
             >
-              LIVE SITE <ArrowUpRight className="w-3.5 h-3.5" />
+              LIVE SITE <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
             </Link>
-
-            <div className="h-4 w-px bg-border/80 hidden sm:block" />
-
-            {/* Authenticated User Badge */}
-            <div className="flex items-center gap-2.5 px-3 py-1.5 border border-border/80 bg-background/70 text-[10px] font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-muted-foreground hidden md:inline">OPERATOR:</span>
-              <span className="font-bold text-foreground">KARTHIK LAL</span>
-            </div>
           </div>
         </header>
 
