@@ -6,7 +6,6 @@ import Preloader from "@/components/preloader"
 import ContentWrapper from "@/components/content-wrapper"
 import NavBar from "@/components/nav-bar"
 import Footer from "@/components/footer"
-import BackToTop from "@/components/back-to-top"
 import ClientEnhancements from "@/components/client-enhancements"
 import { Analytics } from "@/components/analytics"
 import { scrollToElement } from "@/lib/scroll-utils"
@@ -112,7 +111,6 @@ export default function AppWrapper({ children }: AppWrapperProps) {
         </ContentWrapper>
       )}
 
-      {!isAdmin && <BackToTop />}
       {!isAdmin && <ClientEnhancements />}
       {!isAdmin && <NetworkStatus />}
       <Analytics />

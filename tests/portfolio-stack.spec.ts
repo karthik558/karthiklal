@@ -54,7 +54,7 @@ test('mobile cover, testimonial navigation, and text return link work', async ({
   const before = await reviews.locator('blockquote').textContent()
   await reviews.getByRole('button', { name: 'Next Testimonial' }).click()
   await expect(reviews.locator('blockquote')).not.toHaveText(before!)
-  await page.getByRole('link', { name: 'Back to top', exact: true }).click()
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
 })
