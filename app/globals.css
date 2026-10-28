@@ -1977,11 +1977,11 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 }
 
 /* Compact primary navigation without a separate sticky section bar. */
-.studio-navigation { overflow:hidden; background:hsl(var(--card) / .94); }
+.studio-navigation { overflow:hidden; }
 .studio-navigation .nav-item { gap:5px; }
 .nav-item-index { font-size:6px; letter-spacing:0; color:hsl(var(--primary)); }
 .studio-navigation .nav-item[aria-current=page] .nav-item-index { color:hsl(var(--primary)); }
-.mobile-nav-trigger { display:grid; width:44px; height:44px; min-height:44px; place-items:center; padding:0; overflow:hidden; border:1px solid hsl(var(--border)); background:hsl(var(--card) / .94); box-shadow:0 8px 24px -18px #000b; color:hsl(var(--foreground)); }
+.mobile-nav-trigger { display:grid; width:44px; height:44px; min-height:44px; place-items:center; padding:0; overflow:hidden; color:hsl(var(--foreground)); }
 .mobile-nav-icon { width:18px; height:18px; margin:0; color:hsl(var(--primary)); }
 .mobile-nav-trigger:hover,.mobile-nav-trigger:focus-visible { border-color:hsl(var(--foreground)); outline:none; }
 
@@ -2187,3 +2187,25 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 }
 @media (prefers-reduced-motion: reduce) { .journey-label, .journey-dot { transition: none; } }
 @media print { .portfolio-journey { display: none; } }
+
+/* Give the opening composition room without an oversized top or side gutter. */
+@media (min-width:601px) {
+ .studio-hero { padding-top:84px; }
+ .studio-hero > .section-container { width:calc(100% - 64px); max-width:1440px; padding-inline:0; }
+ .studio-hero-grid { gap:5%; padding:32px 0 40px; }
+}
+@media (min-width:1440px) { .studio-hero > .section-container { width:calc(100% - 96px); } }
+
+
+/* Frosted navigation picks up the colors of each section underneath it. */
+.studio-navigation, .mobile-nav-trigger {
+ background:hsl(var(--card) / .44);
+ border:1px solid hsl(var(--foreground) / .12);
+ -webkit-backdrop-filter:blur(18px);
+ backdrop-filter:blur(18px);
+ box-shadow:none;
+}
+.studio-navigation { padding:2px 4px; gap:6px; }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+ .studio-navigation, .mobile-nav-trigger { background:hsl(var(--card) / .92); }
+}

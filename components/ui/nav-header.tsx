@@ -109,7 +109,7 @@ export default function NavHeader() {
   return (
     <div className="relative flex w-full items-center justify-center font-mono text-xs uppercase pointer-events-none">
       {/* Unified Desktop Navigation Island (Centered, Paper Style, Compact & Slim) */}
-      <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-2 border border-border/80 bg-card/90 dark:bg-card/80 backdrop-blur-md px-2 py-0.5 shadow-xs">
+      <div className="studio-navigation pointer-events-auto hidden lg:flex items-center gap-2 px-2 py-0.5">
         <nav aria-label="Desktop navigation">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
@@ -149,7 +149,7 @@ export default function NavHeader() {
           ref={menuButtonRef}
           type="button"
           onClick={() => setIsOpen(true)}
-          className="mobile-nav-trigger paper-button flex items-center justify-center gap-1.5 h-[34px] px-3 border border-border/80 bg-card/90 backdrop-blur-md text-foreground font-mono text-[11px] font-bold uppercase tracking-wider hover:border-foreground transition-colors cursor-pointer shadow-xs"
+          className="mobile-nav-trigger paper-button flex items-center justify-center gap-1.5 h-[34px] px-3 text-foreground font-mono text-[11px] font-bold uppercase tracking-wider hover:border-foreground transition-colors cursor-pointer"
           aria-label="Open menu"
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"
