@@ -115,7 +115,7 @@ export default function CertificationsSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="08" label="CREDENTIALS" title="Knowledge earned." accent="Practice backed." />
+            <SectionHeading number="07" label="CREDENTIALS" title="Knowledge earned." accent="Practice backed." />
           </div>
         </div>
 

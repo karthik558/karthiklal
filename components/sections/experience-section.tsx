@@ -106,7 +106,7 @@ export default function ExperienceSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="07" label="CAREER &amp; EXPERIENCE" title="Learning by doing." accent="Growing with every role." />
+            <SectionHeading number="06" label="CAREER &amp; EXPERIENCE" title="Learning by doing." accent="Growing with every role." />
           </div>
         </div>
 

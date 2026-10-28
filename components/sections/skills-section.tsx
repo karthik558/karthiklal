@@ -17,7 +17,7 @@ export default function SkillsSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="06" label="EXPERTISE &amp; TOOLKIT" title="The right tools." accent="The right approach." />
+            <SectionHeading number="05" label="EXPERTISE &amp; TOOLKIT" title="The right tools." accent="The right approach." />
           </div>
           <a href="https://github.com/karthik558" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold underline decoration-primary underline-offset-8 hover:text-primary">Explore my GitHub <ArrowUpRight className="h-4 w-4" /></a>
         </div>

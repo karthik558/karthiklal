@@ -6,10 +6,10 @@ const stops = [
   ["home", "Hello"],
   ["about", "About me"],
   ["portfolio", "Selected work"],
-  ["portfolio-gallery", "Design archive"],
   ["skills", "Toolkit"],
   ["experience", "Experience"],
   ["journal", "Journal"],
+  ["portfolio-gallery", "Design archive"],
 ] as const
 
 const point = (p: number) => ({ x: 28 + 9 * Math.sin(p * Math.PI * 4), y: 20 + p * 360 })

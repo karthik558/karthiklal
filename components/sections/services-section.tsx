@@ -43,7 +43,7 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="05" label="SERVICES &amp; CAPABILITIES" title="Built around" accent="what you need." />
+            <SectionHeading number="04" label="SERVICES &amp; CAPABILITIES" title="Built around" accent="what you need." />
           </div>
           <p className="studio-section-intro">From the infrastructure behind your business to the interface your customers use. Practical expertise, connected from end to end.</p>
         </div>

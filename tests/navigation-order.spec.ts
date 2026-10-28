@@ -9,7 +9,7 @@ test('navigation stays visible and homepage chapters follow their numbering', as
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
   expect(await page.locator('main section[id]').evaluateAll(sections => sections.map(section => section.id))).toEqual([
-    'home', 'about', 'principles', 'portfolio', 'portfolio-gallery', 'services', 'skills', 'experience', 'certifications', 'testimonials', 'journal',
+    'home', 'about', 'principles', 'portfolio', 'services', 'skills', 'experience', 'certifications', 'journal', 'portfolio-gallery', 'testimonials',
   ])
   const chapters = await page.getByRole('navigation', { name: 'Portfolio chapters' }).locator('a').evaluateAll(links => links.map(link => document.querySelector(link.getAttribute('href')!)!.getBoundingClientRect().top + window.scrollY))
   expect(chapters).toEqual([...chapters].sort((a,b) => a-b))

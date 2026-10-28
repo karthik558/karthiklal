@@ -12,7 +12,7 @@ export default function TestimonialsSection() {
   const review = data.testimonials[index]
   if (!review) return null
   return <section id="testimonials" className="section-shell border-t border-border"><div className="section-container">
-    <div className="section-heading-row"><SectionHeading number="09" label="CLIENT FEEDBACK" title="Good work starts" accent="with good people." /><p className="studio-section-intro">A few words from the people on the other side of the collaboration.</p></div>
+    <div className="section-heading-row"><SectionHeading number="10" label="CLIENT FEEDBACK" title="Good work starts" accent="with good people." /><p className="studio-section-intro">A few words from the people on the other side of the collaboration.</p></div>
     <div className="testimonial-letter">
       <div className="letter-margin"><span className="studio-label">WORDS THAT MATTER</span><motion.span
         key={review.id}

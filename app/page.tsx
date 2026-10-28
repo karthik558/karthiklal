@@ -156,13 +156,13 @@ export default function Home() {
       <AboutSection />
       <PrinciplesSection />
       <PortfolioSection />
-      <PortfolioGallerySection />
       <ServicesSection />
       <SkillsSection />
       <ExperienceSection />
       <CertificationsSection />
-      <TestimonialsSection />
       <JournalSection />
+      <PortfolioGallerySection />
+      <TestimonialsSection />
     </div>
   )
 }
