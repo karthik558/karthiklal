@@ -1,7 +1,9 @@
 "use client"
 
 import { useEffect } from "react"
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
+import { useReducedMotion } from "framer-motion"
+
+import PortfolioScrollbar from "@/components/portfolio-scrollbar"
 
 const revealSelector = [
   ".about-profile-facts > div",
@@ -27,8 +29,6 @@ const revealSelector = [
 /** Enhance server-rendered sections without transforming modal or sticky ancestors. */
 export default function HomeMotion() {
   const reduced = useReducedMotion()
-  const { scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 160, damping: 30 })
 
   useEffect(() => {
     if (reduced) return
@@ -91,6 +91,6 @@ export default function HomeMotion() {
   }, [reduced])
 
   return <>
-    <motion.div aria-hidden="true" className="reading-progress" style={{ scaleX: reduced ? scrollYProgress : progress }} />
+    <PortfolioScrollbar />
   </>
 }

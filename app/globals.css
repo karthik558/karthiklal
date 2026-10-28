@@ -2132,3 +2132,35 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
  .contact-form-panel { order:-1; }
  .story-archive .archive-entry:only-child .archive-entry-image { aspect-ratio:1.3; }
 }
+
+/* A marginal circuit drawn in the portfolio's ink, carrying its signature flower. */
+.portfolio-journey { --journey-progress: 0; position: fixed; right: 12px; top: 50%; transform: translateY(-50%); width: 56px; z-index: 45; color: hsl(var(--primary)); }
+.journey-caption, .journey-counter { display: block; text-align: center; font: 9px/1.5 var(--font-mono, monospace); letter-spacing: .14em; }
+.journey-caption { color: hsl(var(--muted-foreground)); font-size: 8px; margin-bottom: 10px; }
+.journey-counter { margin-top: 10px; font-variant-numeric: tabular-nums; }
+.journey-rail { position: relative; height: min(48vh, 400px); }
+.journey-art { width: 100%; height: 100%; overflow: visible; position: absolute; inset: 0; pointer-events: none; }
+.journey-art { /* Keep SVG and HTML stop coordinates identical at every height. */ aspect-ratio: 56 / 400; }
+.journey-track, .journey-ink { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.journey-track { opacity: .3; stroke-dasharray: 2 6; stroke-linecap: round; }
+.journey-ink { stroke-dasharray: 1; stroke-dashoffset: 1; stroke-width: 2; }
+.journey-flower { fill: currentColor; }
+.journey-flower-halo { fill: hsl(var(--background)); stroke: hsl(var(--primary) / .18); stroke-width: 1; }
+.journey-scrubber { position: absolute; inset: 0; touch-action: none; cursor: ns-resize; border-radius: 24px; }
+.journey-scrubber:focus-visible { outline: 1px dashed currentColor; outline-offset: 3px; background: hsl(var(--primary) / .04); }
+.journey-stop { position: absolute; width: 28px; height: 28px; transform: translate(-50%, -50%); display: grid; place-items: center; }
+.journey-dot { width: 7px; height: 7px; border: 1px solid hsl(var(--primary) / .6); background: hsl(var(--background)); border-radius: 50%; transition: background .2s, box-shadow .2s; }
+.journey-stop[data-passed="true"] .journey-dot { background: currentColor; }
+.journey-stop[aria-current] .journey-dot { box-shadow: 0 0 0 4px hsl(var(--primary) / .13); }
+.journey-label { position: absolute; right: 34px; white-space: nowrap; display: flex; align-items: center; gap: 12px; padding: 10px 13px; border: 1px solid hsl(var(--border)); background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: var(--paper-shadow); font: 10px var(--font-mono, monospace); opacity: 0; transform: translateX(6px); pointer-events: none; transition: opacity .18s, transform .18s; }
+.journey-label b { color: hsl(var(--primary)); font-weight: 400; }
+.journey-stop:hover .journey-label, .journey-stop:focus-visible .journey-label { opacity: 1; transform: translateX(0); }
+.journey-stop:focus-visible { outline: 1px dashed currentColor; border-radius: 50%; }
+@media (min-width: 1440px) { .journey-art { overflow: visible; } }
+@media (max-width: 1439px), (max-height: 650px) {
+  .portfolio-journey { inset: 0 0 auto; transform: none; height: 3px; width: auto; pointer-events: none; background: hsl(var(--primary) / .12); }
+  .portfolio-journey::after { content: ""; position: absolute; inset: 0; background: hsl(var(--primary)); transform: scaleX(var(--journey-progress)); transform-origin: left; }
+  .journey-caption, .journey-rail, .journey-counter { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .journey-label, .journey-dot { transition: none; } }
+@media print { .portfolio-journey { display: none; } }
