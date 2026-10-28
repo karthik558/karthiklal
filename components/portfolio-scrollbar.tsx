@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useId, useRef } from "react"
 
 const stops = [
   ["home", "Hello"],
@@ -34,6 +34,9 @@ export default function PortfolioScrollbar() {
   const slider = useRef<HTMLDivElement>(null)
   const positions = useRef<number[]>([])
   const limit = useRef(1)
+  const lineGradientId = useId()
+  const colorBoundary = useRef<SVGStopElement>(null)
+  const inkBoundary = useRef<SVGStopElement>(null)
 
   const go = (top: number, immediate = false) => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -43,6 +46,11 @@ export default function PortfolioScrollbar() {
 
   useEffect(() => {
     let frame = 0
+    let footerTop = Infinity
+    let footerBottom = Infinity
+    let railTop = 0
+    let railHeight = 0
+    let counterY = 0
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)")
     const update = () => {
       frame = 0
@@ -54,6 +62,12 @@ export default function PortfolioScrollbar() {
       const local = Math.min(1, Math.max(0, (scroll - offsets[segment]) / Math.max(1, offsets[segment + 1] - offsets[segment])))
       const progress = (segment + local) / (offsets.length - 1)
       const { x, y } = point(progress)
+      const flowerDocumentY = scroll + railTop + y / 400 * railHeight
+      if (root.current) root.current.dataset.flowerOnFooter = String(flowerDocumentY >= footerTop && flowerDocumentY <= footerBottom)
+      const boundary = Math.max(0, Math.min(1, (footerTop - scroll - railTop) / Math.max(1, railHeight)))
+      colorBoundary.current?.setAttribute("offset", String(boundary))
+      inkBoundary.current?.setAttribute("offset", String(boundary))
+      if (counter.current) counter.current.dataset.onFooter = String(scroll + counterY >= footerTop && scroll + counterY <= footerBottom)
       flower.current?.setAttribute("transform", `translate(${x} ${y}) rotate(${reduced.matches ? 0 : progress * 540})`)
       const sample = Math.min(119, Math.floor(progress * 120))
       const travelled = distances[sample] + (distances[sample + 1] - distances[sample]) * (progress * 120 - sample)
@@ -64,11 +78,21 @@ export default function PortfolioScrollbar() {
       root.current?.querySelectorAll<HTMLAnchorElement>(".journey-stop").forEach((link, i) => {
         if (i === Math.min(segment, stops.length - 1)) link.setAttribute("aria-current", "location")
         else link.removeAttribute("aria-current")
+        const nodeY = scroll + railTop + point(i / stops.length).y / 400 * railHeight
+        link.dataset.onFooter = String(nodeY >= footerTop && nodeY <= footerBottom)
         link.dataset.passed = String(scroll >= offsets[i] - 1)
       })
     }
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update) }
     const measure = () => {
+      const footer = document.querySelector(".editorial-footer")?.getBoundingClientRect()
+      footerTop = footer ? footer.top + window.scrollY : Infinity
+      footerBottom = footer ? footer.bottom + window.scrollY : Infinity
+      const bounds = rail.current?.getBoundingClientRect()
+      railTop = bounds?.top ?? 0
+      railHeight = bounds?.height ?? 0
+      const counterBounds = counter.current?.getBoundingClientRect()
+      counterY = counterBounds ? counterBounds.top + counterBounds.height / 2 : 0
       limit.current = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
       positions.current = [...stops.map(([id]) => Math.min(limit.current, Math.max(0, (document.getElementById(id)?.getBoundingClientRect().top ?? 0) + window.scrollY - 100))), limit.current]
       schedule()
@@ -101,10 +125,17 @@ export default function PortfolioScrollbar() {
     <span className="journey-caption" aria-hidden="true">EXPLORE</span>
     <div ref={rail} className="journey-rail">
       <svg viewBox="0 0 56 400" preserveAspectRatio="none" aria-hidden="true" className="journey-art">
-        <path d={path} className="journey-track" />
-        <path ref={ink} d={path} pathLength="1" className="journey-ink" />
+        <defs>
+          <linearGradient id={lineGradientId} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400">
+            <stop offset="0" stopColor="currentColor" />
+            <stop ref={colorBoundary} offset="1" stopColor="currentColor" />
+            <stop ref={inkBoundary} offset="1" stopColor="#291c16" />
+            <stop offset="1" stopColor="#291c16" />
+          </linearGradient>
+        </defs>
+        <path d={path} className="journey-track" style={{ stroke: `url(#${lineGradientId})` }} />
+        <path ref={ink} d={path} pathLength="1" className="journey-ink" style={{ stroke: `url(#${lineGradientId})` }} />
         <g ref={flower} transform="translate(28 20)" className="journey-flower">
-          <circle r="15" className="journey-flower-halo" />
           {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => <ellipse key={angle} cx="0" cy="-7" rx="2.6" ry="4.4" transform={`rotate(${angle})`} />)}
           <circle r="3" />
         </g>
