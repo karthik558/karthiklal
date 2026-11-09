@@ -75,11 +75,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon", sizes: "32x32", type: "image/png" }
+      { url: "/logo/favicon.webp", sizes: "48x48", type: "image/webp" },
+      { url: "/logo/favicon-192x192.webp", sizes: "192x192", type: "image/webp" },
     ],
-    shortcut: "/icon",
+    shortcut: "/logo/favicon.webp",
     apple: [
-      { url: "/apple-icon", sizes: "180x180", type: "image/png" },
+      { url: "/logo/favicon-192x192.webp", sizes: "192x192", type: "image/webp" },
     ],
   },
   manifest: "/site.webmanifest",
@@ -104,14 +105,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

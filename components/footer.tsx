@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 import { PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
@@ -17,6 +18,16 @@ export default function Footer() {
       <div className="section-container">
         <div className="footer-columns">
           <div className="footer-contact">
+            <Link href="/" className="footer-logo inline-block mb-6 transition-opacity hover:opacity-85" aria-label="Karthik Lal Home">
+              <Image
+                src="/logo/logo.webp?v=3"
+                alt="Karthik Lal"
+                width={184}
+                height={118}
+                unoptimized
+                className="w-28 sm:w-32 md:w-36 h-auto object-contain"
+              />
+            </Link>
             <p className="studio-label">WORK &amp; COLLABORATION</p>
             <a href="mailto:contact@karthiklal.in" className="footer-email">
               <span>contact@karthiklal.in</span><ArrowUpRight size={18} aria-hidden="true" />

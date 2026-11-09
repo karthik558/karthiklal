@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Noto+Serif+Malayalam:wght@400;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1731,6 +1729,7 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .editorial-footer a { transition:color .2s, border-color .2s; }
 .editorial-footer a:hover { color:hsl(var(--foreground)); text-decoration:underline; text-underline-offset:4px; }
 .editorial-footer .footer-email:hover { text-decoration:none; border-color:currentColor; }
+.editorial-footer .footer-logo:hover { text-decoration:none; }
 .editorial-footer a svg { transition:transform .2s; }
 .editorial-footer a:hover svg { transform:translate(2px,-2px); }
 .editorial-footer a:focus-visible { outline:2px solid currentColor; outline-offset:4px; border-radius:2px; }
