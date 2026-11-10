@@ -24,37 +24,54 @@ export default function PortfolioStack({ entries, label }: { entries: BookEntry[
     const cards = Array.from(stack.current?.querySelectorAll<HTMLElement>(".stack-card") ?? [])
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)")
     let frame = 0
+    let geometry: { top: number; height: number; pin: number; sticky: boolean }[] = []
     const update = () => {
       frame = 0
-      const baseTop = window.innerWidth < 900 ? 76 : 96
-      const measurements = cards.map(card => ({ top: card.getBoundingClientRect().top, height: card.offsetHeight }))
+      const scroll = window.scrollY
       cards.forEach((card, index) => {
-        const top = baseTop + Math.min(index, 3) * 10
-        const height = measurements[index].height
-        const fits = height + top + 16 <= window.innerHeight
-        card.style.setProperty("--stack-position", fits && !motion.matches ? "sticky" : "relative")
-        card.style.setProperty("--stack-top", `${fits && !motion.matches ? top : 0}px`)
-        // The incoming card pushes the previous image into the deck without tilting the artwork.
-        const next = measurements[index + 1]
-        const progress = next && fits && !motion.matches
-          ? Math.max(0, Math.min(1, 1 - (next.top - top) / (height + 64)))
+        const current = geometry[index]
+        const next = geometry[index + 1]
+        const nextTop = next ? Math.max(next.sticky ? next.pin : -Infinity, next.top - scroll) : Infinity
+        const progress = next && current.sticky
+          ? Math.max(0, Math.min(1, 1 - (nextTop - current.pin) / (current.height + 64)))
           : 0
-        card.style.setProperty("--stack-scale", String(1 - progress * 0.055))
         card.style.setProperty("--stack-shade", String(progress * 0.24))
       })
     }
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update) }
-    const observer = new ResizeObserver(schedule)
+    // Measure normal-flow geometry only when layout changes, never during scrolling.
+    const measure = () => {
+      if (!stack.current) return
+      const baseTop = window.innerWidth < 900 ? 76 : 96
+      const gap = parseFloat(getComputedStyle(stack.current).rowGap) || 0
+      let top = stack.current.getBoundingClientRect().top + window.scrollY
+      geometry = cards.map((card, index) => {
+        const height = card.offsetHeight
+        const pin = baseTop + Math.min(index, 3) * 10
+        const sticky = height + pin + 16 <= window.innerHeight && !motion.matches
+        const result = { top, height, pin, sticky }
+        top += height + gap
+        return result
+      })
+      cards.forEach((card, index) => {
+        const { pin, sticky } = geometry[index]
+        card.style.setProperty("--stack-position", sticky ? "sticky" : "relative")
+        card.style.setProperty("--stack-top", `${sticky ? pin : 0}px`)
+      })
+      schedule()
+    }
+    const observer = new ResizeObserver(measure)
+    observer.observe(document.body)
     cards.forEach(card => observer.observe(card))
     window.addEventListener("scroll", schedule, { passive: true })
-    window.addEventListener("resize", schedule)
-    motion.addEventListener("change", schedule)
-    update()
+    window.addEventListener("resize", measure)
+    motion.addEventListener("change", measure)
+    measure()
     return () => {
       observer.disconnect()
       window.removeEventListener("scroll", schedule)
-      window.removeEventListener("resize", schedule)
-      motion.removeEventListener("change", schedule)
+      window.removeEventListener("resize", measure)
+      motion.removeEventListener("change", measure)
       cancelAnimationFrame(frame)
     }
   }, [entries])

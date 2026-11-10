@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import projects from '../public/data/projects.json'
 
 test('vertical collections scroll over images, filter, and dismiss previews', async ({ page }) => {
   await page.goto('/')
@@ -6,7 +7,7 @@ test('vertical collections scroll over images, filter, and dismiss previews', as
   const work = page.locator('#portfolio')
   await expect(work.locator('.stack-card')).toHaveCount(4)
   await work.getByRole('button', { name: /SHOW ALL.*PROJECTS/ }).click()
-  await expect(work.locator('.stack-card')).toHaveCount(10)
+  await expect(work.locator('.stack-card')).toHaveCount(projects.projects.filter(project => project.featured).length)
   await work.getByRole('button', { name: 'SHOW FEWER', exact: true }).click()
   await expect(work.locator('.stack-card')).toHaveCount(4)
   await expect(work.locator('.book-filters button[aria-pressed=true]')).toBeFocused()
@@ -111,7 +112,7 @@ test('mobile cards reveal their content before stacking', async ({ page }) => {
 })
 
 
-test('incoming artwork smoothly scales the pinned card and reduced motion disables stacking', async ({ page }) => {
+test('incoming artwork shades equal-width pinned cards and reduced motion disables stacking', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
@@ -122,8 +123,13 @@ test('incoming artwork smoothly scales the pinned card and reduced motion disabl
       if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
       else window.scrollTo(0, y)
     })
-    await expect.poll(() => cards.first().evaluate(element => Number(element.style.getPropertyValue('--stack-scale')))).toBeLessThan(.99)
+    await expect.poll(() => cards.first().evaluate(element => Number(element.style.getPropertyValue('--stack-shade')))).toBeGreaterThan(0)
     await expect(cards.first()).toHaveCSS('position', 'sticky')
+    const surfaces = await cards.locator('.stack-card-surface').evaluateAll(elements => elements.map(element => {
+      const rect = element.getBoundingClientRect()
+      return { x: rect.x, width: rect.width, height: rect.height }
+    }))
+    for (const surface of surfaces) expect(surface).toEqual(surfaces[0])
     const first = await cards.first().boundingBox()
     const second = await cards.nth(1).boundingBox()
     expect(second!.y).toBeLessThan(first!.y + first!.height)
@@ -133,4 +139,53 @@ test('incoming artwork smoothly scales the pinned card and reduced motion disabl
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect(page.locator('#portfolio .stack-card').first()).toHaveCSS('position', 'relative')
   await expect(page.locator('#portfolio .stack-card').first().locator('.stack-card-surface')).toHaveCSS('transform', 'none')
+})
+
+test('scroll updates avoid card layout reads and reveal rescans', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  const result = await page.evaluate(async () => {
+    let cardReads = 0
+    let revealScans = 0
+    const rect = Element.prototype.getBoundingClientRect
+    const query = document.querySelectorAll
+    Element.prototype.getBoundingClientRect = function () {
+      if (this.matches('.stack-card')) cardReads++
+      return rect.call(this)
+    }
+    document.querySelectorAll = function (this: Document, selector: string) {
+      if (selector.includes('.about-profile-facts')) revealScans++
+      return query.call(this, selector)
+    } as typeof document.querySelectorAll
+    try {
+      for (let i = 0; i < 10; i++) {
+        document.querySelector('.journey-counter')!.textContent = `${i}%`
+        window.dispatchEvent(new Event('scroll'))
+        await new Promise(requestAnimationFrame)
+      }
+      return { cardReads, revealScans }
+    } finally {
+      Element.prototype.getBoundingClientRect = rect
+      document.querySelectorAll = query
+    }
+  })
+  expect(result).toEqual({ cardReads: 0, revealScans: 0 })
+})
+
+test('primary actions and collection controls use the shared editorial button', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
+  for (const control of [
+    page.getByRole('link', { name: 'EXPLORE WORK', exact: true }),
+    page.getByRole('link', { name: 'DOWNLOAD CV', exact: true }),
+    page.locator('#portfolio .collection-expand button'),
+    page.locator('#portfolio-gallery .collection-expand button'),
+    page.locator('#experience').getByRole('button', { name: /LOAD MORE/ }),
+    page.locator('#certifications').getByRole('button', { name: /Load more/i }),
+  ]) {
+    await expect(control).toHaveClass(/paper-button/)
+    await expect(control).toHaveCSS('border-top-width', '1px')
+    await expect(control).toHaveCSS('border-radius', '0px')
+    await expect(control).toHaveCSS('box-shadow', 'none')
+  }
 })

@@ -29,7 +29,7 @@ export const AnimatedButton = ({
 }: AnimatedButtonProps) => {
   const isPrimary = variant === "primary";
 
-  const baseStyles = "group inline-flex items-center justify-center gap-2 rounded-none px-6 py-3.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider select-none cursor-pointer paper-button";
+  const baseStyles = "group";
   
   // Primary: Solid fill -> Inverts cleanly on hover
   const primaryStyles = buttonVariants({ variant: "default" });
@@ -51,26 +51,26 @@ export const AnimatedButton = ({
   if (href) {
     if (href.startsWith("/#")) {
       element = (
-        <SmoothLink href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
+        <SmoothLink href={href} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </SmoothLink>
       );
     } else if (isExternal) {
       element = (
-        <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
+        <a href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </a>
       );
     } else {
       element = (
-        <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)}>
+        <Link href={href} target={target} rel={rel} className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)}>
           {content}
         </Link>
       );
     }
   } else {
     element = (
-      <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, "h-auto", className)} {...props}>
+      <button className={cn(baseStyles, isPrimary ? primaryStyles : outlineStyles, className)} {...props}>
         {content}
       </button>
     );

@@ -1,5 +1,7 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+
 import { useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import SectionHeading from "@/components/sections/section-heading"
@@ -27,7 +29,7 @@ export default function PortfolioGallerySection() {
       image:item.image,
       category:item.discipline,
     }))} />
-    {designs.length > 4 && <div className="collection-expand"><p className="studio-label">Showing {showAll ? designs.length : 4} of {designs.length} designs</p><button className="collection-expand-button" onClick={() => {
+    {designs.length > 4 && <div className="collection-expand"><p className="studio-label">Showing {showAll ? designs.length : 4} of {designs.length} designs</p><Button onClick={() => {
       if (!showAll) { setShowAll(true); return }
       setShowAll(false)
       requestAnimationFrame(() => {
@@ -36,6 +38,6 @@ export default function PortfolioGallerySection() {
         if (section && window.lenis) window.lenis.scrollTo(section, { immediate: true, offset: -80 })
         else if (section) window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - 80, behavior: "instant" })
       })
-    }}>{showAll ? "SHOW FEWER" : `SHOW ALL ${designs.length} DESIGNS`} <ArrowUpRight size={16} /></button></div>}
+    }}>{showAll ? "SHOW FEWER" : `SHOW ALL ${designs.length} DESIGNS`} <ArrowUpRight size={16} /></Button></div>}
   </div></section>
 }

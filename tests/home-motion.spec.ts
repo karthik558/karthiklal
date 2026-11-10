@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test"
+import projects from "../public/data/projects.json"
 
 test("hero flower follows the orbit while navigation remains usable", async ({ page }) => {
   await page.goto("/")
@@ -114,7 +115,8 @@ test("top navigation tracks sections and project cards expose concise captions",
   await expect(sectionNav.getByRole("link", { name: /PROJECTS/ })).toHaveAttribute("aria-current", "page")
 
   const firstProject = page.locator("#portfolio .stack-card").first()
-  await expect(firstProject.getByRole("heading", { name: "RustPing" })).toBeVisible()
-  await expect(firstProject.getByText("Software Development", { exact: true })).toBeVisible()
+  const featured = projects.projects.find(project => project.featured)!
+  await expect(firstProject.getByRole("heading", { name: featured.title })).toBeVisible()
+  await expect(firstProject.getByText(featured.category, { exact: true })).toBeVisible()
   await expect(firstProject.getByRole("link", { name: "LIVE", exact: true })).toBeVisible()
 })

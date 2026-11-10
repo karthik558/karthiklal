@@ -1,5 +1,7 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
@@ -23,7 +25,7 @@ export default function PortfolioSection() {
       live: project.link,
       repository: project.github,
     }))} />
-    {projects.length > 4 && <div className="collection-expand"><p className="studio-label">Showing {showAll ? projects.length : 4} of {projects.length} projects</p><button className="collection-expand-button" onClick={() => {
+    {projects.length > 4 && <div className="collection-expand"><p className="studio-label">Showing {showAll ? projects.length : 4} of {projects.length} projects</p><Button onClick={() => {
       if (!showAll) { setShowAll(true); return }
       setShowAll(false)
       requestAnimationFrame(() => {
@@ -32,7 +34,7 @@ export default function PortfolioSection() {
         if (section && window.lenis) window.lenis.scrollTo(section, { immediate: true, offset: -80 })
         else if (section) window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - 80, behavior: "instant" })
       })
-    }}>{showAll ? "SHOW FEWER" : `SHOW ALL ${projects.length} PROJECTS`} <ArrowUpRight size={16} /></button></div>}
+    }}>{showAll ? "SHOW FEWER" : `SHOW ALL ${projects.length} PROJECTS`} <ArrowUpRight size={16} /></Button></div>}
     <Link href="/projects" className="studio-text-link mt-10">EXPLORE ALL PROJECTS <ArrowUpRight size={18} /></Link>
   </div></section>
 }

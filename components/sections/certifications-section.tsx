@@ -234,7 +234,6 @@ export default function CertificationsSection() {
                 setShowAll((current) => !current)
               }}
               variant="outline"
-              className="paper-button h-11 border-2 border-border/80 bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:border-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
             >
               {showAll ? "Show fewer credentials" : `Load more (${hiddenCount} more)`}
               {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}

@@ -931,21 +931,12 @@ body {
   line-height: 28px;
 }
 
-/* 8. Letterpress Pressed Button Feel */
+/* Shared editorial action buttons. */
 .paper-button {
-  box-shadow: 0 2px 0 hsl(var(--foreground)), 0 4px 8px -2px rgba(35, 25, 15, 0.12);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+  box-shadow: none;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
-
-.paper-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 0 hsl(var(--foreground)), 0 6px 12px -2px rgba(35, 25, 15, 0.16);
-}
-
-.paper-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 0 hsl(var(--foreground));
-}
+.paper-button:active { opacity: .85; }
 
 /* 9. Archival Tag Badge */
 .paper-tag {
@@ -1638,7 +1629,7 @@ body {
 .stack-stage { position:relative; display:flex; flex-direction:column; gap:64px; padding-bottom:24px; isolation:isolate; }
 .stack-card { position:var(--stack-position,relative); top:var(--stack-top,0px); width:100%; min-width:0; scroll-margin-top:130px; }
 .stack-card:has(:focus-visible) { z-index:100 !important; }
-.stack-card-surface { position:relative; height:clamp(360px,68svh,760px); overflow:hidden; border:1px solid hsl(var(--border)); border-radius:12px; background:#171717; color:#fff; box-shadow:0 20px 60px -25px #0008; transform:scale(var(--stack-scale,1)); transform-origin:50% 0; }
+.stack-card-surface { position:relative; height:clamp(360px,68svh,760px); overflow:hidden; border:1px solid hsl(var(--border)); border-radius:12px; background:#171717; color:#fff; box-shadow:0 20px 60px -25px #0008;  }
 .stack-card-surface::after { content:""; position:absolute; inset:0; pointer-events:none; background:#000; opacity:var(--stack-shade,0); }
 .stack-card .book-art { position:absolute; inset:0; width:100%; height:100%; min-height:0; margin:0; overflow:hidden; }
 .stack-card .book-art img { object-fit:cover; object-position:center; filter:none; transform:none; }
@@ -1696,8 +1687,6 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .registry-tabs { background:transparent; padding:0; gap:6px; border:0; }
 .registry-tabs .paper-button { border:1px solid hsl(var(--border)); }
 .collection-expand { margin-top:28px; display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid hsl(var(--border)); padding-top:22px; }
-.collection-expand-button { display:inline-flex; align-items:center; gap:16px; padding:14px 22px; border:1px solid hsl(var(--foreground)); font:11px monospace; letter-spacing:.06em; background:hsl(var(--foreground)); color:hsl(var(--background)); }
-.collection-expand-button:hover { background:hsl(var(--background)); color:hsl(var(--foreground)); }
 .editorial-footer { --foreground: 20 35% 12%; --muted-foreground: 20 25% 20%; --border: 20 39% 45%; --primary: 20 35% 12%; position:relative; isolation:isolate; overflow:hidden; border-top:0; padding:28px 0 26px; background:#d77a50; color:hsl(var(--foreground)); }
 .editorial-footer > .section-container { position:relative; z-index:1; }
 .footer-top { display:flex; align-items:end; justify-content:space-between; gap:30px; padding-bottom:44px; border-bottom:1px solid hsl(var(--border)); }

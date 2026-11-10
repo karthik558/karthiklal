@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import SectionHeading from "@/components/sections/section-heading"
 import { useMemo, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
@@ -174,17 +175,17 @@ export default function ExperienceSection() {
         {/* Load More Button */}
         {(hiddenCount > 0 || showAll) && selectedRoles.length > INITIAL_ITEMS && selectedYear === null && (
           <div className="mt-8 text-center">
-            <button
+            <Button
+              variant="outline"
               type="button"
               onClick={() => {
                 playClickSound()
                 setShowAll((current) => !current)
               }}
-              className="paper-button inline-flex items-center gap-2 h-11 border-2 border-border/80 bg-card px-8 font-mono text-xs uppercase tracking-wider text-foreground hover:border-foreground hover:bg-foreground hover:text-background shadow-xs cursor-pointer transition-colors"
             >
               {showAll ? "SHOW FEWER" : `LOAD MORE (${hiddenCount} MORE)`}
               {showAll ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </button>
+            </Button>
           </div>
         )}
       </div>

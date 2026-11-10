@@ -75,7 +75,12 @@ export default function HomeMotion() {
     }
 
     registerElements()
-    const contentObserver = new MutationObserver(registerElements)
+    const contentObserver = new MutationObserver(records => {
+      // Text counters change while scrolling; only new element trees need registration.
+      if (records.some(record => Array.from(record.addedNodes).some(node => node instanceof Element))) {
+        registerElements()
+      }
+    })
     contentObserver.observe(document.body, { childList: true, subtree: true })
 
     return () => {

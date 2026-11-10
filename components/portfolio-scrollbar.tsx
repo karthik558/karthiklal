@@ -74,7 +74,8 @@ export default function PortfolioScrollbar() {
       if (ink.current) ink.current.style.strokeDashoffset = `${1 - travelled / distances[120]}`
       root.current?.style.setProperty("--journey-progress", String(percent))
       slider.current?.setAttribute("aria-valuenow", String(Math.round(percent * 100)))
-      if (counter.current) counter.current.textContent = `${String(Math.round(percent * 100)).padStart(2, "0")}%`
+      const counterText = `${String(Math.round(percent * 100)).padStart(2, "0")}%`
+      if (counter.current && counter.current.textContent !== counterText) counter.current.textContent = counterText
       root.current?.querySelectorAll<HTMLAnchorElement>(".journey-stop").forEach((link, i) => {
         if (i === Math.min(segment, stops.length - 1)) link.setAttribute("aria-current", "location")
         else link.removeAttribute("aria-current")
