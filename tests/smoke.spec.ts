@@ -130,39 +130,36 @@ test("mobile navigation supports keyboard access and focus restoration", async (
   await expect(menuButton).toBeFocused()
 })
 
-test("desktop custom cursor keeps the SVG and uses motion-only interaction states", async ({ page }) => {
+test("desktop cursor preserves native interactions across preferences and resizing", async ({ page }) => {
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
-
-  await page.mouse.move(220, 220)
-  const svgCursor = page.getByTestId("svg-cursor")
-  const cursorLayer = page.locator(".custom-cursor-layer")
-  await expect(svgCursor).toBeVisible()
-  await expect(svgCursor).toHaveCSS("background-image", /cursor\/cursor\.svg/)
-
+  const body = page.locator("body")
   const workLink = page.getByRole("link", { name: "EXPLORE WORK", exact: true })
-  await workLink.hover()
-  await expect(svgCursor).toBeVisible()
-  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "link")
-  await expect(page.getByTestId("cursor-halo")).toBeVisible()
-  await expect(cursorLayer).not.toContainText(/View|Open|Select/)
+  await expect(body).toHaveCSS("cursor", /cursor\/cursor\.svg.*3 2, auto/)
+  await expect(workLink).toHaveCSS("cursor", /cursor\/pointer\.svg.*10 3, pointer/)
+  await expect(page.locator(".custom-cursor-layer")).toHaveCount(0)
+  await expect(page.locator(".journey-scrubber")).toHaveCSS("cursor", "ns-resize")
+
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await expect(body).toHaveCSS("cursor", /cursor\/cursor\.svg/)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(body).toHaveCSS("cursor", "auto")
+  await page.setViewportSize({ width: 1280, height: 720 })
+  await expect(body).toHaveCSS("cursor", /cursor\/cursor\.svg/)
+  await page.emulateMedia({ forcedColors: "active" })
+  await expect(body).toHaveCSS("cursor", "auto")
+  await expect(workLink).toHaveCSS("cursor", "pointer")
+  await page.emulateMedia({ forcedColors: "none" })
 
   await page.goto("/contact")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
-  const subjectField = page.getByLabel("SUBJECT *", { exact: true })
-  await subjectField.hover()
-  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "select")
-
+  await expect(page.getByLabel("SUBJECT *", { exact: true })).toHaveCSS("cursor", /cursor\/pointer\.svg/)
   const nameField = page.getByLabel("YOUR NAME *", { exact: true })
-  await nameField.hover()
-  await expect(cursorLayer).toHaveAttribute("data-cursor-state", "text")
-  await expect(page.getByTestId("cursor-text-indicator")).toHaveCount(0)
-  await expect(svgCursor).toBeVisible()
-
-  await page.mouse.down()
-  await expect(cursorLayer).toHaveAttribute("data-pressed", "true")
-  await page.mouse.up()
-  await expect(cursorLayer).toHaveAttribute("data-pressed", "false")
+  await expect(nameField).toHaveCSS("cursor", "text")
+  await nameField.fill("Cursor check")
+  await expect(nameField).toHaveValue("Cursor check")
+  await nameField.evaluate(element => (element as HTMLInputElement).disabled = true)
+  await expect(nameField).toHaveCSS("cursor", "not-allowed")
 })
 
 test("health check and contact validation are available", async ({ request }) => {

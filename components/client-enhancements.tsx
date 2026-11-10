@@ -10,9 +10,6 @@ import {
   getAudioContext,
 } from "@/lib/sound-fx"
 
-const CustomCursor = dynamic(() => import("@/components/custom-cursor"), {
-  ssr: false,
-})
 const SmoothScroll = dynamic(() => import("@/components/smooth-scroll"), {
   ssr: false,
 })
@@ -155,7 +152,6 @@ export default function ClientEnhancements() {
 
   return (
     <>
-      <CustomCursor />
       {enabled && <SmoothScroll />}
     </>
   )

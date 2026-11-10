@@ -30,13 +30,28 @@ body {
   overflow-x: clip;
 }
 
-/* Ensure natural mouse cursor always works reliably across the site */
-a, button, [role="button"], input[type="submit"], input[type="button"], select {
-  cursor: pointer;
+/* Native cursor rendering keeps the hotspot precise, including in top-layer dialogs. */
+body { cursor: var(--site-cursor, auto); }
+
+:where(p, h1, h2, h3, h4, h5, h6, blockquote, code, pre),
+input, textarea, [contenteditable="true"] { cursor: text; }
+
+a, button, [role="button"], summary, select, .cursor-pointer,
+input:is([type="submit"], [type="button"], [type="reset"], [type="checkbox"], [type="radio"]) {
+  cursor: var(--site-pointer, pointer);
 }
 
-input, textarea, [contenteditable="true"] {
-  cursor: text;
+a :where(p, h1, h2, h3, h4, h5, h6), button :where(p, h1, h2, h3, h4, h5, h6) {
+  cursor: inherit;
+}
+
+/* Public pages only; touch, compact layouts and forced colors retain platform cursors.
+   Static artwork also works unchanged with reduced motion and without JavaScript. */
+@media (pointer: fine) and (hover: hover) and (min-width: 901px) and (forced-colors: none) {
+  body:has(#main-content) {
+    --site-cursor: url("/cursor/cursor.svg") 3 2, auto;
+    --site-pointer: url("/cursor/pointer.svg") 10 3, pointer;
+  }
 }
 
 @layer base {
@@ -132,33 +147,6 @@ input, textarea, [contenteditable="true"] {
   .dark body {
     background-image: 
       url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0' y1='30' x2='120' y2='30' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='60' x2='120' y2='60' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='90' x2='120' y2='90' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='0' y1='120' x2='120' y2='120' stroke='%23f2ece1' stroke-opacity='0.025' stroke-width='0.75'/%3E%3Cline x1='60' y1='0' x2='60' y2='120' stroke='%23f2ece1' stroke-opacity='0.03' stroke-width='1' stroke-dasharray='2%2C3'/%3E%3Cpath d='M15%2C22 Q20%2C26 26%2C23' stroke='%23f2ece1' stroke-opacity='0.035' stroke-width='0.6' fill='none'/%3E%3Cpath d='M85%2C45 Q90%2C52 95%2C48' stroke='%23f2ece1' stroke-opacity='0.035' stroke-width='0.6' fill='none'/%3E%3Cpath d='M40%2C82 Q46%2C80 52%2C85' stroke='%23f2ece1' stroke-opacity='0.04' stroke-width='0.6' fill='none'/%3E%3Ccircle cx='32' cy='105' r='0.75' fill='%23f2ece1' fill-opacity='0.035'/%3E%3Ccircle cx='104' cy='18' r='0.65' fill='%23f2ece1' fill-opacity='0.035'/%3E%3Ccircle cx='75' cy='95' r='0.8' fill='%23f2ece1' fill-opacity='0.04'/%3E%3C/svg%3E");
-  }
-}
-
-/* Custom Cursor: Hide default OS mouse pointer when custom cursor is active on desktop / fine-pointer devices */
-@media (pointer: fine) and (hover: hover) {
-  html.has-custom-cursor,
-  html.has-custom-cursor body,
-  html.has-custom-cursor * {
-    cursor: none !important;
-  }
-  html.has-custom-cursor select,
-  html.has-custom-cursor option {
-    cursor: pointer !important;
-  }
-}
-
-/* Mobile layouts always use the platform cursor/touch feedback, even in emulated or resized windows. */
-@media (max-width: 900px), (pointer: coarse), (hover: none) {
-  .custom-cursor-layer {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  html.has-custom-cursor,
-  html.has-custom-cursor body,
-  html.has-custom-cursor * {
-    cursor: auto !important;
   }
 }
 
@@ -1767,13 +1755,6 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .heading-arrived .editorial-heading .studio-serif { opacity:1; transform:none; }
 @media(prefers-reduced-motion:reduce) { .heading-reveal .section-heading-label,.heading-reveal .editorial-heading .studio-serif { opacity:1; transform:none; transition:none; } }
 
-/* Keep a native fallback only until the cursor has entered the top-layer dialog. */
-@media (pointer: fine) and (hover: hover) {
-  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer)),
-  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer)) *,
-  html.has-custom-cursor dialog:modal:not(:has(.custom-cursor-layer))::backdrop { cursor:auto !important; }
-  html.has-custom-cursor dialog:modal:has(.custom-cursor-layer)::backdrop { cursor:none !important; }
-}
 .book-preview .book-controls > span { min-width:0; overflow-wrap:anywhere; }
 .book-preview .book-controls > button { flex-shrink:0; }
 
@@ -1836,7 +1817,7 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .capabilities-marquee .marquee-item {
   display: inline-block;
   transform-origin: center;
-  cursor: pointer;
+  cursor: var(--site-pointer, pointer);
   padding: 3px 8px;
   border-radius: 9999px;
   transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2),
@@ -2208,3 +2189,6 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
  .studio-navigation, .mobile-nav-trigger { background:hsl(var(--card) / .92); }
 }
+
+/* Disabled controls must not advertise an action, even when styled as buttons. */
+:disabled, [aria-disabled="true"] { cursor: not-allowed !important; }

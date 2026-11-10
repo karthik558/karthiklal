@@ -73,7 +73,7 @@ test('cards pin at the viewport edge and release on short screens', async ({ pag
 })
 
 
-test('full-view previews retain a pointer and restore the custom cursor on close', async ({ page }) => {
+test('full-view previews retain browser-rendered cursors and restore focus on close', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
   for (const id of ['portfolio', 'portfolio-gallery']) {
@@ -82,13 +82,11 @@ test('full-view previews retain a pointer and restore the custom cursor on close
     const dialog = section.locator('dialog')
     await expect(dialog).toBeVisible()
     await dialog.locator('.book-preview-image').hover()
-    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', 'none')
-    await expect(dialog.locator('.custom-cursor-layer')).toBeAttached()
-    await expect(dialog.getByTestId('svg-cursor')).toHaveCSS('opacity', '1')
-    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', 'none')
+    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
+    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', /cursor\/pointer\.svg/)
     await dialog.getByRole('button', { name: 'Close preview' }).click()
     await expect(dialog).not.toBeVisible()
-    await expect(page.locator('.custom-cursor-layer')).toHaveCSS('visibility', 'visible')
+    await expect(page.locator('body')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
     await expect(section.locator('.book-view').first()).toBeFocused()
   }
 })
