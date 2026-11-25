@@ -1247,12 +1247,17 @@ body {
 .studio-portrait,
 .about-profile-portrait {
   position: relative;
+  z-index: 1;
   overflow: hidden;
   background: hsl(var(--muted));
-  outline: 1px solid hsl(var(--foreground) / .24);
-  outline-offset: 6px;
+  border: 1px solid hsl(var(--border));
+  outline: 1px solid hsl(var(--foreground) / .18);
+  outline-offset: 8px;
 }
-.studio-portrait { aspect-ratio: .82; }
+.studio-portrait {
+  aspect-ratio: .82;
+  box-shadow: 16px 16px 0 -1px hsl(var(--background)), 16px 16px 0 hsl(var(--primary) / .35);
+}
 .studio-portrait::after {
   content: "";
   position: absolute;
@@ -1436,12 +1441,11 @@ body {
   .studio-portrait::after { transition: none; }
 }
 
-/* An open route shows the flower's exact scroll trajectory without enclosing the portrait in a ring. */
-.studio-orbit-marker { position:absolute; inset:-5% -8%; width:116%; height:110%; overflow:visible; pointer-events:none; color:hsl(var(--primary)); }
+/* An open route shows the flower's exact scroll trajectory behind the portrait without overlapping it. */
+.studio-orbit-marker { position:absolute; inset:-5% -8%; z-index:0; width:116%; height:110%; overflow:visible; pointer-events:none; color:hsl(var(--primary)); }
 .studio-flower-path-track,.studio-flower-path-progress { fill:none; vector-effect:non-scaling-stroke; }
 .studio-flower-path-track { stroke:currentColor; stroke-width:1; opacity:.22; }
 .studio-flower-path-progress { stroke:currentColor; stroke-width:1.75; stroke-linecap:round; }
-.studio-orbit-marker { z-index:2; }
 .studio-copy { position:relative; }
 @media(max-width:600px) {
  .studio-orbit-marker { inset:0; width:100%; height:100%; }
