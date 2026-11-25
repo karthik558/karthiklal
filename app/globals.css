@@ -1251,20 +1251,17 @@ body {
   overflow: hidden;
   background: hsl(var(--muted));
   border: 1px solid hsl(var(--border));
-  outline: 1px solid hsl(var(--foreground) / .18);
-  outline-offset: 8px;
 }
 .studio-portrait {
   aspect-ratio: .82;
-  box-shadow: 16px 16px 0 -1px hsl(var(--background)), 16px 16px 0 hsl(var(--primary) / .35);
+  box-shadow: 12px 12px 0 0 hsl(var(--card)), 12px 12px 0 1px hsl(var(--border)), 24px 24px 0 -2px hsl(var(--primary) / .14);
 }
 .studio-portrait::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(145deg, hsl(var(--primary) / .08), transparent 42%, hsl(var(--foreground) / .06));
-  mix-blend-mode: soft-light;
+  background: linear-gradient(180deg, hsl(var(--primary) / .05) 0%, transparent 45%, hsl(20 28% 8% / .58) 100%);
   transition: opacity .7s ease;
 }
 .studio-portrait img, .about-profile-portrait img { filter: grayscale(1) contrast(1.08); }
@@ -1441,13 +1438,17 @@ body {
   .studio-portrait::after { transition: none; }
 }
 
-/* An open route shows the flower's exact scroll trajectory behind the portrait without overlapping it. */
-.studio-orbit-marker { position:absolute; inset:-5% -8%; z-index:0; width:116%; height:110%; overflow:visible; pointer-events:none; color:hsl(var(--primary)); }
+/* An open route shows the flower's exact scroll trajectory behind the portrait, while the flower overlaps at start. */
+.studio-orbit-track,
+.studio-orbit-marker { position:absolute; inset:-5% -8%; width:116%; height:110%; overflow:visible; pointer-events:none; color:hsl(var(--primary)); }
+.studio-orbit-track { z-index:0; }
+.studio-orbit-marker { z-index:2; }
 .studio-flower-path-track,.studio-flower-path-progress { fill:none; vector-effect:non-scaling-stroke; }
 .studio-flower-path-track { stroke:currentColor; stroke-width:1; opacity:.22; }
 .studio-flower-path-progress { stroke:currentColor; stroke-width:1.75; stroke-linecap:round; }
 .studio-copy { position:relative; }
 @media(max-width:600px) {
+ .studio-orbit-track,
  .studio-orbit-marker { inset:0; width:100%; height:100%; }
 }
 
@@ -1582,9 +1583,10 @@ body {
  .studio-hero-grid { z-index:2; display:block; padding:120px 0 24px; }
  .studio-copy { position:relative; z-index:2; color:#fff; text-shadow:0 1px 18px #0008; }
  .studio-portrait-wrap { position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0; max-width:none; z-index:0; }
- .studio-portrait { outline:0; transform:none !important; width:100%; height:100%; aspect-ratio:auto; border-radius:0; clip-path:none; box-shadow:none; }
+ .studio-portrait { outline:0; border:0; transform:none !important; width:100%; height:100%; aspect-ratio:auto; border-radius:0; clip-path:none; box-shadow:none; }
  .studio-portrait img { object-fit:cover; object-position:50% 30%; transform:none; }
  .studio-portrait::after { content:""; position:absolute; inset:0; opacity:1; background:linear-gradient(180deg,#100d0b22 0%,#100d0b2e 24%,#100d0bbf 51%,#100d0bf5 82%,#100d0b 100%); mix-blend-mode:normal; }
+ .studio-orbit-track,
  .studio-orbit-marker { display:none; }
  .studio-copy h1 { font-size:22vw; margin:24px 0; color:#fff; }
  .studio-copy h1 > span { color:#edaa91; }

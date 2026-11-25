@@ -26,6 +26,8 @@ export default function HeroSectionStatic() {
   // The ellipse and marker share coordinates, so resizing never detaches the star.
   const starX = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[0])
   const starY = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[1])
+  const progressOpacity = useTransform(orbitProgress, [0, 0.015], [0, 1])
+  const flowerZ = useTransform(orbitProgress, value => (value < 0.35 ? 2 : 0))
 
   return (
     <section ref={heroRef} id="home" className="studio-hero">
@@ -40,24 +42,35 @@ export default function HeroSectionStatic() {
             </div>
           </div>
           <div className="studio-portrait-wrap">
-            <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
+            <svg className="studio-orbit-track" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
               <path className="studio-flower-path-track" d={flowerPath} pathLength="1" />
               <motion.path
                 className="studio-flower-path-progress"
                 d={flowerPath}
                 pathLength="1"
-                style={{ pathLength: reducedMotion ? 1 : orbitProgress }}
+                style={{
+                  pathLength: reducedMotion ? 1 : orbitProgress,
+                  opacity: reducedMotion ? 1 : progressOpacity,
+                }}
               />
+            </svg>
+            <motion.figure className="studio-portrait" style={{ scale: reducedMotion ? 1 : portraitScale }}>
+              <Image src="/user/hero.webp" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
+            </motion.figure>
+            <motion.svg
+              className="studio-orbit-marker"
+              viewBox="0 0 500 600"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+              style={{ zIndex: reducedMotion ? 2 : flowerZ }}
+            >
               <motion.g style={{ x: reducedMotion ? 49.3 : starX, y: reducedMotion ? 454.9 : starY }}>
                 <circle cx="0" cy="0" r="6" fill="currentColor" />
                 {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => (
                   <ellipse key={angle} cx="0" cy="-14" rx="5" ry="9" fill="currentColor" transform={`rotate(${angle})`} />
                 ))}
               </motion.g>
-            </svg>
-            <motion.figure className="studio-portrait" style={{ scale: reducedMotion ? 1 : portraitScale }}>
-              <Image src="/user/hero.webp" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
-            </motion.figure>
+            </motion.svg>
           </div>
         </div>
         <div className="studio-baseline">
@@ -65,7 +78,7 @@ export default function HeroSectionStatic() {
             SCROLL TO EXPLORE <ArrowDownRight size={15} className="studio-scroll-arrow" />
           </a>
           <div className="studio-social-group">
-            {SOCIALS_DATA.socials.filter(s => s.active).sort((a,b) => a.priority-b.priority).map(s => {
+            {SOCIALS_DATA.socials.filter(s => s.active).sort((a, b) => a.priority - b.priority).map(s => {
               const Icon = icons[s.icon as keyof typeof icons];
               return Icon ? (
                 <a
