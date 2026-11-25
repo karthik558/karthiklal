@@ -44,3 +44,30 @@ test("compact view keeps native scrolling and reduced motion stops flower rotati
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: "/tmp/portfolio-scrollbar-mobile.png" })
 })
+
+test("credentials dot and marker follow page distance when credentials expand", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto("/")
+  await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
+  const chapters = page.getByRole("navigation", { name: "Portfolio chapters" })
+  const credentials = chapters.getByRole("link", { name: "Credentials", exact: true })
+  const journal = chapters.getByRole("link", { name: "Journal", exact: true })
+  const section = page.locator("#certifications")
+  await credentials.click()
+  await expect(credentials).toHaveAttribute("aria-current", "location")
+  await expect(section.locator("h2")).toBeInViewport()
+
+  const markerError = () => page.evaluate(() => {
+    const y = document.querySelector<SVGGElement>(".journey-flower")!.transform.baseVal.getItem(0).matrix.f
+    const fraction = window.scrollY / (document.documentElement.scrollHeight - innerHeight)
+    return Math.abs(y - (20 + 360 * fraction))
+  })
+  await expect.poll(markerError).toBeLessThan(1)
+  const journalTop = await journal.evaluate(link => link.offsetTop)
+  await section.getByRole("button", { name: /load more/i }).click()
+  await expect.poll(() => journal.evaluate(link => link.offsetTop)).toBeGreaterThan(journalTop)
+  await journal.click()
+  await expect(page.locator("#journal h2")).toBeInViewport()
+  await expect(journal).toHaveAttribute("aria-current", "location")
+  await expect.poll(markerError).toBeLessThan(1)
+})

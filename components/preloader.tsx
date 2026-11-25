@@ -1,19 +1,37 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { animate, AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
 export default function Preloader({ onComplete }: { onComplete?: () => void }) {
+  const counter = useRef<HTMLSpanElement>(null)
   const [exiting, setExiting] = useState(false)
   const reduced = useReducedMotion()
+
   useEffect(() => {
-    const reveal = window.setTimeout(() => setExiting(true), reduced ? 180 : 650)
-    const complete = window.setTimeout(() => onComplete?.(), reduced ? 220 : 1250)
-    return () => { window.clearTimeout(reveal); window.clearTimeout(complete) }
+    if (reduced) {
+      onComplete?.()
+      return
+    }
+    const animation = animate(0, 100, {
+      duration: 1.55,
+      ease: [.4, 0, .16, 1],
+      onUpdate(value) {
+        if (counter.current) counter.current.textContent = String(Math.round(value))
+      },
+      onComplete: () => setExiting(true),
+    })
+    return () => animation.stop()
   }, [onComplete, reduced])
-  return <AnimatePresence>{!exiting && <motion.div className="editorial-preloader" role="status" aria-label="Loading website" initial={{opacity:1}} exit={reduced ? {opacity:0} : {y:"-100%"}} transition={{duration:reduced ? .04 : .6,ease:[.76,0,.24,1]}}>
-    <div className="preloader-rule"><span>KARTHIK LAL</span><span>SELECTED WORKS</span></div>
-    <div className="preloader-title"><span className="studio-label">A PERSONAL COLLECTION</span><p>Built with purpose.<br /><span className="studio-serif">Made with care.</span></p><div className="preloader-line" aria-hidden="true"><span /></div></div>
-    <div className="preloader-rule"><span>SECURITY / DEVELOPMENT / DESIGN</span><span>OPENING THE COLLECTION ↗</span></div>
-  </motion.div>}</AnimatePresence>
+
+  return (
+    <AnimatePresence onExitComplete={onComplete}>
+      {!exiting && (
+        <motion.div className="editorial-preloader" role="status" aria-label="Loading website"
+          exit={{ opacity: 0 }} transition={{ duration: .45 }}>
+          <div className="intro-counter" aria-hidden="true"><span ref={counter}>0</span>%</div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 }

@@ -6,20 +6,11 @@ test('redesigned sections fit small screens and keep their content accessible', 
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 1000 })
-    const gallery = page.locator('#portfolio-gallery')
-    await gallery.scrollIntoViewIfNeeded()
-    const title = gallery.getByRole('heading', { name: 'Island Diwali Celebration', exact: true })
-    await expect(title).toBeVisible()
-    expect(await title.evaluate(el => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(1)
-    await expect(title).toHaveCSS('overflow', 'visible')
-    await expect(title).toHaveCSS('-webkit-line-clamp', 'none')
-    await expect.poll(() => gallery.locator('img').first().evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true)
-    await expect(gallery.locator('img').first()).toHaveCSS('object-fit', 'cover')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await expect(page.getByRole('navigation', { name: 'Explore work by discipline' })).toHaveCount(0)
     await expect(page.locator('#about .about-practice-grid > article')).toHaveCount(3)
     if (width === 390 || width === 1440) {
-      for (const id of ['portfolio-gallery', 'skills', 'services', 'principles']) {
+      for (const id of ['skills', 'services', 'principles']) {
         await page.locator('#' + id).scrollIntoViewIfNeeded()
         await page.locator('#' + id).screenshot({ path: `/tmp/redesign-${width}-${id}.png` })
       }

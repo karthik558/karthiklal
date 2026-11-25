@@ -190,7 +190,7 @@ test("unknown routes show the not-found experience", async ({ page }) => {
   await expect(page.getByText(/not found|404/i).first()).toBeVisible()
 })
 
-test("featured design and case-study interactions remain functional", async ({ page }) => {
+test("homepage and case-study interactions remain functional", async ({ page }) => {
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
 
@@ -213,12 +213,6 @@ test("featured design and case-study interactions remain functional", async ({ p
   await expect(certifications.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
 
   await expect(page.getByRole("button", { name: "Open experience controls" })).toHaveCount(0)
-
-  const interfaceFilter = page.getByRole("button", { name: "INTERFACE", exact: true })
-  await expect(page.getByRole("button", { name: /PROCESS LAYER/i })).toHaveCount(0)
-  await interfaceFilter.click()
-  await expect(interfaceFilter).toHaveAttribute("aria-pressed", "true")
-  await expect(page.getByRole("heading", { name: "Creator Profile UI" })).toBeVisible()
 
   await page.goto("/projects/1")
   await expect(page.getByRole("button", { name: /X-Ray process/i })).toHaveCount(0)

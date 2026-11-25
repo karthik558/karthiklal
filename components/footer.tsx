@@ -5,16 +5,13 @@ import { PUBLIC_SOCIAL_LINKS } from "@/lib/static-data"
 
 const footerLinks = [
   ["Home", "/"], ["About", "/#about"], ["Projects", "/projects"],
-  ["Services", "/#services"], ["Designs", "/#portfolio-gallery"],
-  ["Blog", "/blog"], ["Stories", "/stories"], ["Contact", "/contact"],
+  ["Services", "/#services"],
+  ["Blog", "/#journal"], ["Stories", "/stories"], ["Contact", "/contact"],
 ] as const
 
 export default function Footer() {
   return (
     <footer className="editorial-footer">
-      <svg className="footer-wordmark" viewBox="0 0 1000 320" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <text x="-8" y="320" textLength="1016" lengthAdjust="spacingAndGlyphs">KARTHIK</text>
-      </svg>
       <div className="section-container">
         <div className="footer-columns">
           <div className="footer-contact">
@@ -57,6 +54,14 @@ export default function Footer() {
             <Link href="/cookies">Cookies</Link>
             <Link href="/terms">Terms</Link>
           </nav>
+        </div>
+      </div>
+      <div className="footer-wordmark-mask" aria-hidden="true">
+        <div className="footer-wordmark">
+          <div className="footer-marquee">
+            <span>Karthik Lal<i>✳</i></span>
+            <span>Karthik Lal<i>✳</i></span>
+          </div>
         </div>
       </div>
     </footer>

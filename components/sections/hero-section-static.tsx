@@ -22,6 +22,7 @@ export default function HeroSectionStatic() {
   const reducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const orbitProgress = useSpring(scrollYProgress, { stiffness: 35, damping: 22, mass: 1.1 })
+  const portraitScale = useTransform(orbitProgress, [0, 1], [1, 0.94])
   // The ellipse and marker share coordinates, so resizing never detaches the star.
   const starX = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[0])
   const starY = useTransform(orbitProgress, value => orbitPoint(145 + value * 150)[1])
@@ -31,19 +32,17 @@ export default function HeroSectionStatic() {
       <div className="section-container">
         <div className="studio-hero-grid">
           <div className="studio-copy">
-            <p className="studio-label">IT MANAGER · ETHICAL HACKER · BUILDER</p>
             <h1>KARTHIK<br /><span>LAL</span></h1>
             <div className="studio-statement"><span aria-hidden="true">↳</span><p>I build things that <em>work beautifully.</em><br />And systems you can trust.</p></div>
             <div className="hero-actions">
               <AnimatedButton href="/#portfolio" variant="primary">EXPLORE WORK <ArrowUpRight className="h-4 w-4" /></AnimatedButton>
               <AnimatedButton href="https://drive.google.com/file/d/1y1PklhkLbM9iFLGCOP4dFPj6DzDIzd7u/view?usp=drive_link" target="_blank" rel="noopener noreferrer" variant="outline">DOWNLOAD CV <Download className="h-4 w-4" /></AnimatedButton>
             </div>
-            <div className="studio-disciplines"><a href="#services">01 / SECURITY</a><a href="#portfolio">02 / DEVELOPMENT</a><a href="#portfolio-gallery">03 / DESIGN</a></div>
           </div>
           <div className="studio-portrait-wrap">
-            <figure className="studio-portrait">
+            <motion.figure className="studio-portrait" style={{ scale: reducedMotion ? 1 : portraitScale }}>
               <Image src="/user/hero.webp" alt="Karthik Lal, IT manager and ethical hacker" fill priority sizes="(min-width: 900px) 40vw, 100vw" className="object-cover" />
-            </figure>
+            </motion.figure>
             <svg className="studio-orbit-marker" viewBox="0 0 500 600" preserveAspectRatio="none" aria-hidden="true">
               <path className="studio-flower-path-track" d={flowerPath} pathLength="1" />
               <motion.path

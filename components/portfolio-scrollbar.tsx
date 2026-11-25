@@ -8,8 +8,8 @@ const stops = [
   ["portfolio", "Selected work"],
   ["skills", "Toolkit"],
   ["experience", "Experience"],
+  ["certifications", "Credentials"],
   ["journal", "Journal"],
-  ["portfolio-gallery", "Design archive"],
 ] as const
 
 const point = (p: number) => ({ x: 28 + 9 * Math.sin(p * Math.PI * 4), y: 20 + p * 360 })
@@ -45,6 +45,7 @@ export default function PortfolioScrollbar() {
   }
 
   useEffect(() => {
+    const links = Array.from(root.current!.querySelectorAll<HTMLAnchorElement>(".journey-stop"))
     let frame = 0
     let footerTop = Infinity
     let footerBottom = Infinity
@@ -55,12 +56,10 @@ export default function PortfolioScrollbar() {
     const update = () => {
       frame = 0
       const scroll = Math.max(0, Math.min(window.scrollY, limit.current))
-      const percent = scroll / limit.current
+      const progress = scroll / limit.current
       const offsets = positions.current
       let segment = 0
-      while (segment < offsets.length - 2 && scroll >= offsets[segment + 1]) segment++
-      const local = Math.min(1, Math.max(0, (scroll - offsets[segment]) / Math.max(1, offsets[segment + 1] - offsets[segment])))
-      const progress = (segment + local) / (offsets.length - 1)
+      while (segment + 1 < offsets.length && scroll >= offsets[segment + 1] - 1) segment++
       const { x, y } = point(progress)
       const flowerDocumentY = scroll + railTop + y / 400 * railHeight
       if (root.current) root.current.dataset.flowerOnFooter = String(flowerDocumentY >= footerTop && flowerDocumentY <= footerBottom)
@@ -72,14 +71,14 @@ export default function PortfolioScrollbar() {
       const sample = Math.min(119, Math.floor(progress * 120))
       const travelled = distances[sample] + (distances[sample + 1] - distances[sample]) * (progress * 120 - sample)
       if (ink.current) ink.current.style.strokeDashoffset = `${1 - travelled / distances[120]}`
-      root.current?.style.setProperty("--journey-progress", String(percent))
-      slider.current?.setAttribute("aria-valuenow", String(Math.round(percent * 100)))
-      const counterText = `${String(Math.round(percent * 100)).padStart(2, "0")}%`
+      root.current?.style.setProperty("--journey-progress", String(progress))
+      slider.current?.setAttribute("aria-valuenow", String(Math.round(progress * 100)))
+      const counterText = `${String(Math.round(progress * 100)).padStart(2, "0")}%`
       if (counter.current && counter.current.textContent !== counterText) counter.current.textContent = counterText
-      root.current?.querySelectorAll<HTMLAnchorElement>(".journey-stop").forEach((link, i) => {
-        if (i === Math.min(segment, stops.length - 1)) link.setAttribute("aria-current", "location")
+      links.forEach((link, i) => {
+        if (i === segment) link.setAttribute("aria-current", "location")
         else link.removeAttribute("aria-current")
-        const nodeY = scroll + railTop + point(i / stops.length).y / 400 * railHeight
+        const nodeY = scroll + railTop + point(offsets[i] / limit.current).y / 400 * railHeight
         link.dataset.onFooter = String(nodeY >= footerTop && nodeY <= footerBottom)
         link.dataset.passed = String(scroll >= offsets[i] - 1)
       })
@@ -95,7 +94,16 @@ export default function PortfolioScrollbar() {
       const counterBounds = counter.current?.getBoundingClientRect()
       counterY = counterBounds ? counterBounds.top + counterBounds.height / 2 : 0
       limit.current = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-      positions.current = [...stops.map(([id]) => Math.min(limit.current, Math.max(0, (document.getElementById(id)?.getBoundingClientRect().top ?? 0) + window.scrollY - 100))), limit.current]
+      positions.current = stops.map(([id]) => {
+        const section = document.getElementById(id)
+        const top = section ? section.getBoundingClientRect().top + window.scrollY - 100 : 0
+        return Math.min(limit.current, Math.max(0, top))
+      })
+      links.forEach((link, index) => {
+        const { x, y } = point(positions.current[index] / limit.current)
+        link.style.left = `${x / 56 * 100}%`
+        link.style.top = `${y / 400 * 100}%`
+      })
       schedule()
     }
     const resize = new ResizeObserver(measure)
@@ -117,9 +125,7 @@ export default function PortfolioScrollbar() {
     const bounds = rail.current?.getBoundingClientRect()
     if (!bounds) return
     const p = Math.max(0, Math.min(1, ((clientY - bounds.top) / bounds.height * 400 - 20) / 360))
-    const index = Math.min(stops.length - 1, Math.floor(p * stops.length))
-    const offsets = positions.current
-    go(offsets[index] + (offsets[index + 1] - offsets[index]) * (p * stops.length - index), true)
+    go(p * limit.current, true)
   }
 
   return <aside ref={root} className="portfolio-journey" aria-label="Portfolio reading progress">
@@ -150,14 +156,13 @@ export default function PortfolioScrollbar() {
           if (event.key in actions) { event.preventDefault(); go(actions[event.key], true) }
         }} />
       <nav aria-label="Portfolio chapters">
-        {stops.map(([id, label], i) => {
-          const { x, y } = point(i / stops.length)
-          return <a key={id} href={`#${id}`} className="journey-stop" style={{ left: `${x / 56 * 100}%`, top: `${y / 400 * 100}%` }} aria-label={label}
+        {stops.map(([id, label], i) => (
+          <a key={id} href={`#${id}`} className="journey-stop" aria-label={label}
             onClick={event => { event.preventDefault(); go(positions.current[i] ?? 0) }}>
             <span className="journey-dot" />
             <span className="journey-label"><b>{String(i + 1).padStart(2, "0")}</b>{label}</span>
           </a>
-        })}
+        ))}
       </nav>
     </div>
     <output ref={counter} className="journey-counter" aria-label="Page read" aria-live="off">00%</output>

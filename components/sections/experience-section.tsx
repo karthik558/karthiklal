@@ -107,11 +107,10 @@ export default function ExperienceSection() {
       <div className="section-container">
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="06" label="CAREER &amp; EXPERIENCE" title="Learning by doing." accent="Growing with every role." />
+            <SectionHeading title="Learning by doing." accent="Growing with every role." />
           </div>
         </div>
 
-        <p className="registry-intro">A career built on curiosity. From hands-on infrastructure to leading secure digital operations.</p>
         <RegistryFilters label="Career track" options={trackOptions} value={track} onChange={selectTrack} years={years} selectedYear={selectedYear} onYearChange={selectYear} count={selectedRoles.length} />
 
         {/* Roles List */}
@@ -148,7 +147,6 @@ export default function ExperienceSection() {
                         <h3>{item.title}</h3>
                         <p>{item.organization}</p>
                       </div>
-                      <span className="registry-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                     </motion.article>
                   )
                 })}

@@ -20,16 +20,15 @@ export default function NavHeader() {
   const drawerRef = useRef<HTMLDivElement>(null)
 
   const pathname = usePathname()
-  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'portfolio-gallery'])
+  const activeSection = useActiveSection(['home', 'about', 'portfolio', 'services', 'journal'])
 
   const navItems = [
     { number: '01', label: 'HOME', href: '/', sectionId: 'home' },
     { number: '02', label: 'ABOUT', href: '/#about', sectionId: 'about' },
     { number: '03', label: 'PROJECTS', href: '/#portfolio', sectionId: 'portfolio' },
     { number: '04', label: 'SERVICES', href: '/#services', sectionId: 'services' },
-    { number: '05', label: 'DESIGNS', href: '/#portfolio-gallery', sectionId: 'portfolio-gallery' },
-    { number: '06', label: 'BLOG', href: '/blog', sectionId: '' },
-    { number: '07', label: 'CONTACT', href: '/contact', sectionId: '' }
+    { number: '05', label: 'BLOG', href: '/#journal', sectionId: 'journal' },
+    { number: '06', label: 'CONTACT', href: '/contact', sectionId: '' }
   ]
 
   const isItemActive = (item: typeof navItems[0]) => {

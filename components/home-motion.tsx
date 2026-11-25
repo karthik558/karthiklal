@@ -10,18 +10,9 @@ const revealSelector = [
   ".about-linkedin",
   ".about-practice-grid > article",
   ".principle-grid > article",
-  "#portfolio .studio-section-intro",
   "#portfolio .book-filters",
   "#portfolio .stack-intro",
-  "#services .studio-section-intro",
-  "#experience .registry-intro",
-  "#certifications .registry-intro",
-  "#testimonials .studio-section-intro",
-  "#testimonials .testimonial-letter",
-  "#testimonials .book-controls",
   "#journal .journal-card",
-  "#portfolio-gallery .book-filters",
-  "#portfolio-gallery .stack-intro",
   ".footer-columns > *",
   ".footer-bottom",
 ].join(",")
@@ -64,7 +55,7 @@ export default function HomeMotion() {
         element.classList.add("scroll-reveal")
         if (element.matches(".about-profile-facts > div,.about-practice-grid > article,.principle-grid > article,.journal-card")) {
           element.classList.add("reveal-card")
-        } else if (element.matches(".stack-card,.testimonial-letter")) {
+        } else if (element.matches(".stack-card")) {
           element.classList.add("reveal-feature")
         } else if (element.matches(".footer-columns > *,.footer-bottom")) {
           element.classList.add("reveal-side")

@@ -27,18 +27,7 @@ test('vertical collections scroll over images, filter, and dismiss previews', as
   await page.keyboard.press('Escape')
   await expect(work.locator('dialog')).not.toBeVisible()
   await expect(work.locator('.book-view').first()).toBeFocused()
-  const designs = page.locator('#portfolio-gallery')
-  await expect(designs.locator('.stack-card')).toHaveCount(4)
-  await designs.getByRole('button', { name: /SHOW ALL.*DESIGNS/ }).click()
-  expect(await designs.locator('.stack-card').count()).toBeGreaterThan(4)
-  await designs.getByRole('button', { name: 'SHOW FEWER', exact: true }).click()
-  await expect(designs.locator('.stack-card')).toHaveCount(4)
-  await designs.getByRole('button', { name: 'INTERFACE', exact: true }).click()
-  await expect(designs.getByRole('heading', { name: 'Creator Profile UI' })).toBeVisible()
-  await designs.locator('.book-art').first().hover()
-  const designBefore = await page.evaluate(() => window.scrollY)
-  await page.mouse.wheel(0, 450)
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(designBefore + 100)
+
 })
 
 test('mobile cover, testimonial navigation, and text return link work', async ({ page }) => {
@@ -52,9 +41,11 @@ test('mobile cover, testimonial navigation, and text return link work', async ({
   expect(image?.width).toBe(390)
   expect(image?.height).toBe(hero?.height)
   const reviews = page.locator('#testimonials')
-  const before = await reviews.locator('blockquote').textContent()
-  await reviews.getByRole('button', { name: 'Next Testimonial' }).click()
-  await expect(reviews.locator('blockquote')).not.toHaveText(before!)
+  await expect(reviews.locator('blockquote')).toHaveCount(4)
+  await reviews.getByRole('button', { name: /View all/ }).click()
+  await expect(reviews.locator('blockquote')).toHaveCount(14)
+  await reviews.getByRole('button', { name: /Show fewer/ }).click()
+  await expect(reviews.locator('blockquote')).toHaveCount(4)
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
@@ -77,38 +68,34 @@ test('cards pin at the viewport edge and release on short screens', async ({ pag
 test('full-view previews retain browser-rendered cursors and restore focus on close', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
-  for (const id of ['portfolio', 'portfolio-gallery']) {
-    const section = page.locator(`#${id}`)
-    await section.locator('.book-view').first().click()
-    const dialog = section.locator('dialog')
-    await expect(dialog).toBeVisible()
-    await dialog.locator('.book-preview-image').hover()
-    await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
-    await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', /cursor\/pointer\.svg/)
-    await dialog.getByRole('button', { name: 'Close preview' }).click()
-    await expect(dialog).not.toBeVisible()
-    await expect(page.locator('body')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
-    await expect(section.locator('.book-view').first()).toBeFocused()
-  }
+  const section = page.locator('#portfolio')
+  await section.locator('.book-view').first().click()
+  const dialog = section.locator('dialog')
+  await expect(dialog).toBeVisible()
+  await dialog.locator('.book-preview-image').hover()
+  await expect(dialog.locator('.book-preview-image')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
+  await expect(dialog.getByRole('button', { name: 'Close preview' })).toHaveCSS('cursor', /cursor\/pointer\.svg/)
+  await dialog.getByRole('button', { name: 'Close preview' }).click()
+  await expect(dialog).not.toBeVisible()
+  await expect(page.locator('body')).toHaveCSS('cursor', /cursor\/cursor\.svg/)
+  await expect(section.locator('.book-view').first()).toBeFocused()
 })
 
 test('mobile cards reveal their content before stacking', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
-  for (const id of ['portfolio', 'portfolio-gallery']) {
-    const card = page.locator(`#${id} .stack-card`).first()
-    await expect(card).toHaveCSS('position', 'sticky')
-    const top = await card.evaluate(e => parseFloat(getComputedStyle(e).top))
-    await card.evaluate((e, offset) => {
-      const y = e.getBoundingClientRect().top + window.scrollY - offset + 20
-      if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
-      else window.scrollTo(0, y)
-    }, top)
-    await expect.poll(async () => Math.round((await card.boundingBox())!.y)).toBe(Math.round(top))
-    const box = await card.boundingBox()
-    expect(box!.y + box!.height).toBeLessThanOrEqual(844)
-  }
+  const card = page.locator('#portfolio .stack-card').first()
+  await expect(card).toHaveCSS('position', 'sticky')
+  const top = await card.evaluate(e => parseFloat(getComputedStyle(e).top))
+  await card.evaluate((e, offset) => {
+    const y = e.getBoundingClientRect().top + window.scrollY - offset + 20
+    if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
+    else window.scrollTo(0, y)
+  }, top)
+  await expect.poll(async () => Math.round((await card.boundingBox())!.y)).toBe(Math.round(top))
+  const box = await card.boundingBox()
+  expect(box!.y + box!.height).toBeLessThanOrEqual(844)
 })
 
 
@@ -116,26 +103,24 @@ test('incoming artwork shades equal-width pinned cards and reduced motion disabl
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('/')
   await expect(page.getByRole('status', { name: 'Loading website' })).toBeHidden()
-  for (const id of ['portfolio', 'portfolio-gallery']) {
-    const cards = page.locator(`#${id} .stack-card`)
-    await cards.nth(1).evaluate(element => {
-      const y = element.getBoundingClientRect().top + window.scrollY - 360
-      if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
-      else window.scrollTo(0, y)
-    })
-    await expect.poll(() => cards.first().evaluate(element => Number(element.style.getPropertyValue('--stack-shade')))).toBeGreaterThan(0)
-    await expect(cards.first()).toHaveCSS('position', 'sticky')
-    const surfaces = await cards.locator('.stack-card-surface').evaluateAll(elements => elements.map(element => {
-      const rect = element.getBoundingClientRect()
-      return { x: rect.x, width: rect.width, height: rect.height }
-    }))
-    for (const surface of surfaces) expect(surface).toEqual(surfaces[0])
-    const first = await cards.first().boundingBox()
-    const second = await cards.nth(1).boundingBox()
-    expect(second!.y).toBeLessThan(first!.y + first!.height)
-    await expect(cards.first().locator('img')).toHaveCSS('object-fit', 'cover')
-    await expect(cards.first().locator('img')).toHaveCSS('filter', 'none')
-  }
+  const cards = page.locator('#portfolio .stack-card')
+  await cards.nth(1).evaluate(element => {
+    const y = element.getBoundingClientRect().top + window.scrollY - 360
+    if (window.lenis) window.lenis.scrollTo(y, { immediate: true })
+    else window.scrollTo(0, y)
+  })
+  await expect.poll(() => cards.first().evaluate(element => Number(element.style.getPropertyValue('--stack-shade')))).toBeGreaterThan(0)
+  await expect(cards.first()).toHaveCSS('position', 'sticky')
+  const surfaces = await cards.locator('.stack-card-surface').evaluateAll(elements => elements.map(element => {
+    const rect = element.getBoundingClientRect()
+    return { x: rect.x, width: rect.width, height: rect.height }
+  }))
+  for (const surface of surfaces) expect(surface).toEqual(surfaces[0])
+  const first = await cards.first().boundingBox()
+  const second = await cards.nth(1).boundingBox()
+  expect(second!.y).toBeLessThan(first!.y + first!.height)
+  await expect(cards.first().locator('img')).toHaveCSS('object-fit', 'cover')
+  await expect(cards.first().locator('img')).toHaveCSS('filter', 'none')
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect(page.locator('#portfolio .stack-card').first()).toHaveCSS('position', 'relative')
   await expect(page.locator('#portfolio .stack-card').first().locator('.stack-card-surface')).toHaveCSS('transform', 'none')
@@ -179,7 +164,6 @@ test('primary actions and collection controls use the shared editorial button', 
     page.getByRole('link', { name: 'EXPLORE WORK', exact: true }),
     page.getByRole('link', { name: 'DOWNLOAD CV', exact: true }),
     page.locator('#portfolio .collection-expand button'),
-    page.locator('#portfolio-gallery .collection-expand button'),
     page.locator('#experience').getByRole('button', { name: /LOAD MORE/ }),
     page.locator('#certifications').getByRole('button', { name: /Load more/i }),
   ]) {

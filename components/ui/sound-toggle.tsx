@@ -79,17 +79,13 @@ export function SoundToggle({ size = "default", className }: SoundToggleProps = 
   const getThemeClasses = () => {
     switch (profile) {
       case "cyber":
-        return isSm
-          ? "border-emerald-500/80 bg-card text-emerald-400 hover:border-emerald-400"
-          : "border-emerald-500/80 bg-card text-emerald-400 hover:border-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.18)]"
+        return "border-emerald-500/80 bg-card text-emerald-400 hover:border-emerald-400"
       case "clean":
         return isSm
           ? "border-foreground bg-foreground text-background shadow-xs hover:opacity-90"
           : "border-foreground bg-foreground text-background shadow-sm hover:opacity-90"
       case "retro":
-        return isSm
-          ? "border-amber-500/80 bg-card text-amber-400 hover:border-amber-400"
-          : "border-amber-500/80 bg-card text-amber-400 hover:border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.18)]"
+        return "border-amber-500/80 bg-card text-amber-400 hover:border-amber-400"
       case "muted":
       default:
         return isSm

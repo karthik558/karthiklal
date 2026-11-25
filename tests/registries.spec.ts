@@ -35,7 +35,7 @@ for (const width of [390, 1440]) {
     const credentials = page.locator("#certifications")
     await credentials.getByRole("button", { name: "Archived", exact: true }).click()
     await expect(credentials.getByRole("heading", { name: "Certified Ethical Hacker (CEH)" })).toBeVisible()
-    await credentials.getByRole("button", { name: "INSPECT", exact: true }).first().click()
+    await credentials.getByRole("button", { name: "Inspect", exact: true }).first().click()
     await expect(page.getByRole("dialog")).toBeVisible()
     await page.getByRole("button", { name: "Close credential details" }).click()
     await expect(page.getByRole("dialog")).toBeHidden()

@@ -25,26 +25,19 @@ export default function AboutSection() {
     <section id="about" className="about-profile section-shell border-t border-border">
       <div className="section-container">
         <div className="section-heading-row">
-          <SectionHeading number="01" label="PROFILE &amp; PRACTICE" title="Technical by nature." accent="Human by design." />
+          <SectionHeading title="Technical by nature." accent="Human by design." />
         </div>
 
         <div className="about-profile-layout">
           <motion.figure
-            initial={reduced ? undefined : { opacity: 0, x: -72 }}
-            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            initial={reduced ? undefined : { opacity: 0.6, y: 18 }}
+            whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="about-profile-portrait"
           >
             <ParallaxImage src="/user/about.jpg" alt="Karthik Lal" sizes="(min-width: 1024px) 42vw, 100vw" />
             <div className="about-profile-shade" />
-            <div className="portrait-coordinate" aria-hidden="true">SYSTEMS / SECURITY / DESIGN</div>
-            <svg className="portrait-signal" viewBox="0 0 160 160" fill="none" aria-hidden="true">
-              <circle cx="80" cy="80" r="62" />
-              <circle cx="80" cy="80" r="42" strokeDasharray="2 8" />
-              <path d="M80 2v32m0 92v32M2 80h32m92 0h32" />
-              <path d="m58 80 15 15 30-34" className="portrait-signal-mark" />
-            </svg>
             <figcaption>
               <span>PROFILE / 2026</span>
               <div>
@@ -55,8 +48,8 @@ export default function AboutSection() {
           </motion.figure>
 
           <motion.div
-            initial={reduced ? undefined : { opacity: 0, x: 72 }}
-            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            initial={reduced ? undefined : { opacity: 0.6, y: 18 }}
+            whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="about-profile-copy"

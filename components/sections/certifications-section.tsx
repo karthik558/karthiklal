@@ -115,11 +115,10 @@ export default function CertificationsSection() {
         {/* Section Header */}
         <div className="section-heading-row">
           <div>
-            <SectionHeading number="07" label="CREDENTIALS" title="Knowledge earned." accent="Practice backed." />
+            <SectionHeading title="Knowledge earned." accent="Practice backed." />
           </div>
         </div>
 
-        <p className="registry-intro">Always learning. A collection of professional credentials across security, technology, and leadership.</p>
         <RegistryFilters label="Credential status" options={filterOptions} value={filter} onChange={selectFilter} years={years} selectedYear={selectedYear} onYearChange={selectYear} count={selectedCredentials.length} />
 
         {/* Credentials List */}
@@ -134,7 +133,6 @@ export default function CertificationsSection() {
             >
               {visible.map((item, index) => {
                 const isActive = item.status === "active"
-                const canCopy = Boolean(item.credentialId && item.credentialId !== "Not Available")
 
                 return (
                   <motion.article
@@ -154,55 +152,19 @@ export default function CertificationsSection() {
                     <div className="registry-entry-detail">
                       <p className="registry-kicker">{item.issuer}</p>
                       <h3>{item.title}</h3>
-                      <p>Expiry: {item.expiryDate}</p>
+                      {item.expiryDate !== "No Expiry" && <p>Expires {item.expiryDate}</p>}
                     </div>
 
-                    {/* Bottom Actions Footer */}
-                    <div className="credential-actions">
-                      {canCopy ? (
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(item.id, item.credentialId)}
-                          className={buttonVariants({ variant: "outline", size: "sm" })}
-                        >
-                          {copiedId === item.id ? (
-                            <Check className="h-3.5 w-3.5 text-foreground" />
-                          ) : (
-                            <Copy className="h-3.5 w-3.5" />
-                          )}
-                          {copiedId === item.id ? "COPIED" : "COPY ID"}
-                        </button>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 border border-border/60 bg-muted/30 px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-                          <Award className="h-3.5 w-3.5" /> CREDENTIAL
-                        </span>
-                      )}
-
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            playModalOpenSound()
-                            setInspectedCredential(item)
-                          }}
-                          className={buttonVariants({ variant: "default", size: "sm" })}
-                        >
-                          INSPECT <Eye className="h-3.5 w-3.5" />
-                        </button>
-
-                        {item.link && (
-                          <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={buttonVariants({ variant: "outline", size: "icon" })}
-                            aria-label={`Verify ${item.title}`}
-                          >
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
+                    <button
+                      type="button"
+                      className="credential-inspect"
+                      onClick={() => {
+                        playModalOpenSound()
+                        setInspectedCredential(item)
+                      }}
+                    >
+                      Inspect <Eye size={15} aria-hidden="true" />
+                    </button>
                   </motion.article>
                 )
               })}
