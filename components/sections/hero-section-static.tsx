@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion"
 import Image from "next/image"
-import { ArrowDownRight, ArrowUpRight, Download, Facebook, Github, Instagram, Linkedin } from "lucide-react"
+import { ArrowUpRight, Download, Facebook, Github, Instagram, Linkedin } from "lucide-react"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { SOCIALS_DATA } from "@/lib/static-data"
 
@@ -74,9 +74,6 @@ export default function HeroSectionStatic() {
           </div>
         </div>
         <div className="studio-baseline">
-          <a href="#about" className="studio-scroll-link">
-            SCROLL TO EXPLORE <ArrowDownRight size={15} className="studio-scroll-arrow" />
-          </a>
           <div className="studio-social-group">
             {SOCIALS_DATA.socials.filter(s => s.active).sort((a, b) => a.priority - b.priority).map(s => {
               const Icon = icons[s.icon as keyof typeof icons];
@@ -86,10 +83,13 @@ export default function HeroSectionStatic() {
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={s.name}
+                  aria-label={`${s.name} (${s.username})`}
                   className="studio-social-link"
                 >
                   <Icon size={17} />
+                  <span className="studio-social-tooltip" aria-hidden="true">
+                    {s.username}
+                  </span>
                 </a>
               ) : null
             })}

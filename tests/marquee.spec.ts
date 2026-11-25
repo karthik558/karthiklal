@@ -174,21 +174,20 @@ test.describe('Capabilities Marquee Interaction & Styling', () => {
     }).toBe(true)
   })
 
-  test('hero baseline displays "SCROLL TO EXPLORE" and social links with hover animation styling', async ({ page }) => {
+  test('hero baseline displays social links with username tooltip on hover', async ({ page }) => {
     const baseline = page.locator('.studio-baseline')
     await expect(baseline).toBeVisible()
 
-    const scrollLink = baseline.locator('.studio-scroll-link')
-    await expect(scrollLink).toContainText('SCROLL TO EXPLORE')
+    await expect(baseline.locator('.studio-scroll-link')).toHaveCount(0)
 
     const socialLinks = baseline.locator('.studio-social-link')
     const count = await socialLinks.count()
     expect(count).toBeGreaterThanOrEqual(2)
 
-    // Hover over first social link and verify styling
+    // Hover over first social link and verify username tooltip becomes visible
     const firstSocial = socialLinks.first()
     await firstSocial.hover()
-    await expect(firstSocial).toBeVisible()
+    await expect(firstSocial.locator('.studio-social-tooltip')).toHaveCSS('opacity', '1')
   })
 })
 
