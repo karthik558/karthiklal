@@ -34,14 +34,14 @@ export default function PrivacyPolicyPage() {
       <LegalSection number="02" id="collection" title="Information collected" intro="Information arrives in two ways: details you choose to submit and limited technical data generated when the site is used.">
         <div className="space-y-8">
           <div>
-            <h3 className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-foreground">Information you provide</h3>
+            <h3 className="studio-label mb-3">Information you provide</h3>
             <LegalList items={[
               { title: "Contact details", text: "Your name, email address, and message when you use the contact form or send an email." },
               { title: "Communications", text: "Any additional information you voluntarily include in correspondence." },
             ]} />
           </div>
           <div>
-            <h3 className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-foreground">Collected automatically</h3>
+            <h3 className="studio-label mb-3">Collected automatically</h3>
             <LegalList items={[
               { title: "Usage data", text: "Basic analytics such as pages visited, approximate session duration, and referring source." },
               { title: "Device information", text: "Browser, operating system, and device category used to improve compatibility." },

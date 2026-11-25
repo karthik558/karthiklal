@@ -65,9 +65,9 @@ export default function TermsPage() {
             <LegalCard title="Responsible linking">Do not present links to this website in a way that falsely suggests endorsement, partnership, or ownership.</LegalCard>
           </LegalGrid>
 
-          <div className="border-l-2 border-foreground bg-card/60 p-5 sm:p-6">
-            <h3 className="font-display text-xl font-black uppercase text-foreground">Enforcement</h3>
-            <p className="mt-3 text-sm font-light leading-6 text-muted-foreground">
+          <div className="border-l-2 border-primary bg-card/60 p-5 sm:p-6">
+            <h3 className="font-display text-lg font-semibold tracking-tight text-foreground">Enforcement</h3>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Access may be restricted where activity threatens the website, its visitors, or applicable rights. Suspected unlawful activity may be reported where legally required.
             </p>
           </div>
