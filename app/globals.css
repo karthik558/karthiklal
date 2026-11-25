@@ -2203,11 +2203,9 @@ main :is(button,input,textarea,select,[role=combobox],[class*="rounded"]), .stud
 .journey-label b { color: hsl(var(--primary)); font-weight: 400; }
 .journey-stop:hover .journey-label, .journey-stop:focus-visible .journey-label { opacity: 1; transform: translateX(0); }
 .journey-stop:focus-visible { outline: 1px dashed currentColor; border-radius: 50%; }
-@media (min-width: 1440px) { .journey-art { overflow: visible; } }
-@media (max-width: 1439px), (max-height: 650px) {
-  .portfolio-journey { inset: 0 0 auto; transform: none; height: 3px; width: auto; pointer-events: none; background: hsl(var(--primary) / .12); }
-  .portfolio-journey::after { content: ""; position: absolute; inset: 0; background: hsl(var(--primary)); transform: scaleX(var(--journey-progress)); transform-origin: left; }
-  .journey-caption, .journey-rail, .journey-counter { display: none; }
+@media (min-width: 1024px) { .journey-art { overflow: visible; } }
+@media (max-width: 1023px), (max-height: 520px) {
+  .portfolio-journey { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .journey-label, .journey-dot { transition: none; } }
 @media print { .portfolio-journey { display: none; } }
