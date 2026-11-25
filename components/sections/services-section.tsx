@@ -33,7 +33,7 @@ const serviceDetails: Record<string, { title: string; outcome: string; deliverab
 }
 
 export default function ServicesSection() {
-  const [expandedId, setExpandedId] = useState<number | null>(1)
+  const [expandedId, setExpandedId] = useState<number | null>(null)
   const prefersReducedMotion = useReducedMotion()
 
   return (

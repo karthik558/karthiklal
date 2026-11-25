@@ -4,18 +4,14 @@ import SectionHeading from "@/components/sections/section-heading"
 import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import {
+  ArrowUpRight,
   Award,
   Check,
-  ChevronDown,
-  ChevronUp,
   Copy,
-  ExternalLink,
   Eye,
   X,
 } from "lucide-react"
-import { buttonVariants } from "@/components/ui/button"
 import RegistryFilters from "@/components/ui/registry-filters"
-import { AnimatedButton } from "@/components/ui/animated-button"
 import { CERTIFICATIONS_DATA } from "@/lib/static-data"
 import { playClickSound, playModalOpenSound, playSuccessSound } from "@/lib/sound-fx"
 
@@ -110,7 +106,7 @@ export default function CertificationsSection() {
   }
 
   return (
-    <section id="certifications" className="section-shell overflow-hidden border-t-2 border-border">
+    <section id="certifications" className="section-shell overflow-hidden border-t border-border">
       <div className="section-container">
         {/* Section Header */}
         <div className="section-heading-row">
@@ -174,11 +170,11 @@ export default function CertificationsSection() {
               key="empty"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grid min-h-[260px] place-items-center border-2 border-dashed border-border bg-card/60 p-8 text-center"
+              className="grid min-h-[220px] place-items-center border border-border bg-card/50 p-8 text-center"
             >
               <div>
-                <Award className="mx-auto h-7 w-7 text-muted-foreground" />
-                <h3 className="mt-4 font-display text-2xl font-black uppercase">No credential in this year</h3>
+                <Award className="mx-auto h-6 w-6 text-muted-foreground" />
+                <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-foreground">No credential in this year</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Choose another year or change the status filter.
                 </p>
@@ -189,17 +185,17 @@ export default function CertificationsSection() {
 
         {/* Load More Button */}
         {(hiddenCount > 0 || showAll) && selectedCredentials.length > INITIAL_ITEMS && (
-          <div className="mt-8 text-center">
-            <AnimatedButton
+          <div className="mt-6 flex justify-end">
+            <button
+              type="button"
+              className="review-toggle"
               onClick={() => {
                 playClickSound()
                 setShowAll((current) => !current)
               }}
-              variant="outline"
             >
-              {showAll ? "Show fewer credentials" : `Load more (${hiddenCount} more)`}
-              {showAll ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
-            </AnimatedButton>
+              {showAll ? "Show fewer" : "Load more"} <span>{showAll ? "−" : `(${hiddenCount})`}</span>
+            </button>
           </div>
         )}
       </div>
@@ -207,15 +203,23 @@ export default function CertificationsSection() {
       {/* Credential Verification Modal */}
       <AnimatePresence>
         {inspectedCredential && (
-          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
+          <div
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+            onClick={() => {
+              playClickSound()
+              setInspectedCredential(null)
+            }}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              transition={{ duration: 0.2 }}
-              className="paper-sheet paper-folded-corner relative w-full max-w-lg overflow-hidden border-2 border-border/80 bg-card p-6 shadow-2xl sm:p-8"
+              initial={{ opacity: 0, y: reduced ? 0 : 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reduced ? 0 : 10 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-lg border border-border bg-card p-6 sm:p-8 shadow-lg"
               role="dialog"
               aria-modal="true"
+              aria-labelledby="credential-modal-title"
             >
               <button
                 type="button"
@@ -223,62 +227,62 @@ export default function CertificationsSection() {
                   playClickSound()
                   setInspectedCredential(null)
                 }}
-                className={`${buttonVariants({ size: "icon" })} absolute right-4 top-4`}
+                className="absolute right-5 top-5 grid h-10 w-10 place-items-center border border-border text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
                 aria-label="Close credential details"
               >
                 <X className="h-4 w-4" />
               </button>
 
-              <div className="flex items-center gap-2 mb-2">
-                <span className="paper-stamp text-[10px]">VERIFIED CREDENTIAL // REGISTRY</span>
-              </div>
+              <p className="registry-kicker">VERIFIED CREDENTIAL</p>
 
-              <h3 className="mt-4 font-display text-2xl font-black uppercase text-foreground sm:text-3xl leading-snug">
+              <h3
+                id="credential-modal-title"
+                className="mt-3 pr-10 font-display text-2xl font-bold leading-snug tracking-tight text-foreground sm:text-3xl"
+              >
                 {inspectedCredential.title}
               </h3>
 
-              <div className="mt-3 font-mono text-xs font-bold text-muted-foreground flex items-center gap-2">
-                <span>ISSUING BODY:</span>
-                <span className="paper-tag font-bold text-foreground">{inspectedCredential.issuer}</span>
-              </div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Issued by <span className="font-medium text-foreground">{inspectedCredential.issuer}</span>
+              </p>
 
-              <div className="mt-6 grid grid-cols-2 gap-px border-2 border-border bg-border py-px font-mono text-xs">
-                <div className="bg-background p-3">
-                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">ISSUE DATE</span>
-                  <span className="font-bold text-foreground mt-0.5 block">{inspectedCredential.date}</span>
+              <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-y border-border py-5 text-sm">
+                <div>
+                  <dt className="registry-kicker">ISSUE DATE</dt>
+                  <dd className="mt-1 font-medium text-foreground">{inspectedCredential.date}</dd>
                 </div>
-                <div className="bg-background p-3">
-                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">EXPIRATION</span>
-                  <span className="font-bold text-foreground mt-0.5 block">{inspectedCredential.expiryDate}</span>
+                <div>
+                  <dt className="registry-kicker">EXPIRATION</dt>
+                  <dd className="mt-1 font-medium text-foreground">{inspectedCredential.expiryDate}</dd>
                 </div>
-                <div className="bg-background p-3">
-                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">STATUS</span>
-                  <span className={`inline-block border px-2 py-0.5 text-[10px] font-bold uppercase mt-1 ${
-                    inspectedCredential.status === "active"
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border bg-card text-muted-foreground"
-                  }`}>
-                    {inspectedCredential.status}
-                  </span>
+                <div>
+                  <dt className="registry-kicker">STATUS</dt>
+                  <dd className="mt-1">
+                    <span className={`registry-status ${inspectedCredential.status === "active" ? "" : "registry-status-archived"}`}>
+                      {inspectedCredential.status === "active" ? "Active" : "Archived"}
+                    </span>
+                  </dd>
                 </div>
-                <div className="bg-background p-3">
-                  <span className="block text-[9px] uppercase tracking-wider text-muted-foreground">REGISTRY ID</span>
-                  <span className="font-mono text-xs font-bold text-foreground truncate block mt-0.5">
+                <div>
+                  <dt className="registry-kicker">REGISTRY ID</dt>
+                  <dd className="mt-1 truncate font-mono text-xs text-foreground" title={inspectedCredential.credentialId}>
                     {inspectedCredential.credentialId}
-                  </span>
+                  </dd>
                 </div>
-              </div>
+              </dl>
 
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                {inspectedCredential.credentialId && inspectedCredential.credentialId !== "Not Available" && (
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                {inspectedCredential.credentialId && inspectedCredential.credentialId !== "Not Available" ? (
                   <button
                     type="button"
                     onClick={() => handleCopy(inspectedCredential.id, inspectedCredential.credentialId)}
-                    className={buttonVariants({ variant: "outline", size: "default" })}
+                    className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    {copiedId === inspectedCredential.id ? <Check className="h-4 w-4 text-foreground" /> : <Copy className="h-4 w-4" />}
-                    {copiedId === inspectedCredential.id ? "COPIED ID" : "COPY ID"}
+                    {copiedId === inspectedCredential.id ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
+                    <span>{copiedId === inspectedCredential.id ? "Copied ID" : "Copy ID"}</span>
                   </button>
+                ) : (
+                  <span />
                 )}
 
                 {inspectedCredential.link && (
@@ -286,9 +290,9 @@ export default function CertificationsSection() {
                     href={inspectedCredential.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={buttonVariants({ variant: "default", size: "default" })}
+                    className="studio-text-link"
                   >
-                    VERIFY PORTAL <ExternalLink className="h-4 w-4" />
+                    Verify credential <ArrowUpRight size={16} aria-hidden="true" />
                   </a>
                 )}
               </div>

@@ -1,10 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import SectionHeading from "@/components/sections/section-heading"
 import { useMemo, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { Briefcase, CalendarRange, ChevronDown, ChevronUp, GraduationCap } from "lucide-react"
+import { Briefcase, CalendarRange, GraduationCap } from "lucide-react"
 import RegistryFilters from "@/components/ui/registry-filters"
 import experiencesData from "@/public/data/experiences.json"
 import educationData from "@/public/data/education.json"
@@ -103,7 +102,7 @@ export default function ExperienceSection() {
   }
 
   return (
-    <section id="experience" className="section-shell overflow-hidden border-t-2 border-border">
+    <section id="experience" className="section-shell overflow-hidden border-t border-border">
       <div className="section-container">
         <div className="section-heading-row">
           <div>
@@ -114,76 +113,75 @@ export default function ExperienceSection() {
         <RegistryFilters label="Career track" options={trackOptions} value={track} onChange={selectTrack} years={years} selectedYear={selectedYear} onYearChange={selectYear} count={selectedRoles.length} />
 
         {/* Roles List */}
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            {visible.length > 0 ? (
-              <motion.div
-                key={`${track}-${selectedYear ?? "all"}`}
-                initial={{ opacity: 0, y: reduced ? 0 : 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: reduced ? 0 : -6 }}
-                className="registry-list"
-              >
-                {visible.map((item, index) => {
-                  const Icon = item.type === "work" ? Briefcase : GraduationCap
+        <AnimatePresence mode="wait">
+          {visible.length > 0 ? (
+            <motion.div
+              key={`${track}-${selectedYear ?? "all"}`}
+              initial={{ opacity: 0, y: reduced ? 0 : 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reduced ? 0 : -6 }}
+              className="registry-list"
+            >
+              {visible.map((item, index) => {
+                const Icon = item.type === "work" ? Briefcase : GraduationCap
 
-                  return (
-                    <motion.article
-                      key={item.id}
-                      initial={reduced ? undefined : { opacity: 0, x: -18 }}
-                      whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-30px" }}
-                      transition={{ duration: 0.5, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
-                      className="registry-entry"
-                      data-current={item.current || undefined}
-                    >
-                      <div className="registry-entry-meta">
-                        <span className="registry-node"><Icon className="h-4 w-4" /></span>
-                        <span>{item.duration}</span>
-                        {item.current && <span className="registry-status">CURRENT</span>}
-                      </div>
-                      <div className="registry-entry-detail">
-                        <p className="registry-kicker">{item.type === "work" ? "PROFESSIONAL EXPERIENCE" : "EDUCATION"}</p>
-                        <h3>{item.title}</h3>
-                        <p>{item.organization}</p>
-                      </div>
-                    </motion.article>
-                  )
-                })}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="paper-sheet border-2 border-dashed border-border bg-card p-12 text-center"
-              >
-                <CalendarRange className="mx-auto h-8 w-8 text-muted-foreground" />
-                <h3 className="mt-4 font-display text-2xl font-black uppercase text-foreground">
-                  NO ROLES RECORDED IN {selectedYear}
+                return (
+                  <motion.article
+                    key={item.id}
+                    initial={reduced ? undefined : { opacity: 0, x: -18 }}
+                    whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.5, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+                    className="registry-entry"
+                    data-current={item.current || undefined}
+                  >
+                    <div className="registry-entry-meta">
+                      <span className="registry-node"><Icon className="h-4 w-4" /></span>
+                      <span>{item.duration}</span>
+                      {item.current && <span className="registry-status">Current</span>}
+                    </div>
+                    <div className="registry-entry-detail">
+                      <p className="registry-kicker">{item.type === "work" ? "PROFESSIONAL EXPERIENCE" : "EDUCATION"}</p>
+                      <h3>{item.title}</h3>
+                      <p>{item.organization}</p>
+                    </div>
+                  </motion.article>
+                )
+              })}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid min-h-[220px] place-items-center border border-border bg-card/50 p-8 text-center"
+            >
+              <div>
+                <CalendarRange className="mx-auto h-6 w-6 text-muted-foreground" />
+                <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-foreground">
+                  No roles recorded in {selectedYear}
                 </h3>
-                <p className="mt-2 font-mono text-xs text-muted-foreground">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Select another year or choose all roles.
                 </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Load More Button */}
         {(hiddenCount > 0 || showAll) && selectedRoles.length > INITIAL_ITEMS && selectedYear === null && (
-          <div className="mt-8 text-center">
-            <Button
-              variant="outline"
+          <div className="mt-6 flex justify-end">
+            <button
               type="button"
+              className="review-toggle"
               onClick={() => {
                 playClickSound()
                 setShowAll((current) => !current)
               }}
             >
-              {showAll ? "SHOW FEWER" : `LOAD MORE (${hiddenCount} MORE)`}
-              {showAll ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
+              {showAll ? "Show fewer" : "Load more"} <span>{showAll ? "−" : `(${hiddenCount})`}</span>
+            </button>
           </div>
         )}
       </div>

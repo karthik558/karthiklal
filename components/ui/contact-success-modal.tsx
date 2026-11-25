@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { X, ShieldCheck } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { AnimatedButton } from './animated-button'
 
 interface ContactSuccessModalProps {
   isOpen: boolean
@@ -44,70 +43,48 @@ export function ContactSuccessModal({ isOpen, onClose, name }: ContactSuccessMod
             onClick={onClose}
           />
           
-          {/* Sharp Brutalist Modal Container */}
+          {/* Editorial Modal Container */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 16 }}
-            transition={{ duration: 0.3 }}
-            className="paper-sheet relative w-full max-w-md border-2 border-border/80 bg-card p-8 md:p-10 shadow-2xl overflow-hidden"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-md border border-border bg-card p-8 md:p-10 shadow-lg overflow-hidden"
+            role="dialog"
+            aria-modal="true"
           >
             {/* Close Button */}
             <button
+              type="button"
               onClick={onClose}
-              className="absolute right-4 top-4 p-2 border-2 border-border bg-background text-foreground hover:border-foreground hover:bg-foreground hover:text-background transition-colors z-20"
+              className="absolute right-5 top-5 grid h-10 w-10 place-items-center border border-border text-muted-foreground transition-colors hover:border-foreground hover:text-foreground z-20"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />
             </button>
 
-            <div className="relative z-10 flex flex-col items-center text-center">
-              {/* Badge Icon */}
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-                className="mb-6 p-4 border-2 border-foreground bg-foreground text-background"
-              >
-                <ShieldCheck className="h-8 w-8" />
-              </motion.div>
-
-              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold mb-2">
-                TRANSMISSION ACKNOWLEDGED // [200 OK]
+            <div className="relative z-10 flex flex-col items-start text-left">
+              <div className="mb-5 grid h-11 w-11 place-items-center border border-primary/40 bg-primary/10 text-primary">
+                <ShieldCheck className="h-5 w-5" />
               </div>
 
-              <motion.h2 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="mb-4 font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground"
-              >
-                MESSAGE TRANSMITTED
-              </motion.h2>
+              <p className="studio-label">MESSAGE RECEIVED</p>
 
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mb-8 font-sans text-sm leading-relaxed text-muted-foreground font-light border-y border-border py-4"
-              >
-                {name ? `Thank you for reaching out, ${name}!` : 'Thank you for reaching out!'} Your message has been received safely. I will review your requirements and get back to you promptly.
-              </motion.p>
+              <h2 className="mt-2 mb-4 font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                Thank you for reaching out{name ? `, ${name}` : ""}.
+              </h2>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="w-full"
+              <p className="mb-6 border-y border-border py-4 text-sm leading-relaxed text-muted-foreground">
+                Your message has been received safely. I will review your requirements and get back to you within 1–2 business days.
+              </p>
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="review-toggle"
               >
-                <AnimatedButton 
-                  onClick={onClose}
-                  className="h-12 w-full font-mono text-xs font-bold uppercase tracking-wider"
-                  variant="primary"
-                >
-                  ACKNOWLEDGE & RETURN
-                </AnimatedButton>
-              </motion.div>
+                Back to contact <span>→</span>
+              </button>
             </div>
           </motion.div>
         </div>
