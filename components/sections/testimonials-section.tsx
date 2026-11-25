@@ -18,12 +18,6 @@ export default function TestimonialsSection() {
       <div className="section-container review-layout">
         <div className="review-intro">
           <SectionHeading title="Good work starts" accent="with good people." />
-          {reviews.length > previewCount && (
-            <button type="button" className="review-toggle" aria-expanded={expanded} aria-controls="client-reviews"
-              onClick={() => setExpanded(value => !value)}>
-              {expanded ? "Show fewer" : "View all"} <span>{expanded ? "−" : `(${reviews.length})`}</span>
-            </button>
-          )}
         </div>
         <div className="review-cards" id="client-reviews">
           {visibleReviews.map((review, index) => (
@@ -39,6 +33,14 @@ export default function TestimonialsSection() {
               <blockquote>“{review.content}”</blockquote>
             </figure>
           ))}
+        </div>
+        <div className="review-controls">
+          {reviews.length > previewCount && (
+            <button type="button" className="review-toggle" aria-expanded={expanded} aria-controls="client-reviews"
+              onClick={() => setExpanded(value => !value)}>
+              {expanded ? "Show fewer" : "View all"} <span>{expanded ? "−" : `(${reviews.length})`}</span>
+            </button>
+          )}
         </div>
       </div>
     </section>

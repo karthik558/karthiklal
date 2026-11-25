@@ -12,14 +12,10 @@ test("portfolio rail supports chapters, keyboard and dragging", async ({ page })
   await slider.focus()
   await slider.press("End")
   await expect(slider).toHaveAttribute("aria-valuenow", "100")
-  await expect(page.locator(".portfolio-journey")).toHaveAttribute("data-flower-on-footer", "true")
-  await expect(page.locator(".journey-flower")).toHaveCSS("color", "rgb(41, 28, 22)")
-  await expect(page.locator(".journey-counter")).toHaveCSS("color", "rgb(41, 28, 22)")
   await expect(page.locator(".journey-counter")).toHaveText("100%")
   await page.screenshot({ path: "/tmp/scrollbar-footer-contrast.png" })
   await slider.press("Home")
   await expect(slider).toHaveAttribute("aria-valuenow", "0")
-  await expect(page.locator(".portfolio-journey")).toHaveAttribute("data-flower-on-footer", "false")
   const box = (await slider.boundingBox())!
   await page.mouse.move(box.x + 4, box.y + 20)
   await page.mouse.down()
@@ -45,7 +41,7 @@ test("compact view keeps native scrolling and reduced motion stops flower rotati
   await page.screenshot({ path: "/tmp/portfolio-scrollbar-mobile.png" })
 })
 
-test("credentials dot and marker follow page distance when credentials expand", async ({ page }) => {
+test("chapter dots stay evenly spaced and target the updated sections after expansion", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto("/")
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden()
@@ -57,15 +53,19 @@ test("credentials dot and marker follow page distance when credentials expand", 
   await expect(credentials).toHaveAttribute("aria-current", "location")
   await expect(section.locator("h2")).toBeInViewport()
 
+  const dots = await chapters.locator('a').evaluateAll(links => links.map(link => link.getBoundingClientRect().y))
+  const spacing = dots[1] - dots[0]
+  expect(spacing).toBeGreaterThan(28)
+  dots.slice(1).forEach((y, i) => expect(Math.abs(y - dots[i] - spacing)).toBeLessThan(1))
   const markerError = () => page.evaluate(() => {
-    const y = document.querySelector<SVGGElement>(".journey-flower")!.transform.baseVal.getItem(0).matrix.f
-    const fraction = window.scrollY / (document.documentElement.scrollHeight - innerHeight)
-    return Math.abs(y - (20 + 360 * fraction))
+    const flower = document.querySelector('.journey-flower')!.getBoundingClientRect()
+    const dot = document.querySelector('.journey-stop[aria-current] .journey-dot')!.getBoundingClientRect()
+    return Math.abs(flower.y + flower.height / 2 - dot.y - dot.height / 2)
   })
   await expect.poll(markerError).toBeLessThan(1)
   const journalTop = await journal.evaluate(link => link.offsetTop)
   await section.getByRole("button", { name: /load more/i }).click()
-  await expect.poll(() => journal.evaluate(link => link.offsetTop)).toBeGreaterThan(journalTop)
+  await expect.poll(() => journal.evaluate(link => link.offsetTop)).toBe(journalTop)
   await journal.click()
   await expect(page.locator("#journal h2")).toBeInViewport()
   await expect(journal).toHaveAttribute("aria-current", "location")

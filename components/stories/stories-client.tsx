@@ -46,9 +46,7 @@ export default function StoriesClient({ initialStories }: StoriesClientProps) {
   }, [stories, searchQuery, selectedCategory])
 
   return <div className="page-shell story-archive"><div className="section-container">
-    <PageIntro label="STORIES / BY KARTHIK LAL" title="Stories to get" accent="lost in." description="On people, silence, and the things that stay with us. Stories in Malayalam, told at their own pace.">
-      <span className="studio-label">{stories.length} {stories.length === 1 ? "STORY" : "STORIES"} / THE COLLECTION</span>
-    </PageIntro>
+    <PageIntro title="Stories to get" accent="lost in." />
     <div className="archive-toolbar">
       <div className="book-filters" aria-label="Story categories">{categories.map(cat => <button key={cat} aria-pressed={selectedCategory === cat} onClick={() => setSelectedCategory(cat)}>{cat}</button>)}</div>
       <div className="archive-search"><Search size={16} aria-hidden="true" /><input aria-label="Search stories or tags" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search stories or tags" /></div>

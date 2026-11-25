@@ -79,9 +79,7 @@ export default function ProjectsPage() {
   const isFiltered = searchQuery.trim() !== "" || filter !== "All"
 
   return <div className="page-shell project-archive"><div className="section-container">
-    <PageIntro label="SELECTED WORK / ENGINEERING" title="Built with purpose." accent="Made to work." description="Software, security, and systems. A closer look at what I build and how it works.">
-      <span className="studio-label">{projectsData.projects.length} PROJECTS / THE COLLECTION</span>
-    </PageIntro>
+    <PageIntro title="Built with purpose." accent="Made to work." />
     <div className="archive-toolbar">
       <div className="book-filters" aria-label="Project categories">{categories.map(cat => <button key={cat} aria-pressed={filter === cat} onClick={() => setFilter(cat)}>{cat}</button>)}</div>
       <div className="archive-search"><Search size={16} aria-hidden="true" /><input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search projects or technology" aria-label="Search projects by name or technology" /></div>

@@ -13,10 +13,8 @@ const navItems = [
 export default function TermsPage() {
   return (
     <LegalPage
-      documentNumber="03"
       title="Terms of"
       outlinedTitle="Service"
-      description="The conditions that govern access to this portfolio, its content, and the external resources linked from it."
       lastUpdated="25 Dec 2024"
       navItems={navItems}
     >

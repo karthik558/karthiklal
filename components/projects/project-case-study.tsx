@@ -91,20 +91,20 @@ export default function ProjectCaseStudy({ project, previousProject, nextProject
     <div className="reading-progress" aria-hidden="true"><motion.div style={{ width: `${progress}%` }} /></div>
     <div className="section-container">
       <Link href="/projects" className="studio-text-link page-back"><ArrowLeft size={15} /> ALL PROJECTS</Link>
-      <PageIntro label={`CASE STUDY / ${project.category}`} title={project.title} accent="Behind the build." description={project.description} />
+      <PageIntro title={project.title} accent="Behind the build." />
       <div className="case-cover" style={{ viewTransitionName: `project-${project.id}` }}><Image src={project.image} alt={project.title} fill priority sizes="(min-width: 1280px) 1200px, 100vw" className="object-cover" /></div>
       <div className="case-summary"><span className="studio-label">{project.technologies.slice(0, 4).join(" / ")}</span><div>{project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW LIVE <ArrowUpRight size={16} /></a>}{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-text-link">SOURCE <Github size={15} /></a>}</div></div>
       <div className="case-reading-layout">
         <aside><nav aria-label="Case study chapters" className="case-index"><p className="studio-label">IN THIS PROJECT</p>{chapters.map((chapter,index) => <a key={chapter.id} href={`#${chapter.id}`} aria-current={activeChapter === chapter.id ? "location" : undefined}><span>{String(index + 1).padStart(2,"0")}</span>{chapter.label}</a>)}</nav></aside>
         <div className="case-prose">
-          <section id="brief"><p className="studio-label">01 / THE BRIEF</p><h2>The problem worth solving.</h2><p>{evidence.challenge}</p><p>{evidence.response}</p>
+          <section id="brief"><h2>The problem worth solving.</h2><p>{evidence.challenge}</p><p>{evidence.response}</p>
             <p className="studio-label case-evidence-label">Project evidence / published build</p><div className="case-facts">{evidence.facts.map(fact => <div key={`${fact.value}-${fact.label}`}><strong>{fact.value}</strong><span className="studio-label">{fact.label}</span><p>{fact.detail}</p></div>)}</div>
           </section>
-          <section id="system"><p className="studio-label">02 / THE SYSTEM</p><h2>Decisions with purpose.</h2><div className="case-insights">{insights.map(([number,title,copy]) => <div key={title}><span className="studio-label">{number}</span><h3>{title.toLowerCase()}</h3><p>{copy}</p></div>)}</div></section>
-          <section id="build"><p className="studio-label">03 / THE BUILD</p><h2>How it comes together.</h2><div className="case-technologies">{project.technologies.map((tech,index) => <div key={tech}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><span>{tech}</span></div>)}</div>
-            <div className="case-notes"><p className="studio-label">DECISIONS / OBSERVATIONS</p><h3>Director&apos;s Notes</h3>{evidence.notes.map((note,index) => <article key={note.decision}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><div><h4>{note.decision}</h4><p>{note.signal}</p><p>{note.rationale}</p></div></article>)}</div>
+          <section id="system"><h2>Decisions with purpose.</h2><div className="case-insights">{insights.map(([number,title,copy]) => <div key={title}><span className="studio-label">{number}</span><h3>{title.toLowerCase()}</h3><p>{copy}</p></div>)}</div></section>
+          <section id="build"><h2>How it comes together.</h2><div className="case-technologies">{project.technologies.map((tech,index) => <div key={tech}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><span>{tech}</span></div>)}</div>
+            <div className="case-notes"><h3>Director&apos;s Notes</h3>{evidence.notes.map((note,index) => <article key={note.decision}><span className="studio-label">{String(index + 1).padStart(2,"0")}</span><div><h4>{note.decision}</h4><p>{note.signal}</p><p>{note.rationale}</p></div></article>)}</div>
           </section>
-          <section id="outcome"><p className="studio-label">04 / THE OUTCOME</p><h2>What the work delivers.</h2><p>{evidence.outcome}</p><div className="case-actions">{project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="studio-text-link">LAUNCH PROJECT <ArrowUpRight size={17} /></a>}{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW SOURCE <Github size={16} /></a>}</div></section>
+          <section id="outcome"><h2>What the work delivers.</h2><p>{evidence.outcome}</p><div className="case-actions">{project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="studio-text-link">LAUNCH PROJECT <ArrowUpRight size={17} /></a>}{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-text-link">VIEW SOURCE <Github size={16} /></a>}</div></section>
         </div>
       </div>
       <nav className="case-pagination" aria-label="More projects">

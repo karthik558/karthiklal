@@ -963,14 +963,6 @@ export default function StoryReader({ story, onClose }: StoryReaderProps) {
                     {story.englishTitle}
                   </p>
                 )}
-                {story.subtitle && (
-                  <p 
-                    style={{ color: currentTheme.titleText }}
-                    className="font-sans text-sm sm:text-base italic font-medium max-w-xl mx-auto pt-1 opacity-90 leading-relaxed"
-                  >
-                    &ldquo;{story.subtitle}&rdquo;
-                  </p>
-                )}
                 <div 
                   style={{ color: currentTheme.muted }}
                   className="font-mono text-xs pt-2 flex items-center justify-center gap-3"

@@ -36,24 +36,11 @@ export default function NotFoundPage() {
           transition={{ duration: 0.45 }}
           className="flex items-center justify-between gap-3 border-b-2 border-foreground pb-4 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.24em]"
         >
-          <span>Error directory // 404</span>
-          <span className="flex items-center gap-2 text-foreground">
-            <span className="h-2 w-2 animate-pulse bg-foreground" />
-            Route unavailable
-          </span>
+          <span>Error 404</span>
         </motion.div>
 
         <div className="grid gap-10 border-b border-border py-10 lg:grid-cols-12 lg:items-end lg:gap-8 lg:py-14">
           <div className="lg:col-span-8">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08, duration: 0.5 }}
-              className="mb-5 font-mono text-xs font-bold uppercase tracking-[0.28em] text-muted-foreground"
-            >
-              This address leads nowhere
-            </motion.p>
-
             <EditorialHeading title="Page not found." accent="Let’s find your way." />
           </div>
 
@@ -63,15 +50,6 @@ export default function NotFoundPage() {
             transition={{ delay: 0.28, duration: 0.55 }}
             className="lg:col-span-4 lg:pb-1"
           >
-            <div className="border-l-2 border-foreground pl-5 sm:pl-7">
-              <h2 className="font-display text-3xl font-black uppercase leading-none tracking-tight text-foreground sm:text-4xl">
-                Page not found.
-              </h2>
-              <p className="mt-5 max-w-md font-sans text-sm font-light leading-relaxed text-muted-foreground sm:text-base">
-                The page may have moved, the link may be outdated, or the address may be mistyped. Choose a destination below and keep exploring.
-              </p>
-            </div>
-
             <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
               <Link
                 href="/"

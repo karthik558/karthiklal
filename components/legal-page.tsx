@@ -18,18 +18,14 @@ const reveal = {
 }
 
 export function LegalPage({
-  documentNumber,
   title,
   outlinedTitle,
-  description,
   lastUpdated,
   navItems,
   children,
 }: {
-  documentNumber: string
   title: string
   outlinedTitle: string
-  description: string
   lastUpdated: string
   navItems: LegalNavItem[]
   children: ReactNode
@@ -42,38 +38,19 @@ export function LegalPage({
       </div>
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-foreground pb-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground sm:text-xs"
-        >
-          <span>Legal archive // {documentNumber}</span>
-          <span className="flex items-center gap-2 text-foreground">
-            <span className="h-2 w-2 bg-foreground" />
-            Public document
-          </span>
-        </motion.div>
-
         <motion.header
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="border-b border-border py-12 sm:py-16 lg:py-20"
+          className="border-b border-border pb-8"
         >
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
-              <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground sm:text-xs">
-                Karthik Lal // Legal & trust
-              </p>
               <EditorialHeading title={title} accent={outlinedTitle} />
             </div>
 
             <div className="lg:col-span-4 lg:pb-1">
-              <p className="border-l-2 border-foreground pl-5 font-sans text-sm font-light leading-relaxed text-muted-foreground sm:pl-7 sm:text-base">
-                {description}
-              </p>
-              <dl className="mt-8 grid grid-cols-2 border-l border-t border-border font-mono text-[10px] uppercase tracking-wider">
+              <dl className="grid grid-cols-2 border-l border-t border-border font-mono text-[10px] uppercase tracking-wider">
                 <div className="border-b border-r border-border p-4">
                   <dt className="text-muted-foreground">Version</dt>
                   <dd className="mt-2 font-bold text-foreground">01.00</dd>

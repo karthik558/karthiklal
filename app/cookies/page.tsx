@@ -20,10 +20,8 @@ const browserLinks = [
 export default function CookiePolicyPage() {
   return (
     <LegalPage
-      documentNumber="02"
       title="Cookie"
       outlinedTitle="Policy"
-      description="A practical guide to the small data files used by this portfolio, what they do, and how you can control them."
       lastUpdated="25 Dec 2024"
       navItems={navItems}
     >

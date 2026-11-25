@@ -125,7 +125,7 @@ export default function CertificationsSection() {
         <AnimatePresence mode="wait">
           {visible.length > 0 ? (
             <motion.div
-              key={`${filter}-${selectedYear}-${showAll}`}
+              key={`${filter}-${selectedYear}`}
               initial={{ opacity: 0, y: reduced ? 0 : 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: reduced ? 0 : -6 }}

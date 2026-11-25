@@ -13,10 +13,8 @@ const navItems = [
 export default function PrivacyPolicyPage() {
   return (
     <LegalPage
-      documentNumber="01"
       title="Privacy"
       outlinedTitle="Policy"
-      description="A clear account of what information this portfolio collects, why it is used, and the choices available to you."
       lastUpdated="25 Dec 2024"
       navItems={navItems}
     >

@@ -155,7 +155,7 @@ test("desktop cursor preserves native interactions across preferences and resizi
   await expect(page.getByRole("status", { name: "Loading website" })).toBeHidden({ timeout: 5_000 })
   await expect(page.getByLabel("SUBJECT *", { exact: true })).toHaveCSS("cursor", /cursor\/pointer\.svg/)
   const nameField = page.getByLabel("YOUR NAME *", { exact: true })
-  await expect(nameField).toHaveCSS("cursor", "text")
+  await expect(nameField).toHaveCSS("cursor", /cursor\/text\.svg.*text$/)
   await nameField.fill("Cursor check")
   await expect(nameField).toHaveValue("Cursor check")
   await nameField.evaluate(element => (element as HTMLInputElement).disabled = true)

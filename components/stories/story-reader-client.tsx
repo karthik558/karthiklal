@@ -52,9 +52,6 @@ export default function StoryReaderClient({ story }: StoryReaderClientProps) {
                 />
               </div>
             )}
-            <blockquote className="border-l-2 border-foreground pl-4 py-2 font-sans italic text-base text-foreground/90 leading-relaxed">
-              &ldquo;{story.excerpt}&rdquo;
-            </blockquote>
           </article>
         </div>
       </div>

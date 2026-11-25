@@ -139,7 +139,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
   return <div className="article-page page-shell"><div className="section-container">
     <Link href="/blog" className="studio-text-link page-back"><ArrowLeft size={15} /> BACK TO ALL ARTICLES</Link>
     <article>
-      <PageIntro label={`THE JOURNAL / ${blog.category}`} title={blog.title} description={blog.excerpt} />
+      <PageIntro title={blog.title} />
       <div className="article-meta"><span>{blog.author}</span><time dateTime={blog.date}>{new Date(blog.date).toLocaleDateString('en-US', { year:'numeric',month:'short',day:'numeric',timeZone:'UTC' })}</time><span>{blog.readTime}</span>{blog.repository && <a href={blog.repository} target="_blank" rel="noopener noreferrer" className="studio-text-link"><Github size={15} /> View source repository</a>}</div>
       <div className="article-cover"><Image src={blog.image} alt={blog.title} fill sizes="(min-width:1280px) 1200px, 100vw" className="object-cover" priority /></div>
       <div className="article-reading-layout">
@@ -148,6 +148,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       </div>
       <footer className="article-share"><ShareButton title={blog.title} excerpt={blog.excerpt} /><Link href="/blog" className="studio-text-link">VIEW ALL ARTICLES <ArrowUpRight size={16} /></Link></footer>
     </article>
-    <section className="article-related"><p className="studio-label">KEEP EXPLORING</p><h2>Another rabbit hole.</h2><div>{related.map(post => <Link key={post.id} href={`/blog/${post.id}`}><span className="studio-label">{post.category} / {post.readTime}</span><h3>{post.title} ↗</h3></Link>)}</div></section>
+    <section className="article-related"><h2>Another rabbit hole.</h2><div>{related.map(post => <Link key={post.id} href={`/blog/${post.id}`}><span className="studio-label">{post.category} / {post.readTime}</span><h3>{post.title} ↗</h3></Link>)}</div></section>
   </div></div>
 }

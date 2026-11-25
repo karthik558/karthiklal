@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import PageIntro from "@/components/ui/page-intro"
 import { useState, useRef, useEffect } from "react"
 import dynamic from "next/dynamic"
@@ -229,7 +230,7 @@ export default function ContactSection() {
     <div className="contact-page page-shell">
       <div className="section-container">
 
-        <PageIntro label="CONTACT / LET’S TALK" title="Good things start" accent="with a conversation." description="A project, a question, or an idea worth exploring. Tell me what you have in mind." />
+        <PageIntro title="Good things start" accent="with a conversation." />
 
         <div className="contact-layout">
 
@@ -237,11 +238,6 @@ export default function ContactSection() {
           <div className="contact-channels font-mono text-xs">
             <div className="relative z-10 flex flex-col justify-between h-full space-y-8">
               <div>
-                <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-                  <span className="studio-label">FIND ME HERE</span>
-
-                </div>
-
                 <div className="space-y-4">
                   <div className="contact-channel">
                     <div className="text-muted-foreground uppercase">EMAIL ADDRESS</div>
@@ -280,17 +276,13 @@ export default function ContactSection() {
                   ))}
                 </div>
               </div>
+              <Link href="/" className="contact-signature" aria-label="Karthik Lal home" />
             </div>
           </div>
 
           {/* Message form */}
           <div className="contact-form-panel">
             <div className="relative z-10">
-              <div className="flex items-center justify-between border-b border-border/60 pb-3 mb-6">
-                <span className="studio-label">TELL ME ABOUT IT</span>
-
-              </div>
-
               <form
                 onSubmit={handleSubmit}
                 onReset={() => {
